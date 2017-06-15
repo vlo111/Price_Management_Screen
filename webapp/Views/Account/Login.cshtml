@@ -5,12 +5,12 @@
 }
 
 @section topright{
-    <span id="extr-page-header-space"> <span class="hidden-mobile">Need an account?</span> <a href="@Url.Action("register", "account")" class="btn btn-danger">Create account</a> </span>
+    <span id="extr-page-header-space"></span>
 }
 
 <div id="content" class="container">
     <div class="row">
-        @{ Html.RenderPartial("_LoginText"); }
+      
         <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
             <div class="well no-padding">
                 <form action="@Url.Action("login", "account")" method="POST" id="login-form" class="smart-form client-form">
@@ -25,7 +25,7 @@
                             <label class="label">E-mail</label>
                             <label class="input">
                                 <i class="icon-append fa fa-user"></i>
-                                <input type="email" name="email" value="demo@email.com">
+                                <input type="email" name="email" value="admin@example.com">
                                 <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address/username</b>
                             </label>
                         </section>
@@ -34,7 +34,7 @@
                             <label class="label">Password</label>
                             <label class="input">
                                 <i class="icon-append fa fa-lock"></i>
-                                <input type="password" name="password" value="demo">
+                                <input type="password" name="password" value="Admin@123456">
                                 <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b>
                             </label>
                             <div class="note">
@@ -57,7 +57,6 @@
                     </footer>
                 </form>
             </div>
-            @{ Html.RenderPartial("_SocialMedia"); }
         </div>
     </div>
 </div>
