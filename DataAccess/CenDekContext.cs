@@ -1,8 +1,9 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using DataAccess.Models;
 using DataAccess.Models.Mapping;
 
-namespace DataAccess.Models
+namespace DataAccess
 {
     public partial class CenDekContext : DbContext
     {

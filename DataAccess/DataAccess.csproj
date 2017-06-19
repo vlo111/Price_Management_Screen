@@ -51,7 +51,7 @@
   <ItemGroup>
     <Compile Include="Models\AltPartID.cs" />
     <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\CenDekContext.cs" />
+    <Compile Include="CenDekContext.cs" />
     <Compile Include="Models\Colour.cs" />
     <Compile Include="Models\ContactInfo.cs" />
     <Compile Include="Models\ContactInfoType.cs" />
