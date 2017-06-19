@@ -49,6 +49,57 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AltPartID.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CenDekContext.cs" />
+    <Compile Include="Models\Colour.cs" />
+    <Compile Include="Models\ContactInfo.cs" />
+    <Compile Include="Models\ContactInfoType.cs" />
+    <Compile Include="Models\Currency.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\CustomerContact.cs" />
+    <Compile Include="Models\CustOrder.cs" />
+    <Compile Include="Models\DocumentType.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\File.cs" />
+    <Compile Include="Models\GroupUrgency.cs" />
+    <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\Mapping\AltPartIDMap.cs" />
+    <Compile Include="Models\Mapping\CategoryMap.cs" />
+    <Compile Include="Models\Mapping\ColourMap.cs" />
+    <Compile Include="Models\Mapping\ContactInfoMap.cs" />
+    <Compile Include="Models\Mapping\ContactInfoTypeMap.cs" />
+    <Compile Include="Models\Mapping\CurrencyMap.cs" />
+    <Compile Include="Models\Mapping\CustomerContactMap.cs" />
+    <Compile Include="Models\Mapping\CustomerMap.cs" />
+    <Compile Include="Models\Mapping\CustOrderMap.cs" />
+    <Compile Include="Models\Mapping\DocumentTypeMap.cs" />
+    <Compile Include="Models\Mapping\EmployeeMap.cs" />
+    <Compile Include="Models\Mapping\FileMap.cs" />
+    <Compile Include="Models\Mapping\GroupUrgencyMap.cs" />
+    <Compile Include="Models\Mapping\ImageMap.cs" />
+    <Compile Include="Models\Mapping\MeasUnitMap.cs" />
+    <Compile Include="Models\Mapping\OrderPartMap.cs" />
+    <Compile Include="Models\Mapping\PartDependencyMap.cs" />
+    <Compile Include="Models\Mapping\PartInventoryMap.cs" />
+    <Compile Include="Models\Mapping\PartMap.cs" />
+    <Compile Include="Models\Mapping\PartStatuMap.cs" />
+    <Compile Include="Models\Mapping\PriceMap.cs" />
+    <Compile Include="Models\Mapping\ProductLineMap.cs" />
+    <Compile Include="Models\Mapping\ShipmentMap.cs" />
+    <Compile Include="Models\Mapping\ShippingAddressMap.cs" />
+    <Compile Include="Models\Mapping\TagMap.cs" />
+    <Compile Include="Models\MeasUnit.cs" />
+    <Compile Include="Models\OrderPart.cs" />
+    <Compile Include="Models\Part.cs" />
+    <Compile Include="Models\PartDependency.cs" />
+    <Compile Include="Models\PartInventory.cs" />
+    <Compile Include="Models\PartStatu.cs" />
+    <Compile Include="Models\Price.cs" />
+    <Compile Include="Models\ProductLine.cs" />
+    <Compile Include="Models\Shipment.cs" />
+    <Compile Include="Models\ShippingAddress.cs" />
+    <Compile Include="Models\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
