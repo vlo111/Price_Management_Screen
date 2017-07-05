@@ -21,18 +21,32 @@ namespace CenDek
                 "~/Content/css/smartadmin-skins.min.css",
                 "~/Content/css/CenDek.css"));
 
-            bundles.Add(new ScriptBundle("~/scripts/smartadmin").Include(
-                "~/scripts/app.config.seed.js",
-                "~/scripts/bootstrap/bootstrap.min.js",
-                "~/scripts/app.seed.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/smartadmin").Include(
+                "~/Scripts/app.config.js",
+                "~/Scripts/plugins/jquery-touch/jquery.ui.touch-punch.min.js",
+                "~/Scripts/bootstrap/bootstrap.min.js",
+                "~/Scripts/notification/SmartNotification.min.js",
+                "~/Scripts/smartwidgets/jarvis.widget.min.js",
+                "~/Scripts/plugins/jquery-validate/jquery.validate.min.js",
+                "~/Scripts/plugins/masked-input/jquery.maskedinput.min.js",
+                "~/Scripts/plugins/select2/select2.min.js",
+                "~/Scripts/plugins/bootstrap-slider/bootstrap-slider.min.js",
+                "~/Scripts/plugins/bootstrap-progressbar/bootstrap-progressbar.min.js",
+                "~/Scripts/plugins/msie-fix/jquery.mb.browser.min.js",
+                "~/Scripts/plugins/fastclick/fastclick.min.js",
+                "~/Scripts/app.min.js"));
 
-            bundles.Add(new ScriptBundle("~/scripts/datatables").Include(
-                "~/scripts/plugins/datatables/jquery.dataTables.min.js",
-                "~/scripts/plugins/datatables/dataTables.colVis.min.js",
-                "~/scripts/plugins/datatables/dataTables.tableTools.min.js",
-                "~/scripts/plugins/datatables/dataTables.bootstrap.min.js",
-                "~/scripts/plugins/datatable-responsive/datatables.responsive.min.js"
+            bundles.Add(new ScriptBundle("~/Scripts/datatables").Include(
+                "~/Scripts/plugins/datatables/jquery.dataTables.min.js",
+                "~/Scripts/plugins/datatables/dataTables.colVis.min.js",
+                "~/Scripts/plugins/datatables/dataTables.tableTools.min.js",
+                "~/Scripts/plugins/datatables/dataTables.bootstrap.min.js",
+                "~/Scripts/plugins/datatable-responsive/datatables.responsive.min.js"
              ));
+
+            bundles.Add(new ScriptBundle("~/Scripts/forms").Include(
+                "~/Scripts/plugin/jquery-form/jquery-form.min.js"
+                ));
             //BundleTable.EnableOptimizations = true;
         }
     }

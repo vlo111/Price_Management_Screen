@@ -68,7 +68,7 @@ namespace CenDek.Controllers
             return View();
         }
 
-        public ActionResult PageData(IDataTablesRequest request)
+        public ActionResult GetCustomers(IDataTablesRequest request)
         {
             // Nothing important here. Just creates some mock data.
             var data = _dbContext.Customers;

@@ -339,18 +339,47 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Scripts\app.config.seed.js" />
+    <Content Include="Scripts\app.config.js" />
     <Content Include="Scripts\app.config.seed.min.js">
-      <DependentUpon>app.config.seed.js</DependentUpon>
+      <DependentUpon>app.config.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\app.seed.js" />
+    <Content Include="Scripts\app.js" />
     <Content Include="Scripts\app.seed.min.js">
-      <DependentUpon>app.seed.js</DependentUpon>
+      <DependentUpon>app.js</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\libs\datatables.min.js" />
     <Content Include="Scripts\libs\jquery-2.1.1.min.js" />
     <Content Include="Scripts\libs\jquery-ui-1.10.3.min.js" />
+    <Content Include="Scripts\plugins\bootstrap-duallistbox\jquery.bootstrap-duallistbox.min.js" />
+    <Content Include="Scripts\plugins\bootstrap-progressbar\bootstrap-progressbar.min.js" />
+    <Content Include="Scripts\plugins\bootstrap-slider\bootstrap-slider.min.js" />
+    <Content Include="Scripts\plugins\bootstrap-tags\bootstrap-tagsinput-angular.min.js" />
+    <Content Include="Scripts\plugins\bootstrap-tags\bootstrap-tagsinput.min.js" />
+    <Content Include="Scripts\plugins\bootstrap-timepicker\bootstrap-timepicker.min.js" />
+    <Content Include="Scripts\plugins\bootstrap-wizard\jquery.bootstrap.wizard.min.js" />
+    <Content Include="Scripts\plugins\bootstraptree\bootstrap-tree.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\bootstrapValidator.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\ar_MA.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\be_NL.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\bg_BG.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\cs_CZ.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\da_DK.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\de_DE.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\en_US.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\es_CL.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\es_ES.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\fr_FR.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\gr_EL.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\hu_HU.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\it_IT.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\nl_NL.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\pl_PL.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\pt_BR.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\tr_TR.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\vi_VN.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\zh_CN.min.js" />
+    <Content Include="Scripts\plugins\bootstrapvalidator\language\zh_TW.min.js" />
     <Content Include="Scripts\plugins\datatable-responsive\datatables.responsive.min.js" />
     <Content Include="Scripts\plugins\datatables\dataTables.bootstrap.min.js" />
     <Content Include="Scripts\plugins\datatables\dataTables.colReorder.min.js" />
@@ -359,6 +388,15 @@
     <Content Include="Scripts\plugins\datatables\jquery.dataTables.min.js" />
     <Content Include="Scripts\plugins\datatables\swf\copy_csv_xls.swf" />
     <Content Include="Scripts\plugins\datatables\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="Scripts\plugins\fastclick\fastclick.min.js" />
+    <Content Include="Scripts\plugins\jquery-form\jquery-form.min.js" />
+    <Content Include="Scripts\plugins\jquery-touch\jquery.ui.touch-punch.min.js" />
+    <Content Include="Scripts\plugins\jquery-validate\jquery.validate.min.js" />
+    <Content Include="Scripts\plugins\jquery-validate\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\plugins\masked-input\jquery.maskedinput.min.js" />
+    <Content Include="Scripts\plugins\msie-fix\jquery.mb.browser.min.js" />
+    <Content Include="Scripts\plugins\select2\readme.txt" />
+    <Content Include="Scripts\plugins\select2\select2.min.js" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -412,6 +450,7 @@
     <None Include="Properties\PublishProfiles\LaunchPad.pubxml" />
     <Content Include="Views\Customer\Detail.cshtml" />
     <Content Include="Views\Customer\New.cshtml" />
+    <Content Include="Scripts\plugins\bootstrap-tags\dist\bootstrap-tagsinput.min.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

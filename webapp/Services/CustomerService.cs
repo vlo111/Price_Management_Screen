@@ -27,23 +27,11 @@ namespace CenDek.Services
         public async Task<int> AddCustomer(NewCustomer newCustomer)
         {
             Customer customer = new Customer();
+            //todo finish this
             customer.Company = newCustomer.CompanyName;
             customer.PhoneNo = newCustomer.PhoneNo;
             customer.Created = DateTime.UtcNow;
-
-            //todo finish this
             _dbContext.Customers.Add(customer);
-
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-            {
-                System.Diagnostics.Debug.WriteLine("{0}{1}Validation errors:{1}{2}", ex, Environment.NewLine, ex.EntityValidationErrors.Select(e => string.Join(Environment.NewLine, e.ValidationErrors.Select(v => string.Format("{0} - {1}", v.PropertyName, v.ErrorMessage)))));
-
-                throw;
-            }
 
             CustomerContact contact = new CustomerContact();
             contact.First = newCustomer.ContactFirst;
@@ -51,17 +39,6 @@ namespace CenDek.Services
             contact.JobTitle = newCustomer.JobTitle;
             contact.Notes = newCustomer.ContactNotes;
             customer.CustomerContacts.Add(contact);
-
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-            {
-                System.Diagnostics.Debug.WriteLine("{0}{1}Validation errors:{1}{2}", ex, Environment.NewLine, ex.EntityValidationErrors.Select(e => string.Join(Environment.NewLine, e.ValidationErrors.Select(v => string.Format("{0} - {1}", v.PropertyName, v.ErrorMessage)))));
-
-                throw;
-            }
 
             if (newCustomer.ContactPhoneNo != null && newCustomer.ContactPhoneNo.Length > 0)
             {
