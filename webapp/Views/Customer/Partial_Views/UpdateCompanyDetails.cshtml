@@ -1,0 +1,111 @@
+﻿@model DataAccess.Models.Customer
+@{
+    ViewBag.Title = "UpdateCompanyDetails";
+}
+
+@using (Html.BeginForm("UpdateCompanyDetails", "Customer", FormMethod.Post, new { @class = "form-group", role = "form", id = "update-company-details-form" }))
+            {
+    <header role="heading">
+        <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+    </header>
+
+    <!-- widget div-->
+    <div role="content">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body no-padding">
+
+            <div id="update-company-details-form" class="smart-form" novalidate="novalidate">
+                <fieldset>
+                    @Html.HiddenFor(model => model.CustomerID)
+                    <section>
+                        <label for="CompanyName" class="input">
+                            @Html.TextBoxFor(model => model.Company, new { @placeholder = Html.DisplayNameFor(n => n.Company) })
+                            @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+                        </label>
+                    </section>
+
+                    <div class="row">
+                        <section class="col col-6">
+                            <label class="input">
+                                <i class="icon-prepend fa fa-phone"></i>
+                                @Html.TextBoxFor(model => model.PhoneNo, new { @placeholder = Html.DisplayNameFor(n => n.PhoneNo), @data_mask = "(999) 999-9999", aria_required = "true", @aria_invalid = "false", @class = "valid" })
+                                @Html.ValidationMessageFor(model => model.PhoneNo, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                        <section class="col col-6">
+                            <label class="input">
+                                <i class="icon-prepend fa fa-fax"></i>
+                                @Html.TextBoxFor(model => model.Fax, new { @placeholder = Html.DisplayNameFor(n => n.Fax), @data_mask = "(999) 999-9999", aria_required = "true", @aria_invalid = "false", @class = "valid" })
+                                @Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Billing Address</legend>
+
+                    <section>
+                        <label for="Address1" class="input">
+                            @Html.TextBoxFor(model => model.Address1, new { @placeholder = Html.DisplayNameFor(n => n.Address1) })
+                            @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
+                        </label>
+                    </section>
+
+                    <section>
+                        <label for="address2" class="input">
+                            @Html.TextBoxFor(model => model.Address2, new { @placeholder = Html.DisplayNameFor(n => n.Address2) })
+                            @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
+                        </label>
+                    </section>
+                    <div class="row">
+
+                        <section class="col col-4">
+                            <label class="input">
+                                @Html.TextBoxFor(model => model.City, new { placeholder = Html.DisplayNameFor(n => n.City) })
+                                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+
+                        <section class="col col-4">
+                            <label class="input">
+                                @Html.TextBoxFor(model => model.Country, new { placeholder = Html.DisplayNameFor(n => n.Country) })
+                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+
+                        <section class="col col-3">
+                            <label class="input">
+                                @Html.TextBoxFor(model => model.PostalCode, new { placeholder = Html.DisplayNameFor(n => n.PostalCode) })
+                                @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                    </div>
+
+                    <section>
+                        <label class="textarea">
+                            @Html.TextAreaFor(model => model.Comments, new { placeholder = Html.DisplayNameFor(n => n.Comments) })
+                            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                        </label>
+                    </section>
+                </fieldset>
+
+            </div>
+
+        </div>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" id="newContactSubmit">Save changes</button>
+
+}
+

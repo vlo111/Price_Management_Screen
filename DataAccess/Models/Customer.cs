@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Models
 {
@@ -19,8 +21,10 @@ namespace DataAccess.Models
         public System.DateTime Created { get; set; }
         public Nullable<System.DateTime> Modified { get; set; }
         public int EmployeeID { get; set; }
+        [Required]
         public string Address1 { get; set; }
         public string Address2 { get; set; }
+        [Required]
         public string City { get; set; }
         public string Country { get; set; }
         public string PostalCode { get; set; }

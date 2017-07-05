@@ -28,6 +28,7 @@ namespace CenDek
                 "~/Scripts/notification/SmartNotification.min.js",
                 "~/Scripts/smartwidgets/jarvis.widget.min.js",
                 "~/Scripts/plugins/jquery-validate/jquery.validate.min.js",
+                "~/Scripts/plugins/jquery-validate/jquery.validate.unobtrusive.min.js",
                 "~/Scripts/plugins/masked-input/jquery.maskedinput.min.js",
                 "~/Scripts/plugins/select2/select2.min.js",
                 "~/Scripts/plugins/bootstrap-slider/bootstrap-slider.min.js",

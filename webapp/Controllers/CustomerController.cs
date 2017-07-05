@@ -71,6 +71,26 @@ namespace CenDek.Controllers
             return View(customer);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> NewShippingAddress(ShippingAddress newShippingAddress)
+        {
+            //TODO
+            return PartialView("Partial_Views/NewShippingAddress", newShippingAddress);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> NewContact(CustomerContact newContact)
+        {
+            //TODO
+            return PartialView("Partial_Views/NewContact", newContact);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateCompanyDetails(Customer companyDetails)
+        {
+            //TODO
+            return PartialView("Partial_Views/UpdateCompanyDetails", companyDetails);
+        }
         public ActionResult GetCustomers(IDataTablesRequest request)
         {
             _dbContext.Configuration.LazyLoadingEnabled = false;

@@ -10,11 +10,41 @@
             </h1>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            Address: @Model.Address1<br />@Model.Address2
+    <div class="well">
+        <div class="row">
+            <!--address start-->
+            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                <h3 class="text-primary">Address</h3>
+                <address>
+                    <strong>@Model.Company</strong><br>
+                    @Model.Address1, @Model.Address2<br>
+                    @Model.City, @Model.Country, @Model.PostalCode<br>
+                    <abbr title="Phone">P:</abbr> @Model.PhoneNo
+                </address>
+                <address>
+                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#updateCompanyDetails"> <i class="fa fa-plus"></i> Update </button>
+                </address>
+            </div>
+            <!--address end-->
+
+            <!-- Modal -->
+            <div class="modal fade" id="updateCompanyDetails" tabindex="-1" role="dialog" aria-labelledby="updateCompanyDetails">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Update Company Info</h4>
+                        </div>
+                        <div class="modal-body">
+                            @Html.Partial("Partial_Views/UpdateCompanyDetails", new DataAccess.Models.Customer())
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Modal-->
+
+            </div>
         </div>
-    </div>
     <div class="row">
         <div class="col-lg-12">
 
@@ -67,8 +97,25 @@
                                 <div class="row">
                                     <div class="col-sm-12 text-align-left">
                                         <div class="btn-group">
-                                            <button class="btn btn-sm btn-success"> <i class="fa fa-plus"></i> New Contact </button>
+                                            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newContact"> <i class="fa fa-plus"></i> New Contact </button>
                                         </div>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="newContact" tabindex="-1" role="dialog" aria-labelledby="newContact">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Add New Contact</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @Html.Partial("Partial_Views/NewContact", new DataAccess.Models.CustomerContact())
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Modal-->
+
                                     </div>
                                 </div>
                                 <div class="padding-10">
@@ -103,8 +150,24 @@
                                 <div class="row">
                                     <div class="col-sm-12 text-align-left">
                                         <div class="btn-group">
-                                            <button class="btn btn-sm btn-success"> <i class="fa fa-plus"></i> New Shipping Address </button>
+                                            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newShippingAddress"> <i class="fa fa-plus"></i> New Shipping Address </button>
                                         </div>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="newShippingAddress" tabindex="-1" role="dialog" aria-labelledby="newShippingAddress">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Add New Shipping Address</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @Html.Partial("Partial_Views/NewShippingAddress", new DataAccess.Models.ShippingAddress())
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Modal-->
                                     </div>
                                 </div>
                                 <div class="padding-10">
@@ -130,6 +193,8 @@
 
 </div>
 <!-- END MAIN CONTENT -->
+
+
 @section pagespecific {
 
 
@@ -173,6 +238,44 @@
                 ]
             });
 
+            $('#newShippingAddress').on('submit', '#new-ship-address-form', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                $.ajax({
+                    type: "POST",
+                    url: appRoot + "customer/NewShippingAddress",
+                    data: form.serialize(),
+                })
+                    .success(function () {
+                        $('#newShippingAddress').modal('hide');
+                    })
+            });
+
+            $('#newContact').on('submit', '#new-contact-form', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                $.ajax({
+                    type: "POST",
+                    url: appRoot + "customer/NewContact",
+                    data: form.serialize(),
+                })
+                    .success(function () {
+                        $('#newContact').modal('hide');
+                    })
+            });
+
+            $('#updateCompanyDetails').on('submit', '#update-company-details-form', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                $.ajax({
+                    type: "POST",
+                    url: appRoot + "customer/UpdateCompanyDetails",
+                    data: form.serialize(),
+                })
+                    .success(function () {
+                        $('#updateCompanyDetails').modal('hide');
+                    })
+            });
         });
     </script>
 }
