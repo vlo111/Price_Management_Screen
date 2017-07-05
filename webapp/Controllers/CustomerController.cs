@@ -11,16 +11,19 @@ using CenDek.App_Helpers;
 using CenDek.Models.Customer;
 using DataAccess.Models;
 using System.Threading.Tasks;
+using CenDek.Services;
 
 namespace CenDek.Controllers
 {
     public class CustomerController : Controller
     {
         CenDekContext _dbContext;
+        ICustomerService _customerService;
 
-        public CustomerController(CenDekContext dbContext)
+        public CustomerController(CenDekContext dbContext, ICustomerService customerService)
         {
             _dbContext = dbContext;
+            _customerService = customerService;
         }
 
         // GET: Client
@@ -45,86 +48,9 @@ namespace CenDek.Controllers
         {
             if (ModelState.IsValid)
             {
-                Customer customer = new Customer();
-                customer.Company = newCustomer.CompanyName;
-                customer.PhoneNo = newCustomer.PhoneNo;
-                customer.Created = DateTime.UtcNow;
+                int customerId = await _customerService.AddCustomer(newCustomer);
 
-                //todo finish this
-                _dbContext.Customers.Add(customer);
-
-                try
-                {
-                   await _dbContext.SaveChangesAsync();
-                }
-                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("{0}{1}Validation errors:{1}{2}", ex, Environment.NewLine, ex.EntityValidationErrors.Select(e => string.Join(Environment.NewLine, e.ValidationErrors.Select(v => string.Format("{0} - {1}", v.PropertyName, v.ErrorMessage)))));
-
-                    throw;
-                }
-
-                CustomerContact contact = new CustomerContact();
-                contact.First = newCustomer.ContactFirst;
-                contact.Last = newCustomer.ContactLast;
-                contact.JobTitle = newCustomer.JobTitle;
-                contact.Notes = newCustomer.ContactNotes;
-                customer.CustomerContacts.Add(contact);
-
-                try
-                {
-                    await _dbContext.SaveChangesAsync();
-                }
-                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("{0}{1}Validation errors:{1}{2}", ex, Environment.NewLine, ex.EntityValidationErrors.Select(e => string.Join(Environment.NewLine, e.ValidationErrors.Select(v => string.Format("{0} - {1}", v.PropertyName, v.ErrorMessage)))));
-
-                    throw;
-                }
-
-                if (newCustomer.ContactPhoneNo != null && newCustomer.ContactPhoneNo.Length>0)
-                {
-                    ContactInfo contactInfo = new ContactInfo();
-                    contactInfo.Contact = newCustomer.ContactPhoneNo;
-                    contactInfo.Name = "Phone";
-                    contactInfo.ContactInfoTypeID = _dbContext.ContactInfoTypes.Single(t => t.Name == "Phone").ContactInfoTypeID;
-                }
-
-                if (newCustomer.ContactEmail != null && newCustomer.ContactEmail.Length > 0)
-                {
-                    ContactInfo contactInfo = new ContactInfo();
-                    contactInfo.Contact = newCustomer.ContactEmail;
-                    contactInfo.Name = "Email";
-                    contactInfo.ContactInfoTypeID = _dbContext.ContactInfoTypes.Single(t => t.Name == "Email").ContactInfoTypeID;
-                }
-
-                if (newCustomer.ContactCellNo != null && newCustomer.ContactCellNo.Length > 0)
-                {
-                    ContactInfo contactInfo = new ContactInfo();
-                    contactInfo.Contact = newCustomer.ContactCellNo;
-                    contactInfo.Name = "Cell";
-                    contactInfo.ContactInfoTypeID = _dbContext.ContactInfoTypes.Single(t => t.Name == "Phone").ContactInfoTypeID;
-                }
-
-                if (newCustomer.ContactFax != null && newCustomer.ContactFax.Length > 0)
-                {
-                    ContactInfo contactInfo = new ContactInfo();
-                    contactInfo.Contact = newCustomer.ContactFax;
-                    contactInfo.Name = "Fax";
-                    contactInfo.ContactInfoTypeID = _dbContext.ContactInfoTypes.Single(t => t.Name == "Phone").ContactInfoTypeID;
-                }
-                try
-                {
-                    await _dbContext.SaveChangesAsync();
-                }
-                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("{0}{1}Validation errors:{1}{2}", ex, Environment.NewLine, ex.EntityValidationErrors.Select(e => string.Join(Environment.NewLine, e.ValidationErrors.Select(v => string.Format("{0} - {1}", v.PropertyName, v.ErrorMessage)))));
-                   
-                    throw;
-                }
-
-                return RedirectToAction("Action", new { id = customer.CustomerID });
+                return RedirectToAction("Action", new { id = customerId });
             }
 
 

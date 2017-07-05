@@ -2,7 +2,7 @@
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using CenDek.Models;
+using CenDek.Services;
 using Owin;
 using System;
 using SimpleInjector;
@@ -17,7 +17,7 @@ namespace CenDek
 {
     public partial class Startup
     {
-        // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
+
         public void ConfigureSimpleInjector(IAppBuilder app)
         {
             var container = new Container();
@@ -26,7 +26,8 @@ namespace CenDek
             // 2. Configure the container (register)
             // See below for more configuration examples
             container.Register<CenDekContext, CenDekContext> (Lifestyle.Scoped);
-            
+            container.Register<ICustomerService, CustomerService>(Lifestyle.Transient);
+
 
             // 3. Optionally verify the container's configuration.
             container.Verify();
