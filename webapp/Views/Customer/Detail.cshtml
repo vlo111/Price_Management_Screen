@@ -1,0 +1,201 @@
+﻿<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa-fw fa  fa-address-card"></i>
+                Customers
+
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+
+
+            <div class="jarviswidget well" id="wid-id-3" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-custombutton="false" data-widget-sortable="false" role="widget">
+                <!-- widget options:
+        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+        data-widget-colorbutton="false"
+        data-widget-editbutton="false"
+        data-widget-togglebutton="false"
+        data-widget-deletebutton="false"
+        data-widget-fullscreenbutton="false"
+        data-widget-custombutton="false"
+        data-widget-collapsed="true"
+        data-widget-sortable="false"
+
+        -->
+                <header role="heading">
+                    <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
+                    <h2>Default Tabs with border </h2>
+
+                    <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+                </header>
+
+                <!-- widget div-->
+                <div role="content">
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body">
+
+                        <p>
+                            Tabs inside
+                            <code>
+                                .jarviswidget .well
+                            </code>
+                            (Bordered Tabs)
+                        </p>
+                        <hr class="simple">
+                        <ul id="myTab1" class="nav nav-tabs bordered">
+                            <li class="">
+                                <a href="#s1" data-toggle="tab" aria-expanded="false">Left Tab <span class="badge bg-color-blue txt-color-white">12</span></a>
+                            </li>
+                            <li class="active">
+                                <a href="#s2" data-toggle="tab" aria-expanded="true"><i class="fa fa-fw fa-lg fa-gear"></i> Tab Item 2</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Dropdown <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#s3" data-toggle="tab">fat</a>
+                                    </li>
+                                    <li>
+                                        <a href="#s4" data-toggle="tab">mdo</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="pull-right">
+                                <a href="javascript:void(0);">
+                                    <div class="sparkline txt-color-pinkDark text-align-right" data-sparkline-height="18px" data-sparkline-width="90px" data-sparkline-barwidth="7"><canvas width="52" height="18" style="display: inline-block; width: 52px; height: 18px; vertical-align: top;"></canvas></div>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div id="myTabContent1" class="tab-content padding-10">
+                            <div class="tab-pane fade" id="s1">
+                                <p>
+                                    I have six locks on my door all in a row. When I go out, I lock every other one. I figure no matter how long somebody stands there picking the locks, they are always locking three.
+                                </p>
+                            </div>
+                            <div class="tab-pane fade active in" id="s2">
+                                <p>
+                                    Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee.
+                                </p>
+                            </div>
+                            <div class="tab-pane fade" id="s3">
+                                <p>
+                                    Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony.
+                                </p>
+                            </div>
+                            <div class="tab-pane fade" id="s4">
+                                <p>
+                                    Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+
+
+           
+        </div>
+    </div>
+
+          
+ 
+</div>
+<!-- END MAIN CONTENT -->
+@section pagespecific {
+
+
+<script>
+    $(document).ready(function () {
+        
+        var responsiveHelper_datatable_tabletools = undefined;
+
+        var breakpointDefinition = {
+            tablet: 1024,
+            phone: 480
+        };
+
+        /* TABLETOOLS */
+        $('#datatable_tabletools').dataTable({
+
+            // Tabletools options:
+            //   https://datatables.net/extensions/tabletools/button_options
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'T>r>" +
+                    "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+            "oTableTools": {
+                "aButtons": [
+                "copy",
+                "csv",
+                "xls",
+                   {
+                       "sExtends": "pdf",
+                       "sTitle": "SmartAdmin_PDF",
+                       "sPdfMessage": "SmartAdmin PDF Export",
+                       "sPdfSize": "letter"
+                   },
+                   {
+                       "sExtends": "print",
+                       "sMessage": "Generated by SmartAdmin <i>(press Esc to close)</i>"
+                   }
+                ],
+                "sSwfPath": "/Scripts/plugin/datatables/swf/copy_csv_xls_pdf.swf"
+            },
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_datatable_tabletools) {
+                    responsiveHelper_datatable_tabletools = new ResponsiveDatatablesHelper($('#datatable_tabletools'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_datatable_tabletools.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_datatable_tabletools.respond();
+            }
+        });
+
+        /*
+        $('#customers').dataTable({
+            serverSide: true,
+            ajax: appRoot + "customer/pagedata",
+            columns: [
+                {
+                    name: 'CustomerID',
+                    data: 'CustomerID',
+                    title: "CustomerID",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'Company',
+                    data: "Company",
+                    title: "Company",
+                    sortable: true,
+                    searchable: true
+                }
+            ]
+        });
+        */
+    });
+</script>
+}

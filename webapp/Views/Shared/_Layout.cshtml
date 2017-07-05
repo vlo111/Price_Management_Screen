@@ -12,6 +12,9 @@
 
     <!-- Basic Styles -->
     @Styles.Render("~/content/smartadmin")
+    @Styles.Render("~/content/css/CenDek.css")
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
     <!-- FAVICONS -->
     <link rel="shortcut icon" href="~/content/img/favicon/favicon.ico" type="image/x-icon">
     <link rel="icon" href="~/content/img/favicon/favicon.ico" type="image/x-icon">
@@ -34,6 +37,31 @@
     <link rel="apple-touch-startup-image" href="~/content/img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
     <link rel="apple-touch-startup-image" href="~/content/img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
     <link rel="apple-touch-startup-image" href="~/content/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+
+    <!-- add appRoot for JS usage -->
+    <script type="text/javascript">
+        var appRoot = '@Url.Content("~")';
+    </script>
+
+    <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script> if (!window.jQuery) { document.write('<script src="/scripts/libs/jquery-2.1.1.min.js"><\/script>'); } </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script> if (!window.jQuery.ui) { document.write('<script src="/scripts/libs/jquery-ui-1.10.3.min.js"><\/script>'); } </script>
+
+    <!-- IMPORTANT: SmartAdmin Core -->
+    @Scripts.Render("~/scripts/smartadmin")
+
+    <!-- DataTables : plugin -->
+    @Scripts.Render("~/scripts/datatables")
+
+    <!-- DO NOT REMOVE : GLOBAL FUNCTIONS! -->
+    <script>
+    $(document).ready(function () {
+        pageSetUp();
+        drawBreadCrumb();
+    });
+    </script>
 </head>
 <body class="@ViewBag.PageClass @Settings.CurrentTheme">
     @{ Html.RenderPartial("_Header", RenderSection("topright", false)); }

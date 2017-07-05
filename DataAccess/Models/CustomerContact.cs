@@ -7,7 +7,10 @@ namespace DataAccess.Models
     {
         public int CustomerContactID { get; set; }
         public int CustomerID { get; set; }
-        public string Name { get; set; }
+        public string First { get; set; }
+        public string Last { get; set; }
+        public string JobTitle { get; set; }
+        public string Notes { get; set; }
         public virtual Customer Customer { get; set; }
     }
 }

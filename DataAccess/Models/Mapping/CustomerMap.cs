@@ -10,13 +10,6 @@ namespace DataAccess.Models.Mapping
             // Primary Key
             this.HasKey(t => t.CustomerID);
 
-            // Properties
-            this.Property(t => t.First)
-                .IsRequired();
-
-            this.Property(t => t.Last)
-                .IsRequired();
-
             this.Property(t => t.Company)
                 .IsRequired();
 
@@ -26,12 +19,8 @@ namespace DataAccess.Models.Mapping
             // Table & Column Mappings
             this.ToTable("Customer");
             this.Property(t => t.CustomerID).HasColumnName("CustomerID");
-            this.Property(t => t.First).HasColumnName("First");
-            this.Property(t => t.Last).HasColumnName("Last");
             this.Property(t => t.Company).HasColumnName("Company");
-            this.Property(t => t.ContactEmail).HasColumnName("ContactEmail");
             this.Property(t => t.PhoneNo).HasColumnName("PhoneNo");
-            this.Property(t => t.CellNo).HasColumnName("CellNo");
             this.Property(t => t.Fax).HasColumnName("Fax");
             this.Property(t => t.Created).HasColumnName("Created");
             this.Property(t => t.Modified).HasColumnName("Modified");

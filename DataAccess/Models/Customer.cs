@@ -13,12 +13,8 @@ namespace DataAccess.Models
         }
 
         public int CustomerID { get; set; }
-        public string First { get; set; }
-        public string Last { get; set; }
         public string Company { get; set; }
-        public string ContactEmail { get; set; }
         public string PhoneNo { get; set; }
-        public string CellNo { get; set; }
         public string Fax { get; set; }
         public System.DateTime Created { get; set; }
         public Nullable<System.DateTime> Modified { get; set; }

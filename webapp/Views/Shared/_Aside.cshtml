@@ -16,9 +16,25 @@
         -->
 
         <ul>
-            <li class="@Html.RouteIf("index", "active")">
-                <a href="@Url.Action("index", "home")" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>
+            <li class="@Html.RouteIf("customer", "active")">
+                <a href="@Url.Action("index", "customer")" title="Customers"><i class="fa fa-lg fa-fw fa-address-card"></i> <span class="menu-item-parent">Customers</span></a>
             </li>
+            <li class="@Html.RouteIf("order", "active")">
+                <a href="@Url.Action("index", "order")" title="Orders"><i class="fa fa-lg fa-fw fa-truck"></i> <span class="menu-item-parent">Orders</span></a>
+            </li>
+            <li class="@Html.RouteIf("quote", "active")">
+                <a href="@Url.Action("index", "quote")" title="Quotes"><i class="fa fa-lg fa-fw fa-quote-left"></i> <span class="menu-item-parent">Quotes</span></a>
+            </li>
+            <li class="@Html.RouteIf("inventory", "active")">
+                <a href="@Url.Action("index", "inventory")" title="Inventory"><i class="fa fa-lg fa-fw fa-cubes"></i> <span class="menu-item-parent">Inventory</span></a>
+            </li>
+            <li class="@Html.RouteIf("report", "active")">
+                <a href="@Url.Action("index", "report")" title="Reports"><i class="fa fa-lg fa-fw fa-line-chart"></i> <span class="menu-item-parent">Reports</span></a>
+            </li>
+            <li class="@Html.RouteIf("settings", "active")">
+                <a href="@Url.Action("index", "settings")" title="Settings"><i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">Settings</span></a>
+            </li>
+
         </ul>
     </nav>
     <span class="minifyme" data-action="minifyMenu">

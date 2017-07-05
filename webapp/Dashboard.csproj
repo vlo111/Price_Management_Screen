@@ -195,137 +195,33 @@
     <Content Include="App_Data\CenDek_log.ldf">
       <DependentUpon>CenDek.mdf</DependentUpon>
     </Content>
-    <Content Include="Areas\Landing\Content\color\default.css" />
-    <Content Include="Areas\Landing\Content\css\animate.css" />
-    <Content Include="Areas\Landing\Content\css\bootstrap.min.css" />
-    <Content Include="Areas\Landing\Content\css\extralayers.css" />
-    <Content Include="Areas\Landing\Content\css\main.css" />
-    <Content Include="Areas\Landing\Content\css\nivo-lightbox-theme\default\close%402x.png" />
-    <Content Include="Areas\Landing\Content\css\nivo-lightbox-theme\default\close.png" />
-    <Content Include="Areas\Landing\Content\css\nivo-lightbox-theme\default\default.css" />
-    <Content Include="Areas\Landing\Content\css\nivo-lightbox-theme\default\loading%402x.gif" />
-    <Content Include="Areas\Landing\Content\css\nivo-lightbox-theme\default\loading.gif" />
-    <Content Include="Areas\Landing\Content\css\nivo-lightbox-theme\default\next%402x.png" />
-    <Content Include="Areas\Landing\Content\css\nivo-lightbox-theme\default\next.png" />
-    <Content Include="Areas\Landing\Content\css\nivo-lightbox-theme\default\prev%402x.png" />
-    <Content Include="Areas\Landing\Content\css\nivo-lightbox-theme\default\prev.png" />
-    <Content Include="Areas\Landing\Content\css\nivo-lightbox.css" />
-    <Content Include="Areas\Landing\Content\css\settings.css" />
-    <Content Include="Areas\Landing\Content\font-awesome\css\font-awesome.css" />
-    <Content Include="Areas\Landing\Content\font-awesome\css\font-awesome.min.css" />
-    <Content Include="Areas\Landing\Content\font-awesome\fonts\fontawesome-webfont.svg" />
-    <Content Include="Areas\Landing\Content\fonts\ecoicons\ecoicons.dev.svg" />
-    <Content Include="Areas\Landing\Content\fonts\ecoicons\ecoicons.svg" />
-    <Content Include="Areas\Landing\Content\fonts\ecoicons\license.txt" />
-    <Content Include="Areas\Landing\Content\fonts\ecoicons\Read Me.txt" />
-    <Content Include="Areas\Landing\Content\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Areas\Landing\Content\fonts\revicons\revicons.svg" />
-    <Content Include="Areas\Landing\Content\img\back-img1.png" />
-    <Content Include="Areas\Landing\Content\img\grabbing.png" />
-    <Content Include="Areas\Landing\Content\img\loader.gif" />
-    <Content Include="Areas\Landing\Content\img\logo.png" />
-    <Content Include="Areas\Landing\Content\img\ribbon.png" />
-    <Content Include="Areas\Landing\Content\img\slider\3dbg.jpg" />
-    <Content Include="Areas\Landing\Content\img\slider\check.png" />
-    <Content Include="Areas\Landing\Content\img\slider\doublearrow2.png" />
-    <Content Include="Areas\Landing\Content\img\slider\dummy.png" />
-    <Content Include="Areas\Landing\Content\img\slider\greyline.png" />
-    <Content Include="Areas\Landing\Content\img\slider\hand1.png" />
-    <Content Include="Areas\Landing\Content\img\slider\homeslider_thumb1.jpg" />
-    <Content Include="Areas\Landing\Content\img\slider\homeslider_thumb2.jpg" />
-    <Content Include="Areas\Landing\Content\img\slider\homeslider_thumb3.jpg" />
-    <Content Include="Areas\Landing\Content\img\slider\homeslider_thumb4.jpg" />
-    <Content Include="Areas\Landing\Content\img\slider\ipad2.png" />
-    <Content Include="Areas\Landing\Content\img\slider\iphone.png" />
-    <Content Include="Areas\Landing\Content\img\slider\laptopmockup_sliderdy.jpg" />
-    <Content Include="Areas\Landing\Content\img\slider\largegreen.png" />
-    <Content Include="Areas\Landing\Content\img\slider\plate1.png" />
-    <Content Include="Areas\Landing\Content\img\slider\plate2.png" />
-    <Content Include="Areas\Landing\Content\img\slider\pulse1.png" />
-    <Content Include="Areas\Landing\Content\img\slider\redbg.png" />
-    <Content Include="Areas\Landing\Content\img\slider\redbg_big.png" />
-    <Content Include="Areas\Landing\Content\img\slider\slidebg1.jpg" />
-    <Content Include="Areas\Landing\Content\img\slider\timer.png" />
-    <Content Include="Areas\Landing\Content\img\slider\transparent.png" />
-    <Content Include="Areas\Landing\Content\img\slider\woman1.png" />
-    <Content Include="Areas\Landing\Content\img\spinner.gif" />
-    <Content Include="Areas\Landing\Content\img\team\1.jpg" />
-    <Content Include="Areas\Landing\Content\img\team\2.jpg" />
-    <Content Include="Areas\Landing\Content\img\team\3.jpg" />
-    <Content Include="Areas\Landing\Content\img\team\4.jpg" />
-    <Content Include="Areas\Landing\Content\img\timer.png" />
-    <Content Include="Areas\Landing\Content\img\works\1.jpg" />
-    <Content Include="Areas\Landing\Content\img\works\2.jpg" />
-    <Content Include="Areas\Landing\Content\img\works\3.jpg" />
-    <Content Include="Areas\Landing\Content\img\works\4.jpg" />
-    <Content Include="Areas\Landing\Content\img\works\5.jpg" />
-    <Content Include="Areas\Landing\Content\img\works\6.jpg" />
-    <Content Include="Areas\Landing\Content\img\works\7.jpg" />
-    <Content Include="Areas\Landing\Content\img\works\8.jpg" />
-    <Content Include="Areas\Landing\Content\js\bootstrap\bootstrap.min.js" />
-    <Content Include="Areas\Landing\Content\js\custom.js" />
-    <Content Include="Areas\Landing\Content\js\libs\jquery-2.0.2.min.js" />
-    <Content Include="Areas\Landing\Content\js\libs\jquery-ui-1.10.3.min.js" />
-    <Content Include="Areas\Landing\Content\js\plugins\classie.js" />
-    <Content Include="Areas\Landing\Content\js\plugins\gnmenu.js" />
-    <Content Include="Areas\Landing\Content\js\plugins\jquery.scrollUp.js" />
-    <Content Include="Areas\Landing\Content\js\plugins\jquery.themepunch.plugins.min.js" />
-    <Content Include="Areas\Landing\Content\js\plugins\jquery.themepunch.revolution.min.js" />
-    <Content Include="Areas\Landing\Content\js\plugins\nivo-lightbox.min.js" />
-    <Content Include="Areas\Landing\Content\js\plugins\smoothscroll.js" />
-    <Content Include="Areas\Landing\Views\web.config" />
-    <Content Include="Areas\Landing\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Landing\Content\font-awesome\fonts\fontawesome-webfont.eot" />
-    <Content Include="Areas\Landing\Content\font-awesome\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Areas\Landing\Content\font-awesome\fonts\fontawesome-webfont.woff" />
-    <Content Include="Areas\Landing\Content\font-awesome\fonts\FontAwesome.otf" />
-    <Content Include="Areas\Landing\Content\font-awesome\less\bordered-pulled.less" />
-    <Content Include="Areas\Landing\Content\font-awesome\less\core.less" />
-    <Content Include="Areas\Landing\Content\font-awesome\less\fixed-width.less" />
-    <Content Include="Areas\Landing\Content\font-awesome\less\font-awesome.less" />
-    <Content Include="Areas\Landing\Content\font-awesome\less\icons.less" />
-    <Content Include="Areas\Landing\Content\font-awesome\less\larger.less" />
-    <Content Include="Areas\Landing\Content\font-awesome\less\list.less" />
-    <Content Include="Areas\Landing\Content\font-awesome\less\mixins.less" />
-    <Content Include="Areas\Landing\Content\font-awesome\less\path.less" />
-    <Content Include="Areas\Landing\Content\font-awesome\less\rotated-flipped.less" />
-    <Content Include="Areas\Landing\Content\font-awesome\less\spinning.less" />
-    <Content Include="Areas\Landing\Content\font-awesome\less\stacked.less" />
-    <Content Include="Areas\Landing\Content\font-awesome\less\variables.less" />
-    <Content Include="Areas\Landing\Content\font-awesome\scss\font-awesome.scss" />
-    <Content Include="Areas\Landing\Content\font-awesome\scss\_bordered-pulled.scss" />
-    <Content Include="Areas\Landing\Content\font-awesome\scss\_core.scss" />
-    <Content Include="Areas\Landing\Content\font-awesome\scss\_fixed-width.scss" />
-    <Content Include="Areas\Landing\Content\font-awesome\scss\_icons.scss" />
-    <Content Include="Areas\Landing\Content\font-awesome\scss\_larger.scss" />
-    <Content Include="Areas\Landing\Content\font-awesome\scss\_list.scss" />
-    <Content Include="Areas\Landing\Content\font-awesome\scss\_mixins.scss" />
-    <Content Include="Areas\Landing\Content\font-awesome\scss\_path.scss" />
-    <Content Include="Areas\Landing\Content\font-awesome\scss\_rotated-flipped.scss" />
-    <Content Include="Areas\Landing\Content\font-awesome\scss\_spinning.scss" />
-    <Content Include="Areas\Landing\Content\font-awesome\scss\_stacked.scss" />
-    <Content Include="Areas\Landing\Content\font-awesome\scss\_variables.scss" />
-    <Content Include="Areas\Landing\Content\fonts\ecoicons\ecoicons.eot" />
-    <Content Include="Areas\Landing\Content\fonts\ecoicons\ecoicons.ttf" />
-    <Content Include="Areas\Landing\Content\fonts\ecoicons\ecoicons.woff" />
-    <Content Include="Areas\Landing\Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Areas\Landing\Content\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Areas\Landing\Content\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Areas\Landing\Content\fonts\revicons\revicons.eot" />
-    <Content Include="Areas\Landing\Content\fonts\revicons\revicons.ttf" />
-    <Content Include="Areas\Landing\Content\fonts\revicons\revicons.woff" />
-    <Content Include="Areas\Landing\Content\js\libs\jquery.min.map" />
-    <Content Include="Areas\Landing\Views\Landing\Index.cshtml" />
     <Content Include="Content\ajax\dashboard.html" />
-    <Content Include="Content\css\bootstrap.min.css" />
-    <Content Include="Content\css\font-awesome.min.css" />
-    <Content Include="Content\css\lockscreen.min.css" />
-    <Content Include="Content\css\smartadmin-production.min.css" />
-    <Content Include="Content\css\smartadmin-rtl.min.css" />
-    <Content Include="Content\css\smartadmin-skins.min.css" />
-    <Content Include="Content\css\your_style.css" />
+    <Content Include="Content\css\bootstrap.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\css\datatables.min.css" />
+    <Content Include="Content\css\font-awesome.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\css\lockscreen.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\css\smartadmin-production-plugins.min.css" />
+    <Content Include="Content\css\smartadmin-production.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\css\smartadmin-rtl.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\css\smartadmin-skins.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\css\CenDek.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\css\your_style.min.css">
-      <DependentUpon>your_style.css</DependentUpon>
+      <DependentUpon>CenDek.css</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
@@ -430,6 +326,9 @@
     <Content Include="Content\img\splash\touch-icon-ipad.png" />
     <Content Include="Content\img\splash\touch-icon-iphone-retina.png" />
     <Content Include="Content\img\vt-menu.png" />
+    <Content Include="Fonts\fontawesome-webfont.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
@@ -440,8 +339,6 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
-    <None Include="Properties\PublishProfiles\SmartAdmin - Release.pubxml" />
-    <None Include="Properties\PublishProfiles\SmartAdmin - Debug.pubxml" />
     <Content Include="Scripts\app.config.seed.js" />
     <Content Include="Scripts\app.config.seed.min.js">
       <DependentUpon>app.config.seed.js</DependentUpon>
@@ -451,8 +348,17 @@
       <DependentUpon>app.seed.js</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\libs\datatables.min.js" />
     <Content Include="Scripts\libs\jquery-2.1.1.min.js" />
     <Content Include="Scripts\libs\jquery-ui-1.10.3.min.js" />
+    <Content Include="Scripts\plugins\datatable-responsive\datatables.responsive.min.js" />
+    <Content Include="Scripts\plugins\datatables\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\plugins\datatables\dataTables.colReorder.min.js" />
+    <Content Include="Scripts\plugins\datatables\dataTables.colVis.min.js" />
+    <Content Include="Scripts\plugins\datatables\dataTables.tableTools.min.js" />
+    <Content Include="Scripts\plugins\datatables\jquery.dataTables.min.js" />
+    <Content Include="Scripts\plugins\datatables\swf\copy_csv_xls.swf" />
+    <Content Include="Scripts\plugins\datatables\swf\copy_csv_xls_pdf.swf" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -481,6 +387,31 @@
     <Content Include="Scripts\app.seed.min.js.map">
       <DependentUpon>app.seed.min.js</DependentUpon>
     </Content>
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Inventory\Index.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Quote\Index.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Settings\Index.cshtml" />
+    <Content Include="Fonts\fontawesome-webfont.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\fontawesome-webfont.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\fontawesome-webfont.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\fontawesome-webfont.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\FontAwesome.otf" />
+    <Compile Include="App_Helpers\Extensions.cs" />
+    <Compile Include="App_Start\DIConfig.cs" />
+    <Compile Include="Models\BreadCrumbs.cs" />
+    <None Include="Properties\PublishProfiles\LaunchPad.pubxml" />
+    <Content Include="Views\Customer\Detail.cshtml" />
+    <Content Include="Views\Customer\New.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -504,15 +435,20 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Helpers\Settings.cs" />
     <Compile Include="App_Start\StartupAuth.cs" />
-    <Compile Include="Areas\Landing\Controllers\LandingController.cs" />
-    <Compile Include="Areas\Landing\LandingAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventoryController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\QuoteController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Customer\NewCustomer.cs" />
     <Compile Include="Models\IdentityModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -523,9 +459,7 @@
       <Name>DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -541,7 +475,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56110</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:57110/</IISUrl>
+          <IISUrl>http://localhost:57150/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
