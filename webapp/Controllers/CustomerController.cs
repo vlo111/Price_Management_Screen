@@ -37,7 +37,7 @@ namespace CenDek.Controllers
         public ActionResult New()
         {
             var breadCrumbs = new BreadcrumbModel("New Customer", new List<BreadcrumbLink>());
-            breadCrumbs.Links.Add(new BreadcrumbLink(Url.Action("Customer", "Index", null, this.Request.Url.Scheme), "Customers"));
+            breadCrumbs.Links.Add(new BreadcrumbLink(Url.Action("Index", "Customer", null, this.Request.Url.Scheme), "Customers"));
             ViewBag.BreadCrumbs = breadCrumbs;
             return View();
         }
@@ -55,28 +55,57 @@ namespace CenDek.Controllers
 
 
             var breadCrumbs = new BreadcrumbModel("New Customer", new List<BreadcrumbLink>());
-            breadCrumbs.Links.Add(new BreadcrumbLink(Url.Action("Customer", "Index", null, this.Request.Url.Scheme), "Customers"));
+            breadCrumbs.Links.Add(new BreadcrumbLink(Url.Action("Index", "Customer", null, this.Request.Url.Scheme), "Customers"));
             ViewBag.BreadCrumbs = breadCrumbs;
             return this.View();
         }
 
-        public ActionResult Detail(int id)
+        public async Task<ActionResult> Detail(int id)
         {
-            var breadCrumbs = new BreadcrumbModel("Customers", new List<BreadcrumbLink>());
+            var customer = await _dbContext.Customers.FindAsync(id);
+
+            var breadCrumbs = new BreadcrumbModel(customer.Company, new List<BreadcrumbLink>());
+            breadCrumbs.Links.Add(new BreadcrumbLink(Url.Action("Index", "Customer", null, this.Request.Url.Scheme), "Customers"));
             ViewBag.BreadCrumbs = breadCrumbs;
 
-            return View();
+            return View(customer);
         }
 
         public ActionResult GetCustomers(IDataTablesRequest request)
         {
-            // Nothing important here. Just creates some mock data.
+            _dbContext.Configuration.LazyLoadingEnabled = false;
+            _dbContext.Configuration.ProxyCreationEnabled = false;
             var data = _dbContext.Customers;
 
             // Global filtering.
             // Filter is being manually applied due to in-memmory (IEnumerable) data.
             // If you want something rather easier, check IEnumerableExtensions Sample.
             var filteredData = data.Where(_item => _item.Company.Contains(request.Search.Value));
+
+            // Paging filtered data.
+            // Paging is rather manual due to in-memmory (IEnumerable) data.
+            var orderColums = request.Columns.Where(x => x.Sort != null);
+            var dataPage = data.OrderBy(orderColums).Skip(request.Start).Take(request.Length);
+
+            // Response creation. To create your response you need to reference your request, to avoid
+            // request/response tampering and to ensure response will be correctly created.
+            var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
+
+            // Easier way is to return a new 'DataTablesJsonResult', which will automatically convert your
+            // response to a json-compatible content, so DataTables can read it when received.
+            return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetShippingAddress(IDataTablesRequest request, int customerId)
+        {
+            _dbContext.Configuration.LazyLoadingEnabled = false;
+            _dbContext.Configuration.ProxyCreationEnabled = false;
+            var data = _dbContext.ShippingAddresses.Where(t => t.CustomerID == customerId).OrderBy(t => t.ShippingAddressID);
+
+            // Global filtering.
+            // Filter is being manually applied due to in-memmory (IEnumerable) data.
+            // If you want something rather easier, check IEnumerableExtensions Sample.
+            var filteredData = data.Where(_item => _item.Address1.Contains(request.Search.Value));
 
             // Paging filtered data.
             // Paging is rather manual due to in-memmory (IEnumerable) data.

@@ -344,6 +344,7 @@
       <DependentUpon>app.config.js</DependentUpon>
     </Content>
     <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\app.min.js" />
     <Content Include="Scripts\app.seed.min.js">
       <DependentUpon>app.js</DependentUpon>
     </Content>
