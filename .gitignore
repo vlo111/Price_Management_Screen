@@ -237,3 +237,10 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+webapp/Scripts/plugins/datatables/DataTables-1.10.15/
+webapp/Scripts/plugins/datatables/Buttons-1.3.1/swf/flashExport.swf
+webapp/Scripts/plugins/datatables/Buttons-1.3.1/
+webapp/Scripts/plugins/datatables/Responsive-2.1.1/
+webapp/Scripts/plugins/datatables/RowGroup-1.0.0/
+webapp/Scripts/plugins/datatables/Select-1.2.2/
+webapp/Scripts/plugins/datatables/JSZip-3.1.3/
