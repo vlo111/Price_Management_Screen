@@ -70,101 +70,101 @@
                                 </div>
 
                             </div>
-                        <div class="tab-pane fade" id="s2">
-                            <div class="row">
-                                <div class="col-sm-12 text-align-left">
-                                    <div class="btn-group">
-                                        <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newContact"> <i class="fa fa-plus"></i> New Contact </button>
-                                    </div>
+                            <div class="tab-pane fade" id="s2">
+                                <div class="row">
+                                    <div class="col-sm-12 text-align-left">
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newContact"> <i class="fa fa-plus"></i> New Contact </button>
+                                        </div>
 
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="newContact" tabindex="-1" role="dialog" aria-labelledby="newContact">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title" id="myModalLabel">Add New Contact</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    @Html.Partial("Partial_Views/NewContact", new DataAccess.Models.CustomerContact())
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="newContact" tabindex="-1" role="dialog" aria-labelledby="newContact">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Add New Contact</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @Html.Partial("Partial_Views/NewContact", new DataAccess.Models.CustomerContact())
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- End Modal-->
+                                        <!-- End Modal-->
 
-                                </div>
-                            </div>
-                            <div class="padding-10">
-                                <table id="Contacts"></table>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="s3">
-                            <div class="row">
-                                <div class="col-sm-12 text-align-left">
-                                    <div class="btn-group">
-                                        <a href="@Url.Action("New", "Order")" class="btn btn-sm btn-success"> <i class="fa fa-plus"></i> New Order </a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="padding-10">
-                                <table id="Orders"></table>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="s4">
-                            <div class="row">
-                                <div class="col-sm-12 text-align-left">
-                                    <div class="btn-group">
-                                        <a href="@Url.Action("New", "Order")" class="btn btn-sm btn-success"> <i class="fa fa-plus"></i> New Quote </a>
-                                    </div>
+                                <div class="padding-10">
+                                    <table id="Contacts"></table>
                                 </div>
                             </div>
-                            <div class="padding-10">
-                                <table id="Quotes"></table>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="s5">
-                            <div class="row">
-                                <div class="col-sm-12 text-align-left">
-                                    <div class="btn-group">
-                                        <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newShippingAddress"> <i class="fa fa-plus"></i> New Shipping Address </button>
+                            <div class="tab-pane fade" id="s3">
+                                <div class="row">
+                                    <div class="col-sm-12 text-align-left">
+                                        <div class="btn-group">
+                                            <a href="@Url.Action("New", "Order")" class="btn btn-sm btn-success"> <i class="fa fa-plus"></i> New Order </a>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="padding-10">
+                                    <table id="Orders"></table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="s4">
+                                <div class="row">
+                                    <div class="col-sm-12 text-align-left">
+                                        <div class="btn-group">
+                                            <a href="@Url.Action("New", "Order")" class="btn btn-sm btn-success"> <i class="fa fa-plus"></i> New Quote </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="padding-10">
+                                    <table id="Quotes"></table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="s5">
+                                <div class="row">
+                                    <div class="col-sm-12 text-align-left">
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newShippingAddress"> <i class="fa fa-plus"></i> New Shipping Address </button>
+                                        </div>
 
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="newShippingAddress" tabindex="-1" role="dialog" aria-labelledby="newShippingAddress">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title" id="myModalLabel">Add New Shipping Address</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    @Html.Partial("Partial_Views/NewShippingAddress", new DataAccess.Models.ShippingAddress())
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="newShippingAddress" tabindex="-1" role="dialog" aria-labelledby="newShippingAddress">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Add New Shipping Address</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @Html.Partial("Partial_Views/NewShippingAddress", new DataAccess.Models.ShippingAddress())
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- End Modal-->
                                     </div>
-                                    <!-- End Modal-->
+                                </div>
+                                <div class="padding-10">
+                                    <table id="Shipping"></table>
                                 </div>
                             </div>
-                            <div class="padding-10">
-                                <table id="Shipping"></table>
-                            </div>
                         </div>
+
                     </div>
+                    <!-- end widget content -->
 
                 </div>
-                <!-- end widget content -->
+                <!-- end widget div -->
 
             </div>
-            <!-- end widget div -->
+
+
 
         </div>
-
-
-
     </div>
-</div>
 
 
 
@@ -186,7 +186,7 @@
             };
 
             var shippingDT = $('#Shipping').DataTable({
-               
+
                 serverSide: true,
                 ajax: {
                     url: appRoot + "customer/GetShippingAddress",
@@ -196,7 +196,7 @@
                         });
                     }
                 },
-               
+
                 columns: [
                     {
                         name: 'ShippingAddressID',
@@ -230,9 +230,11 @@
                 ]
             });
 
+            $('#newShipAddressForm').on('shown.bs.modal', function () {
+                $.validator.unobtrusive.parse('#newShipAddressForm')
+            });
 
-
-            $('#newShippingAddress').on('submit', '#new-ship-address-form', function (e) {
+            $('#newShippingAddress').on('submit', '#newShipAddressForm', function (e) {
                 e.preventDefault();
                 var form = $(this);
                 $.ajax({
@@ -245,7 +247,11 @@
                 });
             });
 
-            $('#newContact').on('submit', '#new-contact-form', function (e) {
+            $('#newContact').on('shown.bs.modal', function(){
+                $.validator.unobtrusive.parse('#newContactForm')
+                });
+
+            $('#newContact').on('submit', '#newContactForm', function (e) {
                 e.preventDefault();
                 var form = $(this);
                 $.ajax({

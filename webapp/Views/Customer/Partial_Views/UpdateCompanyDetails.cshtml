@@ -67,21 +67,35 @@
                     </section>
                     <div class="row">
 
-                        <section class="col col-4">
+                        <section class="col col-2">
                             <label class="input">
                                 @Html.TextBoxFor(model => model.City, new { placeholder = Html.DisplayNameFor(n => n.City) })
                                 @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                             </label>
                         </section>
 
-                        <section class="col col-4">
+                        <section class="col col-2">
                             <label class="input">
-                                @Html.TextBoxFor(model => model.Country, new { placeholder = Html.DisplayNameFor(n => n.Country) })
-                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.Province, new { placeholder = Html.DisplayNameFor(n => n.Province) })
+                                @Html.ValidationMessageFor(model => model.Province, "", new { @class = "text-danger" })
                             </label>
                         </section>
 
-                        <section class="col col-3">
+                        <section class="col col-2">
+                            <label class="select">
+                                <select>
+                                    <option value="0">Choose Country</option>
+                                    <option value="1">Canada</option>
+                                    <option value="2">United States</option>
+                                </select>
+                                <i>
+                                </i>
+                                @*@Html.TextBoxFor(model => model.Country, new { placeholder = Html.DisplayNameFor(n => n.Country) })
+                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })*@
+                            </label>
+                        </section>
+
+                        <section class="col col-2">
                             <label class="input">
                                 @Html.TextBoxFor(model => model.PostalCode, new { placeholder = Html.DisplayNameFor(n => n.PostalCode) })
                                 @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
