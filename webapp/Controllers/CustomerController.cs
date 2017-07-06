@@ -87,8 +87,17 @@ namespace CenDek.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdateCompanyDetails(Customer companyDetails)
         {
-            var response = await _customerService.UpdateCustomer(companyDetails);
-            return Json(response);
+            try
+            {
+                var response = await _customerService.UpdateCustomer(companyDetails);
+            }
+            catch (Exception e)
+            {
+                var oldDetails = await _dbContext.Customers.FindAsync(companyDetails.CustomerID);
+                ModelState.AddModelError("Error", e.Message);
+                return View("Details", oldDetails);
+            }
+            return View("Detail", companyDetails);
         }
 
         public ActionResult GetCustomers(IDataTablesRequest request)

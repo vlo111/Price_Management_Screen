@@ -3,7 +3,7 @@
     ViewBag.Title = "UpdateCompanyDetails";
 }
 
-@using (Html.BeginForm("UpdateCompanyDetails", "Customer", FormMethod.Post, new { @class = "form-group", role = "form", id = "update-company-details-form" }))
+@using (Html.BeginForm("UpdateCompanyDetails", "Customer", FormMethod.Post, new { @class = "form-group", role = "form", id = "updateCompanyDetailsForm" }))
 {
     <header role="heading">
         <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
@@ -83,15 +83,30 @@
 
                         <section class="col col-2">
                             <label class="select">
-                                <select>
-                                    <option value="0">Choose Country</option>
-                                    <option value="1">Canada</option>
-                                    <option value="2">United States</option>
+                                <select data-val="true" id="Country" name="Country">
+                                    @if (Model.Country == "Canada")
+                                    {
+                                        <option value="Not Set">Choose Country</option>
+                                        <option value="Canada" selected>Canada</option>
+                                        <option value="US">United States</option>
+                                    }
+                                    else if (Model.Country == "US")
+                                    {
+                                        <option value="Not Set">Choose Country</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="US" selected>United States</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Not Set">Choose Country</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="United States">United States</option>
+                                    }
                                 </select>
                                 <i>
                                 </i>
                                 @*@Html.TextBoxFor(model => model.Country, new { placeholder = Html.DisplayNameFor(n => n.Country) })
-                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })*@
+                                    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })*@
                             </label>
                         </section>
 

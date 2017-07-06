@@ -39,7 +39,7 @@ namespace CenDek.Services
                 customer.Province = updatedCustomer.Province;
                 customer.PostalCode = updatedCustomer.PostalCode;
                 customer.Comments = updatedCustomer.Comments;
-                //customer.Country = newCustomer.Con;
+                customer.Country = updatedCustomer.Country;
                 //customer.Created = DateTime.UtcNow;
                 customer.Modified = DateTime.UtcNow;
                 await _dbContext.SaveChangesAsync();

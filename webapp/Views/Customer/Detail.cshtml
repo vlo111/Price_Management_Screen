@@ -64,6 +64,7 @@
                         <div id="myTabContent1" class="tab-content padding-10">
                             <div class="tab-pane fade in active" id="s1">
                                 <div class="padding-10">
+                                    <h1><strong>@Html.ValidationMessage("Error", new { @class = "text-danger" })</strong></h1>
                                     <div class="row">
                                         @Html.Partial("Partial_Views/UpdateCompanyDetails", Model)
                                     </div>
@@ -264,7 +265,7 @@
                 });
             });
 
-            $('#updateCompanyDetails').on('submit', '#update-company-details-form', function (e) {
+            $('#updateCompanyDetails').on('submit', '#updateCompanyDetailsForm', function (e) {
                 e.preventDefault();
                 var form = $(this);
                 $.ajax({
@@ -272,9 +273,7 @@
                     url: appRoot + "customer/UpdateCompanyDetails",
                     data: form.serialize(),
                 })
-                .success(function () {
-                    //todo Update ui with new values
-                    $('#updateCompanyDetails').modal('hide');
+                    .success(function () {
                 });
             });
         });
