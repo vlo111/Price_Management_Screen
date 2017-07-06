@@ -49,7 +49,6 @@ namespace CenDek.Controllers
             if (ModelState.IsValid)
             {
                 int customerId = await _customerService.AddCustomer(newCustomer);
-
                 return RedirectToAction("Action", new { id = customerId });
             }
 
@@ -88,9 +87,10 @@ namespace CenDek.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdateCompanyDetails(Customer companyDetails)
         {
-            //TODO
-            return PartialView("Partial_Views/UpdateCompanyDetails", companyDetails);
+            var response = await _customerService.UpdateCustomer(companyDetails);
+            return Json(response);
         }
+
         public ActionResult GetCustomers(IDataTablesRequest request)
         {
             _dbContext.Configuration.LazyLoadingEnabled = false;

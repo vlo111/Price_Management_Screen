@@ -10,41 +10,7 @@
             </h1>
         </div>
     </div>
-    <div class="well">
-        <div class="row">
-            <!--address start-->
-            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-                <h3 class="text-primary">Address</h3>
-                <address>
-                    <strong>@Model.Company</strong><br>
-                    @Model.Address1, @Model.Address2<br>
-                    @Model.City, @Model.Country, @Model.PostalCode<br>
-                    <abbr title="Phone">P:</abbr> @Model.PhoneNo
-                </address>
-                <address>
-                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#updateCompanyDetails"> <i class="fa fa-plus"></i> Update </button>
-                </address>
-            </div>
-            <!--address end-->
 
-            <!-- Modal -->
-            <div class="modal fade" id="updateCompanyDetails" tabindex="-1" role="dialog" aria-labelledby="updateCompanyDetails">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Update Company Info</h4>
-                        </div>
-                        <div class="modal-body">
-                            @Html.Partial("Partial_Views/UpdateCompanyDetails", new DataAccess.Models.Customer())
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Modal-->
-
-            </div>
-        </div>
     <div class="row">
         <div class="col-lg-12">
 
@@ -79,21 +45,58 @@
 
                         <ul id="Tab1" class="nav nav-tabs bordered">
                             <li class="active">
-                                <a href="#s1" data-toggle="tab" aria-expanded="false"><i class="fa fa-fw fa-lg fa-address-book"></i> Contacts</a>
+                                <a href="#s1" data-toggle="tab" aria-expanded="false"><i class="fa fa-fw fa-lg fa-address-card"></i> Company Details</a>
                             </li>
                             <li>
-                                <a href="#s2" data-toggle="tab" aria-expanded="true"><i class="fa fa-fw fa-lg fa-truck"></i> Orders</a>
+                                <a href="#s2" data-toggle="tab" aria-expanded="false"><i class="fa fa-fw fa-lg fa-users"></i> Contacts</a>
                             </li>
                             <li>
-                                <a href="#s3" data-toggle="tab" aria-expanded="true"><i class="fa fa-fw fa-lg fa-quote-left"></i> Quotes</a>
+                                <a href="#s3" data-toggle="tab" aria-expanded="true"><i class="fa fa-fw fa-lg fa-truck"></i> Orders</a>
                             </li>
                             <li>
-                                <a href="#s4" data-toggle="tab" aria-expanded="true"><i class="fa fa-fw fa-lg fa-plane"></i> Shipping Address</a>
+                                <a href="#s4" data-toggle="tab" aria-expanded="true"><i class="fa fa-fw fa-lg fa-quote-left"></i> Quotes</a>
+                            </li>
+                            <li>
+                                <a href="#s5" data-toggle="tab" aria-expanded="true"><i class="fa fa-fw fa-lg fa-plane"></i> Shipping Address</a>
                             </li>
                         </ul>
 
                         <div id="myTabContent1" class="tab-content padding-10">
                             <div class="tab-pane fade in active" id="s1">
+                                <div class="row">
+                                    <!--address start-->
+                                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                                        <h3 class="text-primary">Address</h3>
+                                        <address>
+                                            <strong>@Model.Company</strong><br>
+                                            @Model.Address1, @Model.Address2<br>
+                                            @Model.City, @Model.Country, @Model.PostalCode<br>
+                                            <abbr title="Phone">P:</abbr> @Model.PhoneNo
+                                        </address>
+                                        <address>
+                                            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#updateCompanyDetails"> <i class="fa fa-plus"></i> Update </button>
+                                        </address>
+                                    </div>
+                                    <!--address end-->
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="updateCompanyDetails" tabindex="-1" role="dialog" aria-labelledby="updateCompanyDetails">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel">Update Company Info</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    @Html.Partial("Partial_Views/UpdateCompanyDetails", Model)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Modal-->
+
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in active" id="s2">
                                 <div class="row">
                                     <div class="col-sm-12 text-align-left">
                                         <div class="btn-group">
@@ -122,7 +125,7 @@
                                     <table id="Contacts"></table>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="s2">
+                            <div class="tab-pane fade" id="s3">
                                 <div class="row">
                                     <div class="col-sm-12 text-align-left">
                                         <div class="btn-group">
@@ -134,7 +137,7 @@
                                     <table id="Orders"></table>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="s3">
+                            <div class="tab-pane fade" id="s4">
                                 <div class="row">
                                     <div class="col-sm-12 text-align-left">
                                         <div class="btn-group">
@@ -146,7 +149,7 @@
                                     <table id="Quotes"></table>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="s4">
+                            <div class="tab-pane fade" id="s5">
                                 <div class="row">
                                     <div class="col-sm-12 text-align-left">
                                         <div class="btn-group">
@@ -176,18 +179,18 @@
                             </div>
                         </div>
 
-                    </div>
-                    <!-- end widget content -->
-
                 </div>
-                <!-- end widget div -->
+                <!-- end widget content -->
 
             </div>
-
-
+            <!-- end widget div -->
 
         </div>
+
+
+
     </div>
+</div>
 
 
 
@@ -208,7 +211,8 @@
                 phone: 480
             };
 
-            $('#Shipping').DataTable({
+            var shippingDT = $('#Shipping').DataTable({
+               
                 serverSide: true,
                 ajax: {
                     url: appRoot + "customer/GetShippingAddress",
@@ -218,7 +222,7 @@
                         });
                     }
                 },
-                "searching": false,
+               
                 columns: [
                     {
                         name: 'ShippingAddressID',
@@ -235,8 +239,24 @@
                         sortable: true,
                         searchable: true
                     }
+                ],
+                dom: 'Brtip',
+                buttons: [
+                    {
+                        text: 'Add new button',
+                        action: function (e, dt, node, config) {
+                            dt.button().add(1, {
+                                text: 'Button ' + (counter++),
+                                action: function () {
+                                    this.remove();
+                                }
+                            });
+                        }
+                    }
                 ]
             });
+
+
 
             $('#newShippingAddress').on('submit', '#new-ship-address-form', function (e) {
                 e.preventDefault();
@@ -246,9 +266,9 @@
                     url: appRoot + "customer/NewShippingAddress",
                     data: form.serialize(),
                 })
-                    .success(function () {
-                        $('#newShippingAddress').modal('hide');
-                    })
+                .success(function () {
+                    $('#newShippingAddress').modal('hide');
+                });
             });
 
             $('#newContact').on('submit', '#new-contact-form', function (e) {
@@ -259,9 +279,9 @@
                     url: appRoot + "customer/NewContact",
                     data: form.serialize(),
                 })
-                    .success(function () {
-                        $('#newContact').modal('hide');
-                    })
+                .success(function () {
+                    $('#newContact').modal('hide');
+                });
             });
 
             $('#updateCompanyDetails').on('submit', '#update-company-details-form', function (e) {
@@ -272,9 +292,10 @@
                     url: appRoot + "customer/UpdateCompanyDetails",
                     data: form.serialize(),
                 })
-                    .success(function () {
-                        $('#updateCompanyDetails').modal('hide');
-                    })
+                .success(function () {
+                    //todo Update ui with new values
+                    $('#updateCompanyDetails').modal('hide');
+                });
             });
         });
     </script>

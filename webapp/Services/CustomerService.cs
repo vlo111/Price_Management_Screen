@@ -12,6 +12,7 @@ namespace CenDek.Services
     public interface ICustomerService
     {
         Task<int> AddCustomer(NewCustomer newCustomer);
+        Task<Object> UpdateCustomer(Customer updatedCustomer);
     }
 
 
@@ -24,13 +25,49 @@ namespace CenDek.Services
             _dbContext = dbContext;
         }
 
+        public async Task<Object> UpdateCustomer(Customer updatedCustomer)
+        {
+            try
+            {
+                Customer customer = await _dbContext.Customers.FindAsync(updatedCustomer.CustomerID);
+                customer.Company = updatedCustomer.Company;
+                customer.PhoneNo = updatedCustomer.PhoneNo;
+                customer.Fax = updatedCustomer.Fax;
+                customer.Address1 = updatedCustomer.Address1;
+                customer.Address2 = updatedCustomer.Address2;
+                customer.City = updatedCustomer.City;
+                customer.Province = updatedCustomer.Province;
+                customer.PostalCode = updatedCustomer.PostalCode;
+                customer.Comments = updatedCustomer.Comments;
+                //customer.Country = newCustomer.Con;
+                //customer.Created = DateTime.UtcNow;
+                customer.Modified = DateTime.UtcNow;
+                await _dbContext.SaveChangesAsync();
+                return new { success = true, responseText = "Customer Saved" };
+            }
+            catch (Exception ex)
+            {
+                return new { success = false, responseText = "Customer Save Failed" };
+            }
+        }
+
         public async Task<int> AddCustomer(NewCustomer newCustomer)
         {
             Customer customer = new Customer();
             //todo finish this
             customer.Company = newCustomer.CompanyName;
             customer.PhoneNo = newCustomer.PhoneNo;
+            customer.Fax = newCustomer.Fax;
+            customer.Address1 = newCustomer.Address1;
+            customer.Address2 = newCustomer.Address2;
+            customer.City = newCustomer.City;
+            customer.Province = newCustomer.Province;
+            customer.PostalCode = newCustomer.PostalCode;
+            //customer.Country = newCustomer.Con;
+            customer.Comments = newCustomer.Comments;
             customer.Created = DateTime.UtcNow;
+            customer.Modified = DateTime.UtcNow;
+            //customer.EmployeeID = 1;
             _dbContext.Customers.Add(customer);
 
             CustomerContact contact = new CustomerContact();

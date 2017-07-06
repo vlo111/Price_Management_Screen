@@ -12,7 +12,8 @@ namespace CenDek
         {
             bundles.Add(new StyleBundle("~/content/smartadmin").Include(
                 "~/Content/css/bootstrap.min.css",
-                "~/Content/css/datatables.min.css",
+                "~/Scripts/plugins/datatables/datatables.min.css",
+                "~/Scripts/plugins/datatable-responsive/css/datatables.responsive.css",
                 //"~/Content/css/font-awesome.min.css",
                 "~/Content/css/lockscreen.min.css",
                 "~/Content/css/smartadmin-production-plugins.min.css",
@@ -38,11 +39,12 @@ namespace CenDek
                 "~/Scripts/app.min.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/datatables").Include(
-                "~/Scripts/plugins/datatables/jquery.dataTables.min.js",
-                "~/Scripts/plugins/datatables/dataTables.colVis.min.js",
-                "~/Scripts/plugins/datatables/dataTables.tableTools.min.js",
-                "~/Scripts/plugins/datatables/dataTables.bootstrap.min.js",
-                "~/Scripts/plugins/datatable-responsive/datatables.responsive.min.js"
+                "~/Scripts/plugins/datatables/datatables.min.js",
+                //"~/Scripts/plugins/datatables/dataTables.colVis.min.js",
+                //"~/Scripts/plugins/datatables/dataTables.tableTools.min.js",
+                //"~/Scripts/plugins/datatables/dataTables.bootstrap.min.js",
+                //"~/Scripts/plugins/datatables/jszip.min.js",
+                "~/Scripts/plugins/datatable-responsive/js/datatables.responsive.js"
              ));
 
             bundles.Add(new ScriptBundle("~/Scripts/forms").Include(
