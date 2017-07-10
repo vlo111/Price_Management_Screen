@@ -19,15 +19,16 @@ namespace CenDek.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
+        //public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        //{
+        //    UserManager = userManager;
+        //    SignInManager = signInManager;
+        //}
 
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
@@ -120,7 +121,7 @@ namespace CenDek.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Customer");
         }
 
         // GET: /account/error
@@ -139,7 +140,7 @@ namespace CenDek.Controllers
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         private void AddErrors(IdentityResult result)

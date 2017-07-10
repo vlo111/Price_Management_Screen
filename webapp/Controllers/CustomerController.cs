@@ -15,6 +15,7 @@ using CenDek.Services;
 
 namespace CenDek.Controllers
 {
+    [Authorize]
     public class CustomerController : Controller
     {
         CenDekContext _dbContext;

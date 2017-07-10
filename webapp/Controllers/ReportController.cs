@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace CenDek.Controllers
 {
+    [Authorize]
     public class ReportController : Controller
     {
         // GET: Report
