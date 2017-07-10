@@ -16,18 +16,22 @@ namespace DataAccess.Models
 
         public int CustomerID { get; set; }
         public string Company { get; set; }
+        [DisplayName("Phone")]
         public string PhoneNo { get; set; }
         public string Fax { get; set; }
         public System.DateTime Created { get; set; }
         public Nullable<System.DateTime> Modified { get; set; }
         public int EmployeeID { get; set; }
         [Required]
+        [DisplayName("Address")]
         public string Address1 { get; set; }
+        [DisplayName("Address cont.")]
         public string Address2 { get; set; }
         [Required]
         public string City { get; set; }
         public string Province { get; set; }
         public string Country { get; set; }
+        [DisplayName("Postal Code")]
         public string PostalCode { get; set; }
         public string Comments { get; set; }
         public bool GSTExempt { get; set; }

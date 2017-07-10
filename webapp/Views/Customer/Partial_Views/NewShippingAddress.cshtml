@@ -1,4 +1,5 @@
 ﻿@model DataAccess.Models.ShippingAddress
+@{
     ViewBag.Title = "NewShippingAddress";
 }
 
@@ -40,24 +41,24 @@
                                 @Html.ValidationMessageFor(model => model.ContactLastName, "", new { @class = "text-danger" })
                             </label>
                         </section>
-                        </div>
+                    </div>
 
-                        <div class="row">
-                            <section class="col col-6">
-                                <label class="input">
-                                    <i class="icon-prepend fa fa-phone"></i>
-                                    @Html.TextBoxFor(model => model.PhoneNo, new { @placeholder = Html.DisplayNameFor(n => n.PhoneNo), @data_mask = "(999) 999-9999", aria_required = "true", @aria_invalid = "false", @class = "valid" })
-                                    @Html.ValidationMessageFor(model => model.PhoneNo, "", new { @class = "text-danger" })
-                                </label>
-                            </section>
-                            <section class="col col-6">
-                                <label class="input">
-                                    <i class="icon-prepend fa fa-fax"></i>
-                                    @Html.TextBoxFor(model => model.CellNo, new { @placeholder = Html.DisplayNameFor(n => n.CellNo), @data_mask = "(999) 999-9999", aria_required = "true", @aria_invalid = "false", @class = "valid" })
-                                    @Html.ValidationMessageFor(model => model.CellNo, "", new { @class = "text-danger" })
-                                </label>
-                            </section>
-                        </div>
+                    <div class="row">
+                        <section class="col col-6">
+                            <label class="input">
+                                <i class="icon-prepend fa fa-phone"></i>
+                                @Html.TextBoxFor(model => model.PhoneNo, new { @placeholder = Html.DisplayNameFor(n => n.PhoneNo), @data_mask = "(999) 999-9999", aria_required = "true", @aria_invalid = "false", @class = "valid" })
+                                @Html.ValidationMessageFor(model => model.PhoneNo, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                        <section class="col col-6">
+                            <label class="input">
+                                <i class="icon-prepend fa fa-fax"></i>
+                                @Html.TextBoxFor(model => model.CellNo, new { @placeholder = Html.DisplayNameFor(n => n.CellNo), @data_mask = "(999) 999-9999", aria_required = "true", @aria_invalid = "false", @class = "valid" })
+                                @Html.ValidationMessageFor(model => model.CellNo, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                    </div>
                 </fieldset>
 
                 <fieldset>

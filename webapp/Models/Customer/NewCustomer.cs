@@ -16,12 +16,13 @@ namespace CenDek.Models.Customer
         [DisplayName("Company")]
         public string CompanyName { get; set; }
         [Required]
+        [DisplayName("Phone")]
         public string PhoneNo { get; set; }
         public string CellNo { get; set; }
         public string Fax { get; set; }
-        [DisplayName("Address 1")]
+        [DisplayName("Address")]
         public string Address1 { get; set; }
-        [DisplayName("Address 2")]
+        [DisplayName("Address cont.")]
         public string Address2 { get; set; }
         public string City { get; set; }
         public string Province { get; set; }
