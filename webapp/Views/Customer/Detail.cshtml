@@ -198,20 +198,41 @@
 
                 columns: [
                     {
-                        name: 'ShippingAddressID',
-                        data: 'ShippingAddressID',
-                        title: "ShippingAddressID",
+                        name: 'shippingAddressID',
+                        data: 'shippingAddressID',
+                        title: "shippingAddressID",
                         sortable: false,
                         searchable: false,
-                        visible: true
+                        visible: false
+                    }, {
+                        name: 'address1',
+                        data: "address1",
+                        title: "Address 1",
+                        sortable: true,
+                        searchable: true
                     },
                     {
-                        name: 'Address1',
-                        data: "Address1",
-                        title: "Address1",
+                        name: 'address2',
+                        data: "address2",
+                        title: "Address 2",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'city',
+                        data: "city",
+                        title: "city",
+                        sortable: true,
+                        searchable: true
+                    } ,
+                    {
+                        name: 'province',
+                        data: "province",
+                        title: "Province",
                         sortable: true,
                         searchable: true
                     }
+                    
                 ],
                 dom: "<'dt-toolbar'<'col-xs-12 col-sm-6 col-md-3 col-lg-2'B><'col-xs-12 col-sm-6 col-md-6 col-lg-8'f><'hidden-sm hidden-xs col-md-3 col-lg-2'l>r>" +
                         "t" +
