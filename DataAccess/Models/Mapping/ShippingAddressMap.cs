@@ -11,25 +11,13 @@ namespace DataAccess.Models.Mapping
             this.HasKey(t => t.ShippingAddressID);
 
             // Properties
-            this.Property(t => t.ShippingAddressID)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-
-            this.Property(t => t.ContactFirstName)
-                .IsRequired();
-
-            this.Property(t => t.ContactLastName)
-                .IsRequired();
-
-            this.Property(t => t.PhoneNo)
-                .IsRequired();
-
             this.Property(t => t.Address1)
                 .IsRequired();
 
-            this.Property(t => t.Address2)
+            this.Property(t => t.City)
                 .IsRequired();
 
-            this.Property(t => t.City)
+            this.Property(t => t.Province)
                 .IsRequired();
 
             this.Property(t => t.Country)
@@ -43,10 +31,6 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.ShippingAddressID).HasColumnName("ShippingAddressID");
             this.Property(t => t.CustomerID).HasColumnName("CustomerID");
             this.Property(t => t.LastUsed).HasColumnName("LastUsed");
-            this.Property(t => t.ContactFirstName).HasColumnName("ContactFirstName");
-            this.Property(t => t.ContactLastName).HasColumnName("ContactLastName");
-            this.Property(t => t.CellNo).HasColumnName("CellNo");
-            this.Property(t => t.PhoneNo).HasColumnName("PhoneNo");
             this.Property(t => t.Address1).HasColumnName("Address1");
             this.Property(t => t.Address2).HasColumnName("Address2");
             this.Property(t => t.City).HasColumnName("City");
@@ -59,6 +43,9 @@ namespace DataAccess.Models.Mapping
                 .WithMany(t => t.ShippingAddresses)
                 .HasForeignKey(d => d.CustomerID);
 
+            this.HasRequired(t => t.CustomerContact)
+                .WithMany(t => t.ShippingAddresses)
+                .HasForeignKey(d => d.CustomerContactID);
         }
     }
 }
