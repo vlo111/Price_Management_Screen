@@ -25,40 +25,10 @@
         <div class="widget-body no-padding">
 
             <div id="new-ship-address-form" class="smart-form" novalidate="novalidate">
-                <fieldset>
+               
                     @Html.HiddenFor(model => model.CustomerID)
-                    <div class="row">
-                        <section class="col col-6">
-                            <label for="CompanyName" class="input">
-                                @Html.TextBoxFor(model => model.ContactFirstName, new { @placeholder = Html.DisplayNameFor(n => n.ContactFirstName) })
-                                @Html.ValidationMessageFor(model => model.ContactFirstName, "", new { @class = "text-danger" })
-                            </label>
-                        </section>
-                        <section class="col col-6">
-                            <label for="CompanyName" class="input">
-                                @Html.TextBoxFor(model => model.ContactLastName, new { @placeholder = Html.DisplayNameFor(n => n.ContactLastName) })
-                                @Html.ValidationMessageFor(model => model.ContactLastName, "", new { @class = "text-danger" })
-                            </label>
-                        </section>
-                        </div>
-
-                        <div class="row">
-                            <section class="col col-6">
-                                <label class="input">
-                                    <i class="icon-prepend fa fa-phone"></i>
-                                    @Html.TextBoxFor(model => model.PhoneNo, new { @placeholder = Html.DisplayNameFor(n => n.PhoneNo), @data_mask = "(999) 999-9999", aria_required = "true", @aria_invalid = "false", @class = "valid" })
-                                    @Html.ValidationMessageFor(model => model.PhoneNo, "", new { @class = "text-danger" })
-                                </label>
-                            </section>
-                            <section class="col col-6">
-                                <label class="input">
-                                    <i class="icon-prepend fa fa-fax"></i>
-                                    @Html.TextBoxFor(model => model.CellNo, new { @placeholder = Html.DisplayNameFor(n => n.CellNo), @data_mask = "(999) 999-9999", aria_required = "true", @aria_invalid = "false", @class = "valid" })
-                                    @Html.ValidationMessageFor(model => model.CellNo, "", new { @class = "text-danger" })
-                                </label>
-                            </section>
-                        </div>
-                </fieldset>
+                   
+                        
 
                 <fieldset>
                     <legend>Address</legend>
@@ -76,6 +46,7 @@
                             @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
                         </label>
                     </section>
+
                     <div class="row">
 
 
@@ -84,6 +55,13 @@
                             <label class="input">
                                 @Html.TextBoxFor(model => model.City, new { placeholder = Html.DisplayNameFor(n => n.City) })
                                 @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+
+                        <section class="col col-4">
+                            <label class="input">
+                                @Html.TextBoxFor(model => model.Province, new { placeholder = Html.DisplayNameFor(n => n.City) })
+                                @Html.ValidationMessageFor(model => model.Province, "", new { @class = "text-danger" })
                             </label>
                         </section>
 
