@@ -17,18 +17,14 @@ namespace DataAccess.Models
         public int CustomerContactID { get; set; }
         public System.DateTime LastUsed { get; set; }
         
-        [Required]
-        [DisplayName("Address 1")]
+        [DisplayName("Address")]
         public string Address1 { get; set; }
-        [DisplayName("Address 2")]
+        [DisplayName("Address cont.")]
         public string Address2 { get; set; }
-        [Required]
         public string City { get; set; }
-        [Required]
         public string Province { get; set; }
-        [Required]
         public string Country { get; set; }
-        [Required]
+        [DisplayName("Postal Code")]
         public string PostalCode { get; set; }
         public string Comments { get; set; }
         public virtual Customer Customer { get; set; }

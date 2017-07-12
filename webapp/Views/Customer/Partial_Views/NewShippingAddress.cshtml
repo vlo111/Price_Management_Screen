@@ -1,4 +1,5 @@
 ﻿@model DataAccess.Models.ShippingAddress
+@{
     ViewBag.Title = "NewShippingAddress";
 }
 
@@ -24,12 +25,8 @@
         <!-- widget content -->
         <div class="widget-body no-padding">
 
-            <div id="new-ship-address-form" class="smart-form" novalidate="novalidate">
-               
-                    @Html.HiddenFor(model => model.CustomerID)
-                   
-                        
-
+            <div id="new-ship-address-form" class="smart-form" novalidate="novalidate">        
+                @Html.HiddenFor(model => model.CustomerID)
                 <fieldset>
                     <legend>Address</legend>
 
@@ -46,7 +43,6 @@
                             @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
                         </label>
                     </section>
-
                     <div class="row">
 
 
@@ -60,7 +56,7 @@
 
                         <section class="col col-4">
                             <label class="input">
-                                @Html.TextBoxFor(model => model.Province, new { placeholder = Html.DisplayNameFor(n => n.City) })
+                                @Html.TextBoxFor(model => model.Province, new { placeholder = Html.DisplayNameFor(n => n.Province) })
                                 @Html.ValidationMessageFor(model => model.Province, "", new { @class = "text-danger" })
                             </label>
                         </section>

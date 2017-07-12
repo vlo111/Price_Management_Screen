@@ -88,17 +88,17 @@ namespace CenDek.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdateCompanyDetails(Customer companyDetails)
         {
-            try
-            {
+            if (ModelState.IsValid)
+            {           
                 var response = await _customerService.UpdateCustomer(companyDetails);
+                return Json(response);     
             }
-            catch (Exception e)
+            else
             {
-                var oldDetails = await _dbContext.Customers.FindAsync(companyDetails.CustomerID);
-                ModelState.AddModelError("Error", e.Message);
-                return View("Details", oldDetails);
+                return Json(new { success = false, responseText = "Customer Save Failed" });
+
             }
-            return View("Detail", companyDetails);
+            
         }
 
         public ActionResult GetCustomers(IDataTablesRequest request)

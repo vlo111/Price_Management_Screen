@@ -161,14 +161,14 @@
 
 
 
-                                            <section class="col col-4">
+                                            <section class="col col-3">
                                                 <label class="input">
                                                     @Html.TextBoxFor(model => model.City, new { placeholder = Html.DisplayNameFor(n => n.City) })
                                                     @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                                                 </label>
                                             </section>
 
-                                            <section class="col col-4">
+                                            <section class="col col-3">
                                                 <label class="input">
                                                     @Html.TextBoxFor(model => model.Province, new { placeholder = Html.DisplayNameFor(n => n.Province) })
                                                     @Html.ValidationMessageFor(model => model.Province, "", new { @class = "text-danger" })
@@ -179,6 +179,18 @@
                                                 <label class="input">
                                                     @Html.TextBoxFor(model => model.PostalCode, new { placeholder = Html.DisplayNameFor(n => n.PostalCode) })
                                                     @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+                                                </label>
+                                            </section>
+
+                                            <section class="col col-3">
+                                                <label class="select">
+                                                    <select data-val="true" id="Country" name="Country">
+                                                            <option value="Not Set">Choose Country</option>
+                                                            <option value="Canada">Canada</option>
+                                                            <option value="United States">United States</option>
+                                                    </select>
+                                                    <i>
+                                                    </i>
                                                 </label>
                                             </section>
                                         </div>

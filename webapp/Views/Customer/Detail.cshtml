@@ -138,7 +138,7 @@
                                                         <h4 class="modal-title" id="myModalLabel">Add New Shipping Address</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        @Html.Partial("Partial_Views/NewShippingAddress", new DataAccess.Models.ShippingAddress())
+                                                        @Html.Partial("Partial_Views/NewShippingAddress", new DataAccess.Models.ShippingAddress{ CustomerID = Model.CustomerID })
                                                     </div>
                                                 </div>
                                             </div>
@@ -266,7 +266,7 @@
                 $.validator.unobtrusive.parse('#newShipAddressForm')
             });
 
-            $('#newShippingAddress').on('submit', '#newShipAddressForm', function (e) {
+            $('#newShipAddressForm').on('submit', function (e) {
                 e.preventDefault();
                 var form = $(this);
                 $.ajax({
@@ -274,14 +274,19 @@
                     url: appRoot + "customer/NewShippingAddress",
                     data: form.serialize(),
                 })
-                .success(function () {
+                .done(function () {
                     $('#newShippingAddress').modal('hide');
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    //append error message
+                    console.log(textStatus);
                 });
+                return false;
             });
 
             $('#newContact').on('shown.bs.modal', function(){
                 $.validator.unobtrusive.parse('#newContactForm')
-                });
+            });
 
             $('#newContact').on('submit', '#newContactForm', function (e) {
                 e.preventDefault();
@@ -296,16 +301,32 @@
                 });
             });
 
-            $('#updateCompanyDetails').on('submit', '#updateCompanyDetailsForm', function (e) {
+            $('#updateCompanyDetailsForm').on('submit', function (e) {
                 e.preventDefault();
                 var form = $(this);
-                $.ajax({
-                    type: "POST",
-                    url: appRoot + "customer/UpdateCompanyDetails",
-                    data: form.serialize(),
-                })
-                    .success(function () {
-                });
+                if (form.valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: appRoot + "customer/UpdateCompanyDetails",
+                        data: form.serialize(),
+                    })
+                    .done(function (data) {
+                        //append success message
+                        if (data.success) {
+                            console.log("Saved");
+                        }
+                        else {
+                            $('#UpdateCompanyError').text(data.responseText);
+                        }
+
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        //append error message
+                        console.log("Save failed" + textStatus);
+                        $('#UpdateCompanyError').text("Save Failed");
+                    });
+                }
+                return false;
             });
         });
     </script>
