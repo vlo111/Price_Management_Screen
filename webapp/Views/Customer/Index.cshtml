@@ -47,7 +47,7 @@
 									<!-- widget content -->
 									<div class="widget-body no-padding">
 				
-										<div class="widget-body-toolbar">
+										@*<div class="widget-body-toolbar">
 				
 											<div class="row">
 				
@@ -65,7 +65,7 @@
 				
 											</div>
 				
-										</div>
+										</div>*@
 				
 										<div class="padding-10">
 											
@@ -95,7 +95,7 @@
 
 <script>
     $(document).ready(function () {
-        
+
         var responsiveHelper_datatable_tabletools = undefined;
         var responsiveHelper = undefined;
 
@@ -105,7 +105,7 @@
             phone: 480
         };
 
-        /* TABLETOOLS 
+        /* TABLETOOLS
         var demoTable = $('#datatable_tabletools').DataTable({
 
             // Tabletools options:
@@ -146,7 +146,7 @@
             }
         });
         */
-        
+
         var clientTable = $('#Customers').DataTable({
             serverSide: true,
             ajax: appRoot + "customer/GetCustomers",
@@ -187,14 +187,22 @@
                     searchable: true
                 }
             ],
-            dom: "<'dt-toolbar'<'col-xs-12 col-sm-6'fB><'col-sm-6 col-xs-6 hidden-xs'f>r>" +
+            dom: "<'dt-toolbar'<'col-xs-12 col-sm-6 col-md-2 col-lg-1'B><'col-xs-12 col-sm-6 col-md-7 col-lg-9'f><'hidden-sm hidden-xs col-md-3 col-lg-2'l>r>" +
                     "t" +
                     "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
             buttons: [
-               'excelHtml5'
-     
+               {
+                   className: "new-customer",
+                    text: '',
+                    action: function (e, dt, node, config) {
+                       alert('Button activated');
+                    }
+               }
+
             ],
-            
+            initComplete: function () {
+                $('.new-customer').parent().html('<a href="@Url.Action("New", "Customer")" class="btn btn-sm btn-success"> <i class="fa fa-plus"></i> New Customer </a>')
+            },
             "autoWidth": true,
             "preDrawCallback": function () {
                 // Initialize the responsive datatables helper once.
@@ -209,7 +217,7 @@
                 responsiveHelper.respond();
             }
         });
-        
+
 
         $('#Customers tbody').on('click', 'tr', function () {
             var data = clientTable.row(this).data();
