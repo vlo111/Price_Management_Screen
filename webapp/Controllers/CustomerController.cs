@@ -150,5 +150,30 @@ namespace CenDek.Controllers
             // response to a json-compatible content, so DataTables can read it when received.
             return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult GetContacts(IDataTablesRequest request)
+        {
+            _dbContext.Configuration.LazyLoadingEnabled = false;
+            _dbContext.Configuration.ProxyCreationEnabled = false;
+            var data = _dbContext.CustomerContacts;
+
+            // Global filtering.
+            // Filter is being manually applied due to in-memmory (IEnumerable) data.
+            // If you want something rather easier, check IEnumerableExtensions Sample.
+            var filteredData = data.Where(_item => _item.Last.Contains(request.Search.Value));
+
+            // Paging filtered data.
+            // Paging is rather manual due to in-memmory (IEnumerable) data.
+            var orderColums = request.Columns.Where(x => x.Sort != null);
+            var dataPage = data.OrderBy(orderColums).Skip(request.Start).Take(request.Length);
+
+            // Response creation. To create your response you need to reference your request, to avoid
+            // request/response tampering and to ensure response will be correctly created.
+            var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
+
+            // Easier way is to return a new 'DataTablesJsonResult', which will automatically convert your
+            // response to a json-compatible content, so DataTables can read it when received.
+            return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
+        }
     }
 }
