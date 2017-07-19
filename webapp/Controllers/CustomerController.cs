@@ -20,11 +20,13 @@ namespace CenDek.Controllers
     {
         CenDekContext _dbContext;
         ICustomerService _customerService;
+        ICustomerContactService _customerContactService;
 
-        public CustomerController(CenDekContext dbContext, ICustomerService customerService)
+        public CustomerController(CenDekContext dbContext, ICustomerService customerService, ICustomerContactService customerContactService)
         {
             _dbContext = dbContext;
             _customerService = customerService;
+            _customerContactService = customerContactService;
         }
 
         // GET: Client
@@ -79,10 +81,20 @@ namespace CenDek.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> NewContact(CustomerContact newContact)
+        public async Task<ActionResult> AddContact(CustomerContact newContact)
         {
-            //TODO
-            return PartialView("Partial_Views/NewContact", newContact);
+            if (ModelState.IsValid)
+            {
+                var response = await _customerContactService.AddContact(newContact);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Add customer contact failed" });
+
+            }
+
+            //return PartialView("Partial_Views/NewContact", newContact);
         }
 
         [HttpPost]

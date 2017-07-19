@@ -75,7 +75,7 @@
                                 <div class="row">
                                     <div class="col-sm-12 text-align-left">
                                         <div class="btn-group">
-                                            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newContact"> <i class="fa fa-plus"></i> New Contact </button>
+                                            <button class="btn btn-sm btn-success" id="newContactButton" @*data-toggle="modal" data-target="#newContact"*@> <i class="fa fa-plus"></i> New Contact </button>
                                         </div>
 
                                         <div class="padding-10">
@@ -329,7 +329,7 @@
                 var form = $(this);
                 $.ajax({
                     type: "POST",
-                    url: appRoot + "customer/NewContact",
+                    url: appRoot + "customer/AddContact",
                     data: form.serialize(),
                 })
                     .success(function () {
@@ -341,12 +341,32 @@
 
             var clientTable = $('#Contacts').DataTable({
                 serverSide: true,
-                ajax: appRoot + "customer/GetContacts",
+                ajax: {
+                    url: appRoot + "customer/GetContacts",
+                    data: function (d) {
+                        return $.extend({}, d, {
+                            customerId: "@Model.CustomerID"
+                        });
+                    }
+                },
                 columns: [
                     {
-                        name: 'customerID',
-                        data: 'customerID',
-                        title: "Customer ID",
+                        name: 'isPrimary',
+                        data: 'isPrimary',
+                        title: "Primary",
+                        sortable: true,
+                        searchable: true,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return '<input type="checkbox" class="editor-active" disabled>';
+                            }
+                            return data;
+                        },
+                    },
+                    {
+                        name: 'last',
+                        data: 'last',
+                        title: "Last",
                         sortable: true,
                         searchable: true
                     },
@@ -356,31 +376,35 @@
                         title: "First",
                         sortable: true,
                         searchable: true
+                    },  
+                    {
+                        name: 'jobTitle',
+                        data: 'jobTitle',
+                        title: "Title",
+                        sortable: true,
+                        searchable: true
                     },
                     {
-                        name: 'last',
-                        data: "last",
-                        title: "Last",
+                        name: 'email',
+                        data: 'email',
+                        title: "Email",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'phone',
+                        data: 'phone',
+                        title: "Phone",
                         sortable: true,
                         searchable: true
                     }
                 ],
+                "order": [[0, "desc"], [1, "asc"], [2, "asc"]],
                 dom: "<'dt-toolbar'<'col-xs-12 col-sm-6 col-md-2 col-lg-1'B><'col-xs-12 col-sm-6 col-md-7 col-lg-9'f><'hidden-sm hidden-xs col-md-3 col-lg-2'l>r>" +
                         "t" +
                         "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
-                buttons: [
-                   {
-                       className: "new-customer",
-                        text: '',
-                        action: function (e, dt, node, config) {
-                           alert('Button activated');
-                        }
-                   }
-
-                ],
-                initComplete: function () {
-                    $('.new-customer').parent().html('<a href="@Url.Action("New", "Customer")" class="btn btn-sm btn-success"> <i class="fa fa-plus"></i> New Customer </a>')
-                },
+                buttons: [],
+                initComplete: function () {},
                 "autoWidth": true,
                 "preDrawCallback": function () {
                     // Initialize the responsive datatables helper once.
@@ -388,12 +412,25 @@
                         responsiveHelper_Contacts = new ResponsiveDatatablesHelper($('#Contacts'), breakpointDefinition);
                     }
                 },
-                "rowCallback": function (nRow) {
-                    responsiveHelper_Contacts.createExpandIcon(nRow);
+                "rowCallback": function (row, data) {
+                    responsiveHelper_Contacts.createExpandIcon(row);
+                    // Set the checked state of the checkbox in the table
+                    $('input.editor-active', row).prop('checked', data.isPrimary == 1);
                 },
                 "drawCallback": function (oSettings) {
                     responsiveHelper_Contacts.respond();
                 }
+            });
+
+            $('#Contacts tbody').on('click', 'tr', function () {
+                var data = clientTable.row(this).data();
+                //alert('You clicked on ' + data[0] + '\'s row');
+                //window.location.href = appRoot + "Customer/Detail/" + data.customerID;
+                $('#newContact').modal();
+            });
+
+            $('#newContactButton').on('click', function () {
+                $('#newContact').modal();
             });
 
             // *** END CONTACTS SECTION ***
