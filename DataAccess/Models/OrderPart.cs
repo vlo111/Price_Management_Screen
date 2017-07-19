@@ -15,10 +15,12 @@ namespace DataAccess.Models
         public int PartID { get; set; }
         public double Quantity { get; set; }
         public int PriceID { get; set; }
+        public Nullable<int> ProductLineID { get; set; }
         public Nullable<int> GroupUrgencyID { get; set; }
         public string ColourID { get; set; }
         public string Comments { get; set; }
         public virtual GroupUrgency GroupUrgency { get; set; }
+        public virtual ProductLine ProductLine { get; set; }
         public virtual Part Part { get; set; }
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }

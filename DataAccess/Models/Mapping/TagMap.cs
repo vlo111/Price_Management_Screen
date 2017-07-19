@@ -12,8 +12,7 @@ namespace DataAccess.Models.Mapping
 
             // Properties
             this.Property(t => t.TagName)
-                .IsRequired()
-                .HasMaxLength(150);
+                .IsRequired();
 
             // Table & Column Mappings
             this.ToTable("Tag");
@@ -27,7 +26,7 @@ namespace DataAccess.Models.Mapping
                 .WithMany(t => t.Tags)
                 .Map(m =>
                     {
-                        m.ToTable("TagFiles");
+                        m.ToTable("TagFile");
                         m.MapLeftKey("TagID");
                         m.MapRightKey("FileID");
                     });

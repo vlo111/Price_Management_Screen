@@ -15,16 +15,21 @@ namespace DataAccess.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
-            // Properties
             this.Property(t => t.Last)
                 .IsRequired()
                 .HasMaxLength(50);
+
+            this.Property(t => t.JobTitle)
+                .HasMaxLength(500);
 
             // Table & Column Mappings
             this.ToTable("CustomerContact");
             this.Property(t => t.CustomerContactID).HasColumnName("CustomerContactID");
             this.Property(t => t.CustomerID).HasColumnName("CustomerID");
-            
+            this.Property(t => t.First).HasColumnName("First");
+            this.Property(t => t.Last).HasColumnName("Last");
+            this.Property(t => t.JobTitle).HasColumnName("JobTitle");
+            this.Property(t => t.Notes).HasColumnName("Notes");
 
             // Relationships
             this.HasRequired(t => t.Customer)

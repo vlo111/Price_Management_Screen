@@ -20,7 +20,6 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.AltPartID).HasColumnName("AltPartID");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Description).HasColumnName("Description");
-            this.Property(t => t.ProductLineID).HasColumnName("ProductLineID");
             this.Property(t => t.CategoryID).HasColumnName("CategoryID");
             this.Property(t => t.ImageID).HasColumnName("ImageID");
             this.Property(t => t.PartStatusID).HasColumnName("PartStatusID");
@@ -29,6 +28,7 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
             this.Property(t => t.ModifiedDate).HasColumnName("ModifiedDate");
             this.Property(t => t.EmployeeID).HasColumnName("EmployeeID");
+            this.Property(t => t.WeightMeasurementID).HasColumnName("WeightMeasurementID");
             this.Property(t => t.Weight).HasColumnName("Weight");
             this.Property(t => t.Height).HasColumnName("Height");
             this.Property(t => t.Width).HasColumnName("Width");
@@ -53,9 +53,9 @@ namespace DataAccess.Models.Mapping
             this.HasOptional(t => t.PartStatu)
                 .WithMany(t => t.Parts)
                 .HasForeignKey(d => d.PartStatusID);
-            this.HasRequired(t => t.ProductLine)
+            this.HasOptional(t => t.WeightMeasurement)
                 .WithMany(t => t.Parts)
-                .HasForeignKey(d => d.ProductLineID);
+                .HasForeignKey(d => d.WeightMeasurementID);
 
         }
     }

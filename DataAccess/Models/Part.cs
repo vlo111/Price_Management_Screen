@@ -19,7 +19,6 @@ namespace DataAccess.Models
         public Nullable<int> AltPartID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int ProductLineID { get; set; }
         public int CategoryID { get; set; }
         public Nullable<int> ImageID { get; set; }
         public Nullable<int> PartStatusID { get; set; }
@@ -28,6 +27,7 @@ namespace DataAccess.Models
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime ModifiedDate { get; set; }
         public int EmployeeID { get; set; }
+        public Nullable<int> WeightMeasurementID { get; set; }
         public double Weight { get; set; }
         public Nullable<double> Height { get; set; }
         public Nullable<double> Width { get; set; }
@@ -42,7 +42,7 @@ namespace DataAccess.Models
         public virtual MeasUnit MeasUnit { get; set; }
         public virtual ICollection<OrderPart> OrderParts { get; set; }
         public virtual PartStatu PartStatu { get; set; }
-        public virtual ProductLine ProductLine { get; set; }
+        public virtual WeightMeasurement WeightMeasurement { get; set; }
         public virtual ICollection<PartDependency> PartDependencies { get; set; }
         public virtual ICollection<PartInventory> PartInventories { get; set; }
         public virtual ICollection<Price> Prices { get; set; }
