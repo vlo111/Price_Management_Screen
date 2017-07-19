@@ -20,11 +20,13 @@ namespace CenDek.Controllers
     {
         CenDekContext _dbContext;
         ICustomerService _customerService;
+        ICustomerContactService _customerContactService;
 
-        public CustomerController(CenDekContext dbContext, ICustomerService customerService)
+        public CustomerController(CenDekContext dbContext, ICustomerService customerService, ICustomerContactService customerContactService)
         {
             _dbContext = dbContext;
             _customerService = customerService;
+            _customerContactService = customerContactService;
         }
 
         // GET: Client
@@ -79,10 +81,20 @@ namespace CenDek.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> NewContact(CustomerContact newContact)
+        public async Task<ActionResult> AddContact(CustomerContact newContact)
         {
-            //TODO
-            return PartialView("Partial_Views/NewContact", newContact);
+            if (ModelState.IsValid)
+            {
+                var response = await _customerContactService.AddContact(newContact);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Add customer contact failed" });
+
+            }
+
+            //return PartialView("Partial_Views/NewContact", newContact);
         }
 
         [HttpPost]
@@ -148,6 +160,18 @@ namespace CenDek.Controllers
 
             // Easier way is to return a new 'DataTablesJsonResult', which will automatically convert your
             // response to a json-compatible content, so DataTables can read it when received.
+            return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetContacts(IDataTablesRequest request, int customerId)
+        {
+            _dbContext.Configuration.LazyLoadingEnabled = false;
+            _dbContext.Configuration.ProxyCreationEnabled = false;
+            var data = _dbContext.CustomerContacts.Where(t => t.CustomerID == customerId);  // Sorting is done by the data table.
+            var filteredData = data.Where(_item => _item.Last.Contains(request.Search.Value));
+            var orderColums = request.Columns.Where(x => x.Sort != null);
+            var dataPage = data.OrderBy(orderColums).Skip(request.Start).Take(request.Length);
+            var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
             return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
         }
     }
