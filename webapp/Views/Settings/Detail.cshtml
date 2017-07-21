@@ -1,0 +1,118 @@
+﻿@model DataAccess.Models.Carrier
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa-fw fa  fa-address-card"></i>
+                @*@Model.Company*@
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+
+
+            <div class="jarviswidget well" id="wid-id-3" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-custombutton="false" data-widget-sortable="false" role="widget">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+                <!-- widget div-->
+                <div role="content">
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body">
+
+
+
+                        <ul id="Tab1" class="nav nav-tabs bordered">
+                            <li class="active">
+                                <a href="#s1" data-toggle="tab" aria-expanded="false"><i class="fa fa-fw fa-lg fa-address-card"></i> Company Details</a>
+                            </li>
+                        </ul>
+
+                        <div id="myTabContent1" class="tab-content padding-10">
+                            <div class="tab-pane fade in active" id="s1">
+                                <div class="padding-10">
+                                    <h1><strong>@Html.ValidationMessage("Error", new { @class = "text-danger" })</strong></h1>
+                                    <div class="row">
+                                        @Html.Partial("Partial_Views/UpdateCarrierDetails", Model)
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+
+</div>
+<!-- END MAIN CONTENT -->
+
+
+@section pagespecific {
+
+
+    <script>
+        $(document).ready(function () {
+
+            $('#updateCarrierDetailsForm').on('submit', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                if (form.valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: appRoot + "settings/UpdateCarrierDetails",
+                        data: form.serialize(),
+                    })
+                        .done(function (data) {
+                            //append success message
+                            if (data.success) {
+                                console.log("Saved");
+                            }
+                            else {
+                                $('#UpdateCarrierError').text(data.responseText);
+                            }
+
+                        })
+                        .fail(function (jqXHR, textStatus, errorThrown) {
+                            //append error message
+                            console.log("Save failed" + textStatus);
+                            $('#UpdateCarrierError').text("Save Failed");
+                        });
+                }
+                return false;
+            });
+        });
+    </script>
+}

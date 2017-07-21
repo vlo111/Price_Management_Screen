@@ -28,6 +28,8 @@ namespace CenDek
             container.Register<CenDekContext, CenDekContext> (Lifestyle.Scoped);
             container.Register<ICustomerService, CustomerService>(Lifestyle.Transient);
             container.Register<ICustomerContactService, CustomerContactService>(Lifestyle.Transient);
+            container.Register<ICustomerCarrierService, CustomerCarrierService>(Lifestyle.Transient);
+            container.Register<ICarrierService, CarrierService>(Lifestyle.Transient);
 
             // 3. Optionally verify the container's configuration.
             container.Verify();

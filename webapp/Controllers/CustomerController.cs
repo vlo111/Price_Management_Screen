@@ -21,12 +21,14 @@ namespace CenDek.Controllers
         CenDekContext _dbContext;
         ICustomerService _customerService;
         ICustomerContactService _customerContactService;
+        ICustomerCarrierService _customerCarrierService;
 
-        public CustomerController(CenDekContext dbContext, ICustomerService customerService, ICustomerContactService customerContactService)
+        public CustomerController(CenDekContext dbContext, ICustomerService customerService, ICustomerContactService customerContactService, ICustomerCarrierService customerCarrierService)
         {
             _dbContext = dbContext;
             _customerService = customerService;
             _customerContactService = customerContactService;
+            _customerCarrierService = customerCarrierService;
         }
 
         // GET: Client
@@ -98,19 +100,36 @@ namespace CenDek.Controllers
         }
 
         [HttpPost]
+        public async Task<ActionResult> NewCustomerCarrier(CustomerCarrier custCarrier)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _customerCarrierService.AddCarrier(custCarrier);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Add customer carrier failed" });
+
+            }
+
+            //return PartialView("Partial_Views/NewContact", newContact);
+        }
+
+        [HttpPost]
         public async Task<ActionResult> UpdateCompanyDetails(Customer companyDetails)
         {
             if (ModelState.IsValid)
-            {           
+            {
                 var response = await _customerService.UpdateCustomer(companyDetails);
-                return Json(response);     
+                return Json(response);
             }
             else
             {
                 return Json(new { success = false, responseText = "Customer Save Failed" });
 
             }
-            
+
         }
 
         public ActionResult GetCustomers(IDataTablesRequest request)
@@ -173,6 +192,28 @@ namespace CenDek.Controllers
             var dataPage = data.OrderBy(orderColums).Skip(request.Start).Take(request.Length);
             var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
             return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetCustomerCarriers(IDataTablesRequest request, int customerId)
+        {
+            _dbContext.Configuration.LazyLoadingEnabled = false;
+            _dbContext.Configuration.ProxyCreationEnabled = false;
+            var data = _dbContext.CustomerCarriers.Where(t => t.CustomerID == customerId).OrderBy(t => t.CarrierID);
+            var filteredData = data;//.Where(_item => _item.CarrierID.Contains(request.Search.Value));
+            var orderColums = request.Columns.Where(x => x.Sort != null);
+            var dataPage = data.OrderBy(orderColums).Skip(request.Start).Take(request.Length);
+            var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
+            return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult PopulateCarrierDropdown()
+        {
+            var carriers = _dbContext.Carriers.Select(x => new
+            {
+                ID = x.CarrierID,
+                Text = x.CarrierID.ToString()
+            });
+            return Json(carriers, JsonRequestBehavior.AllowGet);
         }
     }
 }
