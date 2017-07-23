@@ -12,7 +12,6 @@ namespace DataAccess.Models.Mapping
 
             // Properties
             this.Property(t => t.TagName)
-                .HasMaxLength(150)
                 .IsRequired();
 
             // Table & Column Mappings
