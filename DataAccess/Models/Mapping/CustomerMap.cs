@@ -10,11 +10,30 @@ namespace DataAccess.Models.Mapping
             // Primary Key
             this.HasKey(t => t.CustomerID);
 
+            // Properties
             this.Property(t => t.Company)
                 .IsRequired();
 
             this.Property(t => t.PhoneNo)
                 .IsRequired();
+
+            this.Property(t => t.Address1)
+                .HasMaxLength(150);
+            
+            this.Property(t => t.Address2)
+                            .HasMaxLength(150);
+            
+            this.Property(t => t.City)
+                            .HasMaxLength(150);
+            
+            this.Property(t => t.Province)
+                            .HasMaxLength(50);
+            
+            this.Property(t => t.Country)
+                            .HasMaxLength(50);
+            
+            this.Property(t => t.PostalCode)
+                            .HasMaxLength(20);
 
             // Table & Column Mappings
             this.ToTable("Customer");
@@ -28,6 +47,7 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.Address1).HasColumnName("Address1");
             this.Property(t => t.Address2).HasColumnName("Address2");
             this.Property(t => t.City).HasColumnName("City");
+            this.Property(t => t.Province).HasColumnName("Province");
             this.Property(t => t.Country).HasColumnName("Country");
             this.Property(t => t.PostalCode).HasColumnName("PostalCode");
             this.Property(t => t.Comments).HasColumnName("Comments");

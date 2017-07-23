@@ -10,10 +10,12 @@ namespace DataAccess.Models.Mapping
             // Primary Key
             this.HasKey(t => t.CustomerContactID);
 
-            // Properties
             this.Property(t => t.First)
                 .IsRequired()
                 .HasMaxLength(50);
+
+            this.Property(t => t.JobTitle)
+                .HasMaxLength(500);
 
             // Properties
             this.Property(t => t.Last)
@@ -24,7 +26,10 @@ namespace DataAccess.Models.Mapping
             this.ToTable("CustomerContact");
             this.Property(t => t.CustomerContactID).HasColumnName("CustomerContactID");
             this.Property(t => t.CustomerID).HasColumnName("CustomerID");
-            
+            this.Property(t => t.First).HasColumnName("First");
+            this.Property(t => t.Last).HasColumnName("Last");
+            this.Property(t => t.JobTitle).HasColumnName("JobTitle");
+            this.Property(t => t.Notes).HasColumnName("Notes");
 
             // Relationships
             this.HasRequired(t => t.Customer)

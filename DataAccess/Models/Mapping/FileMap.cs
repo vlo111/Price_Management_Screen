@@ -34,7 +34,7 @@ namespace DataAccess.Models.Mapping
                 .WithMany(t => t.Files)
                 .Map(m =>
                     {
-                        m.ToTable("OrderPartFiles");
+                        m.ToTable("OrderPartFile");
                         m.MapLeftKey("FileID");
                         m.MapRightKey("OrderPartID");
                     });
@@ -43,7 +43,7 @@ namespace DataAccess.Models.Mapping
                 .WithMany(t => t.Files)
                 .Map(m =>
                     {
-                        m.ToTable("PartFiles");
+                        m.ToTable("PartFile");
                         m.MapLeftKey("FileID");
                         m.MapRightKey("PartID");
                     });

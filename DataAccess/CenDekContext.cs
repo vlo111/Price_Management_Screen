@@ -18,12 +18,14 @@ namespace DataAccess
         }
 
         public DbSet<AltPartID> AltPartIDs { get; set; }
+        public DbSet<Carrier> Carriers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Colour> Colours { get; set; }
         public DbSet<ContactInfo> ContactInfoes { get; set; }
         public DbSet<ContactInfoType> ContactInfoTypes { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<CustomerCarrier> CustomerCarriers { get; set; }
         public DbSet<CustomerContact> CustomerContacts { get; set; }
         public DbSet<CustOrder> CustOrders { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
@@ -42,16 +44,19 @@ namespace DataAccess
         public DbSet<Shipment> Shipments { get; set; }
         public DbSet<ShippingAddress> ShippingAddresses { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<WeightMeasurement> WeightMeasurements { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new AltPartIDMap());
+            modelBuilder.Configurations.Add(new CarrierMap());
             modelBuilder.Configurations.Add(new CategoryMap());
             modelBuilder.Configurations.Add(new ColourMap());
             modelBuilder.Configurations.Add(new ContactInfoMap());
             modelBuilder.Configurations.Add(new ContactInfoTypeMap());
             modelBuilder.Configurations.Add(new CurrencyMap());
             modelBuilder.Configurations.Add(new CustomerMap());
+            modelBuilder.Configurations.Add(new CustomerCarrierMap());
             modelBuilder.Configurations.Add(new CustomerContactMap());
             modelBuilder.Configurations.Add(new CustOrderMap());
             modelBuilder.Configurations.Add(new DocumentTypeMap());
@@ -70,6 +75,7 @@ namespace DataAccess
             modelBuilder.Configurations.Add(new ShipmentMap());
             modelBuilder.Configurations.Add(new ShippingAddressMap());
             modelBuilder.Configurations.Add(new TagMap());
+            modelBuilder.Configurations.Add(new WeightMeasurementMap());
         }
     }
 }

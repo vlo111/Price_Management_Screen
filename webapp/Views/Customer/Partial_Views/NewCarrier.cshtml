@@ -1,0 +1,10 @@
+﻿﻿@model DataAccess.Models.CustomerCarrier
+@{
+    ViewBag.Title = "New Carrier";
+}
+
+@using (Html.BeginForm("NewCustomerCarrier", "Customer", FormMethod.Post, new { @class = "form-group", role = "form", id = "newCustomerCarrierForm" }))
+{            
+    <button type = "button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type = "submit" class="btn btn-primary" id="newShippingAddressSubmit">Save changes</button>
+}

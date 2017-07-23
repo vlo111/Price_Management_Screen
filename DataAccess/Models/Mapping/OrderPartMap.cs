@@ -21,6 +21,7 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.PartID).HasColumnName("PartID");
             this.Property(t => t.Quantity).HasColumnName("Quantity");
             this.Property(t => t.PriceID).HasColumnName("PriceID");
+            this.Property(t => t.ProductLineID).HasColumnName("ProductLineID");
             this.Property(t => t.GroupUrgencyID).HasColumnName("GroupUrgencyID");
             this.Property(t => t.ColourID).HasColumnName("ColourID");
             this.Property(t => t.Comments).HasColumnName("Comments");
@@ -30,7 +31,7 @@ namespace DataAccess.Models.Mapping
                 .WithMany(t => t.OrderParts)
                 .Map(m =>
                     {
-                        m.ToTable("OrderPartTags");
+                        m.ToTable("OrderPartTag");
                         m.MapLeftKey("OrderPartID");
                         m.MapRightKey("TagID");
                     });
@@ -38,6 +39,9 @@ namespace DataAccess.Models.Mapping
             this.HasOptional(t => t.GroupUrgency)
                 .WithMany(t => t.OrderParts)
                 .HasForeignKey(d => d.GroupUrgencyID);
+            this.HasOptional(t => t.ProductLine)
+                .WithMany(t => t.OrderParts)
+                .HasForeignKey(d => d.ProductLineID);
             this.HasRequired(t => t.Part)
                 .WithMany(t => t.OrderParts)
                 .HasForeignKey(d => d.PartID);

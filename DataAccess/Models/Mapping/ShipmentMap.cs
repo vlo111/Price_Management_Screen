@@ -33,8 +33,12 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.CreatedBy).HasColumnName("CreatedBy");
             this.Property(t => t.ShippingTimeFrameID).HasColumnName("ShippingTimeFrameID");
             this.Property(t => t.ShippingAddressID).HasColumnName("ShippingAddressID");
+            this.Property(t => t.CarrierID).HasColumnName("CarrierID");
 
             // Relationships
+            this.HasOptional(t => t.Carrier)
+                .WithMany(t => t.Shipments)
+                .HasForeignKey(d => d.CarrierID);
             this.HasRequired(t => t.ShippingAddress)
                 .WithMany(t => t.Shipments)
                 .HasForeignKey(d => d.ShippingAddressID);

@@ -49,20 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201707161450282_InitialCreate.cs" />
-    <Compile Include="Migrations\201707161450282_InitialCreate.Designer.cs">
-      <DependentUpon>201707161450282_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707161451592_Update1.cs" />
-    <Compile Include="Migrations\201707161451592_Update1.Designer.cs">
-      <DependentUpon>201707161451592_Update1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707162015450_Update2.cs" />
-    <Compile Include="Migrations\201707162015450_Update2.Designer.cs">
-      <DependentUpon>201707162015450_Update2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AltPartID.cs" />
+    <Compile Include="Models\Carrier.cs" />
+    <Compile Include="Models\CarrierMap.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="CenDekContext.cs" />
     <Compile Include="Models\Colour.cs" />
@@ -70,6 +59,7 @@
     <Compile Include="Models\ContactInfoType.cs" />
     <Compile Include="Models\Currency.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\CustomerCarrier.cs" />
     <Compile Include="Models\CustomerContact.cs" />
     <Compile Include="Models\CustOrder.cs" />
     <Compile Include="Models\DocumentType.cs" />
@@ -83,6 +73,7 @@
     <Compile Include="Models\Mapping\ContactInfoMap.cs" />
     <Compile Include="Models\Mapping\ContactInfoTypeMap.cs" />
     <Compile Include="Models\Mapping\CurrencyMap.cs" />
+    <Compile Include="Models\Mapping\CustomerCarrierMap.cs" />
     <Compile Include="Models\Mapping\CustomerContactMap.cs" />
     <Compile Include="Models\Mapping\CustomerMap.cs" />
     <Compile Include="Models\Mapping\CustOrderMap.cs" />
@@ -102,6 +93,7 @@
     <Compile Include="Models\Mapping\ShipmentMap.cs" />
     <Compile Include="Models\Mapping\ShippingAddressMap.cs" />
     <Compile Include="Models\Mapping\TagMap.cs" />
+    <Compile Include="Models\Mapping\WeightMeasurementMap.cs" />
     <Compile Include="Models\MeasUnit.cs" />
     <Compile Include="Models\OrderPart.cs" />
     <Compile Include="Models\Part.cs" />
@@ -113,22 +105,12 @@
     <Compile Include="Models\Shipment.cs" />
     <Compile Include="Models\ShippingAddress.cs" />
     <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\WeightMeasurement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201707161450282_InitialCreate.resx">
-      <DependentUpon>201707161450282_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707161451592_Update1.resx">
-      <DependentUpon>201707161451592_Update1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707162015450_Update2.resx">
-      <DependentUpon>201707162015450_Update2.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

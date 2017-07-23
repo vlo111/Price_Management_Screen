@@ -42,7 +42,7 @@ namespace DataAccess.Models.Mapping
                 .WithMany(t => t.CustOrders)
                 .Map(m =>
                     {
-                        m.ToTable("CustOrderFiles");
+                        m.ToTable("CustOrderFile");
                         m.MapLeftKey("CustOrderID");
                         m.MapRightKey("FileID");
                     });

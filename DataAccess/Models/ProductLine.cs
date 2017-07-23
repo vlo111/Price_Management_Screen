@@ -7,12 +7,12 @@ namespace DataAccess.Models
     {
         public ProductLine()
         {
-            this.Parts = new List<Part>();
+            this.OrderParts = new List<OrderPart>();
         }
 
         public int ProductLineID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public virtual ICollection<Part> Parts { get; set; }
+        public virtual ICollection<OrderPart> OrderParts { get; set; }
     }
 }

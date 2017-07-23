@@ -9,6 +9,7 @@ namespace DataAccess.Models
     {
         public Customer()
         {
+            this.CustomerCarriers = new List<CustomerCarrier>();
             this.CustomerContacts = new List<CustomerContact>();
             this.CustOrders = new List<CustOrder>();
             this.ShippingAddresses = new List<ShippingAddress>();
@@ -36,6 +37,7 @@ namespace DataAccess.Models
         public string Comments { get; set; }
         public bool GSTExempt { get; set; }
         public bool PSTExempt { get; set; }
+        public virtual ICollection<CustomerCarrier> CustomerCarriers { get; set; }
         public virtual ICollection<CustomerContact> CustomerContacts { get; set; }
         public virtual ICollection<CustOrder> CustOrders { get; set; }
         public virtual ICollection<ShippingAddress> ShippingAddresses { get; set; }

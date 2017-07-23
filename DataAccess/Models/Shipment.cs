@@ -18,6 +18,8 @@ namespace DataAccess.Models
         public string CreatedBy { get; set; }
         public string ShippingTimeFrameID { get; set; }
         public int ShippingAddressID { get; set; }
+        public Nullable<int> CarrierID { get; set; }
+        public virtual Carrier Carrier { get; set; }
         public virtual ShippingAddress ShippingAddress { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
     }
