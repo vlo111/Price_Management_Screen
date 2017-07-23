@@ -459,6 +459,10 @@
     <Content Include="Views\Customer\Partial_Views\UpdateCompanyDetails.cshtml" />
     <Content Include="Views\Customer\Partial_Views\NewCarrier.cshtml" />
     <Content Include="Views\Settings\ViewPage1.cshtml" />
+    <Content Include="Views\Settings\ViewPage2.cshtml" />
+    <Content Include="Views\Settings\Detail.cshtml" />
+    <Content Include="Views\Settings\New.cshtml" />
+    <Content Include="Views\Settings\Partial_Views\UpdateCarrierDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -498,8 +502,10 @@
     <Compile Include="Models\Customer\NewCustomer.cs" />
     <Compile Include="Models\IdentityModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CustomerCarrierService.cs" />
     <Compile Include="Services\CustomerContactService.cs" />
     <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\ICarrierService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
