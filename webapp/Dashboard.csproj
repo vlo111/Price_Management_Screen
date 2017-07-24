@@ -450,6 +450,7 @@
     <Compile Include="App_Helpers\Extensions.cs" />
     <Compile Include="App_Start\DIConfig.cs" />
     <Compile Include="Models\BreadCrumbs.cs" />
+    <Compile Include="Models\OrderViewModels.cs" />
     <None Include="Properties\PublishProfiles\LaunchPad.pubxml" />
     <Content Include="Views\Customer\Detail.cshtml" />
     <Content Include="Views\Customer\New.cshtml" />
@@ -459,6 +460,8 @@
     <Content Include="Views\Customer\Partial_Views\UpdateCompanyDetails.cshtml" />
     <Content Include="Views\Customer\Partial_Views\NewCarrier.cshtml" />
     <Content Include="Views\Settings\Carriers.cshtml" />
+    <Content Include="Views\Order\New.cshtml" />
+    <Content Include="Views\Order\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -508,7 +511,9 @@
       <Name>DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\Order\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
