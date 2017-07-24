@@ -88,15 +88,15 @@
                                         </div>
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="newContact" tabindex="-1" role="dialog" aria-labelledby="newContact">
+                                        <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModal">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                        <h4 class="modal-title" id="newContactModalTitle">Add New Contact</h4>
+                                                        <h4 class="modal-title" id="contactModalTitle"></h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        @Html.Partial("Partial_Views/NewContact", new DataAccess.Models.CustomerContact())
+                                                        @Html.Partial("Partial_Views/Contact", new DataAccess.Models.CustomerContact())
                                                     </div>
                                                 </div>
                                             </div>
@@ -457,13 +457,13 @@
 
             // *** BEGIN CONTACTS SECTION ***
 
-            $('#newContact').on('shown.bs.modal', function () {
-                $.validator.unobtrusive.parse('#newContactForm')
+            $('#contactModal').on('shown.bs.modal', function () {
+                $.validator.unobtrusive.parse('#contactForm')
                 var modal = $(this);
                 modal.find('#CustomerID').val(@Model.CustomerID);
             });
 
-            $('#newContact').on('hidden.bs.modal', function () {
+            $('#contactModal').on('hidden.bs.modal', function () {
                 // Clear values on hide.
                 var modal = $(this);
                 modal.find('#First').val('');
@@ -473,23 +473,38 @@
             });
 
             $('#newContactButton').on('click', function () {
-                var modal = $('#newContact');
-                modal.find('#newContactModalTitle').html('Update Contact');
+                var modal = $('#contactModal');
+                modal.find('#Mode').val("new");
+                modal.find('#contactModalTitle').html('Update Contact');
                 modal.modal();
             });
 
-            $('#newContact').on('submit', '#newContactForm', function (e) {
+            $('#contactModal').on('submit', '#contactForm', function (e) {
                 e.preventDefault();
                 var form = $(this);
-                $.ajax({
-                    type: "POST",
-                    url: appRoot + "customer/AddContact",
-                    data: form.serialize(),
-                })
+
+                if ($('#contactModal').find('#Mode').val() == "new") {
+                    $.ajax({
+                        type: "POST",
+                        url: appRoot + "customer/AddContact",
+                        data: form.serialize(),
+                    })
                     .success(function () {
-                        $('#newContact').modal('hide');
+                        $('#contactModal').modal('hide');
                         contactsTable.ajax.reload();
                     });
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: appRoot + "customer/UpdateContact",
+                        data: form.serialize(),
+                    })
+                    .success(function () {
+                        $('#contactModal').modal('hide');
+                        contactsTable.ajax.reload();
+                    });
+                }  
             });
 
             var responsiveHelper_Contacts = undefined;
@@ -582,8 +597,9 @@
                 var data = contactsTable.row(this).data();
                 //alert('You clicked on ' + data['first'] + '\'s row');
                 //window.location.href = appRoot + "Customer/Detail/" + data.customerID;
-                var modal = $('#newContact');
-                modal.find('#newContactModalTitle').html('Update Contact');
+                var modal = $('#contactModal');
+                modal.find('#Mode').val("update");
+                modal.find('#contactModalTitle').html('Update Contact');
                 modal.find('#First').val(data['first']);
                 modal.find('#Last').val(data['last']);
                 modal.find('#JobTitle').val(data['jobTitle']);
