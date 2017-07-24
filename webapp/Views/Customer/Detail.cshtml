@@ -93,7 +93,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                        <h4 class="modal-title" id="myModalLabel">Add New Contact</h4>
+                                                        <h4 class="modal-title" id="newContactModalTitle">Add New Contact</h4>
                                                     </div>
                                                     <div class="modal-body">
                                                         @Html.Partial("Partial_Views/NewContact", new DataAccess.Models.CustomerContact())
@@ -459,6 +459,23 @@
 
             $('#newContact').on('shown.bs.modal', function () {
                 $.validator.unobtrusive.parse('#newContactForm')
+                var modal = $(this);
+                modal.find('#CustomerID').val(@Model.CustomerID);
+            });
+
+            $('#newContact').on('hidden.bs.modal', function () {
+                // Clear values on hide.
+                var modal = $(this);
+                modal.find('#First').val('');
+                modal.find('#Last').val('');
+                modal.find('#JobTitle').val('');
+                modal.find('#Notes').val('');
+            });
+
+            $('#newContactButton').on('click', function () {
+                var modal = $('#newContact');
+                modal.find('#newContactModalTitle').html('Update Contact');
+                modal.modal();
             });
 
             $('#newContact').on('submit', '#newContactForm', function (e) {
@@ -471,12 +488,13 @@
                 })
                     .success(function () {
                         $('#newContact').modal('hide');
+                        contactsTable.ajax.reload();
                     });
             });
 
             var responsiveHelper_Contacts = undefined;
 
-            var clientTable = $('#Contacts').DataTable({
+            var contactsTable = $('#Contacts').DataTable({
                 serverSide: true,
                 ajax: {
                     url: appRoot + "customer/GetContacts",
@@ -487,18 +505,33 @@
                     }
                 },
                 columns: [
+                    //{
+                    //    name: 'isPrimary',
+                    //    data: 'isPrimary',
+                    //    title: "Primary",
+                    //    sortable: true,
+                    //    searchable: true,
+                    //    render: function (data, type, row) {
+                    //        if (type === 'display') {
+                    //            return '<input type="checkbox" class="editor-active" disabled>';
+                    //        }
+                    //        return data;
+                    //    },
+                    //},
                     {
-                        name: 'isPrimary',
-                        data: 'isPrimary',
-                        title: "Primary",
+                        name: 'last',
+                        data: 'last',
+                        title: "Last",
                         sortable: true,
-                        searchable: true,
-                        render: function (data, type, row) {
-                            if (type === 'display') {
-                                return '<input type="checkbox" class="editor-active" disabled>';
-                            }
-                            return data;
-                        },
+                        searchable: true
+                    },
+                    {
+                        name: 'customerID',
+                        data: 'customerID',
+                        title: "Customer ID",
+                        sortable: false,
+                        searchable: false,
+                        visible: false
                     },
                     {
                         name: 'last',
@@ -518,20 +551,6 @@
                         name: 'jobTitle',
                         data: 'jobTitle',
                         title: "Title",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'email',
-                        data: 'email',
-                        title: "Email",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'phone',
-                        data: 'phone',
-                        title: "Phone",
                         sortable: true,
                         searchable: true
                     }
@@ -560,14 +579,16 @@
             });
 
             $('#Contacts tbody').on('click', 'tr', function () {
-                var data = clientTable.row(this).data();
-                //alert('You clicked on ' + data[0] + '\'s row');
+                var data = contactsTable.row(this).data();
+                //alert('You clicked on ' + data['first'] + '\'s row');
                 //window.location.href = appRoot + "Customer/Detail/" + data.customerID;
-                $('#newContact').modal();
-            });
-
-            $('#newContactButton').on('click', function () {
-                $('#newContact').modal();
+                var modal = $('#newContact');
+                modal.find('#newContactModalTitle').html('Update Contact');
+                modal.find('#First').val(data['first']);
+                modal.find('#Last').val(data['last']);
+                modal.find('#JobTitle').val(data['jobTitle']);
+                modal.find('#Notes').val(data['notes']);
+                modal.modal();
             });
 
             // *** END CONTACTS SECTION ***

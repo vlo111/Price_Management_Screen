@@ -27,7 +27,9 @@
 
             <div id="new-contact-form" class="smart-form" novalidate="novalidate">
 
-                @Html.HiddenFor(model => model.CustomerID)
+                @*@Html.HiddenFor(model => model.CustomerID)*@
+
+                <input id="CustomerID" name="CustomerID" type="hidden" value="0">
 
                 <fieldset>
                     <div class="row">
@@ -72,9 +74,9 @@
         <!-- end widget content -->
 
     </div>
-                        <!-- end widget div -->
+    <!-- end widget div -->
 
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" id="newContactSubmit">Save changes</button>
+    <button type="submit" class="btn btn-primary" id="newContactSubmit">Save changes</button>
 }
 

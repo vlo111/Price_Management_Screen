@@ -9,7 +9,6 @@ namespace DataAccess.Models
     {
         public CustomerContact()
         {
-            //this.IsPrimary = false;
             this.ShippingAddresses = new List<ShippingAddress>();
         }
 
