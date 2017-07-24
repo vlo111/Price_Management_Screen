@@ -10,17 +10,17 @@ namespace DataAccess.Models.Mapping
             // Primary Key
             this.HasKey(t => t.CustomerContactID);
 
-            // Properties
             this.Property(t => t.First)
-                .IsRequired()
-                .HasMaxLength(50);
-
-            this.Property(t => t.Last)
                 .IsRequired()
                 .HasMaxLength(50);
 
             this.Property(t => t.JobTitle)
                 .HasMaxLength(500);
+
+            // Properties
+            this.Property(t => t.Last)
+                .IsRequired()
+                .HasMaxLength(50);
 
             // Table & Column Mappings
             this.ToTable("CustomerContact");

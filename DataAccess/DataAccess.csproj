@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Models\AltPartID.cs" />
     <Compile Include="Models\Carrier.cs" />
+    <Compile Include="Models\CarrierMap.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="CenDekContext.cs" />
     <Compile Include="Models\Colour.cs" />
@@ -67,7 +68,6 @@
     <Compile Include="Models\GroupUrgency.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Mapping\AltPartIDMap.cs" />
-    <Compile Include="Models\Mapping\CarrierMap.cs" />
     <Compile Include="Models\Mapping\CategoryMap.cs" />
     <Compile Include="Models\Mapping\ColourMap.cs" />
     <Compile Include="Models\Mapping\ContactInfoMap.cs" />

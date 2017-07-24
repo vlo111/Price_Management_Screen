@@ -9,7 +9,7 @@ namespace DataAccess.Models
     {
         public CustomerContact()
         {
-            this.IsPrimary = false;
+            //this.IsPrimary = false;
             this.ShippingAddresses = new List<ShippingAddress>();
         }
 
@@ -19,8 +19,6 @@ namespace DataAccess.Models
         public string First { get; set; }
         [DisplayName("Last Name")]
         public string Last { get; set; }
-        [DisplayName("Primary")]
-        public bool IsPrimary { get; set; }
         [DisplayName("Job Title")]
         public string JobTitle { get; set; }
         public string Notes { get; set; }

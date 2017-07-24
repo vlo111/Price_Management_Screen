@@ -1,0 +1,139 @@
+﻿@model DataAccess.Models.Carrier
+@{
+    ViewBag.Title = "UpdateCarrierDetails";
+}
+
+@using (Html.BeginForm("UpdateCarrierDetails", "Settings", FormMethod.Post, new { @class = "form-group", role = "form", id = "updateCarrierDetailsForm" }))
+{
+    <header role="heading">
+        <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+    </header>
+
+    <!-- widget div-->
+    <div role="content">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body">
+
+            <div id="update-carrier-details-form" class="smart-form" novalidate="novalidate">
+                <fieldset>
+                    @Html.HiddenFor(model => model.CarrierID)
+
+                    <div class="row">
+                        <section class="col col-4">
+                            <label for="CompanyName" class="input">
+                                @Html.TextBoxFor(model => model.Email, new { @placeholder = Html.DisplayNameFor(n => n.Email) })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                        <section class="col col-4">
+                            <label class="input">
+                                <i class="icon-prepend fa fa-phone"></i>
+                                @Html.TextBoxFor(model => model.Phone, new { @placeholder = Html.DisplayNameFor(n => n.Phone), @data_mask = "(999) 999-9999", aria_required = "true", @aria_invalid = "false", @class = "valid" })
+                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                        <section class="col col-4">
+                            <label class="input">
+                                <i class="icon-prepend fa fa-fax"></i>
+                                @Html.TextBoxFor(model => model.Fax, new { @placeholder = Html.DisplayNameFor(n => n.Fax), @data_mask = "(999) 999-9999", aria_required = "true", @aria_invalid = "false", @class = "valid" })
+                                @Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Billing Address</legend>
+
+                    <section>
+                        <label for="Address1" class="input">
+                            @Html.TextBoxFor(model => model.Address1, new { @placeholder = Html.DisplayNameFor(n => n.Address1) })
+                            @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
+                        </label>
+                    </section>
+
+                    <section>
+                        <label for="address2" class="input">
+                            @Html.TextBoxFor(model => model.Address2, new { @placeholder = Html.DisplayNameFor(n => n.Address2) })
+                            @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
+                        </label>
+                    </section>
+                    <div class="row">
+
+                        <section class="col col-2">
+                            <label class="input">
+                                @Html.TextBoxFor(model => model.City, new { placeholder = Html.DisplayNameFor(n => n.City) })
+                                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+
+                        <section class="col col-2">
+                            <label class="input">
+                                @Html.TextBoxFor(model => model.Province, new { placeholder = Html.DisplayNameFor(n => n.Province) })
+                                @Html.ValidationMessageFor(model => model.Province, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+
+                        <section class="col col-2">
+                            <label class="select">
+                                <select data-val="true" id="Country" name="Country">
+                                    @if (Model.Country == "Canada")
+                                    {
+                                        <option value="Not Set">Choose Country</option>
+                                        <option value="Canada" selected>Canada</option>
+                                        <option value="US">United States</option>
+                                    }
+                                    else if (Model.Country == "US")
+                                    {
+                                        <option value="Not Set">Choose Country</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="US" selected>United States</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Not Set">Choose Country</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="United States">United States</option>
+                                    }
+                                </select>
+                                <i>
+                                </i>
+                                @*@Html.TextBoxFor(model => model.Country, new { placeholder = Html.DisplayNameFor(n => n.Country) })
+                                    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })*@
+                            </label>
+                        </section>
+
+                        <section class="col col-2">
+                            <label class="input">
+                                @Html.TextBoxFor(model => model.PostalCode, new { placeholder = Html.DisplayNameFor(n => n.PostalCode) })
+                                @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                    </div>
+
+                    <section>
+                        <label class="textarea">
+                            @Html.TextAreaFor(model => model.Comments, new { placeholder = Html.DisplayNameFor(n => n.Comments) })
+                            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                        </label>
+                    </section>
+                </fieldset>
+
+            </div>
+
+        </div>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+    <button type="submit" class="btn btn-primary" id="newCarrierSubmit">Save changes</button>    <span id="UpdateCarrierError" style="margin-left: 25px;" class="text-danger field-validation-error"></span>
+
+}

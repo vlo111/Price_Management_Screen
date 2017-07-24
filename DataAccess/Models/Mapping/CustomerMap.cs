@@ -19,21 +19,21 @@ namespace DataAccess.Models.Mapping
 
             this.Property(t => t.Address1)
                 .HasMaxLength(150);
-
+            
             this.Property(t => t.Address2)
-                .HasMaxLength(150);
-
+                            .HasMaxLength(150);
+            
             this.Property(t => t.City)
-                .HasMaxLength(150);
-
+                            .HasMaxLength(150);
+            
             this.Property(t => t.Province)
-                .HasMaxLength(50);
-
+                            .HasMaxLength(50);
+            
             this.Property(t => t.Country)
-                .HasMaxLength(50);
-
+                            .HasMaxLength(50);
+            
             this.Property(t => t.PostalCode)
-                .HasMaxLength(20);
+                            .HasMaxLength(20);
 
             // Table & Column Mappings
             this.ToTable("Customer");
