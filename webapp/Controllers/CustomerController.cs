@@ -52,7 +52,7 @@ namespace CenDek.Controllers
             if (ModelState.IsValid)
             {
                 int customerId = await _customerService.AddCustomer(newCustomer);
-                return RedirectToAction("Action", new { id = customerId });
+                return RedirectToAction("Detail", new { id = customerId });
             }
 
 
