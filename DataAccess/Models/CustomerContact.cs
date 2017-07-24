@@ -23,8 +23,6 @@ namespace DataAccess.Models
         public bool IsPrimary { get; set; }
         [DisplayName("Job Title")]
         public string JobTitle { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
         public string Notes { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual ICollection<ShippingAddress> ShippingAddresses { get; set; }
