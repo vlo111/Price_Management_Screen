@@ -78,7 +78,7 @@ namespace CenDek.Controllers
             // Global filtering.
             // Filter is being manually applied due to in-memmory (IEnumerable) data.
             // If you want something rather easier, check IEnumerableExtensions Sample.
-            var filteredData = data.Where(_item => _item.Email.Contains(request.Search.Value));
+            var filteredData = data.Where(_item => _item.CarrierName.Contains(request.Search.Value));
 
             // Paging filtered data.
             // Paging is rather manual due to in-memmory (IEnumerable) data.
