@@ -106,7 +106,7 @@ namespace CenDek.Controllers
             }
             else
             {
-                return Json(new { success = false, responseText = "Add customer contact failed" });
+                return Json(new { success = false, responseText = "Update customer contact failed" });
             }
         }
 

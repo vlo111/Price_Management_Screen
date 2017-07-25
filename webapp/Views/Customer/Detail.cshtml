@@ -88,7 +88,7 @@
                                         </div>
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="newContact" tabindex="-1" role="dialog" aria-labelledby="newContact">
+                                        <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModal">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -96,7 +96,7 @@
                                                         <h4 class="modal-title" id="ContactModalTitle"></h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        @Html.Partial("Partial_Views/NewContact", new DataAccess.Models.CustomerContact())
+                                                        @Html.Partial("Partial_Views/Contact", new DataAccess.Models.CustomerContact())
                                                     </div>
                                                 </div>
                                             </div>
@@ -465,7 +465,9 @@
             // *** BEGIN CONTACTS SECTION ***
 
             $('#newContact').on('shown.bs.modal', function () {
-                $.validator.unobtrusive.parse('#newContactForm')
+                $.validator.unobtrusive.parse('#contactForm');
+                var modal = $(this);
+                modal.find('#CustomerID').val(@Model.CustomerID);
             });
 
             $('#contactModal').on('hidden.bs.modal', function () {
@@ -495,7 +497,8 @@
                         data: form.serialize(),
                     })
                     .success(function () {
-                        $('#newContact').modal('hide');
+                        $('#contactModal').modal('hide');
+                        contactsTable.ajax.reload();
                     });
                 }
                 else {
@@ -508,7 +511,7 @@
                         $('#contactModal').modal('hide');
                         contactsTable.ajax.reload();
                     });
-                }  
+                }
             });
 
             var responsiveHelper_Contacts = undefined;
@@ -553,7 +556,7 @@
                         title: "First",
                         sortable: true,
                         searchable: true
-                    },  
+                    },
                     {
                         name: 'jobTitle',
                         data: 'jobTitle',
@@ -562,16 +565,9 @@
                         searchable: true
                     },
                     {
-                        name: 'email',
-                        data: 'email',
-                        title: "Email",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'phone',
-                        data: 'phone',
-                        title: "Phone",
+                        name: 'notes',
+                        data: 'notes',
+                        title: "Notes",
                         sortable: true,
                         searchable: true
                     }
