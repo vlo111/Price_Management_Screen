@@ -3,12 +3,16 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace DataAccess.Models.Mapping
 {
-    public class CarrierMap : EntityTypeConfiguration<Carrier>
+    public class View_CarrierMap : EntityTypeConfiguration<View_Carrier>
     {
-        public CarrierMap()
+        public View_CarrierMap()
         {
             // Primary Key
-            this.HasKey(t => t.CarrierID);
+            this.HasKey(t => t.CustomerCarrierID);
+
+            // Properties
+            this.Property(t => t.Account)
+                .HasMaxLength(500);
 
             // Properties
             this.Property(t => t.CarrierName)
@@ -43,8 +47,12 @@ namespace DataAccess.Models.Mapping
                 .HasMaxLength(50);
 
             // Table & Column Mappings
-            this.ToTable("Carrier");
+            this.ToTable("View_Carrier");
+            this.Property(t => t.CustomerCarrierID).HasColumnName("CustomerCarrierID");
             this.Property(t => t.CarrierID).HasColumnName("CarrierID");
+            this.Property(t => t.CustomerID).HasColumnName("CustomerID");
+            this.Property(t => t.Account).HasColumnName("Account");
+            this.Property(t => t.CustomerCarrierComments).HasColumnName("customerCarrierComments");
             this.Property(t => t.CarrierName).HasColumnName("CarrierName");
             this.Property(t => t.Phone).HasColumnName("Phone");
             this.Property(t => t.Fax).HasColumnName("Fax");
@@ -55,7 +63,7 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.Province).HasColumnName("Province");
             this.Property(t => t.Country).HasColumnName("Country");
             this.Property(t => t.PostalCode).HasColumnName("PostalCode");
-            this.Property(t => t.Comments).HasColumnName("Comments");
+            this.Property(t => t.CarrierComments).HasColumnName("carrierComments");
         }
     }
 }

@@ -44,6 +44,7 @@ namespace DataAccess
         public DbSet<Shipment> Shipments { get; set; }
         public DbSet<ShippingAddress> ShippingAddresses { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<View_Carrier> View_Carrier { get; set; }
         public DbSet<WeightMeasurement> WeightMeasurements { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -75,6 +76,7 @@ namespace DataAccess
             modelBuilder.Configurations.Add(new ShipmentMap());
             modelBuilder.Configurations.Add(new ShippingAddressMap());
             modelBuilder.Configurations.Add(new TagMap());
+            modelBuilder.Configurations.Add(new View_CarrierMap());
             modelBuilder.Configurations.Add(new WeightMeasurementMap());
         }
     }

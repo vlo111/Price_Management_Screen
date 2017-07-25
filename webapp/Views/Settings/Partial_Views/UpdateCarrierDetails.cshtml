@@ -24,6 +24,15 @@
             <div id="update-carrier-details-form" class="smart-form" novalidate="novalidate">
                 <fieldset>
                     @Html.HiddenFor(model => model.CarrierID)
+                    <fieldset>
+                        <section>
+                            <label class="input">
+                                @Html.TextBoxFor(model => model.CarrierName, new { @placeholder = Html.DisplayNameFor(n => n.CarrierName) })
+                                @Html.ValidationMessageFor(model => model.CarrierName, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                    </fieldset>
+
 
                     <div class="row">
                         <section class="col col-4">

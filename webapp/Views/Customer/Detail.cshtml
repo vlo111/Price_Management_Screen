@@ -320,14 +320,21 @@
                         name: 'customerCarrierID',
                         data: 'customerCarrierID',
                         title: "Customer Carrier ID",
-                        sortable: false,
-                        searchable: false,
-                        visible: false
+                        sortable: true,
+                        searchable: true
+                        //,visible: false
                     },
                     {
                         name: 'carrierID',
                         data: "carrierID",
                         title: "Carrier ID",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'carrierName',
+                        data: "carrierName",
+                        title: "Carrier Name",
                         sortable: true,
                         searchable: true
                     },
@@ -339,8 +346,8 @@
                         searchable: true
                     },
                     {
-                        name: 'comments',
-                        data: "comments",
+                        name: 'customerCarrierComments',
+                        data: "customerCarrierComments",
                         title: "Comments",
                         sortable: true,
                         searchable: true

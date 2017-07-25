@@ -12,7 +12,7 @@ namespace CenDek.Services
     public interface ICustomerContactService
     {
         Task<int> AddContact(CustomerContact newContact);
-        //Task<Object> UpdateCustomerContact(Customer updatedCustomer);
+        Task<Object> UpdateCustomerContact(CustomerContact updatedCustomerContact);
     }
 
 
@@ -27,7 +27,7 @@ namespace CenDek.Services
 
         public async Task<int> AddContact(CustomerContact newContact)
         {
-            _dbContext.CustomerContacts.Add(newContact);
+            _dbContext.CustomerContacts.Add(newContact);  
 
             try
             {
@@ -68,5 +68,24 @@ namespace CenDek.Services
         //        return new { success = false, responseText = "Customer Save Failed" };
         //    }
         //}
+
+        public async Task<Object> UpdateCustomerContact(CustomerContact updatedCustomerContact)
+        {
+            try
+            {
+                CustomerContact customerContact = await _dbContext.CustomerContacts.FindAsync(updatedCustomerContact.CustomerContactID);
+                customerContact.First = updatedCustomerContact.First;
+                customerContact.Last = updatedCustomerContact.Last;
+                customerContact.JobTitle = updatedCustomerContact.JobTitle;
+                customerContact.Notes = updatedCustomerContact.Notes;
+                await _dbContext.SaveChangesAsync();
+                return new { success = true, responseText = "Customer Contact Updated" };
+            }
+            catch (Exception ex)
+            {
+                return new { success = false, responseText = "Customer Contact Update Failed" };
+            }
+        }
+
     }
 }

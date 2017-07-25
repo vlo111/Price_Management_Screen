@@ -87,7 +87,7 @@ namespace CenDek.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _customerContactService.AddCustomerContact(newCustomerContact);
+                var response = await _customerContactService.AddContact(newCustomerContact);
                 return Json(response);
             }
             else
@@ -209,8 +209,8 @@ namespace CenDek.Controllers
         {
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
-            var data = _dbContext.CustomerCarriers.Where(t => t.CustomerID == customerId).OrderBy(t => t.CarrierID);
-            var filteredData = data;//.Where(_item => _item.Carrier.CarrierName.Contains(request.Search.Value));
+            var data = _dbContext.View_Carrier.Where(t => t.CustomerID == customerId).OrderBy(t => t.CarrierID);
+            var filteredData = data.Where(_item => _item.CarrierName.Contains(request.Search.Value));
             var orderColums = request.Columns.Where(x => x.Sort != null);
             var dataPage = data.OrderBy(orderColums).Skip(request.Start).Take(request.Length);
             var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
