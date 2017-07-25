@@ -83,20 +83,31 @@ namespace CenDek.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddContact(CustomerContact newContact)
+        public async Task<ActionResult> AddCustomerContact(CustomerContact newCustomerContact)
         {
             if (ModelState.IsValid)
             {
-                var response = await _customerContactService.AddContact(newContact);
+                var response = await _customerContactService.AddCustomerContact(newCustomerContact);
                 return Json(response);
             }
             else
             {
                 return Json(new { success = false, responseText = "Add customer contact failed" });
-
             }
+        }
 
-            //return PartialView("Partial_Views/NewContact", newContact);
+        [HttpPost]
+        public async Task<ActionResult> UpdateCustomerContact(CustomerContact updatedCustomerContact)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _customerContactService.UpdateCustomerContact(updatedCustomerContact);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Update customer contact failed" });
+            }
         }
 
         [HttpPost]
@@ -199,7 +210,7 @@ namespace CenDek.Controllers
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
             var data = _dbContext.CustomerCarriers.Where(t => t.CustomerID == customerId).OrderBy(t => t.CarrierID);
-            var filteredData = data;//.Where(_item => _item.CarrierID.Contains(request.Search.Value));
+            var filteredData = data;//.Where(_item => _item.Carrier.CarrierName.Contains(request.Search.Value));
             var orderColums = request.Columns.Where(x => x.Sort != null);
             var dataPage = data.OrderBy(orderColums).Skip(request.Start).Take(request.Length);
             var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
@@ -211,7 +222,7 @@ namespace CenDek.Controllers
             var carriers = _dbContext.Carriers.Select(x => new
             {
                 ID = x.CarrierID,
-                Text = x.CarrierID.ToString()
+                Text = x.CarrierName
             });
             return Json(carriers, JsonRequestBehavior.AllowGet);
         }
