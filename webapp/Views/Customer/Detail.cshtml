@@ -464,7 +464,7 @@
 
             // *** BEGIN CONTACTS SECTION ***
 
-            $('#newContact').on('shown.bs.modal', function () {
+            $('#contactModal').on('shown.bs.modal', function () {
                 $.validator.unobtrusive.parse('#contactForm');
                 var modal = $(this);
                 modal.find('#CustomerID').val(@Model.CustomerID);
@@ -516,7 +516,7 @@
 
             var responsiveHelper_Contacts = undefined;
 
-            var clientTable = $('#Contacts').DataTable({
+            var contactsTable = $('#Contacts').DataTable({
                 serverSide: true,
                 ajax: {
                     url: appRoot + "customer/GetContacts",
@@ -596,7 +596,7 @@
             });
 
             $('#Contacts tbody').on('click', 'tr', function () {
-                var data = clientTable.row(this).data();
+                var data = contactsTable.row(this).data();
                 //alert('You clicked on ' + data[0] + '\'s row');
                 //window.location.href = appRoot + "Customer/Detail/" + data.customerID;
                 var modal = $('#contactModal');
