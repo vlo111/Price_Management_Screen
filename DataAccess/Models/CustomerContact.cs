@@ -9,6 +9,7 @@ namespace DataAccess.Models
     {
         public CustomerContact()
         {
+            this.IsPrimary = false;
             this.ShippingAddresses = new List<ShippingAddress>();
         }
 
@@ -18,8 +19,12 @@ namespace DataAccess.Models
         public string First { get; set; }
         [DisplayName("Last Name")]
         public string Last { get; set; }
+        [DisplayName("Primary")]
+        public bool IsPrimary { get; set; }
         [DisplayName("Job Title")]
         public string JobTitle { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
         public string Notes { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual ICollection<ShippingAddress> ShippingAddresses { get; set; }

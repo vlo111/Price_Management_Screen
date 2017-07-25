@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace DataAccess.Models.Mapping
@@ -11,6 +11,9 @@ namespace DataAccess.Models.Mapping
             this.HasKey(t => t.CarrierID);
 
             // Properties
+            this.Property(t => t.CarrierName)
+                .HasMaxLength(50);
+
             this.Property(t => t.Phone)
                 .HasMaxLength(50);
 
@@ -42,6 +45,7 @@ namespace DataAccess.Models.Mapping
             // Table & Column Mappings
             this.ToTable("Carrier");
             this.Property(t => t.CarrierID).HasColumnName("CarrierID");
+            this.Property(t => t.CarrierName).HasColumnName("CarrierName");
             this.Property(t => t.Phone).HasColumnName("Phone");
             this.Property(t => t.Fax).HasColumnName("Fax");
             this.Property(t => t.Email).HasColumnName("Email");

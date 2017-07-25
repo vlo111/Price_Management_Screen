@@ -14,16 +14,16 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.Address1)
                 .IsRequired()
                 .HasMaxLength(500);
-            
+
             this.Property(t => t.Address2)
-                            .HasMaxLength(500);
+                .HasMaxLength(500);
 
             this.Property(t => t.City)
                 .IsRequired()
                 .HasMaxLength(150);
 
             this.Property(t => t.Province)
-                .IsRequired();
+                .HasMaxLength(50);
 
             this.Property(t => t.Country)
                 .IsRequired()
@@ -51,10 +51,10 @@ namespace DataAccess.Models.Mapping
             this.HasRequired(t => t.Customer)
                 .WithMany(t => t.ShippingAddresses)
                 .HasForeignKey(d => d.CustomerID);
-
             this.HasRequired(t => t.CustomerContact)
                 .WithMany(t => t.ShippingAddresses)
                 .HasForeignKey(d => d.CustomerContactID);
+
         }
     }
 }

@@ -25,6 +25,15 @@
                 <fieldset>
                     @Html.HiddenFor(model => model.CarrierID)
 
+                    <fieldset>
+                            <section>
+                                <label class="input">
+                                    @Html.TextBoxFor(model => model.CarrierName, new { @placeholder = Html.DisplayNameFor(n => n.CarrierName) })
+                                    @Html.ValidationMessageFor(model => model.CarrierName, "", new { @class = "text-danger" })
+                                </label>
+                            </section>
+                    </fieldset>
+
                     <div class="row">
                         <section class="col col-4">
                             <label for="CompanyName" class="input">
@@ -134,6 +143,7 @@
     </div>
     <!-- end widget div -->
     <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-    <button type="submit" class="btn btn-primary" id="newCarrierSubmit">Save changes</button>    <span id="UpdateCarrierError" style="margin-left: 25px;" class="text-danger field-validation-error"></span>
+    <button type="submit" class="btn btn-primary" id="newCarrierSubmit">Save changes</button>    <span id="UpdateCarrierError" style="margin-left: 25px;" class="text-danger field-validation-error" ></span>
 
 }
+

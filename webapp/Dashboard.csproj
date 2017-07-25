@@ -458,8 +458,6 @@
     <Content Include="Views\Customer\Partial_Views\Contact.cshtml" />
     <Content Include="Views\Customer\Partial_Views\UpdateCompanyDetails.cshtml" />
     <Content Include="Views\Customer\Partial_Views\NewCarrier.cshtml" />
-    <Content Include="Views\Settings\ViewPage1.cshtml" />
-    <Content Include="Views\Settings\ViewPage2.cshtml" />
     <Content Include="Views\Settings\Detail.cshtml" />
     <Content Include="Views\Settings\New.cshtml" />
     <Content Include="Views\Settings\Partial_Views\UpdateCarrierDetails.cshtml" />

@@ -210,7 +210,7 @@ namespace CenDek.Controllers
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
             var data = _dbContext.CustomerCarriers.Where(t => t.CustomerID == customerId).OrderBy(t => t.CarrierID);
-            var filteredData = data;//.Where(_item => _item.CarrierID.Contains(request.Search.Value));
+            var filteredData = data;//.Where(_item => _item.Carrier.CarrierName.Contains(request.Search.Value));
             var orderColums = request.Columns.Where(x => x.Sort != null);
             var dataPage = data.OrderBy(orderColums).Skip(request.Start).Take(request.Length);
             var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
@@ -222,7 +222,7 @@ namespace CenDek.Controllers
             var carriers = _dbContext.Carriers.Select(x => new
             {
                 ID = x.CarrierID,
-                Text = x.CarrierID.ToString()
+                Text = x.CarrierName
             });
             return Json(carriers, JsonRequestBehavior.AllowGet);
         }

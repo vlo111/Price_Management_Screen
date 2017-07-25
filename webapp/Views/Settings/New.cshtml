@@ -115,6 +115,15 @@
                                 <div id="checkout-form" class="smart-form" novalidate="novalidate">
 
                                     <fieldset>
+                                            <section>
+                                                <label class="input">
+                                                    @Html.TextBoxFor(model => model.CarrierName, new { @placeholder = Html.DisplayNameFor(n => n.CarrierName) })
+                                                    @Html.ValidationMessageFor(model => model.CarrierName, "", new { @class = "text-danger" })
+                                                </label>
+                                            </section>
+                                    </fieldset>
+
+                                    <fieldset>
                                         <div class="row">
                                             <section class="col col-4">
                                                 <label class="input">
@@ -180,9 +189,9 @@
                                             <section class="col col-3">
                                                 <label class="select">
                                                     <select data-val="true" id="Country" name="Country">
-                                                        <option value="Not Set">Choose Country</option>
-                                                        <option value="Canada">Canada</option>
-                                                        <option value="United States">United States</option>
+                                                            <option value="Not Set">Choose Country</option>
+                                                            <option value="Canada">Canada</option>
+                                                            <option value="United States">United States</option>
                                                     </select>
                                                     <i>
                                                     </i>
