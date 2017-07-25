@@ -83,20 +83,31 @@ namespace CenDek.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddContact(CustomerContact newContact)
+        public async Task<ActionResult> AddCustomerContact(CustomerContact newCustomerContact)
         {
             if (ModelState.IsValid)
             {
-                var response = await _customerContactService.AddContact(newContact);
+                var response = await _customerContactService.AddCustomerContact(newCustomerContact);
                 return Json(response);
             }
             else
             {
                 return Json(new { success = false, responseText = "Add customer contact failed" });
-
             }
+        }
 
-            //return PartialView("Partial_Views/NewContact", newContact);
+        [HttpPost]
+        public async Task<ActionResult> UpdateCustomerContact(CustomerContact updatedCustomerContact)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _customerContactService.UpdateCustomerContact(updatedCustomerContact);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Add customer contact failed" });
+            }
         }
 
         [HttpPost]

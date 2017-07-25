@@ -11,10 +11,9 @@ namespace CenDek.Services
 {
     public interface ICustomerContactService
     {
-        Task<int> AddContact(CustomerContact newContact);
-        //Task<Object> UpdateCustomerContact(Customer updatedCustomer);
+        Task<int> AddCustomerContact(CustomerContact contact);
+        Task<Object> UpdateCustomerContact(CustomerContact contact);
     }
-
 
     public class CustomerContactService : ICustomerContactService
     {
@@ -25,9 +24,9 @@ namespace CenDek.Services
             _dbContext = dbContext;
         }
 
-        public async Task<int> AddContact(CustomerContact newContact)
+        public async Task<int> AddCustomerContact(CustomerContact newCustomerContact)
         {
-            _dbContext.CustomerContacts.Add(newContact);
+            _dbContext.CustomerContacts.Add(newCustomerContact);
 
             try
             {
@@ -40,33 +39,25 @@ namespace CenDek.Services
                 throw;
             }
 
-            return newContact.CustomerContactID;
+            return newCustomerContact.CustomerContactID;
         }
 
-        //public async Task<Object> UpdateCustomer(Customer updatedCustomer)
-        //{
-        //    try
-        //    {
-        //        Customer customer = await _dbContext.Customers.FindAsync(updatedCustomer.CustomerID);
-        //        customer.Company = updatedCustomer.Company;
-        //        customer.PhoneNo = updatedCustomer.PhoneNo;
-        //        customer.Fax = updatedCustomer.Fax;
-        //        customer.Address1 = updatedCustomer.Address1;
-        //        customer.Address2 = updatedCustomer.Address2;
-        //        customer.City = updatedCustomer.City;
-        //        customer.Province = updatedCustomer.Province;
-        //        customer.PostalCode = updatedCustomer.PostalCode;
-        //        customer.Comments = updatedCustomer.Comments;
-        //        customer.Country = updatedCustomer.Country;
-        //        //customer.Created = DateTime.UtcNow;
-        //        customer.Modified = DateTime.UtcNow;
-        //        await _dbContext.SaveChangesAsync();
-        //        return new { success = true, responseText = "Customer Saved" };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return new { success = false, responseText = "Customer Save Failed" };
-        //    }
-        //}
+        public async Task<Object> UpdateCustomerContact(CustomerContact updatedCustomerContact)
+        {
+            try
+            {
+                CustomerContact customerContact = await _dbContext.CustomerContacts.FindAsync(updatedCustomerContact.CustomerContactID);
+                customerContact.First = updatedCustomerContact.First;
+                customerContact.Last = updatedCustomerContact.Last;
+                customerContact.JobTitle = updatedCustomerContact.JobTitle;
+                customerContact.Notes = updatedCustomerContact.Notes;
+                await _dbContext.SaveChangesAsync();
+                return new { success = true, responseText = "Customer Contact Updated" };
+            }
+            catch (Exception ex)
+            {
+                return new { success = false, responseText = "Customer Contact Update Failed" };
+            }
+        }
     }
 }
