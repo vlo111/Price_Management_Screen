@@ -88,7 +88,7 @@
                                         </div>
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="newContact" tabindex="-1" role="dialog" aria-labelledby="newContact">
+                                        <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModal">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -464,26 +464,59 @@
 
             // *** BEGIN CONTACTS SECTION ***
 
-            $('#newContact').on('shown.bs.modal', function () {
-                $.validator.unobtrusive.parse('#newContactForm')
+            $('#contactModal').on('shown.bs.modal', function () {
+                $.validator.unobtrusive.parse('#contactForm');
+                var modal = $(this);
+                modal.find('#CustomerID').val(@Model.CustomerID);
             });
 
-            $('#newContact').on('submit', '#newContactForm', function (e) {
+            $('#contactModal').on('hidden.bs.modal', function () {
+                // Clear values on hide.
+                var modal = $(this);
+                modal.find('#First').val('');
+                modal.find('#Last').val('');
+                modal.find('#JobTitle').val('');
+                modal.find('#Notes').val('');
+            });
+
+            $('#newContactButton').on('click', function () {
+                var modal = $('#contactModal');
+                modal.find('#Mode').val("new");
+                modal.find('#ContactModalTitle').html('Update Contact');
+                modal.modal();
+            });
+
+            $('#contactModal').on('submit', '#contactForm', function (e) {
                 e.preventDefault();
                 var form = $(this);
-                $.ajax({
-                    type: "POST",
-                    url: appRoot + "customer/AddContact",
-                    data: form.serialize(),
-                })
+
+                if ($('#contactModal').find('#Mode').val() == "new") {
+                    $.ajax({
+                        type: "POST",
+                        url: appRoot + "customer/AddCustomerContact",
+                        data: form.serialize(),
+                    })
                     .success(function () {
-                        $('#newContact').modal('hide');
+                        $('#contactModal').modal('hide');
+                        contactsTable.ajax.reload();
                     });
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: appRoot + "customer/UpdateCustomerContact",
+                        data: form.serialize(),
+                    })
+                    .success(function () {
+                        $('#contactModal').modal('hide');
+                        contactsTable.ajax.reload();
+                    });
+                }
             });
 
             var responsiveHelper_Contacts = undefined;
 
-            var clientTable = $('#Contacts').DataTable({
+            var contactsTable = $('#Contacts').DataTable({
                 serverSide: true,
                 ajax: {
                     url: appRoot + "customer/GetContacts",
@@ -495,17 +528,20 @@
                 },
                 columns: [
                     {
-                        name: 'isPrimary',
-                        data: 'isPrimary',
-                        title: "Primary",
-                        sortable: true,
-                        searchable: true,
-                        render: function (data, type, row) {
-                            if (type === 'display') {
-                                return '<input type="checkbox" class="editor-active" disabled>';
-                            }
-                            return data;
-                        },
+                        name: 'customerID',
+                        data: 'customerID',
+                        title: "Customer ID",
+                        sortable: false,
+                        searchable: false,
+                        visible: false
+                    },
+                    {
+                        name: 'customerContactID',
+                        data: 'customerContactID',
+                        title: "Customer Contact ID",
+                        sortable: false,
+                        searchable: false,
+                        visible: false
                     },
                     {
                         name: 'last',
@@ -529,16 +565,9 @@
                         searchable: true
                     },
                     {
-                        name: 'email',
-                        data: 'email',
-                        title: "Email",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'phone',
-                        data: 'phone',
-                        title: "Phone",
+                        name: 'notes',
+                        data: 'notes',
+                        title: "Notes",
                         sortable: true,
                         searchable: true
                     }
@@ -567,14 +596,18 @@
             });
 
             $('#Contacts tbody').on('click', 'tr', function () {
-                var data = clientTable.row(this).data();
+                var data = contactsTable.row(this).data();
                 //alert('You clicked on ' + data[0] + '\'s row');
                 //window.location.href = appRoot + "Customer/Detail/" + data.customerID;
-                $('#newContact').modal();
-            });
-
-            $('#newContactButton').on('click', function () {
-                $('#newContact').modal();
+                var modal = $('#contactModal');
+                modal.find('#Mode').val("update");
+                modal.find('#ContactModalTitle').html('Update Contact');
+                modal.find('#CustomerContactID').val(data['customerContactID']);
+                modal.find('#First').val(data['first']);
+                modal.find('#Last').val(data['last']);
+                modal.find('#JobTitle').val(data['jobTitle']);
+                modal.find('#Notes').val(data['notes']);
+                modal.modal();
             });
 
             // *** END CONTACTS SECTION ***
