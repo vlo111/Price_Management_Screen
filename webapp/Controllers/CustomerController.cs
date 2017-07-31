@@ -83,34 +83,6 @@ namespace CenDek.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddCustomerContact(CustomerContact newCustomerContact)
-        {
-            if (ModelState.IsValid)
-            {
-                var response = await _customerContactService.AddContact(newCustomerContact);
-                return Json(response);
-            }
-            else
-            {
-                return Json(new { success = false, responseText = "Add customer contact failed" });
-            }
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> UpdateCustomerContact(CustomerContact updatedCustomerContact)
-        {
-            if (ModelState.IsValid)
-            {
-                var response = await _customerContactService.UpdateCustomerContact(updatedCustomerContact);
-                return Json(response);
-            }
-            else
-            {
-                return Json(new { success = false, responseText = "Update customer contact failed" });
-            }
-        }
-
-        [HttpPost]
         public async Task<ActionResult> NewCustomerCarrier(CustomerCarrier custCarrier)
         {
             if (ModelState.IsValid)
@@ -193,6 +165,8 @@ namespace CenDek.Controllers
             return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
         }
 
+        // *** BEGIN CUSTOMER CONTACTS ***
+
         public ActionResult GetContacts(IDataTablesRequest request, int customerId)
         {
             _dbContext.Configuration.LazyLoadingEnabled = false;
@@ -204,6 +178,54 @@ namespace CenDek.Controllers
             var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
             return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult GetCustomerContacts(int customerId)
+        {
+            var contacts = _dbContext.CustomerContacts.Where(x => x.CustomerID == customerId);
+
+            foreach (CustomerContact contact in contacts)
+            {
+                contact.ContactInfos = _dbContext.ContactInfoes.Where(x => x.CustomerContactID == contact.CustomerContactID).OrderByDescending(x => x.PrimaryContact).ThenBy(x => x.Contact).ToList();
+                
+                foreach (ContactInfo info in contact.ContactInfos)
+                {
+                    info.ContactInfoType = _dbContext.ContactInfoTypes.Where(x => x.ContactInfoTypeID == info.ContactInfoTypeID).Single();
+                }
+            }
+
+            return PartialView(@"Partial_Views/ContactCards", contacts);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddCustomerContact(CustomerContact newCustomerContact)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _customerContactService.AddContact(newCustomerContact);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Add customer contact failed" });
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateCustomerContact(CustomerContact updatedCustomerContact)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _customerContactService.UpdateCustomerContact(updatedCustomerContact);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Update customer contact failed" });
+            }
+        }
+
+        // *** END CUSTOMER CONTACTS ***
 
         public ActionResult GetCustomerCarriers(IDataTablesRequest request, int customerId)
         {

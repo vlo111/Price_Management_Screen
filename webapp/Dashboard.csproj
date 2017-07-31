@@ -464,6 +464,7 @@
     <Content Include="Views\Settings\Detail.cshtml" />
     <Content Include="Views\Settings\New.cshtml" />
     <Content Include="Views\Settings\Partial_Views\UpdateCarrierDetails.cshtml" />
+    <Content Include="Views\Customer\Partial_Views\ContactCards.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

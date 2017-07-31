@@ -1,0 +1,107 @@
+﻿@model IEnumerable<DataAccess.Models.CustomerContact>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+
+@foreach (var contact in Model)
+{
+    <div class="card">
+        <div class="deleteContact"><i class="fa fa-fw fa-lg fa-times-circle deleteContactIcon" title="Delete Contact"></i></div>
+        <h4><strong>@Html.DisplayFor(x => contact.Last), @Html.DisplayFor(x => contact.First)</strong></h4>
+        @if (contact.JobTitle != null)
+        {
+            <p><strong>Title</strong>: @Html.DisplayFor(x => contact.JobTitle)</p>
+        }
+        @foreach (var contactInfo in contact.ContactInfos)
+        {
+            if (contactInfo.ContactInfoType.Name == "Phone" && contactInfo.PrimaryContact)
+            {
+                <p><span class="contactInfo"><i class="fa fa-fw fa-lg fa-phone-square" title="Phone"></i> 
+                <strong>@Html.DisplayFor(x => contactInfo.Name)</strong>: @Html.DisplayFor(x => contactInfo.Contact) 
+                <i class="fa fa-fw fa-lg fa-check greenIcon" title="Primary Contact"></i> </span>
+                <i class="fa fa-fw fa-lg fa-minus-circle" title="Remove @Html.DisplayFor(x => contactInfo.Contact)"></i></p>
+            }
+            else if (contactInfo.ContactInfoType.Name == "Phone")
+            {
+                <p><span class="contactInfo"><i class="fa fa-fw fa-lg fa-phone-square" title="Phone"></i> 
+                <strong>@Html.DisplayFor(x => contactInfo.Name)</strong>: @Html.DisplayFor(x => contactInfo.Contact) </span>
+                <i class="fa fa-fw fa-lg fa-minus-circle" title="Remove @Html.DisplayFor(x => contactInfo.Contact)"></i></p>
+            }
+            else if (contactInfo.ContactInfoType.Name == "Email" && contactInfo.PrimaryContact)
+            {
+                <p><span class="contactInfo"><i class="fa fa-fw fa-lg fa-envelope" title="Email"></i> 
+                <strong>@Html.DisplayFor(x => contactInfo.Name)</strong>: @Html.DisplayFor(x => contactInfo.Contact) 
+                <i class="fa fa-fw fa-lg fa-check greenIcon" title="Primary Contact"></i> </span>
+                <i class="fa fa-fw fa-lg fa-minus-circle" title="Remove @Html.DisplayFor(x => contactInfo.Contact)"></i></p>
+            }
+            else  // (contactInfo.ContactInfoType.Name == "Email")
+            {
+                <p><span class="contactInfo"><i class="fa fa-fw fa-lg fa-envelope" title="Email"></i>
+                <strong>@Html.DisplayFor(x => contactInfo.Name)</strong>: @Html.DisplayFor(x => contactInfo.Contact) </span>
+                <i class="fa fa-fw fa-lg fa-minus-circle" title="Remove @Html.DisplayFor(x => contactInfo.Contact)"></i></p>
+            }
+        }
+        <p><i class="fa fa-fw fa-lg fa-plus-circle addInfo" title="Add new contact info"></i></p>
+        @if (contact.Notes != null)
+        {
+            <p><strong>Notes</strong>: @Html.DisplayFor(x => contact.Notes)</p>
+        }
+    </div>
+}
+
+@*<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.Company)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Last)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Notes)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer.Company)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.First)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Last)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Notes)
+        </td>
+        @foreach (var info in item.ContactInfos)
+        {
+            <td>
+                @Html.DisplayFor(infoItem => info.ContactInfoType.Name);
+            </td>
+            <td>
+                @Html.DisplayFor(infoItem => info.Contact);
+            </td>
+        }
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.CustomerContactID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CustomerContactID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CustomerContactID })
+        </td>
+    </tr>
+}*@
+
+</table>
