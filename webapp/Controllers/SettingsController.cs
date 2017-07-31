@@ -33,10 +33,15 @@ namespace CenDek.Controllers
             return View();
         }
 
+        public ActionResult Carriers()
+        {
+            return View();
+        }
+
         public ActionResult New()
         {
             var breadCrumbs = new BreadcrumbModel("New Carrier", new List<BreadcrumbLink>());
-            breadCrumbs.Links.Add(new BreadcrumbLink(Url.Action("Index", "Settings", null, this.Request.Url.Scheme), "Carriers"));
+            breadCrumbs.Links.Add(new BreadcrumbLink(Url.Action("Carriers", "Settings", null, this.Request.Url.Scheme), "Carriers"));
             ViewBag.BreadCrumbs = breadCrumbs;
             return View();
         }
@@ -48,12 +53,12 @@ namespace CenDek.Controllers
             if (ModelState.IsValid)
             {
                 int customerId = await _carrierService.AddCarrier(newCarrier);
-                return RedirectToAction("Action", new { id = customerId });
+                return RedirectToAction("Carriers");
             }
 
 
             var breadCrumbs = new BreadcrumbModel("New Customer", new List<BreadcrumbLink>());
-            breadCrumbs.Links.Add(new BreadcrumbLink(Url.Action("Index", "Settings", null, this.Request.Url.Scheme), "Carriers"));
+            breadCrumbs.Links.Add(new BreadcrumbLink(Url.Action("Carriers", "Settings", null, this.Request.Url.Scheme), "Carriers"));
             ViewBag.BreadCrumbs = breadCrumbs;
             return this.View();
         }
@@ -63,7 +68,7 @@ namespace CenDek.Controllers
             var carrier = await _dbContext.Carriers.FindAsync(id);
 
             var breadCrumbs = new BreadcrumbModel(carrier.CarrierID.ToString(), new List<BreadcrumbLink>());
-            breadCrumbs.Links.Add(new BreadcrumbLink(Url.Action("Index", "Settings", null, this.Request.Url.Scheme), "Carriers"));
+            breadCrumbs.Links.Add(new BreadcrumbLink(Url.Action("Carriers", "Settings", null, this.Request.Url.Scheme), "Carriers"));
             ViewBag.BreadCrumbs = breadCrumbs;
 
             return View(carrier);
@@ -73,7 +78,7 @@ namespace CenDek.Controllers
         {
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
-            var data = _dbContext.Carriers;
+            var data = _dbContext.Carriers.OrderBy(t => t.CarrierID);
 
             // Global filtering.
             // Filter is being manually applied due to in-memmory (IEnumerable) data.

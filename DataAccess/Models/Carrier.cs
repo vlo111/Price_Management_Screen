@@ -14,15 +14,19 @@ namespace DataAccess.Models
         }
 
         public int CarrierID { get; set; }
+        [DisplayName("Name")]
+        [Required]
         public string CarrierName { get; set; }
+        [Required]
         public string Phone { get; set; }
         public string Fax { get; set; }
         public string Email { get; set; }
-
         [DisplayName("Address")]
+        [Required]
         public string Address1 { get; set; }
         [DisplayName("Address cont.")]
         public string Address2 { get; set; }
+        [Required]
         public string City { get; set; }
         public string Province { get; set; }
         public string Country { get; set; }

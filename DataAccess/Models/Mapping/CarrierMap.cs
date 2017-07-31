@@ -30,7 +30,6 @@ namespace DataAccess.Models.Mapping
                 .HasMaxLength(500);
 
             this.Property(t => t.City)
-                .IsRequired()
                 .HasMaxLength(150);
 
             this.Property(t => t.Province)
