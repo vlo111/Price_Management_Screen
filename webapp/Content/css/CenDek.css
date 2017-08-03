@@ -73,4 +73,9 @@ span.contactInfo + i {
     visibility: hidden;
 }
 
+textarea.spanEdit {
+
+}
+
+
 /* END CUSTOMER CONTACT CARDS */

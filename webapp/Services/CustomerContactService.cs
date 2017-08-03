@@ -4,6 +4,7 @@ using DataAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -13,6 +14,7 @@ namespace CenDek.Services
     {
         Task<int> AddContact(CustomerContact newContact);
         Task<Object> UpdateCustomerContact(CustomerContact updatedCustomerContact);
+        Task<Object> UpdateCustomerContactField(int customerId, string field, string value);
         Task<Object> DeleteCustomerContact(int? customerContactId);
     }
 
@@ -61,11 +63,27 @@ namespace CenDek.Services
             }
         }
 
+        public async Task<Object> UpdateCustomerContactField(int customerContactId, string field, string value)
+        {
+            try
+            {
+                CustomerContact customerContact = _dbContext.CustomerContacts.Where(x => x.CustomerContactID == customerContactId).Single();
+                PropertyInfo prop = customerContact.GetType().GetProperty(field);
+                prop.SetValue(customerContact, value);
+                await _dbContext.SaveChangesAsync();
+                return new { success = true, responseText = "Customer Contact Updated" };
+            }
+            catch (Exception)
+            {
+                return new { success = false, responseText = "Customer Contact Update Failed" };
+            }
+        }
+
         public async Task<Object> DeleteCustomerContact(int? customerContactId)
         {
             try
             {
-                var contact = _dbContext.CustomerContacts.Where(x => x.CustomerContactID == customerContactId).Single();
+                CustomerContact contact = _dbContext.CustomerContacts.Where(x => x.CustomerContactID == customerContactId).Single();
                 contact.ContactInfos = _dbContext.ContactInfoes.Where(x => x.CustomerContactID == contact.CustomerContactID).ToList();
 
                 foreach (ContactInfo info in contact.ContactInfos)

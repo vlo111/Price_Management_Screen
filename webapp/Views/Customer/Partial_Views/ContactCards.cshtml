@@ -1,18 +1,28 @@
 ﻿@model IEnumerable<DataAccess.Models.CustomerContact>
+@Scripts.Render("~/Scripts/libs/jquery-2.1.1.min.js")
 
-@*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
+@{ 
+    var titleIds = new List<string>();
+}
 
 @foreach (var contact in Model)
 {
     var cardId = "card" + contact.CustomerContactID;
+    var firstId = "first" + contact.CustomerContactID;
+    var lastId = "last" + contact.CustomerContactID;
+    var titleId = "title" + contact.CustomerContactID;
+    var notesId = "notes" + contact.CustomerContactID;
     <div id="@cardId" data-id="@contact.CustomerContactID" class="card">
         <div class="deleteContact"><i class="fa fa-fw fa-lg fa-times-circle deleteContactIcon" title="Delete Contact" onclick="CustomerContactDeleteClick('@contact.CustomerContactID', '@contact.First', '@contact.Last')"></i></div>
-        <h4><strong>@Html.DisplayFor(x => contact.Last), @Html.DisplayFor(x => contact.First)</strong></h4>
+        <h4>
+            <strong>
+                <span id="@lastId" data-id="@contact.CustomerContactID" data-field="Last">@Html.DisplayFor(x => contact.Last)</span>, 
+                <span id="@firstId" data-id="@contact.CustomerContactID" data-field="First">@Html.DisplayFor(x => contact.First)</span>
+            </strong>
+        </h4>
         @if (contact.JobTitle != null)
         {
-            <p><strong>Title</strong>: @Html.DisplayFor(x => contact.JobTitle)</p>
+            <p><strong>Title</strong>: <span id="@titleId" data-id="@contact.CustomerContactID" data-field="JobTitle">@Html.DisplayFor(x => contact.JobTitle)</span></p>
         }
         @foreach (var contactInfo in contact.ContactInfos)
         {
@@ -46,7 +56,7 @@
         <p><i class="fa fa-fw fa-lg fa-plus-circle addInfo" title="Add new contact info"></i></p>
         @if (contact.Notes != null)
         {
-            <p><strong>Notes</strong>: @Html.DisplayFor(x => contact.Notes)</p>
+            <p><strong>Notes</strong>: <span id="@notesId" data-id="@contact.CustomerContactID" data-field="Notes">@Html.DisplayFor(x => contact.Notes)</span></p>
         }
     </div> 
 }
@@ -69,3 +79,14 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+    @foreach (var contact in Model)
+    {
+        @Html.Raw("$('#title" + contact.CustomerContactID + "').click(ContactEditSpanClicked);\n")
+        @Html.Raw("$('#first" + contact.CustomerContactID + "').click(ContactEditSpanClicked);\n")
+        @Html.Raw("$('#last" + contact.CustomerContactID + "').click(ContactEditSpanClicked);\n")
+        @Html.Raw("$('#notes" + contact.CustomerContactID + "').click(ContactEditSpanClicked);\n")
+    }
+    });
+</script>
