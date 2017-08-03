@@ -182,7 +182,7 @@ namespace CenDek.Controllers
         [HttpGet]
         public ActionResult GetCustomerContacts(int customerId)
         {
-            var contacts = _dbContext.CustomerContacts.Where(x => x.CustomerID == customerId);
+            var contacts = _dbContext.CustomerContacts.Where(x => x.CustomerID == customerId).OrderBy(x => x.Last).ThenBy(x => x.First);
 
             foreach (CustomerContact contact in contacts)
             {
@@ -217,6 +217,20 @@ namespace CenDek.Controllers
             if (ModelState.IsValid)
             {
                 var response = await _customerContactService.UpdateCustomerContact(updatedCustomerContact);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Update customer contact failed" });
+            }
+        }
+
+        [HttpPost]  // Not HttpDelete? https://stackoverflow.com/a/42795093/1348592
+        public async Task<ActionResult> DeleteCustomerContact(int? customerContactId)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _customerContactService.DeleteCustomerContact(customerContactId);
                 return Json(response);
             }
             else

@@ -82,9 +82,8 @@
                                             <button class="btn btn-sm btn-success" id="newContactButton"> <i class="fa fa-plus"></i> New Contact </button>
                                         </div>
 
-                                        <div class="padding-10">
-                                            @*@Html.Partial("Partial_Views/ContactCards", );*@
-                                            @Html.Action("GetCustomerContacts", "Customer", new { customerId = @Model.CustomerID });
+                                        <div id="contactCards" class="padding-10">
+                                            @Html.Action("GetCustomerContacts", "Customer", new { customerId = @Model.CustomerID })
                                         </div>
 
                                         <div class="padding-10">
@@ -462,8 +461,11 @@
                         $('#Carriers').DataTable().ajax.reload();
                     });
             });
+        });
 
-            // *** BEGIN CONTACTS JAVASCRIPT ***
+        // *** BEGIN CUSTOMER CONTACTS ***
+
+        $(document).ready(function () {
 
             $('#contactModal').on('shown.bs.modal', function () {
                 $.validator.unobtrusive.parse('#contactForm');
@@ -499,7 +501,7 @@
                     })
                     .success(function () {
                         $('#contactModal').modal('hide');
-                        contactsTable.ajax.reload();
+                        ReloadContactCards();
                     });
                 }
                 else {
@@ -510,108 +512,56 @@
                     })
                     .success(function () {
                         $('#contactModal').modal('hide');
-                        contactsTable.ajax.reload();
+                        ReloadContactCards();
                     });
                 }
             });
-
-            var responsiveHelper_Contacts = undefined;
-
-            var contactsTable = $('#Contacts').DataTable({
-                serverSide: true,
-                ajax: {
-                    url: appRoot + "customer/GetContacts",
-                    data: function (d) {
-                        return $.extend({}, d, {
-                            customerId: "@Model.CustomerID"
-                        });
-                    }
-                },
-                columns: [
-                    {
-                        name: 'customerID',
-                        data: 'customerID',
-                        title: "Customer ID",
-                        sortable: false,
-                        searchable: false,
-                        visible: false
-                    },
-                    {
-                        name: 'customerContactID',
-                        data: 'customerContactID',
-                        title: "Customer Contact ID",
-                        sortable: false,
-                        searchable: false,
-                        visible: false
-                    },
-                    {
-                        name: 'last',
-                        data: 'last',
-                        title: "Last",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'first',
-                        data: "first",
-                        title: "First",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'jobTitle',
-                        data: 'jobTitle',
-                        title: "Title",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'notes',
-                        data: 'notes',
-                        title: "Notes",
-                        sortable: true,
-                        searchable: true
-                    }
-                ],
-                "order": [[0, "desc"], [1, "asc"], [2, "asc"]],
-                dom: "<'dt-toolbar'<'col-xs-12 col-sm-6 col-md-2 col-lg-1'B><'col-xs-12 col-sm-6 col-md-7 col-lg-9'f><'hidden-sm hidden-xs col-md-3 col-lg-2'l>r>" +
-                        "t" +
-                        "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
-                buttons: [],
-                initComplete: function () {},
-                "autoWidth": true,
-                "preDrawCallback": function () {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper_Contacts) {
-                        responsiveHelper_Contacts = new ResponsiveDatatablesHelper($('#Contacts'), breakpointDefinition);
-                    }
-                },
-                "rowCallback": function (row, data) {
-                    responsiveHelper_Contacts.createExpandIcon(row);
-                    // Set the checked state of the checkbox in the table
-                    $('input.editor-active', row).prop('checked', data.isPrimary == 1);
-                },
-                "drawCallback": function (oSettings) {
-                    responsiveHelper_Contacts.respond();
-                }
-            });
-
-            $('#Contacts tbody').on('click', 'tr', function () {
-                var data = contactsTable.row(this).data();
-                //alert('You clicked on ' + data[0] + '\'s row');
-                //window.location.href = appRoot + "Customer/Detail/" + data.customerID;
-                var modal = $('#contactModal');
-                modal.find('#Mode').val("update");
-                modal.find('#ContactModalTitle').html('Update Contact');
-                modal.find('#CustomerContactID').val(data['customerContactID']);
-                modal.find('#First').val(data['first']);
-                modal.find('#Last').val(data['last']);
-                modal.find('#JobTitle').val(data['jobTitle']);
-                modal.find('#Notes').val(data['notes']);
-                modal.modal();
-            });
-
-            // *** END CONTACTS JAVASCRIPT ***
         });
+
+        function ReloadContactCards() {
+            $("#contactCards").load('@Url.Action("GetCustomerContacts", "Customer", new { customerId = @Model.CustomerID })');
+        }
+
+        function CustomerContactDeleteClick(contactId, first, last) {
+
+            var name;
+
+            if (first && last) {
+                name = first + " " + last;
+            }
+            else if (first) {
+                name = first;
+            }
+            else {
+                name = last;
+            }
+
+            $("#deleteContactConfirmTitle").html("Really delete " + name + "?");
+            
+            $("#deleteContactConfirmYes").off('click').click(function () {   
+                DeleteCustomerContact(contactId);
+                $("#deleteContactConfirm").modal("hide");
+            });
+
+            $("#deleteContactConfirmNo").off('click').click(function () {
+                $("#deleteContactConfirm").modal("hide");
+            });
+
+            $("#deleteContactConfirm").modal("show");
+        }
+
+        function DeleteCustomerContact(contactId) {
+            $.ajax({
+                type: "POST",
+                url: appRoot + "customer/DeleteCustomerContact",
+                data: { "CustomerContactId": contactId },
+            })
+            .success(function () {
+                ReloadContactCards();
+            });
+        }
+
+        // *** END CUSTOMER CONTACTS ***
+
     </script>
 }

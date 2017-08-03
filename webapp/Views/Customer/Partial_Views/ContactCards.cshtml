@@ -6,8 +6,9 @@
 
 @foreach (var contact in Model)
 {
-    <div class="card">
-        <div class="deleteContact"><i class="fa fa-fw fa-lg fa-times-circle deleteContactIcon" title="Delete Contact"></i></div>
+    var cardId = "card" + contact.CustomerContactID;
+    <div id="@cardId" data-id="@contact.CustomerContactID" class="card">
+        <div class="deleteContact"><i class="fa fa-fw fa-lg fa-times-circle deleteContactIcon" title="Delete Contact" onclick="CustomerContactDeleteClick('@contact.CustomerContactID', '@contact.First', '@contact.Last')"></i></div>
         <h4><strong>@Html.DisplayFor(x => contact.Last), @Html.DisplayFor(x => contact.First)</strong></h4>
         @if (contact.JobTitle != null)
         {
@@ -47,61 +48,24 @@
         {
             <p><strong>Notes</strong>: @Html.DisplayFor(x => contact.Notes)</p>
         }
-    </div>
+    </div> 
 }
-
-@*<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Customer.Company)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Last)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.JobTitle)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Notes)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Customer.Company)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.First)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Last)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.JobTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Notes)
-        </td>
-        @foreach (var info in item.ContactInfos)
-        {
-            <td>
-                @Html.DisplayFor(infoItem => info.ContactInfoType.Name);
-            </td>
-            <td>
-                @Html.DisplayFor(infoItem => info.Contact);
-            </td>
-        }
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CustomerContactID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CustomerContactID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CustomerContactID })
-        </td>
-    </tr>
-}*@
-
-</table>
+<div id="deleteContactConfirm" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 id="deleteContactConfirmTitle" class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p id="deleteContactConfirmMessage"><i class="fa fa-fw fa-lg fa-exclamation-triangle redIcon"></i>This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="deleteContactConfirmYes" type="button" class="btn btn-primary">Yes</button>
+                <button id="deleteContactConfirmNo" type="button" class="btn btn-default">No</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -39,6 +39,10 @@ div.card p {
     margin: 0px;
 }
 
+.redIcon {
+    color: red;
+}
+
 .greenIcon {
     color: lawngreen;
 }

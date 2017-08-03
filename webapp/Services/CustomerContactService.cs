@@ -13,6 +13,7 @@ namespace CenDek.Services
     {
         Task<int> AddContact(CustomerContact newContact);
         Task<Object> UpdateCustomerContact(CustomerContact updatedCustomerContact);
+        Task<Object> DeleteCustomerContact(int? customerContactId);
     }
 
     public class CustomerContactService : ICustomerContactService
@@ -54,11 +55,33 @@ namespace CenDek.Services
                 await _dbContext.SaveChangesAsync();
                 return new { success = true, responseText = "Customer Contact Updated" };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new { success = false, responseText = "Customer Contact Update Failed" };
             }
         }
 
+        public async Task<Object> DeleteCustomerContact(int? customerContactId)
+        {
+            try
+            {
+                var contact = _dbContext.CustomerContacts.Where(x => x.CustomerContactID == customerContactId).Single();
+                contact.ContactInfos = _dbContext.ContactInfoes.Where(x => x.CustomerContactID == contact.CustomerContactID).ToList();
+
+                foreach (ContactInfo info in contact.ContactInfos)
+                {
+                    _dbContext.ContactInfoes.Remove(info);
+                }
+
+                _dbContext.CustomerContacts.Remove(contact);
+
+                await _dbContext.SaveChangesAsync();
+                return new { success = true, responseText = "Customer contact deleted" };
+            }
+            catch (Exception)
+            {
+                return new { success = false, responseText = "Customer contact delete failed" };
+            }
+        }
     }
 }
