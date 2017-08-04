@@ -14,7 +14,8 @@ namespace CenDek.Services
     {
         Task<int> AddContact(CustomerContact newContact);
         Task<Object> UpdateCustomerContact(CustomerContact updatedCustomerContact);
-        Task<Object> UpdateCustomerContactField(int customerId, string field, string value);
+        Task<Object> UpdateCustomerContactField(int customerContactId, string field, string value);
+        Task<Object> UpdateContactInfoField(int contactInfoId, string field, string value);
         Task<Object> DeleteCustomerContact(int? customerContactId);
         Task<Object> DeleteContactInfo(int? contactInfoId);
     }
@@ -56,11 +57,11 @@ namespace CenDek.Services
                 customerContact.JobTitle = updatedCustomerContact.JobTitle;
                 customerContact.Notes = updatedCustomerContact.Notes;
                 await _dbContext.SaveChangesAsync();
-                return new { success = true, responseText = "Customer Contact Updated" };
+                return new { success = true, responseText = "Customer contact updated" };
             }
             catch (Exception)
             {
-                return new { success = false, responseText = "Customer Contact Update Failed" };
+                return new { success = false, responseText = "Customer contact update failed" };
             }
         }
 
@@ -72,11 +73,27 @@ namespace CenDek.Services
                 PropertyInfo prop = customerContact.GetType().GetProperty(field);
                 prop.SetValue(customerContact, value);
                 await _dbContext.SaveChangesAsync();
-                return new { success = true, responseText = "Customer Contact Updated" };
+                return new { success = true, responseText = "Customer contact updated" };
             }
             catch (Exception)
             {
-                return new { success = false, responseText = "Customer Contact Update Failed" };
+                return new { success = false, responseText = "Customer contact update failed" };
+            }
+        }
+
+        public async Task<Object> UpdateContactInfoField(int contactInfoId, string field, string value)
+        {
+            try
+            {
+                ContactInfo contactInfo = _dbContext.ContactInfoes.Where(x => x.ContactInfoID == contactInfoId).Single();
+                PropertyInfo prop = contactInfo.GetType().GetProperty(field);
+                prop.SetValue(contactInfo, value);
+                await _dbContext.SaveChangesAsync();
+                return new { success = true, responseText = "Customer contact info updated" };
+            }
+            catch (Exception)
+            {
+                return new { success = false, responseText = "Customer contact update failed" };
             }
         }
 

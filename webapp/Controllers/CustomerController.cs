@@ -239,6 +239,20 @@ namespace CenDek.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult> UpdateContactInfoField(int contactInfoId, string field, string value)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _customerContactService.UpdateContactInfoField(contactInfoId, field, value);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Update contact info failed" });
+            }
+        }
+
         [HttpPost]  // Not HttpDelete? https://stackoverflow.com/a/42795093/1348592
         public async Task<ActionResult> DeleteCustomerContact(int? customerContactId)
         {

@@ -224,7 +224,7 @@
 
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             var responsiveHelper_Shipping = undefined;
             var responsiveHelper_Carriers = undefined;
@@ -294,11 +294,11 @@
                    }
 
                 ],
-                initComplete: function () {
+                initComplete: function() {
                     $('.new-shipping-address').parent().html('<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newShippingAddress"> <i class="fa fa-plus"></i> New Shipping Address </button>')
                 },
                 "autoWidth": true,
-                "preDrawCallback": function () {
+                "preDrawCallback": function() {
                     // Initialize the responsive datatables helper once.
                     if (!responsiveHelper_Shipping) {
                         responsiveHelper_Shipping = new ResponsiveDatatablesHelper($('#Shipping'), breakpointDefinition);
@@ -374,11 +374,11 @@
                    }
 
                 ],
-                initComplete: function () {
+                initComplete: function() {
                     $('.new-carrier').parent().html('<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newCarrier"> <i class="fa fa-plus"></i> New Carrier </button>')
                 },
                 "autoWidth": true,
-                "preDrawCallback": function () {
+                "preDrawCallback": function() {
                     // Initialize the responsive datatables helper once.
                     if (!responsiveHelper_Carriers) {
                         responsiveHelper_Carriers = new ResponsiveDatatablesHelper($('#Carriers'), breakpointDefinition);
@@ -392,7 +392,7 @@
                 }
             });
 
-            $('#newShipAddressForm').on('shown.bs.modal', function () {
+            $('#newShipAddressForm').on('shown.bs.modal', function() {
                 $.validator.unobtrusive.parse('#newShipAddressForm')
             });
 
@@ -404,7 +404,7 @@
                     url: appRoot + "customer/NewShippingAddress",
                     data: form.serialize(),
                 })
-                .done(function () {
+                .done(function() {
                     $('#newShippingAddress').modal('hide');
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
@@ -442,12 +442,12 @@
                 return false;
             });
 
-            $('#newCustomerCarrierButton').on('click', function () {
+            $('#newCustomerCarrierButton').on('click', function() {
                 $('#newCarrier').modal();
             });
 
 
-            $('#newCarrier').on('shown.bs.modal', function () {
+            $('#newCarrier').on('shown.bs.modal', function() {
                 $.validator.unobtrusive.parse('#newCustomerCarrierForm');
                 var url = '@Url.Action("PopulateCarrierDropdown", "Customer")';
                 var carriers = $('#CarrierList');
@@ -467,7 +467,7 @@
                     url: appRoot + "customer/NewCustomerCarrier",
                     data: form.serialize(),
                 })
-                .success(function () {
+                .success(function() {
                     $('#newCarrier').modal('hide');
                     $('#Carriers').DataTable().ajax.reload();
                 });
@@ -476,15 +476,15 @@
 
         // *** BEGIN CUSTOMER CONTACTS ***
 
-        $(document).ready(function () {
+        $(document).ready(function() {
 
-            $('#contactModal').on('shown.bs.modal', function () {
+            $('#contactModal').on('shown.bs.modal', function() {
                 $.validator.unobtrusive.parse('#contactForm');
                 var modal = $(this);
                 modal.find('#CustomerID').val(@Model.CustomerID);
             });
 
-            $('#contactModal').on('hidden.bs.modal', function () {
+            $('#contactModal').on('hidden.bs.modal', function() {
                 // Clear values on hide.
                 var modal = $(this);
                 modal.find('#First').val('');
@@ -493,7 +493,7 @@
                 modal.find('#Notes').val('');
             });
 
-            $('#newContactButton').on('click', function () {
+            $('#newContactButton').on('click', function() {
                 var modal = $('#contactModal');
                 modal.find('#Mode').val("new");
                 modal.find('#ContactModalTitle').html('Update Contact');
@@ -510,7 +510,7 @@
                         url: appRoot + "customer/AddCustomerContact",
                         data: form.serialize(),
                     })
-                    .success(function () {
+                    .success(function() {
                         $('#contactModal').modal('hide');
                         ReloadContactCards();
                     });
@@ -521,7 +521,7 @@
                         url: appRoot + "customer/UpdateCustomerContact",
                         data: form.serialize(),
                     })
-                    .success(function () {
+                    .success(function() {
                         $('#contactModal').modal('hide');
                         ReloadContactCards();
                     });
@@ -549,11 +549,11 @@
 
             $("#deleteContactConfirmTitle").html("Really delete " + name + "?");
 
-            $("#deleteContactConfirmYes").off('click').click(function () {
+            $("#deleteContactConfirmYes").off('click').click(function() {
                 DeleteCustomerContact(contactId);
             });
 
-            $("#deleteContactConfirmNo").off('click').click(function () {
+            $("#deleteContactConfirmNo").off('click').click(function() {
                 $("#deleteContactConfirm").modal("hide");
             });
 
@@ -567,7 +567,7 @@
                 url: appRoot + "customer/DeleteCustomerContact",
                 data: { "CustomerContactId": contactId },
             })
-            .success(function () {
+            .success(function() {
                 ReloadContactCards();
                 $("#deleteContactConfirm").modal("hide");
             });
@@ -606,6 +606,9 @@
             if (field == "First" || field == "Last" || field == "JobTitle" || field == "Notes") {
                 UpdateCustomerContactField(id, field, value);
             }
+            else if (field == "Name" || field == "Contact") {
+                UpdateContactInfoField(id, field, value);
+            }
         }
 
         function UpdateCustomerContactField(id, field, value) {
@@ -614,10 +617,21 @@
                 url: appRoot + "customer/UpdateCustomerContactField",
                 data: { "CustomerContactId": id, field: field, value: value },
             })
-            .success(function () {
+            .success(function() {
                 if (field == "First" || field == "Last") {
                     ReloadContactCards();  // Reload the cards if the sort order may have changed. Otherwise, it isn't really necessary.
                 }
+            })
+            .error(function(jqXHR, textStatus, errorThrown) {
+                alert("ERROR: " + UpdateCustomerContactField + " jqXHR: " + jqXHR + " textStatus: " + textStatus + " errorThrown: " + errorThrown);
+            });
+        }
+
+        function UpdateContactInfoField(id, field, value) {
+            $.ajax({
+                type: "POST",
+                url: appRoot + "customer/UpdateContactInfoField",
+                data: { "ContactInfoId": id, field: field, value: value },
             })
             .error(function (jqXHR, textStatus, errorThrown) {
                 alert("ERROR: " + UpdateCustomerContactField + " jqXHR: " + jqXHR + " textStatus: " + textStatus + " errorThrown: " + errorThrown);
@@ -627,11 +641,11 @@
         function ContactInfoDeleteClick(contactInfoId, info) {
             $("#deleteContactConfirmTitle").html("Really delete " + info + "?");
 
-            $("#deleteContactConfirmYes").off('click').click(function () {
+            $("#deleteContactConfirmYes").off('click').click(function() {
                 DeleteContactInfo(contactInfoId);
             });
 
-            $("#deleteContactConfirmNo").off('click').click(function () {
+            $("#deleteContactConfirmNo").off('click').click(function() {
                 $("#deleteContactConfirm").modal("hide");
             });
 
@@ -645,7 +659,7 @@
                 url: appRoot + "customer/DeleteContactInfo",
                 data: { "ContactInfoId": contactInfoId },
             })
-            .success(function () {
+            .success(function() {
                 $("#contactInfo" + contactInfoId).remove();
                 $("#deleteContactConfirm").modal("hide");
             });

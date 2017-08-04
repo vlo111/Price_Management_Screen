@@ -21,31 +21,37 @@
         }
         @foreach (var contactInfo in contact.ContactInfos)
         {
+            var nameId = "name" + contactInfo.ContactInfoID;
+            var contactId = "contact" + contactInfo.ContactInfoID;
             var contactInfoId = "contactInfo" + contactInfo.ContactInfoID;
             if (contactInfo.ContactInfoType.Name == "Phone" && contactInfo.PrimaryContact)
             {
                 <p id="@contactInfoId"><span class="contactInfo"><i class="fa fa-fw fa-lg fa-phone-square" title="Phone"></i> 
-                <strong>@Html.DisplayFor(x => contactInfo.Name)</strong>: @Html.DisplayFor(x => contactInfo.Contact) 
+                <strong><span id="@nameId" data-id="@contactInfo.ContactInfoID" data-field="Name">@Html.DisplayFor(x => contactInfo.Name)</span></strong>: 
+                <span id="@contactId" data-id="@contactInfo.ContactInfoID" data-field="Contact">@Html.DisplayFor(x => contactInfo.Contact)</span> 
                 <i class="fa fa-fw fa-lg fa-check greenIcon" title="Primary Contact"></i> </span>
                 <i class="fa fa-fw fa-lg fa-minus-circle" title="Remove @Html.DisplayFor(x => contactInfo.Contact)" onclick="ContactInfoDeleteClick('@contactInfo.ContactInfoID', '@contactInfo.Contact')"></i></p>
             }
             else if (contactInfo.ContactInfoType.Name == "Phone")
             {
                 <p id="@contactInfoId"><span class="contactInfo"><i class="fa fa-fw fa-lg fa-phone-square" title="Phone"></i> 
-                <strong>@Html.DisplayFor(x => contactInfo.Name)</strong>: @Html.DisplayFor(x => contactInfo.Contact) </span>
+                <strong><span id="@nameId" data-id="@contactInfo.ContactInfoID" data-field="Name">@Html.DisplayFor(x => contactInfo.Name)</span></strong>: 
+                <span id="@contactId" data-id="@contactInfo.ContactInfoID" data-field="Contact">@Html.DisplayFor(x => contactInfo.Contact)</span> </span>
                 <i class="fa fa-fw fa-lg fa-minus-circle" title="Remove @Html.DisplayFor(x => contactInfo.Contact)" onclick="ContactInfoDeleteClick('@contactInfo.ContactInfoID', '@contactInfo.Contact')"></i></p>
             }
             else if (contactInfo.ContactInfoType.Name == "Email" && contactInfo.PrimaryContact)
             {
                 <p id="@contactInfoId"><span class="contactInfo"><i class="fa fa-fw fa-lg fa-envelope" title="Email"></i> 
-                <strong>@Html.DisplayFor(x => contactInfo.Name)</strong>: @Html.DisplayFor(x => contactInfo.Contact) 
+                <strong><span id="@nameId" data-id="@contactInfo.ContactInfoID" data-field="Name">@Html.DisplayFor(x => contactInfo.Name)</span></strong>: 
+                <span id="@contactId" data-id="@contactInfo.ContactInfoID" data-field="Contact">@Html.DisplayFor(x => contactInfo.Contact)</span> 
                 <i class="fa fa-fw fa-lg fa-check greenIcon" title="Primary Contact"></i> </span>
                 <i class="fa fa-fw fa-lg fa-minus-circle" title="Remove @Html.DisplayFor(x => contactInfo.Contact)" onclick="ContactInfoDeleteClick('@contactInfo.ContactInfoID', '@contactInfo.Contact')"></i></p>
             }
             else  // (contactInfo.ContactInfoType.Name == "Email")
             {
                 <p id="@contactInfoId"><span class="contactInfo"><i class="fa fa-fw fa-lg fa-envelope" title="Email"></i>
-                <strong>@Html.DisplayFor(x => contactInfo.Name)</strong>: @Html.DisplayFor(x => contactInfo.Contact) </span>
+                <strong><span id="@nameId" data-id="@contactInfo.ContactInfoID" data-field="Name">@Html.DisplayFor(x => contactInfo.Name)</span></strong>: 
+                <span id="@contactId" data-id="@contactInfo.ContactInfoID" data-field="Contact">@Html.DisplayFor(x => contactInfo.Contact)</span> </span>
                 <i class="fa fa-fw fa-lg fa-minus-circle" title="Remove @Html.DisplayFor(x => contactInfo.Contact)" onclick="ContactInfoDeleteClick('@contactInfo.ContactInfoID', '@contactInfo.Contact')"></i></p>
             }
         }
@@ -64,6 +70,11 @@
         @Html.Raw("$('#first" + contact.CustomerContactID + "').click(ContactEditSpanClicked);\n")
         @Html.Raw("$('#last" + contact.CustomerContactID + "').click(ContactEditSpanClicked);\n")
         @Html.Raw("$('#notes" + contact.CustomerContactID + "').click(ContactEditSpanClicked);\n")
+        foreach (var contactInfo in contact.ContactInfos)
+        {
+            @Html.Raw("$('#name" + contactInfo.ContactInfoID + "').click(ContactEditSpanClicked);\n")
+            @Html.Raw("$('#contact" + contactInfo.ContactInfoID + "').click(ContactEditSpanClicked);\n")
+        }
     }
     });
 </script>
