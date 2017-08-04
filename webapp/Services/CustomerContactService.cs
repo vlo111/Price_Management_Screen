@@ -67,6 +67,11 @@ namespace CenDek.Services
 
         public async Task<Object> UpdateCustomerContactField(int customerContactId, string field, string value)
         {
+            if (String.IsNullOrWhiteSpace(value))
+            {
+                value = null;
+            }
+
             try
             {
                 CustomerContact customerContact = _dbContext.CustomerContacts.Where(x => x.CustomerContactID == customerContactId).Single();
@@ -75,7 +80,7 @@ namespace CenDek.Services
                 await _dbContext.SaveChangesAsync();
                 return new { success = true, responseText = "Customer contact updated" };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return new { success = false, responseText = "Customer contact update failed" };
             }
@@ -83,6 +88,11 @@ namespace CenDek.Services
 
         public async Task<Object> UpdateContactInfoField(int contactInfoId, string field, string value)
         {
+            if (String.IsNullOrWhiteSpace(value))
+            {
+                value = null;
+            }
+
             try
             {
                 ContactInfo contactInfo = _dbContext.ContactInfoes.Where(x => x.ContactInfoID == contactInfoId).Single();

@@ -103,7 +103,7 @@
                                             </div>
                                         </div>
                                         <!-- END NEW CONTACT MODAL -->
-                                        <!-- BEGIN CONFIRM DELETE MODAL -->
+                                        <!-- BEGIN CONTACT CONFIRM DELETE MODAL -->
                                         <div id="deleteContactConfirm" class="modal fade">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -123,7 +123,27 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- BEGIN CONFIRM DELETE MODAL -->
+                                        <!-- END CONTACT CONFIRM DELETE MODAL -->
+                                        <!-- BEGIN CONTACT MESSAGE MODAL -->
+                                        <div id="contactMessageDialog" class="modal fade">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        <h4 id="contactMessageDialogTitle" class="modal-title">Message</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p><i class="fa fa-fw fa-lg fa-exclamation-triangle redIcon"></i><span id="contactMessageDialogMessage"></span></p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button id="contactMessageDialogOk" type="button" class="btn btn-primary">OK</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END CONTACT MESSAGE MODAL -->
                                     </div>
                                 </div>
                             </div>
@@ -547,7 +567,7 @@
                 name = last;
             }
 
-            $("#deleteContactConfirmTitle").html("Really delete " + name + "?");
+            $("#deleteContactConfirmTitle").html("Really delete <strong>" + name + "</strong>?");
 
             $("#deleteContactConfirmYes").off('click').click(function() {
                 DeleteCustomerContact(contactId);
@@ -575,7 +595,6 @@
 
         function ContactEditSpanClicked() {
 
-            var value = $(this).html();
             var id = $(this).attr("data-id");
             var prev = $(this).attr("data-prev");
             var field = $(this).attr("data-field");
@@ -583,7 +602,7 @@
             var maxLength = field == "Notes" ? "125" : "50";
 
             var edit = $("<textarea rows='" + rows + "' maxlength='" + maxLength + "' data-id='" + id + "' data-field='" + field + "' data-prev='" + prev + "' class='spanEdit'/>");
-            edit.val(value);
+            edit.val(prev);
 
             // keypress doesn't handle the ESC key, but using keyup means we need to strip trailing newline characters added by the enter key press.
             edit.keyup(function (e) {
@@ -602,12 +621,20 @@
 
         function ContactEditSpanBlur() {
 
-            var value = $(this).val().replace(/\n$/, "");  // Strip any trailing newline character.
-            var prev = $(this).attr("data-prev");
             var id = $(this).attr("data-id");
+            var prev = $(this).attr("data-prev");
             var field = $(this).attr("data-field");
+            var value = $(this).val().replace(/\n$/, "").trim();  // Strip any trailing newline character.
+
+            var validation = ContactEditValidationFailed(field, value);
+            if (validation) {
+                value = prev;  // Failed validation. Restore to previous value.
+                ContactMessageDialog(validation);
+            }
+
+            var display = value == "" ? ContactEditPlaceholder(field)  : value;
             var view = $("<span data-id='" + id + "' data-field='" + field + "' data-prev='" + value + "'>");
-            view.html(value);
+            view.html(display);
             $(this).replaceWith(view);
             view.click(ContactEditSpanClicked);
 
@@ -622,12 +649,28 @@
             }
         }
 
+        function ContactEditValidationFailed(field, value) {
+
+            if (field == "First" && value == "") {
+                return "First name cannot be blank!"
+            }
+            else if (field == "Last" && value == "") {
+                return "Last name cannot be blank!"
+            }
+            else {
+                return false;
+            }
+        }
+
         function ContactEditEsc(span) {
-            var value = span.attr("data-prev");
+
             var id = span.attr("data-id");
+            var value = span.attr("data-prev");
             var field = span.attr("data-field");
+            var display = span.attr("data-prev") == "" ? ContactEditPlaceholder(field) : span.attr("data-prev");
+            
             var view = $("<span data-id='" + id + "' data-field='" + field + "' data-prev='" + value + "'>");
-            view.html(value);
+            view.html(display);
             span.replaceWith(view);
             view.click(ContactEditSpanClicked);
         }
@@ -660,7 +703,8 @@
         }
 
         function ContactInfoDeleteClick(contactInfoId, info) {
-            $("#deleteContactConfirmTitle").html("Really delete " + info + "?");
+
+            $("#deleteContactConfirmTitle").html("Really delete <strong>" + info + "</strong>?");
 
             $("#deleteContactConfirmYes").off('click').click(function() {
                 DeleteContactInfo(contactInfoId);
@@ -684,6 +728,47 @@
                 $("#contactInfo" + contactInfoId).remove();
                 $("#deleteContactConfirm").modal("hide");
             });
+        }
+
+        function ContactEditPlaceholder(field) {
+
+            var placeholder;
+
+            switch (field) {
+                case "First":
+                    placeholder = "First";  // This should never occur because validation should stop it first.
+                    break;
+                case "Last":
+                    placeholder = "Last";  // This should never occur because validation should stop it first.
+                    break;
+                case "JobTitle":
+                    placeholder = "Title";
+                    break;
+                case "Notes":
+                    placeholder = "Notes";
+                    break;
+                case "Name":
+                    placeholder = "Label";
+                    break;
+                case "Contact":
+                    placeholder = "Contact";
+                    break;
+                default:
+                    placeholder = "Add";  // Shouldn't happen.
+            }
+
+            return "&lt;" + placeholder + "&gt;";
+        }
+
+        function ContactMessageDialog(message) {
+            
+            $("#contactMessageDialogMessage").html(message);
+
+            $("#contactMessageDialogOk").off('click').click(function () {
+                $("#contactMessageDialog").modal("hide");
+            });
+
+            $("#contactMessageDialog").modal("show");
         }
 
         // *** END CUSTOMER CONTACTS ***
