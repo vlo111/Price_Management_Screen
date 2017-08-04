@@ -249,7 +249,21 @@ namespace CenDek.Controllers
             }
             else
             {
-                return Json(new { success = false, responseText = "Update customer contact failed" });
+                return Json(new { success = false, responseText = "Delete customer contact failed" });
+            }
+        }
+
+        [HttpPost]  // Not HttpDelete? https://stackoverflow.com/a/42795093/1348592
+        public async Task<ActionResult> DeleteContactInfo(int? contactInfoId)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _customerContactService.DeleteContactInfo(contactInfoId);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Delete contact info failed" });
             }
         }
 

@@ -548,8 +548,8 @@
             }
 
             $("#deleteContactConfirmTitle").html("Really delete " + name + "?");
-            
-            $("#deleteContactConfirmYes").off('click').click(function () {   
+
+            $("#deleteContactConfirmYes").off('click').click(function () {
                 DeleteCustomerContact(contactId);
             });
 
@@ -561,7 +561,7 @@
         }
 
         function DeleteCustomerContact(contactId) {
-          
+
             $.ajax({
                 type: "POST",
                 url: appRoot + "customer/DeleteCustomerContact",
@@ -602,7 +602,7 @@
             view.html(value);
             $(this).replaceWith(view);
             view.click(ContactEditSpanClicked);
-       
+
             if (field == "First" || field == "Last" || field == "JobTitle" || field == "Notes") {
                 UpdateCustomerContactField(id, field, value);
             }
@@ -621,6 +621,33 @@
             })
             .error(function (jqXHR, textStatus, errorThrown) {
                 alert("ERROR: " + UpdateCustomerContactField + " jqXHR: " + jqXHR + " textStatus: " + textStatus + " errorThrown: " + errorThrown);
+            });
+        }
+
+        function ContactInfoDeleteClick(contactInfoId, info) {
+            $("#deleteContactConfirmTitle").html("Really delete " + info + "?");
+
+            $("#deleteContactConfirmYes").off('click').click(function () {
+                DeleteContactInfo(contactInfoId);
+            });
+
+            $("#deleteContactConfirmNo").off('click').click(function () {
+                $("#deleteContactConfirm").modal("hide");
+            });
+
+            $("#deleteContactConfirm").modal("show");
+        }
+
+        function DeleteContactInfo(contactInfoId) {
+
+            $.ajax({
+                type: "POST",
+                url: appRoot + "customer/DeleteContactInfo",
+                data: { "ContactInfoId": contactInfoId },
+            })
+            .success(function () {
+                $("#contactInfo" + contactInfoId).remove();
+                $("#deleteContactConfirm").modal("hide");
             });
         }
 
