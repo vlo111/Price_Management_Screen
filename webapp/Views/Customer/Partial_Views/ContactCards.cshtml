@@ -1,9 +1,4 @@
 ﻿@model IEnumerable<DataAccess.Models.CustomerContact>
-@Scripts.Render("~/Scripts/libs/jquery-2.1.1.min.js")
-
-@{ 
-    var titleIds = new List<string>();
-}
 
 @foreach (var contact in Model)
 {
@@ -60,25 +55,6 @@
         }
     </div> 
 }
-<div id="deleteContactConfirm" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 id="deleteContactConfirmTitle" class="modal-title">Confirmation</h4>
-            </div>
-            <div class="modal-body">
-                <p id="deleteContactConfirmMessage"><i class="fa fa-fw fa-lg fa-exclamation-triangle redIcon"></i>This action cannot be undone.</p>
-            </div>
-            <div class="modal-footer">
-                <button id="deleteContactConfirmYes" type="button" class="btn btn-primary">Yes</button>
-                <button id="deleteContactConfirmNo" type="button" class="btn btn-default">No</button>
-            </div>
-        </div>
-    </div>
-</div>
 <script>
     $(document).ready(function () {
     @foreach (var contact in Model)
