@@ -577,17 +577,24 @@
 
             var value = $(this).html();
             var id = $(this).attr("data-id");
+            var prev = $(this).attr("data-prev");
             var field = $(this).attr("data-field");
             var rows = field == "Notes" ? "3" : "1";
             var maxLength = field == "Notes" ? "125" : "50";
 
-            var edit = $("<textarea rows='" + rows + "' maxlength='" + maxLength + "' data-id='" + id + "' data-field='" + field + "' class='spanEdit'/>");
+            var edit = $("<textarea rows='" + rows + "' maxlength='" + maxLength + "' data-id='" + id + "' data-field='" + field + "' data-prev='" + prev + "' class='spanEdit'/>");
             edit.val(value);
-            edit.keypress(function (e) {
-                if (e.which == 13) {
+
+            // keypress doesn't handle the ESC key, but using keyup means we need to strip trailing newline characters added by the enter key press.
+            edit.keyup(function (e) {
+                if (e.keyCode == 13) {
                     $(this).blur();
                 }
+                else if (e.keyCode == 27) {
+                    ContactEditEsc($(this));
+                }
             });
+
             $(this).replaceWith(edit);
             edit.focus();
             edit.blur(ContactEditSpanBlur);
@@ -595,20 +602,34 @@
 
         function ContactEditSpanBlur() {
 
-            var value = $(this).val();
+            var value = $(this).val().replace(/\n$/, "");  // Strip any trailing newline character.
+            var prev = $(this).attr("data-prev");
             var id = $(this).attr("data-id");
             var field = $(this).attr("data-field");
-            var view = $("<span data-id='" + id + "' data-field='" + field + "'>");
+            var view = $("<span data-id='" + id + "' data-field='" + field + "' data-prev='" + value + "'>");
             view.html(value);
             $(this).replaceWith(view);
             view.click(ContactEditSpanClicked);
 
-            if (field == "First" || field == "Last" || field == "JobTitle" || field == "Notes") {
+            if (value == prev) {
+                return;  // No need to update the database if the value hasn't changed.
+            }
+            else if (field == "First" || field == "Last" || field == "JobTitle" || field == "Notes") {
                 UpdateCustomerContactField(id, field, value);
             }
             else if (field == "Name" || field == "Contact") {
                 UpdateContactInfoField(id, field, value);
             }
+        }
+
+        function ContactEditEsc(span) {
+            var value = span.attr("data-prev");
+            var id = span.attr("data-id");
+            var field = span.attr("data-field");
+            var view = $("<span data-id='" + id + "' data-field='" + field + "' data-prev='" + value + "'>");
+            view.html(value);
+            span.replaceWith(view);
+            view.click(ContactEditSpanClicked);
         }
 
         function UpdateCustomerContactField(id, field, value) {
