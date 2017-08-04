@@ -88,13 +88,13 @@
                                         <div class="padding-10">
                                             <table id="Contacts" class="table table-striped table-bordered table-hover"></table>
                                         </div>
-                                        <!-- BEGIN NEW CONTACT MODAL -->
+                                        <!-- BEGIN ADD NEW CONTACT MODAL -->
                                         <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModal">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                        <h4 class="modal-title" id="myModalLabel">Add New Contact</h4>
+                                                        <h4 class="modal-title" id="myModalLabel">Add New Customer Contact</h4>
                                                     </div>
                                                     <div class="modal-body">
                                                         @Html.Partial("Partial_Views/NewContact", new DataAccess.Models.CustomerContact())
@@ -102,7 +102,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- END NEW CONTACT MODAL -->
+                                        <!-- END ADD NEW CONTACT MODAL -->
                                         <!-- BEGIN CONTACT CONFIRM DELETE MODAL -->
                                         <div id="deleteContactConfirm" class="modal fade">
                                             <div class="modal-dialog">
