@@ -59,7 +59,7 @@
                 <i class="fa fa-fw fa-lg fa-minus-circle" title="Remove @Html.DisplayFor(x => contactInfo.Contact)" onclick="ContactInfoDeleteClick('@contactInfo.ContactInfoID', '@contactInfo.Contact')"></i></p>
             }
         }
-        <p><i class="fa fa-fw fa-lg fa-plus-circle addInfo" title="Add new contact info"></i></p>
+        <p><i class="fa fa-fw fa-lg fa-plus-circle addInfo" title="Add new contact info" onclick="ContactInfoAddClick('@contact.CustomerContactID')"></i></p>
         @if (contact.Notes != null)
         {
             <p><strong>Notes</strong>: <span id="@notesId" data-id="@contact.CustomerContactID" data-field="Notes" data-prev="@Html.DisplayFor(x => contact.Notes)">@Html.DisplayFor(x => contact.Notes)</span></p>

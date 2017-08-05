@@ -13,6 +13,7 @@ namespace CenDek.Services
     public interface ICustomerContactService
     {
         Task<int> AddContact(CustomerContact newContact);
+        Task<int> AddContactInfo(ContactInfo newContactInfo);
         Task<Object> UpdateCustomerContact(CustomerContact updatedCustomerContact);
         Task<Object> UpdateCustomerContactField(int customerContactId, string field, string value);
         Task<Object> UpdateContactInfoField(int contactInfoId, string field, string value);
@@ -43,8 +44,34 @@ namespace CenDek.Services
 
                 throw;
             }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
 
             return newContact.CustomerContactID;
+        }
+
+        public async Task<int> AddContactInfo(ContactInfo newContactInfo)
+        {
+            _dbContext.ContactInfoes.Add(newContactInfo);
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("{0}{1}Validation errors:{1}{2}", ex, Environment.NewLine, ex.EntityValidationErrors.Select(e => string.Join(Environment.NewLine, e.ValidationErrors.Select(v => string.Format("{0} - {1}", v.PropertyName, v.ErrorMessage)))));
+
+                throw;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+
+            return newContactInfo.ContactInfoID;
         }
 
         public async Task<Object> UpdateCustomerContact(CustomerContact updatedCustomerContact)

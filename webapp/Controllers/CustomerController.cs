@@ -212,6 +212,20 @@ namespace CenDek.Controllers
         }
 
         [HttpPost]
+        public async Task<ActionResult> AddContactInfo(ContactInfo newContactInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _customerContactService.AddContactInfo(newContactInfo);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Add contact info failed" });
+            }
+        }
+
+        [HttpPost]
         public async Task<ActionResult> UpdateCustomerContact(CustomerContact updatedCustomerContact)
         {
             if (ModelState.IsValid)
