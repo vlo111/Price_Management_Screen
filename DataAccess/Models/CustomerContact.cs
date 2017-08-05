@@ -17,8 +17,10 @@ namespace DataAccess.Models
         public int CustomerContactID { get; set; }
         public int CustomerID { get; set; }
         [DisplayName("First Name")]
+        [Required(ErrorMessage = "First name is required")]
         public string First { get; set; }
         [DisplayName("Last Name")]
+        [Required(ErrorMessage = "Last name is required")]
         public string Last { get; set; }
         [DisplayName("Job Title")]
         public string JobTitle { get; set; }

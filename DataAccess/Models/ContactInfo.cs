@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccess.Models
@@ -9,7 +10,9 @@ namespace DataAccess.Models
         public int ContactInfoID { get; set; }
         public int ContactInfoTypeID { get; set; }
         public int CustomerContactID { get; set; }
+        [Required(ErrorMessage = "Required (Ex: \"Business\", \"Personal\")")]
         public string Name { get; set; }
+        [Required(ErrorMessage = "Required (Ex: \"111-222-3333\", \"john@gmail.com\")")]
         public string Contact { get; set; }
         public bool PrimaryContact { get; set; }
         [NotMapped]  // Data is mapped/fetched on-demand.

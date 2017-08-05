@@ -537,20 +537,15 @@
                 e.preventDefault();
                 var form = $(this);
 
-                if (form.find('input[name="First"]').val().trim() == "" || form.find('input[name="Last"]').val().trim() == "") {
-                    alert("Please provide values for both the First Name and Last Name fields.");
-                }
-                else {
-                    $.ajax({
-                        type: "POST",
-                        url: appRoot + "customer/AddCustomerContact",
-                        data: form.serialize(),
-                    })
-                    .success(function () {
-                        $('#contactModal').modal('hide');
-                        ReloadContactCards();
-                    });
-                }
+                $.ajax({
+                    type: "POST",
+                    url: appRoot + "customer/AddCustomerContact",
+                    data: form.serialize(),
+                })
+                .success(function () {
+                    $('#contactModal').modal('hide');
+                    ReloadContactCards();
+                });
             });
 
             $('#contactInfoModal').on('shown.bs.modal', function() {
@@ -572,20 +567,15 @@
                 e.preventDefault();
                 var form = $(this);
 
-                if (form.find('input[name="Name"]').val().trim() == "" || form.find('input[name="Contact"]').val().trim() == "") {
-                    alert("Please provide values for both the Label and Contact Information fields.");
-                }
-                else {
-                    $.ajax({
-                        type: "POST",
-                        url: appRoot + "customer/AddContactInfo",
-                        data: form.serialize(),
-                    })
-                    .success(function () {
-                        $('#contactInfoModal').modal('hide');
-                        ReloadContactCards();
-                    });
-                }
+                $.ajax({
+                    type: "POST",
+                    url: appRoot + "customer/AddContactInfo",
+                    data: form.serialize(),
+                })
+                .success(function () {
+                    $('#contactInfoModal').modal('hide');
+                    ReloadContactCards();
+                });
             });
         });
 
