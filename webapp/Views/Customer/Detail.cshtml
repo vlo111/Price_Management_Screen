@@ -696,6 +696,12 @@
             else if (field == "Last" && value == "") {
                 return "Last name cannot be blank!"
             }
+            else if (field == "Name" && value == "") {  // Name aka label
+                return "Contact label cannot be blank!"
+            }
+            else if (field == "Contact" && value == "") {
+                return "Contact information cannot be blank!"
+            }
             else {
                 return false;
             }
