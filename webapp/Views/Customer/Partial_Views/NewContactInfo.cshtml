@@ -19,35 +19,29 @@
             <div id="new-contact-form" class="smart-form" novalidate="novalidate">
 
                 <input id="CustomerContactId" name="CustomerContactId" type="hidden" value="0">
-                <input id="ContactInfoTypeId" name="ContactInfoTypeId" type="hidden" value="1">
 
                 <fieldset>
                     <div class="row">
                         <section class="col col-6">
+                            <label>@Html.RadioButtonFor(model => model.ContactInfoTypeID, 1, new { id = "typePhone", Checked = "checked" }) <i class="fa fa-fw fa-lg fa-phone-square" title="Email"></i> Phone</label><br />
+                            <label>@Html.RadioButtonFor(model => model.ContactInfoTypeID, 2, new { id = "typeEmail" }) <i class="fa fa-fw fa-lg fa-envelope" title="Phone"></i> Email</label>
+                        </section>
+                    </div><div class="row">
+                        <section class="col col-6">
                             <label class="input">
                                 <i class="icon-prepend fa fa-info-circle"></i>
                                 @Html.TextBoxFor(model => model.Name, new { placeholder = "Label" })
-                                @Html.ValidationMessageFor(model => model.Name, "Required", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.Name, "Required (Ex: \"Business\", \"Personal\")", new { @class = "text-danger" })
                             </label>
                         </section>
                         <section class="col col-6">
                             <label class="input">
                                 <i class="icon-prepend fa fa-address-card"></i>
                                 @Html.TextBoxFor(model => model.Contact, new { placeholder = "Contact Information" })
-                                @Html.ValidationMessageFor(model => model.Contact, "Required", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.Contact, "Required (Ex: \"111-222-3333\", \"john@gmail.com\")", new { @class = "text-danger" })
                             </label>
                         </section>
                     </div>
-
-                    @*<div class="row">
-                        <section class="col col-6">
-                            <label class="input">
-                                @Html.TextBoxFor(model => model.JobTitle, new { placeholder = Html.DisplayNameFor(n => n.JobTitle) })
-                                @Html.ValidationMessageFor(model => model.JobTitle, "", new { @class = "text-danger" })
-                            </label>
-                        </section>
-                    </div>*@
-
                 </fieldset>
             </div>
         </div>

@@ -77,5 +77,9 @@ textarea.spanEdit {
 
 }
 
+input[type="radio"] {
+    vertical-align: text-bottom;
+}
+
 
 /* END CUSTOMER CONTACT CARDS */

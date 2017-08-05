@@ -561,8 +561,11 @@
             $('#contactInfoModal').on('hidden.bs.modal', function() {
                 // Clear values on hide.
                 var modal = $(this);
-                modal.find('#Name').val('');
-                modal.find('#Contact').val('');
+                modal.find("#Name").val("");
+                modal.find("#Contact").val("");
+                modal.find("#typeEmail").removeAttr("checked");
+                modal.find("#typePhone").removeAttr("checked");
+                modal.find("#typePhone").prop("checked", true);
             });
 
             $('#contactInfoModal').on('submit', '#contactInfoForm', function (e) {
