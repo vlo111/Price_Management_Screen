@@ -167,18 +167,6 @@ namespace CenDek.Controllers
 
         // *** BEGIN CUSTOMER CONTACTS ***
 
-        public ActionResult GetContacts(IDataTablesRequest request, int customerId)
-        {
-            _dbContext.Configuration.LazyLoadingEnabled = false;
-            _dbContext.Configuration.ProxyCreationEnabled = false;
-            var data = _dbContext.CustomerContacts.Where(t => t.CustomerID == customerId);  // Sorting is done by the data table.
-            var filteredData = data.Where(_item => _item.Last.Contains(request.Search.Value));
-            var orderColums = request.Columns.Where(x => x.Sort != null);
-            var dataPage = data.OrderBy(orderColums).Skip(request.Start).Take(request.Length);
-            var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
-            return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
-        }
-
         [HttpGet]
         public ActionResult GetCustomerContacts(int customerId)
         {
@@ -186,7 +174,7 @@ namespace CenDek.Controllers
 
             foreach (CustomerContact contact in contacts)
             {
-                contact.ContactInfos = _dbContext.ContactInfoes.Where(x => x.CustomerContactID == contact.CustomerContactID).OrderByDescending(x => x.PrimaryContact).ThenBy(x => x.Contact).ToList();
+                contact.ContactInfos = _dbContext.ContactInfoes.Where(x => x.CustomerContactID == contact.CustomerContactID).OrderByDescending(x => x.PrimaryContact).ThenBy(x => x.ContactInfoTypeID).ThenBy(x => x.Name).ThenBy(x => x.Contact).ToList();
                 
                 foreach (ContactInfo info in contact.ContactInfos)
                 {
