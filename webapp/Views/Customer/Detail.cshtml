@@ -815,6 +815,19 @@
             $("#contactMessageDialog").modal("show");
         }
 
+        function ContactInfoSetAsPrimary(customerContactId, contactInfoId, isPrimary) {
+            if (!isPrimary) {
+                $.ajax({
+                    type: "POST",
+                    url: appRoot + "customer/SetPrimaryContact",
+                    data: { "customerContactId": customerContactId, "contactInfoId": contactInfoId },
+                })
+                .success(function() {
+                    ReloadContactCards();
+                });
+            }
+        }
+
         // *** END CUSTOMER CONTACTS ***
 
     </script>

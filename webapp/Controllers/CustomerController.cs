@@ -283,6 +283,20 @@ namespace CenDek.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult> SetPrimaryContact(int? customerContactId, int? contactInfoId)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _customerContactService.SetPrimaryContact(customerContactId, contactInfoId);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Set primary contact failed" });
+            }
+        }
+
         // *** END CUSTOMER CONTACTS ***
 
         public ActionResult GetCustomerCarriers(IDataTablesRequest request, int customerId)

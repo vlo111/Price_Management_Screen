@@ -39,6 +39,10 @@ div.card p {
     margin: 0px;
 }
 
+.lightIcon {
+    color: lavender;
+}
+
 .redIcon {
     color: red;
 }
@@ -80,6 +84,5 @@ textarea.spanEdit {
 input[type="radio"] {
     vertical-align: text-bottom;
 }
-
 
 /* END CUSTOMER CONTACT CARDS */

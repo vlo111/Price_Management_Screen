@@ -19,6 +19,7 @@ namespace CenDek.Services
         Task<Object> UpdateContactInfoField(int contactInfoId, string field, string value);
         Task<Object> DeleteCustomerContact(int? customerContactId);
         Task<Object> DeleteContactInfo(int? contactInfoId);
+        Task<Object> SetPrimaryContact(int? customerContactId, int? contactInfoId);
     }
 
     public class CustomerContactService : ICustomerContactService
@@ -169,6 +170,33 @@ namespace CenDek.Services
             catch (Exception)
             {
                 return new { success = false, responseText = "Contact info delete failed" };
+            }
+        }
+
+        public async Task<Object> SetPrimaryContact(int? customerContactId, int? contactInfoId)
+        {
+            try
+            {
+                List<ContactInfo> contactInfos = _dbContext.ContactInfoes.Where(x => x.CustomerContactID == customerContactId).ToList();
+                
+                foreach(ContactInfo info in contactInfos)
+                {
+                    if (info.ContactInfoID == contactInfoId)
+                    {
+                        info.PrimaryContact = true;
+                    }
+                    else
+                    {
+                        info.PrimaryContact = false;
+                    }
+                }
+
+                await _dbContext.SaveChangesAsync();
+                return new { success = true, responseText = "Primary contact set" };
+            }
+            catch (Exception)
+            {
+                return new { success = false, responseText = "Set primary contact failed" };
             }
         }
     }
