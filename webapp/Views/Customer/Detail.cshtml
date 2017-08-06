@@ -513,14 +513,20 @@
 
         $(document).ready(function() {
 
-            $('#contactModal').on('shown.bs.modal', function() {
+            $('#newContactButton').on('click', function () {
+                var modal = $('#contactModal');
+                modal.modal();
+            });
+
+            // Initialize contact modal.
+            $('#contactModal').on('shown.bs.modal', function () {
                 $.validator.unobtrusive.parse('#contactForm');
                 var modal = $(this);
                 modal.find('#CustomerID').val(@Model.CustomerID);
             });
 
+            // Clear contact modal fields on hide
             $('#contactModal').on('hidden.bs.modal', function() {
-                // Clear values on hide.
                 var modal = $(this);
                 modal.find('#First').val('');
                 modal.find('#Last').val('');
@@ -528,11 +534,7 @@
                 modal.find('#Notes').val('');
             });
 
-            $('#newContactButton').on('click', function() {
-                var modal = $('#contactModal');
-                modal.modal();
-            });
-
+            // Submit contact modal.
             $('#contactModal').on('submit', '#contactForm', function (e) {
                 e.preventDefault();
                 var form = $(this);
@@ -548,13 +550,14 @@
                 });
             });
 
+            // Initialize contact info modal.
             $('#contactInfoModal').on('shown.bs.modal', function() {
                 $.validator.unobtrusive.parse('#contactInfoForm');
                 var modal = $(this);
             });
 
+            // Clear contact info modal fields on hide.
             $('#contactInfoModal').on('hidden.bs.modal', function() {
-                // Clear values on hide.
                 var modal = $(this);
                 modal.find("#Name").val("");
                 modal.find("#Contact").val("");
@@ -563,6 +566,7 @@
                 modal.find("#typePhone").prop("checked", true);
             });
 
+            // Submit contact info modal.
             $('#contactInfoModal').on('submit', '#contactInfoForm', function (e) {
                 e.preventDefault();
                 var form = $(this);
@@ -581,10 +585,12 @@
 
         // *** END JQUERY DOCUMENT READY SECTION ***
 
+        // Reload the contact cards partial view.
         function ReloadContactCards() {
             $("#contactCards").load('@Url.Action("GetCustomerContacts", "Customer", new { customerId = @Model.CustomerID })');
         }
 
+        // "x" icon in top right of contact card is clicked to delete the contact card. Confirmation dialog is shown.
         function CustomerContactDeleteClick(contactId, first, last) {
 
             var name;
@@ -612,6 +618,7 @@
             $("#deleteContactConfirm").modal("show");
         }
 
+        // Actually delete the customer contact record and associated records from the database.
         function DeleteCustomerContact(contactId) {
 
             $.ajax({
@@ -625,6 +632,7 @@
             });
         }
 
+        // Edit-in-place functionality.
         function ContactEditSpanClicked() {
 
             var id = $(this).attr("data-id");
@@ -651,6 +659,7 @@
             edit.blur(ContactEditSpanBlur);
         }
 
+        // Edit-in-place complete.
         function ContactEditSpanBlur() {
 
             var id = $(this).attr("data-id");
@@ -681,6 +690,7 @@
             }
         }
 
+        // Validation for edit-in-place (not for add new dialogs).
         function ContactEditValidationFailed(field, value) {
 
             if (field == "First" && value == "") {
@@ -700,6 +710,7 @@
             }
         }
 
+        // Edit-in-place ESC key is hit.
         function ContactEditEsc(span) {
 
             var id = span.attr("data-id");
@@ -713,6 +724,7 @@
             view.click(ContactEditSpanClicked);
         }
 
+        // Edit-in-place effect change in database for CustomerContact table.
         function UpdateCustomerContactField(id, field, value) {
             $.ajax({
                 type: "POST",
@@ -729,6 +741,7 @@
             });
         }
 
+        // Edit-in-place effect change in database for ContactInfo table.
         function UpdateContactInfoField(id, field, value) {
             $.ajax({
                 type: "POST",
@@ -740,12 +753,14 @@
             });
         }
 
+        // "+" icon is clicked to add a ContactInfo record.
         function ContactInfoAddClick(customerContactId) {
             var modal = $('#contactInfoModal');
             modal.find('#CustomerContactId').val(customerContactId);
             modal.modal();
         }
 
+        // "-" icon" is clicked to delete a ContactInfo record.
         function ContactInfoDeleteClick(contactInfoId, info) {
 
             $("#deleteContactConfirmTitle").html("Really delete <strong>" + info + "</strong>?");
@@ -761,6 +776,7 @@
             $("#deleteContactConfirm").modal("show");
         }
 
+        // Actually delete the ContactInfo record from the database.
         function DeleteContactInfo(contactInfoId) {
 
             $.ajax({
@@ -774,6 +790,7 @@
             });
         }
 
+        // Determines what the <Placeholder> value should be for null contact card fields.
         function ContactEditPlaceholder(field) {
 
             var placeholder;
@@ -804,6 +821,7 @@
             return "&lt;" + placeholder + "&gt;";
         }
 
+        // Show a modal dialog containing a message.
         function ContactMessageDialog(message) {
 
             $("#contactMessageDialogMessage").html(message);
@@ -815,6 +833,9 @@
             $("#contactMessageDialog").modal("show");
         }
 
+        // When the check icon is clicked, if the contact info is not already primary contact, remove primary contact from
+        // all contact info records associate with this customer contact, and set primary contact on this particular
+        // contact info.
         function ContactInfoSetAsPrimary(customerContactId, contactInfoId, isPrimary) {
             if (!isPrimary) {
                 $.ajax({
