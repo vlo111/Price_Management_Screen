@@ -693,7 +693,10 @@
         // Validation for edit-in-place (not for add new dialogs).
         function ContactEditValidationFailed(field, value) {
 
-            if (field == "First" && value == "") {
+            if (value.indexOf("<") > -1 || value.indexOf(">") > -1) {
+                return "Sorry, angle bracket characters < and > are not allowed!"
+            }
+            else if (field == "First" && value == "") {
                 return "First name cannot be blank!"
             }
             else if (field == "Last" && value == "") {
