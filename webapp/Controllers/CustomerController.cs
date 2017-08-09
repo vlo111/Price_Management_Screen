@@ -83,14 +83,16 @@ namespace CenDek.Controllers
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
             var data = _dbContext.ShippingAddresses.Where(t => t.CustomerID == customerId).OrderBy(t => t.Address1);
-            var filteredData = data.Where(_item => 
-                                          _item.Address1.Contains(search)   ||
-                                          _item.Address2.Contains(search)   ||
-                                          _item.City.Contains(search)       ||
-                                          _item.Province.Contains(search)   ||
-                                          _item.Country.Contains(search)    ||
-                                          _item.PostalCode.Contains(search) ||
-                                          _item.Comments.Contains(search));
+            var filteredData = data.Where(
+                                            _item => 
+                                            _item.Address1.Contains(search)   ||
+                                            _item.Address2.Contains(search)   ||
+                                            _item.City.Contains(search)       ||
+                                            _item.Province.Contains(search)   ||
+                                            _item.Country.Contains(search)    ||
+                                            _item.PostalCode.Contains(search) ||
+                                            _item.Comments.Contains(search)
+                                         );
             var orderColums = request.Columns.Where(x => x.Sort != null);
             var dataPage = filteredData.OrderBy(orderColums).Skip(request.Start).Take(request.Length);
             var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
@@ -141,26 +143,26 @@ namespace CenDek.Controllers
 
         public ActionResult GetCustomers(IDataTablesRequest request)
         {
+            string search = request.Search.Value;
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
             var data = _dbContext.Customers;
-
-            // Global filtering.
-            // Filter is being manually applied due to in-memmory (IEnumerable) data.
-            // If you want something rather easier, check IEnumerableExtensions Sample.
-            var filteredData = data.Where(_item => _item.Company.Contains(request.Search.Value));
-
-            // Paging filtered data.
-            // Paging is rather manual due to in-memmory (IEnumerable) data.
+            var filteredData = data.Where(
+                                            _item =>
+                                            _item.Address1.Contains(request.Search.Value) ||
+                                            _item.Address2.Contains(request.Search.Value) ||
+                                            _item.City.Contains(request.Search.Value) ||
+                                            _item.Comments.Contains(request.Search.Value) ||
+                                            _item.Company.Contains(request.Search.Value) ||
+                                            _item.Country.Contains(request.Search.Value) ||
+                                            _item.Fax.Contains(request.Search.Value) ||
+                                            _item.PhoneNo.Contains(request.Search.Value) ||
+                                            _item.PostalCode.Contains(request.Search.Value) ||
+                                            _item.Province.Contains(request.Search.Value)
+                                          );
             var orderColums = request.Columns.Where(x => x.Sort != null);
-            var dataPage = data.OrderBy(orderColums).Skip(request.Start).Take(request.Length);
-
-            // Response creation. To create your response you need to reference your request, to avoid
-            // request/response tampering and to ensure response will be correctly created.
+            var dataPage = filteredData.OrderBy(orderColums).Skip(request.Start).Take(request.Length);
             var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
-
-            // Easier way is to return a new 'DataTablesJsonResult', which will automatically convert your
-            // response to a json-compatible content, so DataTables can read it when received.
             return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
         }
 
@@ -298,7 +300,7 @@ namespace CenDek.Controllers
 
         // *** END CUSTOMER CONTACTS ***
 
-        public ActionResult GetCustomerCarriers(IDataTablesRequest request, int customerId)
+        public ActionResult (IDataTablesRequest request, int customerId)
         {
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
