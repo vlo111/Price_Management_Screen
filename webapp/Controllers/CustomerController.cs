@@ -300,7 +300,7 @@ namespace CenDek.Controllers
 
         // *** END CUSTOMER CONTACTS ***
 
-        public ActionResult (IDataTablesRequest request, int customerId)
+        public ActionResult GetCustomerCarriers(IDataTablesRequest request, int customerId)
         {
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
