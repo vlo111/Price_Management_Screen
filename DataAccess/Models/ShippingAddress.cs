@@ -14,7 +14,6 @@ namespace DataAccess.Models
 
         public int ShippingAddressID { get; set; }
         public int CustomerID { get; set; }
-        public int CustomerContactID { get; set; }
         public System.DateTime LastUsed { get; set; }
         
         [DisplayName("Address")]
@@ -28,7 +27,6 @@ namespace DataAccess.Models
         public string PostalCode { get; set; }
         public string Comments { get; set; }
         public virtual Customer Customer { get; set; }
-        public virtual CustomerContact CustomerContact { get; set; }
         public virtual ICollection<Shipment> Shipments { get; set; }
     }
 }

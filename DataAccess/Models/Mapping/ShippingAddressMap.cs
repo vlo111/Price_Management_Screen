@@ -37,7 +37,6 @@ namespace DataAccess.Models.Mapping
             this.ToTable("ShippingAddress");
             this.Property(t => t.ShippingAddressID).HasColumnName("ShippingAddressID");
             this.Property(t => t.CustomerID).HasColumnName("CustomerID");
-            this.Property(t => t.CustomerContactID).HasColumnName("CustomerContactID");
             this.Property(t => t.LastUsed).HasColumnName("LastUsed");
             this.Property(t => t.Address1).HasColumnName("Address1");
             this.Property(t => t.Address2).HasColumnName("Address2");
@@ -51,10 +50,6 @@ namespace DataAccess.Models.Mapping
             this.HasRequired(t => t.Customer)
                 .WithMany(t => t.ShippingAddresses)
                 .HasForeignKey(d => d.CustomerID);
-
-            this.HasRequired(t => t.CustomerContact)
-                .WithMany(t => t.ShippingAddresses)
-                .HasForeignKey(d => d.CustomerContactID);
         }
     }
 }

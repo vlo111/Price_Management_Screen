@@ -8,11 +8,7 @@ namespace DataAccess.Models
 {
     public partial class CustomerContact
     {
-        public CustomerContact()
-        {
-            //this.IsPrimary = false;
-            this.ShippingAddresses = new List<ShippingAddress>();
-        }
+        public CustomerContact() {}
 
         public int CustomerContactID { get; set; }
         public int CustomerID { get; set; }
@@ -30,7 +26,6 @@ namespace DataAccess.Models
         [RegularExpression("^((?![<>]).)*$", ErrorMessage = "Angle brackets < and > are not allowed.")]
         public string Notes { get; set; }
         public virtual Customer Customer { get; set; }
-        public virtual ICollection<ShippingAddress> ShippingAddresses { get; set; }
         [NotMapped]  // Data is mapped/fetched on-demand.
         public List<ContactInfo> ContactInfos;
     }
