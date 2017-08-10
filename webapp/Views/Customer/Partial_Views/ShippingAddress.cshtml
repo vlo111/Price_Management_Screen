@@ -117,25 +117,38 @@
             }
         });
 
-        $('#newShipAddressForm').on('shown.bs.modal', function () {
-            $.validator.unobtrusive.parse('#newShipAddressForm')
+        $('#newShippingAddress').on('shown.bs.modal', function () {
+            $.validator.unobtrusive.parse('#newShipAddressForm');
         });
 
-        $('#newShipAddressForm').on('submit', function (e) {
+        // Clear contact modal fields on hide
+        $('#newShippingAddress').on('hidden.bs.modal', function () {
+            var modal = $(this);
+            modal.find('#Address1').val('');
+            modal.find('#Address2').val('');
+            modal.find('#City').val('');
+            modal.find('#Province').val('');
+            modal.find('#Country').val('');
+            modal.find('#PostalCode').val('');
+            modal.find('#Comments').val('');
+        });
+
+        $('#newShippingAddress').on('submit', '#newShipAddressForm', function (e) {
             e.preventDefault();
             var form = $(this);
             $.ajax({
                 type: "POST",
-                url: appRoot + "customer/NewShippingAddress",
+                url: appRoot + "customer/AddShippingAddress",
                 data: form.serialize(),
             })
-                .done(function () {
-                    $('#newShippingAddress').modal('hide');
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    //append error message
-                    console.log(textStatus);
-                });
+            .done(function () {
+                $('#newShippingAddress').modal('hide');
+                $('#Shipping').DataTable().ajax.reload();
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                //append error message
+                console.log(textStatus);
+            });
             return false;
         });
     });

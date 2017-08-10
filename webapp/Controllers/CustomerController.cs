@@ -22,13 +22,15 @@ namespace CenDek.Controllers
         ICustomerService _customerService;
         ICustomerContactService _customerContactService;
         ICustomerCarrierService _customerCarrierService;
+        IShippingAddressService _shippingAddressService;
 
-        public CustomerController(CenDekContext dbContext, ICustomerService customerService, ICustomerContactService customerContactService, ICustomerCarrierService customerCarrierService)
+        public CustomerController(CenDekContext dbContext, ICustomerService customerService, ICustomerContactService customerContactService, ICustomerCarrierService customerCarrierService, IShippingAddressService shippingAddressService)
         {
             _dbContext = dbContext;
             _customerService = customerService;
             _customerContactService = customerContactService;
             _customerCarrierService = customerCarrierService;
+            _shippingAddressService = shippingAddressService;
         }
 
         // GET: Client
@@ -100,10 +102,17 @@ namespace CenDek.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> NewShippingAddress(ShippingAddress newShippingAddress)
+        public async Task<ActionResult> AddShippingAddress(ShippingAddress newShippingAddress)
         {
-            //TODO
-            return PartialView("Partial_Views/NewShippingAddress", newShippingAddress);
+            if (ModelState.IsValid)
+            {
+                var response = await _shippingAddressService.AddShippingAddress(newShippingAddress);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Add shipping address failed" });
+            }
         }
 
         // *** END SHIPPING ADDRESS ***

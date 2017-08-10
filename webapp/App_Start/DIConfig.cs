@@ -30,6 +30,7 @@ namespace CenDek
             container.Register<ICustomerContactService, CustomerContactService>(Lifestyle.Transient);
             container.Register<ICustomerCarrierService, CustomerCarrierService>(Lifestyle.Transient);
             container.Register<ICarrierService, CarrierService>(Lifestyle.Transient);
+            container.Register<IShippingAddressService, ShippingAddressService>(Lifestyle.Transient);
 
             // 3. Optionally verify the container's configuration.
             container.Verify();

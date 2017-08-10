@@ -511,6 +511,7 @@
     <Compile Include="Services\CustomerContactService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\ICarrierService.cs" />
+    <Compile Include="Services\ShippingAddressService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
