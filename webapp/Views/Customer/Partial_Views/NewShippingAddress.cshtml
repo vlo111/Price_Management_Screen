@@ -64,10 +64,6 @@
                                 @Html.DropDownListFor(model => model.Country, new SelectList(new string[] { "Canada", "United States" }, Model.Country))
                                 @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
                             </label>
-                            @*<label class="input">
-                                @Html.TextBoxFor(model => model.Country, new { placeholder = Html.DisplayNameFor(n => n.Country) })
-                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
-                            </label>*@
                         </section>
 
                         <section class="col col-3">
