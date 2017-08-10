@@ -210,7 +210,7 @@
                                     </div>
                                 </div>
                                 <div class="padding-10">
-                                    <table id="Shipping" class="table table-striped table-bordered table-hover"></table>
+                                    @Html.Partial("Partial_Views/ShippingAddress", @Model)
                                 </div>
                             </div>
 
@@ -261,146 +261,12 @@
     <script>
         $(document).ready(function() {
 
-            var responsiveHelper_Shipping = undefined;
             var responsiveHelper_Carriers = undefined;
 
             var breakpointDefinition = {
                 tablet: 1024,
                 phone: 480
             };
-
-            // *** BEGIN SHIPPING ADDRESS ***
-
-            var shippingDT = $('#Shipping').DataTable({
-
-                serverSide: true,  // With server side processing enabled, search cannot be handled client-side.
-                ajax: {
-                    url: appRoot + "customer/GetShippingAddress",
-                    type: "POST",
-                    data: function (d) {
-                        return $.extend({}, d, {
-                            customerId: "@Model.CustomerID"
-                        });
-                    }
-                },
-                columns: [
-                    {
-                        name: 'shippingAddressID',
-                        data: 'shippingAddressID',
-                        title: "shippingAddressID",
-                        sortable: false,
-                        searchable: false,
-                        visible: false
-                    },
-                    {
-                        name: 'customerID',
-                        data: 'customerID',
-                        title: "customerID",
-                        sortable: false,
-                        searchable: false,
-                        visible: false
-                    },
-                    {
-                        name: 'address1',
-                        data: "address1",
-                        title: "Address 1",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'address2',
-                        data: "address2",
-                        title: "Address 2",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'city',
-                        data: "city",
-                        title: "City",
-                        sortable: true,
-                        searchable: true
-                    } ,
-                    {
-                        name: 'province',
-                        data: "province",
-                        title: "Province",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'country',
-                        data: "country",
-                        title: "Country",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'postalCode',
-                        data: "postalCode",
-                        title: "Postal Code",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'comments',
-                        data: "comments",
-                        title: "Comments",
-                        sortable: true,
-                        searchable: true
-                    }
-                ],
-                dom: "<'dt-toolbar'<'col-xs-12 col-sm-6 col-md-3 col-lg-2'B><'col-xs-12 col-sm-6 col-md-6 col-lg-8'f><'hidden-sm hidden-xs col-md-3 col-lg-2'l>r>" +
-                        "t" +
-                        "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
-                buttons: [
-                   {
-                       className: "new-shipping-address",
-                       text: ''
-                   }
-
-                ],
-                initComplete: function() {
-                    $('.new-shipping-address').parent().html('<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newShippingAddress"> <i class="fa fa-plus"></i> New Shipping Address </button>')
-                },
-                "autoWidth": true,
-                "preDrawCallback": function() {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper_Shipping) {
-                        responsiveHelper_Shipping = new ResponsiveDatatablesHelper($('#Shipping'), breakpointDefinition);
-                    }
-                },
-                "rowCallback": function (nRow) {
-                    responsiveHelper_Shipping.createExpandIcon(nRow);
-                },
-                "drawCallback": function (oSettings) {
-                    responsiveHelper_Shipping.respond();
-                }
-            });
-
-            $('#newShipAddressForm').on('shown.bs.modal', function () {
-                $.validator.unobtrusive.parse('#newShipAddressForm')
-            });
-
-            $('#newShipAddressForm').on('submit', function (e) {
-                e.preventDefault();
-                var form = $(this);
-                $.ajax({
-                    type: "POST",
-                    url: appRoot + "customer/NewShippingAddress",
-                    data: form.serialize(),
-                })
-                    .done(function () {
-                        $('#newShippingAddress').modal('hide');
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        //append error message
-                        console.log(textStatus);
-                    });
-                return false;
-            });
-
-            // *** END SHIPPING ADDRESS ***
 
             var carriersDT = $('#Carriers').DataTable({
 
