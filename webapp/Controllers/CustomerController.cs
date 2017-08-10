@@ -8,7 +8,6 @@ using DataAccess;
 using DataTables.AspNet.Core;
 using DataTables.AspNet.Mvc5;
 using CenDek.App_Helpers;
-using CenDek.Models.Customer;
 using DataAccess.Models;
 using System.Threading.Tasks;
 using CenDek.Services;
@@ -41,29 +40,18 @@ namespace CenDek.Controllers
             return View();
         }
 
-        public ActionResult New()
-        {
-            var breadCrumbs = new BreadcrumbModel("New Customer", new List<BreadcrumbLink>());
-            breadCrumbs.Links.Add(new BreadcrumbLink(Url.Action("Index", "Customer", null, this.Request.Url.Scheme), "Customers"));
-            ViewBag.BreadCrumbs = breadCrumbs;
-            return View();
-        }
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> New(NewCustomer newCustomer)
+        public async Task<ActionResult> AddNewCustomer(Customer newCustomer)
         {
             if (ModelState.IsValid)
             {
-                int customerId = await _customerService.AddCustomer(newCustomer);
-                return RedirectToAction("Detail", new { id = customerId });
+                var response = await _customerService.AddNewCustomer(newCustomer);
+                return Json(response);
             }
-
-
-            var breadCrumbs = new BreadcrumbModel("New Customer", new List<BreadcrumbLink>());
-            breadCrumbs.Links.Add(new BreadcrumbLink(Url.Action("Index", "Customer", null, this.Request.Url.Scheme), "Customers"));
-            ViewBag.BreadCrumbs = breadCrumbs;
-            return this.View();
+            else
+            {
+                return Json(new { success = false, responseText = "Add customer failed" });
+            }
         }
 
         public async Task<ActionResult> Detail(int id)

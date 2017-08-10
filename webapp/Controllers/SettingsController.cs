@@ -8,7 +8,6 @@ using DataAccess;
 using DataTables.AspNet.Core;
 using DataTables.AspNet.Mvc5;
 using CenDek.App_Helpers;
-using CenDek.Models.Customer;
 using DataAccess.Models;
 using System.Threading.Tasks;
 using CenDek.Services;

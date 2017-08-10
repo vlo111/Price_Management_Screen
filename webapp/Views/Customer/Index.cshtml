@@ -1,98 +1,46 @@
-﻿<!-- MAIN CONTENT -->
-<div id="content">
+﻿<div id="content">
     <div class="row">
         <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
             <h1 class="page-title txt-color-blueDark">
                 <i class="fa-fw fa  fa-address-card"></i>
                 Customers
-
             </h1>
         </div>
     </div>
-
     <div class="row">
         <div class="col-lg-12">
-
-
             <div class="jarviswidget well jarviswidget-color-darken" id="wid-id-0" data-widget-sortable="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" role="widget">
-								<!-- widget options:
-								usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-				
-								data-widget-colorbutton="false"
-								data-widget-editbutton="false"
-								data-widget-togglebutton="false"
-								data-widget-deletebutton="false"
-								data-widget-fullscreenbutton="false"
-								data-widget-custombutton="false"
-								data-widget-collapsed="true"
-								data-widget-sortable="false"
-				
-								-->
-								<header role="heading"><div class="jarviswidget-ctrls" role="menu">   <a href="javascript:void(0);" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand "></i></a> </div>
-									<span class="widget-icon"> <i class="fa fa-barcode"></i> </span>
-									<h2>Item #44761 </h2>
-				
-								<span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
-				
-								<!-- widget div-->
-								<div role="content">
-				
-									<!-- widget edit box -->
-									<div class="jarviswidget-editbox">
-										<!-- This area used as dropdown edit box -->
-				
-									</div>
-									<!-- end widget edit box -->
-				
-									<!-- widget content -->
-									<div class="widget-body no-padding">
-				
-										@*<div class="widget-body-toolbar">
-				
-											<div class="row">
-				
-												
-				
-												<div class="col-sm-12 text-align-left">
-				
-													
-				
-													<div class="btn-group">
-														<a href="@Url.Action("New", "Customer")" class="btn btn-sm btn-success"> <i class="fa fa-plus"></i> New Customer </a>
-													</div>
-				
-												</div>
-				
-											</div>
-				
-										</div>*@
-				
-										<div class="padding-10">
-											
-                                            <table id="Customers" class="table table-striped table-bordered table-hover"></table>
-
-										</div>
-				
-									</div>
-									<!-- end widget content -->
-				
-								</div>
-								<!-- end widget div -->
-				
-							</div>
-
-
-           
+				<header role="heading"><div class="jarviswidget-ctrls" role="menu">   <a href="javascript:void(0);" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand "></i></a> </div>
+					<span class="widget-icon"> <i class="fa fa-barcode"></i> </span>
+					<h2>Item #44761 </h2>
+				<span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
+				<div role="content">
+                    <!-- Modal -->
+                    <div class="modal fade" id="newCustomerModal" tabindex="-1" role="dialog" aria-labelledby="newCustomerModal">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Add New Customer</h4>
+                                </div>
+                                <div class="modal-body">
+                                    @Html.Partial("Partial_Views/NewCustomer", new DataAccess.Models.Customer {})
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal-->
+					<div class="widget-body no-padding">
+						<div class="padding-10">
+                            <table id="Customers" class="table table-striped table-bordered table-hover"></table>
+						</div>
+					</div>
+				</div>
+			</div> 
         </div>
     </div>
-
-          
- 
 </div>
-<!-- END MAIN CONTENT -->
 @section pagespecific {
-
-
 <script>
     $(document).ready(function () {
 
@@ -104,48 +52,6 @@
             tablet: 1024,
             phone: 480
         };
-
-        /* TABLETOOLS
-        var demoTable = $('#datatable_tabletools').DataTable({
-
-            // Tabletools options:
-            //   https://datatables.net/extensions/tabletools/button_options
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'T>r>" +
-                    "t" +
-                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
-            "oTableTools": {
-                "aButtons": [
-                "copy",
-                "csv",
-                "xls",
-                   {
-                       "sExtends": "pdf",
-                       "sTitle": "SmartAdmin_PDF",
-                       "sPdfMessage": "SmartAdmin PDF Export",
-                       "sPdfSize": "letter"
-                   },
-                   {
-                       "sExtends": "print",
-                       "sMessage": "Generated by SmartAdmin <i>(press Esc to close)</i>"
-                   }
-                ],
-                "sSwfPath": appRoot + "/Scripts/plugins/datatables/swf/copy_csv_xls_pdf.swf"
-            },
-            "autoWidth": true,
-            "preDrawCallback": function () {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_datatable_tabletools) {
-                    responsiveHelper_datatable_tabletools = new ResponsiveDatatablesHelper($('#datatable_tabletools'), breakpointDefinition);
-                }
-            },
-            "rowCallback": function (nRow) {
-                responsiveHelper_datatable_tabletools.createExpandIcon(nRow);
-            },
-            "drawCallback": function (oSettings) {
-                responsiveHelper_datatable_tabletools.respond();
-            }
-        });
-        */
 
         var clientTable = $('#Customers').DataTable({
             serverSide: true,
@@ -201,7 +107,7 @@
 
             ],
             initComplete: function () {
-                $('.new-customer').parent().html('<a href="@Url.Action("New", "Customer")" class="btn btn-sm btn-success"> <i class="fa fa-plus"></i> New Customer </a>')
+                $('.new-customer').parent().html('<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newCustomerModal"> <i class="fa fa-plus"></i> New Customer </button>')
             },
             "autoWidth": true,
             "preDrawCallback": function () {
@@ -218,11 +124,47 @@
             }
         });
 
-
         $('#Customers tbody').on('click', 'tr', function () {
             var data = clientTable.row(this).data();
-            //alert('You clicked on ' + data[0] + '\'s row');
             window.location.href = appRoot + "Customer/Detail/" + data.customerID;
+        });
+
+        $('#newCustomerModal').on('shown.bs.modal', function () {
+            $.validator.unobtrusive.parse('#newCustomerModalForm');
+        });
+
+        // Clear contact modal fields on hide
+        $('#newCustomerModal').on('hidden.bs.modal', function () {
+            var modal = $(this);
+            modal.find('#Company').val('');
+            modal.find('#PhoneNo').val('');
+            modal.find('#Fax').val('');
+            modal.find('#Address1').val('');
+            modal.find('#Address2').val('');
+            modal.find('#City').val('');
+            modal.find('#Province').val('');
+            modal.find('#PostalCode').val('');
+            modal.find('#Country').val('');
+            modal.find('#Comments').val('');
+        });
+
+        $('#newCustomerModal').on('submit', '#newCustomerModalForm', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                type: "POST",
+                url: appRoot + "customer/AddNewCustomer",
+                data: form.serialize(),
+            })
+                .done(function () {
+                    $('#newCustomerModal').modal('hide');
+                    $('#Customers').DataTable().ajax.reload();
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    //append error message
+                    console.log(textStatus);
+                });
+            return false;
         });
     });
 </script>

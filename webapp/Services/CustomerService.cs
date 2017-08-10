@@ -1,5 +1,4 @@
-﻿using CenDek.Models.Customer;
-using DataAccess;
+﻿using DataAccess;
 using DataAccess.Models;
 using System;
 using System.Collections.Generic;
@@ -11,10 +10,9 @@ namespace CenDek.Services
 {
     public interface ICustomerService
     {
-        Task<int> AddCustomer(NewCustomer newCustomer);
+        Task<int> AddNewCustomer(Customer newCustomer);
         Task<Object> UpdateCustomer(Customer updatedCustomer);
     }
-
 
     public class CustomerService : ICustomerService
     {
@@ -51,64 +49,15 @@ namespace CenDek.Services
             }
         }
 
-        public async Task<int> AddCustomer(NewCustomer newCustomer)
+        public async Task<int> AddNewCustomer(Customer newCustomer)
         {
-            Customer customer = new Customer();
-            //todo finish this
-            customer.Company = newCustomer.CompanyName;
-            customer.PhoneNo = newCustomer.PhoneNo;
-            customer.Fax = newCustomer.Fax;
-            customer.Address1 = newCustomer.Address1;
-            customer.Address2 = newCustomer.Address2;
-            customer.City = newCustomer.City;
-            customer.Province = newCustomer.Province;
-            customer.PostalCode = newCustomer.PostalCode;
-            //customer.Country = newCustomer.Con;
-            customer.Comments = newCustomer.Comments;
-            customer.Created = DateTime.UtcNow;
-            customer.Modified = DateTime.UtcNow;
-            //customer.EmployeeID = 1;
-            _dbContext.Customers.Add(customer);
+            newCustomer.Created = DateTime.Now;
+            newCustomer.Modified = DateTime.Now;
+            newCustomer.GSTExempt = false;
+            newCustomer.PSTExempt = false;
 
-            CustomerContact contact = new CustomerContact();
-            contact.First = newCustomer.ContactFirst;
-            contact.Last = newCustomer.ContactLast;
-            contact.JobTitle = newCustomer.JobTitle;
-            contact.Notes = newCustomer.ContactNotes;
-            customer.CustomerContacts.Add(contact);
+            _dbContext.Customers.Add(newCustomer);
 
-            if (newCustomer.ContactPhoneNo != null && newCustomer.ContactPhoneNo.Length > 0)
-            {
-                ContactInfo contactInfo = new ContactInfo();
-                contactInfo.Contact = newCustomer.ContactPhoneNo;
-                contactInfo.Name = "Phone";
-                contactInfo.ContactInfoTypeID = _dbContext.ContactInfoTypes.Single(t => t.Name == "Phone").ContactInfoTypeID;
-            }
-
-            if (newCustomer.ContactEmail != null && newCustomer.ContactEmail.Length > 0)
-            {
-                ContactInfo contactInfo = new ContactInfo();
-                contactInfo.Contact = newCustomer.ContactEmail;
-                contactInfo.Name = "Email";
-                contactInfo.ContactInfoTypeID = _dbContext.ContactInfoTypes.Single(t => t.Name == "Email").ContactInfoTypeID;
-            }
-
-            if (newCustomer.ContactCellNo != null && newCustomer.ContactCellNo.Length > 0)
-            {
-                ContactInfo contactInfo = new ContactInfo();
-                contactInfo.Contact = newCustomer.ContactCellNo;
-                contactInfo.Name = "Cell";
-                contactInfo.ContactInfoTypeID = _dbContext.ContactInfoTypes.Single(t => t.Name == "Phone").ContactInfoTypeID;
-            }
-
-            if (newCustomer.ContactFax != null && newCustomer.ContactFax.Length > 0)
-            {
-                ContactInfo contactInfo = new ContactInfo();
-                contactInfo.Contact = newCustomer.ContactFax;
-                contactInfo.Name = "Fax";
-                contactInfo.ContactInfoTypeID = _dbContext.ContactInfoTypes.Single(t => t.Name == "Phone").ContactInfoTypeID;
-            }
-            
             try
             {
                 await _dbContext.SaveChangesAsync();
@@ -119,7 +68,7 @@ namespace CenDek.Services
 
                 throw;
             }
-            return customer.CustomerID;
+            return newCustomer.CustomerID;
         }
     }
 }
