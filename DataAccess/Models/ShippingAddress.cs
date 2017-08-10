@@ -34,7 +34,6 @@ namespace DataAccess.Models
         public string Province { get; set; }
 
         [Required(ErrorMessage = "Country is required")]
-        [RegularExpression("^((?![<>]).)*$", ErrorMessage = "Angle brackets < and > are not allowed.")]
         public string Country { get; set; }
 
         [DisplayName("Postal Code")]
