@@ -73,7 +73,27 @@
                                         @Html.Partial("Partial_Views/EditCustomer", Model)
                                     </div>
                                 </div>
-
+                                <!-- BEGIN CONTACT CONFIRM DELETE MODAL -->
+                                <div id="DeleteCustomerConfirm" class="modal fade">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 id="DeleteCustomerConfirmTitle" class="modal-title">Confirmation</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p id="DeleteCustomerConfirmMessage"><i class="fa fa-fw fa-lg fa-exclamation-triangle redIcon"></i>This action only works for customers that don't have any orders and other associated data yet. This action cannot be undone.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button id="DeleteCustomerConfirmYes" type="button" class="btn btn-primary">Yes</button>
+                                                <button id="DeleteCustomerConfirmNo" type="button" class="btn btn-default">No</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END CONTACT CONFIRM DELETE MODAL -->
                             </div>
                             <!-- BEGIN CONTACTS HTML -->
                             <div class="tab-pane fade" id="s2">
@@ -354,7 +374,7 @@
                     })
                     .done(function (data) {
                         if (data.success) {
-                            MessageDialog("Customer information updated!");            
+                            MessageDialog("Customer information updated!");
                         }
                         else {
                             $('#UpdateCompanyError').text(data.responseText);
@@ -368,6 +388,21 @@
                     });
                 }
                 return false;
+            });
+
+            $('#DeleteCustomer').on('click', function () {
+
+                $("#DeleteCustomerConfirmTitle").html("Really delete customer <strong>" + @Model.CustomerID + "</strong>?");
+
+                $("#DeleteCustomerConfirmYes").off('click').click(function () {
+                    DeleteCustomer(@Model.CustomerID);
+                });
+
+                $("#DeleteCustomerConfirmNo").off('click').click(function () {
+                    $("#DeleteCustomerConfirm").modal("hide");
+                });
+
+                $("#DeleteCustomerConfirm").modal("show");
             });
 
             $('#newCustomerCarrierButton').on('click', function() {
@@ -501,7 +536,8 @@
             $("#deleteContactConfirmTitle").html("Really delete <strong>" + name + "</strong>?");
 
             $("#deleteContactConfirmYes").off('click').click(function() {
-                DeleteCustomerContact(contactId);
+
+                Contact(contactId);
             });
 
             $("#deleteContactConfirmNo").off('click').click(function() {
@@ -746,6 +782,29 @@
         }
 
         // *** END CUSTOMER CONTACTS ***
+
+        function DeleteCustomer(customerId) {
+
+            $.ajax({
+                type: "POST",
+                url: appRoot + "customer/DeleteCustomer",
+                data: { "CustomerID": customerId },
+            })
+            .success(function(result) {
+
+                if (!result.success) {
+                    MessageDialog("Customer delete failed! Error message was:<br><br>" + result.responseText);
+                }
+                else {
+                    window.location = "../../customer";
+                }
+
+                $("#deleteContactConfirm").modal("hide");
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                MessageDialog("Customer delete failed! Error message was:<br><br>" + textStatus);
+            });
+        }
 
     </script>
 }

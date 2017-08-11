@@ -54,6 +54,20 @@ namespace CenDek.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult> DeleteCustomer(int? customerId)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _customerService.DeleteCustomer(customerId);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Delete customer failed" });
+            }
+        }
+
         public async Task<ActionResult> Detail(int id)
         {
             var customer = await _dbContext.Customers.FindAsync(id);

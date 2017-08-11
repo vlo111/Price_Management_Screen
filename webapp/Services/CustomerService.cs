@@ -12,6 +12,7 @@ namespace CenDek.Services
     {
         Task<int> AddNewCustomer(Customer newCustomer);
         Task<Object> UpdateCustomer(Customer updatedCustomer);
+        Task<Object> DeleteCustomer(int? customerId);
     }
 
     public class CustomerService : ICustomerService
@@ -68,6 +69,22 @@ namespace CenDek.Services
                 throw;
             }
             return newCustomer.CustomerID;
+        }
+
+        public async Task<Object> DeleteCustomer(int? customerId)
+        {
+            try
+            {
+                Customer customer = _dbContext.Customers.Where(x => x.CustomerID == customerId).Single();
+                _dbContext.Customers.Remove(customer);
+
+                await _dbContext.SaveChangesAsync();
+                return new { success = true, responseText = "Customer deleted" };
+            }
+            catch (Exception ex)
+            {
+                return new { success = false, responseText = ex.InnerException.InnerException.Message };
+            }
         }
     }
 }
