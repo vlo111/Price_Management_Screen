@@ -136,26 +136,6 @@
                                             </div>
                                         </div>
                                         <!-- END CONTACT CONFIRM DELETE MODAL -->
-                                        <!-- BEGIN CONTACT MESSAGE MODAL -->
-                                        <div id="contactMessageDialog" class="modal fade">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        <h4 id="contactMessageDialogTitle" class="modal-title">Message</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p><i class="fa fa-fw fa-lg fa-exclamation-triangle redIcon"></i><span id="contactMessageDialogMessage"></span></p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button id="contactMessageDialogOk" type="button" class="btn btn-primary">OK</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- END CONTACT MESSAGE MODAL -->
                                     </div>
                                 </div>
                             </div>
@@ -246,6 +226,26 @@
 
             </div>
         </div>
+        <!-- BEGIN MESSAGE MODAL -->
+        <div id="MessageDialog" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 id="MessageDialogTitle" class="modal-title">Message</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><i class="fa fa-fw fa-lg fa-exclamation-triangle redIcon"></i><span id="MessageDialogMessage"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="MessageDialogOk" type="button" class="btn btn-primary">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END MESSAGE MODAL -->
     </div>
 
 <!-- END MAIN CONTENT -->
@@ -354,7 +354,7 @@
                     })
                     .done(function (data) {
                         if (data.success) {
-                            
+                            MessageDialog("Customer information updated!");            
                         }
                         else {
                             $('#UpdateCompanyError').text(data.responseText);
@@ -563,7 +563,7 @@
             var validation = ContactEditValidationFailed(field, value);
             if (validation) {
                 value = prev;  // Failed validation. Restore to previous value.
-                ContactMessageDialog(validation);
+                MessageDialog(validation);
             }
 
             var display = value == "" ? ContactEditPlaceholder(field)  : value;
@@ -718,15 +718,15 @@
         }
 
         // Show a modal dialog containing a message.
-        function ContactMessageDialog(message) {
+        function MessageDialog(message) {
 
-            $("#contactMessageDialogMessage").html(message);
+            $("#MessageDialogMessage").html(message);
 
-            $("#contactMessageDialogOk").off('click').click(function () {
-                $("#contactMessageDialog").modal("hide");
+            $("#MessageDialogOk").off('click').click(function () {
+                $("#MessageDialog").modal("hide");
             });
 
-            $("#contactMessageDialog").modal("show");
+            $("#MessageDialog").modal("show");
         }
 
         // When the check icon is clicked, if the contact info is not already primary contact, remove primary contact from
