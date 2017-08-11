@@ -151,7 +151,7 @@ namespace CenDek.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdateCompanyDetails(Customer companyDetails)
+        public async Task<ActionResult> UpdateCustomer(Customer companyDetails)
         {
             if (ModelState.IsValid)
             {

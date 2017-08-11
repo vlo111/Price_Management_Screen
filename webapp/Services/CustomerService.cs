@@ -38,7 +38,6 @@ namespace CenDek.Services
                 customer.PostalCode = updatedCustomer.PostalCode;
                 customer.Comments = updatedCustomer.Comments;
                 customer.Country = updatedCustomer.Country;
-                //customer.Created = DateTime.UtcNow;
                 customer.Modified = DateTime.UtcNow;
                 await _dbContext.SaveChangesAsync();
                 return new { success = true, responseText = "Customer Saved" };

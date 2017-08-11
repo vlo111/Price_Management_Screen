@@ -70,7 +70,7 @@
                                 <div class="padding-10">
                                     <h1><strong>@Html.ValidationMessage("Error", new { @class = "text-danger" })</strong></h1>
                                     <div class="row">
-                                        @Html.Partial("Partial_Views/UpdateCompanyDetails", Model)
+                                        @Html.Partial("Partial_Views/EditCustomer", Model)
                                     </div>
                                 </div>
 
@@ -343,19 +343,18 @@
                 }
             });
 
-            $('#updateCompanyDetailsForm').on('submit', function (e) {
+            $('#EditCustomerForm').on('submit', function (e) {
                 e.preventDefault();
                 var form = $(this);
                 if (form.valid()) {
                     $.ajax({
                         type: "POST",
-                        url: appRoot + "customer/UpdateCompanyDetails",
+                        url: appRoot + "customer/UpdateCustomer",
                         data: form.serialize(),
                     })
                     .done(function (data) {
-                        //append success message
                         if (data.success) {
-                            console.log("Saved");
+                            
                         }
                         else {
                             $('#UpdateCompanyError').text(data.responseText);

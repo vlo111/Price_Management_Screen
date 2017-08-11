@@ -456,7 +456,7 @@
     <Content Include="Scripts\plugins\bootstrap-tags\dist\bootstrap-tagsinput.min.js.map" />
     <Content Include="Views\Customer\Partial_Views\AddEditShippingAddress.cshtml" />
     <Content Include="Views\Customer\Partial_Views\NewContact.cshtml" />
-    <Content Include="Views\Customer\Partial_Views\UpdateCompanyDetails.cshtml" />
+    <Content Include="Views\Customer\Partial_Views\EditCustomer.cshtml" />
     <Content Include="Views\Customer\Partial_Views\NewCarrier.cshtml" />
     <Content Include="Views\Order\New.cshtml" />
     <Content Include="Views\Order\Edit.cshtml" />
