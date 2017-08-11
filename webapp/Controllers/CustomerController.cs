@@ -103,6 +103,20 @@ namespace CenDek.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult> DeleteShippingAddress(int? shippingAddressId)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _shippingAddressService.DeleteShippingAddress(shippingAddressId);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Delete shipping address failed" });
+            }
+        }
+
         // *** END SHIPPING ADDRESS ***
 
         [HttpPost]

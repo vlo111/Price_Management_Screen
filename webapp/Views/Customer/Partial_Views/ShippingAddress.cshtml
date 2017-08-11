@@ -1,5 +1,26 @@
 ﻿@model DataAccess.Models.Customer
 <table id="Shipping" class="table table-striped table-bordered table-hover"></table>
+<!-- BEGIN CONTACT CONFIRM DELETE MODAL -->
+<div id="deleteShippingAddressConfirm" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 id="deleteShippingAddressConfirmTitle" class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p id="deleteShippingAddressConfirmMessage"><i class="fa fa-fw fa-lg fa-exclamation-triangle redIcon"></i>This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="deleteShippingAddressConfirmYes" type="button" class="btn btn-primary">Yes</button>
+                <button id="deleteShippingAddressConfirmNo" type="button" class="btn btn-default">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END CONTACT CONFIRM DELETE MODAL -->
 <script>
     $(document).ready(function () {
 
@@ -87,6 +108,32 @@
                     title: "Comments",
                     sortable: true,
                     searchable: true
+                },
+                {
+                    name: 'edit',
+                    data: "edit",
+                    title: "Edit",
+                    sortable: false,
+                    searchable: false
+                },
+                {
+                    name: 'delete',
+                    data: "delete",
+                    title: "Delete",
+                    sortable: false,
+                    searchable: false
+                }
+            ],
+            "columnDefs": [
+                {
+                    "targets": -2,
+                    "data": null,
+                    "defaultContent": "<button>Edit</button>"
+                },
+                {
+                    "targets": -1,
+                    "data": null,
+                    "defaultContent": "<button>Delete</button>"
                 }
             ],
             dom: "<'dt-toolbar'<'col-xs-12 col-sm-6 col-md-3 col-lg-2'B><'col-xs-12 col-sm-6 col-md-6 col-lg-8'f><'hidden-sm hidden-xs col-md-3 col-lg-2'l>r>" +
@@ -151,5 +198,45 @@
             });
             return false;
         });
+
+        $('#Shipping tbody').on('click', 'button', function () {
+
+            var data = shippingDT.row($(this).parents('tr')).data();
+
+            if (this.innerHTML == "Edit") {
+                alert("Edit" + data.shippingAddressID);
+            }
+            else {
+                ShippingAddressDeleteClick(data.shippingAddressID, data.address1);
+            }
+        });
     });
+
+    function ShippingAddressDeleteClick(shippingAddressId, address1) {
+
+        $("#deleteShippingAddressConfirmTitle").html("Really delete <strong>" + address1 + "</strong>?");
+
+        $("#deleteShippingAddressConfirmYes").off('click').click(function () {
+            DeleteShippingAddress(shippingAddressId);
+        });
+
+        $("#deleteShippingAddressConfirmNo").off('click').click(function () {
+            $("#deleteShippingAddressConfirm").modal("hide");
+        });
+
+        $("#deleteShippingAddressConfirm").modal("show");
+    }
+
+    function DeleteShippingAddress(shippingAddressId) {
+
+        $.ajax({
+            type: "POST",
+            url: appRoot + "customer/DeleteShippingAddress",
+            data: { "ShippingAddressID": shippingAddressId },
+        })
+        .success(function () {
+            $('#Shipping').DataTable().ajax.reload();
+            $("#deleteShippingAddressConfirm").modal("hide");
+        });
+    }
 </script>
