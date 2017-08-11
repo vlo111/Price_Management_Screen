@@ -190,7 +190,7 @@
 
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="newShippingAddress" tabindex="-1" role="dialog" aria-labelledby="newShippingAddress">
+                                        <div class="modal fade" id="AddEditShippingAddressModal" tabindex="-1" role="dialog" aria-labelledby="AddEditShippingAddressModal">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -198,7 +198,7 @@
                                                         <h4 class="modal-title" id="myModalLabel">Add New Shipping Address</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        @Html.Partial("Partial_Views/NewShippingAddress", new DataAccess.Models.ShippingAddress { CustomerID = Model.CustomerID })
+                                                        @Html.Partial("Partial_Views/AddEditShippingAddress", new DataAccess.Models.ShippingAddress { CustomerID = Model.CustomerID })
                                                     </div>
                                                 </div>
                                             </div>

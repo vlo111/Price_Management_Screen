@@ -94,13 +94,13 @@
             "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
             buttons: [
                 {
-                    className: "new-shipping-address",
+                    className: "add-edit-shipping-address",
                     text: ''
                 }
 
             ],
             initComplete: function () {
-                $('.new-shipping-address').parent().html('<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newShippingAddress"> <i class="fa fa-plus"></i> New Shipping Address </button>')
+                $('.add-edit-shipping-address').parent().html('<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#AddEditShippingAddressModal"> <i class="fa fa-plus"></i> New Shipping Address </button>')
             },
             "autoWidth": true,
             "preDrawCallback": function () {
@@ -117,12 +117,12 @@
             }
         });
 
-        $('#newShippingAddress').on('shown.bs.modal', function () {
-            $.validator.unobtrusive.parse('#newShipAddressForm');
+        $('#AddEditShippingAddressModal').on('shown.bs.modal', function () {
+            $.validator.unobtrusive.parse('#AddEditShippingAddressForm');
         });
 
         // Clear contact modal fields on hide
-        $('#newShippingAddress').on('hidden.bs.modal', function () {
+        $('#AddEditShippingAddressModal').on('hidden.bs.modal', function () {
             var modal = $(this);
             modal.find('#Address1').val('');
             modal.find('#Address2').val('');
@@ -133,7 +133,7 @@
             modal.find('#Comments').val('');
         });
 
-        $('#newShippingAddress').on('submit', '#newShipAddressForm', function (e) {
+        $('#AddEditShippingAddressModal').on('submit', '#AddEditShippingAddressForm', function (e) {
             e.preventDefault();
             var form = $(this);
             $.ajax({
@@ -142,7 +142,7 @@
                 data: form.serialize(),
             })
             .done(function () {
-                $('#newShippingAddress').modal('hide');
+                $('#AddEditShippingAddressModal').modal('hide');
                 $('#Shipping').DataTable().ajax.reload();
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
