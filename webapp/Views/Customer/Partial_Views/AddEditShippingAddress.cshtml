@@ -27,6 +27,8 @@
 
             <div id="new-ship-address-form" class="smart-form" novalidate="novalidate">        
                 @Html.HiddenFor(model => model.CustomerID)
+                @Html.HiddenFor(model => model.ShippingAddressID)
+                <input id="AddEditShippingAddressMode" type="hidden" />
                 <fieldset>
                     <legend>Address</legend>
 

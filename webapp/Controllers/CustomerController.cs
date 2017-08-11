@@ -104,6 +104,20 @@ namespace CenDek.Controllers
         }
 
         [HttpPost]
+        public async Task<ActionResult> UpdateShippingAddress(ShippingAddress updatedShippingAddress)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _shippingAddressService.UpdateShippingAddress(updatedShippingAddress);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Update customer contact failed" });
+            }
+        }
+
+        [HttpPost]
         public async Task<ActionResult> DeleteShippingAddress(int? shippingAddressId)
         {
             if (ModelState.IsValid)

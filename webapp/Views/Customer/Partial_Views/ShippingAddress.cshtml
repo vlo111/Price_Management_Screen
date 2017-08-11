@@ -166,6 +166,7 @@
 
         $('#AddEditShippingAddressModal').on('shown.bs.modal', function () {
             $.validator.unobtrusive.parse('#AddEditShippingAddressForm');
+
         });
 
         // Clear contact modal fields on hide
@@ -178,14 +179,27 @@
             modal.find('#Country').val('');
             modal.find('#PostalCode').val('');
             modal.find('#Comments').val('');
+            modal.find('#AddEditShippingAddressId').val('');
+            modal.find('#AddEditShippingAddressMode').val('add');
+            $("#AddEditShippingAddressModalTitle").html("Add New Shipping Address");
         });
 
         $('#AddEditShippingAddressModal').on('submit', '#AddEditShippingAddressForm', function (e) {
+
             e.preventDefault();
             var form = $(this);
+            var url;
+
+            if ($("#AddEditShippingAddressMode").val() == "add") {
+                url = appRoot + "customer/AddShippingAddress";
+            }
+            else if ($("#AddEditShippingAddressMode").val() == "edit") {
+                url = appRoot + "customer/UpdateShippingAddress";
+            }
+
             $.ajax({
                 type: "POST",
-                url: appRoot + "customer/AddShippingAddress",
+                url: url,
                 data: form.serialize(),
             })
             .done(function () {
@@ -204,7 +218,18 @@
             var data = shippingDT.row($(this).parents('tr')).data();
 
             if (this.innerHTML == "Edit") {
-                alert("Edit" + data.shippingAddressID);
+                $("#AddEditShippingAddressModalTitle").html("Edit Shipping Address");
+                var modal = $("#AddEditShippingAddressModal").modal();
+                modal.find('#Address1').val(data.address1);
+                modal.find('#Address2').val(data.address2);
+                modal.find('#City').val(data.city);
+                modal.find('#Province').val(data.province);
+                modal.find('#Country').val(data.country);
+                modal.find('#PostalCode').val(data.postalCode);
+                modal.find('#Comments').val(data.comments);
+                modal.find('#ShippingAddressID').val(data.shippingAddressID);
+                modal.find('#AddEditShippingAddressMode').val("edit");
+                $("#AddEditShippingAddressModal").modal("show");
             }
             else {
                 ShippingAddressDeleteClick(data.shippingAddressID, data.address1);
