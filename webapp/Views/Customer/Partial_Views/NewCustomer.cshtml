@@ -84,7 +84,7 @@
                         </section>
                         <section class="col col-3">
                             <label class="select">
-                                @Html.DropDownListFor(model => model.Country, new SelectList(new string[] { "Canada", "United States" }, Model.Country))
+                                @Html.DropDownListFor(model => model.Country, new SelectList(new string[] { "Canada", "United States" }, Model.Country), "Country")
                                 @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
                             </label>
                         </section>
