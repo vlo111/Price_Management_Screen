@@ -49,7 +49,6 @@
                         </section>
                     </div>
                 </fieldset>
-
                 <fieldset>
                     <legend>Billing Address</legend>
 
@@ -126,9 +125,19 @@
                         </label>
                     </section>
                 </fieldset>
-
+                <fieldset>
+                    <legend>DekSmart Discount</legend>
+                    <div class="row">
+                        <section class="col col-6">
+                            <label class="input">
+                                <i class="icon-prepend fa fa-percent"></i>
+                                @Html.TextBoxFor(model => model.DekSmartDiscount, new { @placeholder = Html.DisplayNameFor(n => n.DekSmartDiscount), aria_required = "true", @aria_invalid = "false", @class = "valid" })
+                                @Html.ValidationMessageFor(model => model.DekSmartDiscount, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                    </div>
+                </fieldset>
             </div>
-
         </div>
         <!-- end widget content -->
         <button type="submit" class="btn btn-primary" id="UpdateCustomerSubmit" style="margin-left: 15px;">Save changes</button>

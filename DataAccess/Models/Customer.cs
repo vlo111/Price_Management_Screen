@@ -28,7 +28,7 @@ namespace DataAccess.Models
 
         [RegularExpression("^((?![<>]).)*$", ErrorMessage = "Angle brackets < and > are not allowed.")]
         public string Fax { get; set; }
-        
+
         [DisplayName("Address 1")]
         [RegularExpression("^((?![<>]).)*$", ErrorMessage = "Angle brackets < and > are not allowed.")]
         public string Address1 { get; set; }
@@ -52,7 +52,10 @@ namespace DataAccess.Models
 
         [RegularExpression("^((?![<>]).)*$", ErrorMessage = "Angle brackets < and > are not allowed.")]
         public string Comments { get; set; }
-        
+
+        [Range(0, 100, ErrorMessage = "Please enter a number between 0 and 100.")]
+        public int DekSmartDiscount { get; set; }
+
         // Hidden fields.
         public int EmployeeID { get; set; }
         public bool GSTExempt { get; set; }

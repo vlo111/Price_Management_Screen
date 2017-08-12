@@ -165,16 +165,16 @@ namespace CenDek.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdateCustomer(Customer companyDetails)
+        public async Task<ActionResult> UpdateCustomer(Customer updatedCustomer)
         {
             if (ModelState.IsValid)
             {
-                var response = await _customerService.UpdateCustomer(companyDetails);
+                var response = await _customerService.UpdateCustomer(updatedCustomer);
                 return Json(response);
             }
             else
             {
-                return Json(new { success = false, responseText = "Customer Save Failed" });
+                return Json(new { success = false, responseText = "Customer Update Failed" });
 
             }
 
