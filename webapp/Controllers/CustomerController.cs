@@ -183,20 +183,33 @@ namespace CenDek.Controllers
         public ActionResult GetCustomers(IDataTablesRequest request)
         {
             string search = request.Search.Value;
+
+            int searchInt = 0;
+
+            try
+            {
+                searchInt = Int32.Parse(search);
+            }
+            catch (Exception)
+            {
+                searchInt = 0;
+            }
+
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
             var data = _dbContext.Customers;
             var filteredData = data.Where(
                                             _item =>
-                                            _item.Address1.Contains(request.Search.Value) ||
-                                            _item.Address2.Contains(request.Search.Value) ||
-                                            _item.City.Contains(request.Search.Value) ||
-                                            _item.Comments.Contains(request.Search.Value) ||
-                                            _item.Company.Contains(request.Search.Value) ||
-                                            _item.Country.Contains(request.Search.Value) ||
-                                            _item.Fax.Contains(request.Search.Value) ||
-                                            _item.PhoneNo.Contains(request.Search.Value) ||
-                                            _item.PostalCode.Contains(request.Search.Value) ||
+                                            _item.CustomerID == searchInt                     ||
+                                            _item.Address1.Contains(request.Search.Value)     ||
+                                            _item.Address2.Contains(request.Search.Value)     ||
+                                            _item.City.Contains(request.Search.Value)         ||
+                                            //_item.Comments.Contains(request.Search.Value)   ||  // Some items are excluded because they aren't in the grid and so the match can be confusing.
+                                            _item.Company.Contains(request.Search.Value)      ||
+                                            _item.Country.Contains(request.Search.Value)      ||
+                                            //_item.Fax.Contains(request.Search.Value)        ||
+                                            //_item.PhoneNo.Contains(request.Search.Value)    ||
+                                            //_item.PostalCode.Contains(request.Search.Value) ||
                                             _item.Province.Contains(request.Search.Value)
                                           );
             var orderColums = request.Columns.Where(x => x.Sort != null);
