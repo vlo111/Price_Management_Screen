@@ -257,7 +257,7 @@
                         <h4 id="MessageDialogTitle" class="modal-title">Message</h4>
                     </div>
                     <div class="modal-body">
-                        <p><i class="fa fa-fw fa-lg fa-exclamation-triangle redIcon"></i><span id="MessageDialogMessage"></span></p>
+                        <p><i id="MessageDialogIcon"></i><span id="MessageDialogMessage"></span></p>
                     </div>
                     <div class="modal-footer">
                         <button id="MessageDialogOk" type="button" class="btn btn-primary">OK</button>
@@ -374,7 +374,7 @@
                     })
                     .done(function (data) {
                         if (data.success) {
-                            MessageDialog("Customer information updated!");
+                            MessageDialog("Customer information updated!", false);
                         }
                         else {
                             $('#UpdateCompanyError').text(data.responseText);
@@ -455,6 +455,16 @@
 
             // Clear contact modal fields on hide
             $('#contactModal').on('hidden.bs.modal', function() {
+
+                // Remove any form validation artifacts.
+                $(this).each(function () {
+                    $(this).find(".field-validation-error").empty();
+                    $(this).find(".input-validation-error").removeClass("input-validation-error");
+                    $(this).find(".state-error").removeClass("state-error");
+                    $(this).find(".state-success").removeClass("state-success");
+                    $(this).trigger('reset.unobtrusiveValidation');
+                });
+
                 var modal = $(this);
                 modal.find('#First').val('');
                 modal.find('#Last').val('');
@@ -486,6 +496,16 @@
 
             // Clear contact info modal fields on hide.
             $('#contactInfoModal').on('hidden.bs.modal', function() {
+
+                // Remove any form validation artifacts.
+                $(this).each(function () {
+                    $(this).find(".field-validation-error").empty();
+                    $(this).find(".input-validation-error").removeClass("input-validation-error");
+                    $(this).find(".state-error").removeClass("state-error");
+                    $(this).find(".state-success").removeClass("state-success");
+                    $(this).trigger('reset.unobtrusiveValidation');
+                });
+
                 var modal = $(this);
                 modal.find("#Name").val("");
                 modal.find("#Contact").val("");
@@ -599,7 +619,7 @@
             var validation = ContactEditValidationFailed(field, value);
             if (validation) {
                 value = prev;  // Failed validation. Restore to previous value.
-                MessageDialog(validation);
+                MessageDialog(validation, true);
             }
 
             var display = value == "" ? ContactEditPlaceholder(field)  : value;
@@ -754,7 +774,16 @@
         }
 
         // Show a modal dialog containing a message.
-        function MessageDialog(message) {
+        function MessageDialog(message, alert) {
+
+            $("#MessageDialogIcon").removeClass();
+
+            if (alert) {
+                $("#MessageDialogIcon").addClass("fa fa-fw fa-lg fa-exclamation-triangle redIcon");
+            }
+            else {
+                $("#MessageDialogIcon").addClass("fa fa-fw fa-lg fa-check greenIcon");
+            }
 
             $("#MessageDialogMessage").html(message);
 
@@ -793,16 +822,17 @@
             .success(function(result) {
 
                 if (!result.success) {
-                    MessageDialog("Customer delete failed! Error message was:<br><br>" + result.responseText);
+                    MessageDialog("Customer delete failed! Error message was:<br><br>" + result.responseText, true);
                 }
                 else {
                     window.location = "../../customer";
                 }
 
-                $("#deleteContactConfirm").modal("hide");
+                $("#DeleteCustomerConfirm").modal("hide");
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
-                MessageDialog("Customer delete failed! Error message was:<br><br>" + textStatus);
+                MessageDialog("Customer delete failed! Error message was:<br><br>" + textStatus, true);
+                $("#DeleteCustomerConfirm").modal("hide");
             });
         }
 

@@ -149,6 +149,16 @@
 
         // Clear contact modal fields on hide
         $('#newCustomerModal').on('hidden.bs.modal', function () {
+
+            // Remove any form validation artifacts.
+            $(this).each(function () {
+                $(this).find(".field-validation-error").empty();
+                $(this).find(".input-validation-error").removeClass("input-validation-error");
+                $(this).find(".state-error").removeClass("state-error");
+                $(this).find(".state-success").removeClass("state-success");
+                $(this).trigger('reset.unobtrusiveValidation');
+            });
+
             var modal = $(this);
             modal.find('#Company').val('');
             modal.find('#PhoneNo').val('');
