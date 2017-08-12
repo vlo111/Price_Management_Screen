@@ -53,7 +53,8 @@ namespace DataAccess.Models
         [RegularExpression("^((?![<>]).)*$", ErrorMessage = "Angle brackets < and > are not allowed.")]
         public string Comments { get; set; }
 
-        [Range(0, 100, ErrorMessage = "Please enter a number between 0 and 100.")]
+        //[Range(0, 100, ErrorMessage = "Please enter a whole number between 0 and 100.")]
+        [RegularExpression("^[0-9]+$", ErrorMessage = "Please enter a whole number between 0 and 100.")]
         public int DekSmartDiscount { get; set; }
 
         // Hidden fields.

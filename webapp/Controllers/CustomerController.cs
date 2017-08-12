@@ -169,13 +169,19 @@ namespace CenDek.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _customerService.UpdateCustomer(updatedCustomer);
-                return Json(response);
+                if (updatedCustomer.DekSmartDiscount >= 0 && updatedCustomer.DekSmartDiscount <= 100)
+                {
+                    var response = await _customerService.UpdateCustomer(updatedCustomer);
+                    return Json(response);
+                }
+                else
+                {
+                    return Json(new { success = false, responseText = "Customer Update Failed! DekSmart Discount must be in the range 0 to 100." });
+                }
             }
             else
             {
                 return Json(new { success = false, responseText = "Customer Update Failed" });
-
             }
 
         }
