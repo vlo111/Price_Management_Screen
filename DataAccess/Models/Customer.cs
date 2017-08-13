@@ -22,7 +22,6 @@ namespace DataAccess.Models
         public string Company { get; set; }
 
         [DisplayName("Phone")]
-        [Required(ErrorMessage = "Phone is required")]
         [RegularExpression("^((?![<>]).)*$", ErrorMessage = "Angle brackets < and > are not allowed.")]
         public string PhoneNo { get; set; }
 

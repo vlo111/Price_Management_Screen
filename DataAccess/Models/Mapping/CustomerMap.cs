@@ -14,9 +14,6 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.Company)
                 .IsRequired();
 
-            this.Property(t => t.PhoneNo)
-                .IsRequired();
-
             this.Property(t => t.Address1)
                 .HasMaxLength(150);
             

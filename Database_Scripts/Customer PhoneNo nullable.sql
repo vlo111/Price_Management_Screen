@@ -1,0 +1,1 @@
+alter table Customer alter column PhoneNo varchar(max) null;
