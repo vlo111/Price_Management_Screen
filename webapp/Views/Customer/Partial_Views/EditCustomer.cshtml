@@ -104,6 +104,15 @@
                     </section>
                 </fieldset>
                 <fieldset>
+                    <legend>Comments</legend>
+                    <section>
+                        <label class="textarea">
+                            @Html.TextAreaFor(model => model.Comments, new { placeholder = Html.DisplayNameFor(n => n.Comments), @class = "comments" })
+                            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                        </label>
+                    </section>
+                </fieldset>
+                <fieldset>
                     <legend>DekSmart Discount</legend>
                     <div class="row">
                         <section class="col col-6">
