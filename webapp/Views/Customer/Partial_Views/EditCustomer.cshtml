@@ -105,13 +105,28 @@
                     </section>
                 </fieldset>
                 <fieldset>
-                    <legend>DekSmart Discount</legend>
+                    <legend>Other</legend>
                     <div class="row">
                         <section class="col col-6">
+                            DekSmart Discount
                             <label class="input">
                                 <i class="icon-prepend fa fa-percent"></i>
                                 @Html.TextBoxFor(model => model.DekSmartDiscount, new { @placeholder = Html.DisplayNameFor(n => n.DekSmartDiscount), aria_required = "true", @aria_invalid = "false", @class = "valid" })
                                 @Html.ValidationMessageFor(model => model.DekSmartDiscount, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                    </div>
+                    <div class="row">
+                        <section class="col col-6">
+                            <label class="">
+                                GST Exempt
+                                @Html.CheckBoxFor(model => model.GSTExempt)
+                                @Html.ValidationMessageFor(model => model.GSTExempt, "", new { @class = "text-danger" })
+                            </label>&nbsp;&nbsp;&nbsp;
+                            <label class="">
+                                PST Exempt
+                                @Html.CheckBoxFor(model => model.PSTExempt)
+                                @Html.ValidationMessageFor(model => model.PSTExempt, "", new { @class = "text-danger" })
                             </label>
                         </section>
                     </div>

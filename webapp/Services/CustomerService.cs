@@ -40,6 +40,8 @@ namespace CenDek.Services
                 customer.Comments = updatedCustomer.Comments;
                 customer.Country = updatedCustomer.Country;
                 customer.DekSmartDiscount = updatedCustomer.DekSmartDiscount;
+                customer.GSTExempt = updatedCustomer.GSTExempt;
+                customer.PSTExempt = updatedCustomer.PSTExempt;
                 customer.Modified = DateTime.UtcNow;
                 await _dbContext.SaveChangesAsync();
                 return new { success = true, responseText = "Customer Saved" };

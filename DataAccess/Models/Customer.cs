@@ -56,10 +56,11 @@ namespace DataAccess.Models
         [RegularExpression("^[0-9]+$", ErrorMessage = "Please enter a whole number between 0 and 100.")]
         public int DekSmartDiscount { get; set; }
 
-        // Hidden fields.
-        public int EmployeeID { get; set; }
         public bool GSTExempt { get; set; }
         public bool PSTExempt { get; set; }
+
+        // Hidden fields.
+        public int EmployeeID { get; set; }
         public System.DateTime Created { get; set; }
         public Nullable<System.DateTime> Modified { get; set; }
 
