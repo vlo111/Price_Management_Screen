@@ -468,6 +468,7 @@
     <Content Include="Views\Customer\Partial_Views\NewContactInfo.cshtml" />
     <Content Include="Views\Customer\Partial_Views\ShippingAddress.cshtml" />
     <Content Include="Views\Customer\Partial_Views\NewCustomer.cshtml" />
+    <Content Include="Views\Customer\Partial_Views\Contact.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
