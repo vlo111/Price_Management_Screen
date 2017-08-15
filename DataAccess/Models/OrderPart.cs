@@ -24,5 +24,6 @@ namespace DataAccess.Models
         public virtual Part Part { get; set; }
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<CustOrder> CustOrders { get; set; }
     }
 }

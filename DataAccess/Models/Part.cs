@@ -13,6 +13,8 @@ namespace DataAccess.Models
             this.PartInventories = new List<PartInventory>();
             this.Prices = new List<Price>();
             this.Files = new List<File>();
+            this.Category = new Category();
+            this.MeasUnit = new MeasUnit();
         }
 
         public int PartID { get; set; }

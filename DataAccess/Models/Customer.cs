@@ -13,6 +13,7 @@ namespace DataAccess.Models
             this.CustomerContacts = new List<CustomerContact>();
             this.CustOrders = new List<CustOrder>();
             this.ShippingAddresses = new List<ShippingAddress>();
+            this.CustOrders = new List<CustOrder>();
         }
 
         public int CustomerID { get; set; }

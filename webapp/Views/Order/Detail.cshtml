@@ -1,4 +1,5 @@
-﻿<!-- MAIN CONTENT -->
+﻿@model CenDek.Models.NewCustomerOrder
+<!-- MAIN CONTENT -->
 <div id="content">
 
     <div class="row">
@@ -33,7 +34,7 @@
                         </select>
                     </div>
                     <div class="col-md-5 pull-right">
-                        <h1 class="semi-bold ">Order: 1321</h1>
+                        <h1 class="semi-bold ">Order: @ViewBag.OrderId</h1>
                     </div>
                 </div>
 
@@ -56,10 +57,6 @@
                          data-widget-collapsed="false"
                          data-widget-sortable="false" role="widget">
 
-                        @*<header role="heading">
-                                <h2>Customer</h2>
-                                <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
-                            </header>*@
                         <!-- widget div-->
                         <header role="heading">
                             @*<div class="jarviswidget-ctrls" role="menu">   <a href="javascript:void(0);" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a>  </div>*@
@@ -85,9 +82,8 @@
                                                 <div class="form-group has-feedback">
                                                     <label class="col-md-4">Company</label>
                                                     <div class="col-md-8">
-                                                        <label class="control-label">
-                                                            Century Aliuminum <i class="fa fa-edit" title="edit"></i>
-                                                        </label>
+                                                        @Html.Label(Model.customer.Company) &nbsp;<i class="fa fa-edit" title="edit"></i>
+
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -96,7 +92,8 @@
                                                 <div class="form-group has-feedback">
                                                     <label class="col-md-4" for="Customer">Customer</label>
                                                     <div class="col-md-8">
-                                                        @Html.DropDownList("CustomerID", (IEnumerable<SelectListItem>)ViewBag.customerList, "Select", new { @class = "input-sm" })
+                                                        @Html.Label(Model.customer.CustomerContacts.FirstOrDefault().First + ' ' + Model.customer.CustomerContacts.FirstOrDefault().Last)
+                                                        @*@Html.DropDownList("CustomerID", (IEnumerable<SelectListItem>)ViewBag.customerList, "Select", new { @class = "input-sm" })*@
                                                         <i class="fa fa-edit" title="edit"></i>
                                                     </div>
                                                 </div>
@@ -207,8 +204,8 @@
                                             </legend>
 
                                         </fieldset>
+
                                         <div class="custom-scroll dropFile">
-                                            @*<form action="upload.php" class="dropzone dz-clickable" id="mydropzone"><div class="dz-default dz-message"><span><span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp;&nbsp;<h4 class="display-inline"> (Or Click)</h4></span></span></span></span></div></form>*@
                                             <form action="~/Order/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone dz-clickable" id="dropzoneForm" style="min-height:inherit">
 
                                                 <div class="dz-default dz-message">
@@ -223,6 +220,7 @@
                                                         </span>
                                                     </span>
                                                 </div>
+                                                <input type="hidden" id="custOrderID" name="custOrderID" value="@ViewBag.OrderId" />
                                             </form>
                                         </div>
                                     </div>
@@ -336,18 +334,12 @@
                 <div class="jarviswidget jarviswidget-color-darken " id="wid-id-2" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" role="widget" style="">
 
                     <header role="heading">
-                        @*<div class="jarviswidget-ctrls" role="menu">   <a href="javascript:void(0);" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a>  </div>*@
-
                         <h2 class="font-md"><i>Tags</i></h2>
-
                         <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
                     </header>
 
                     <!-- widget div-->
                     <div role="content">
-
-                        <!-- widget edit box -->
-                        <!-- end widget edit box -->
                         <!-- widget content -->
                         <div class="widget-body">
                             <div id="checkout-form" class="form-horizontal bv-form" novalidate="novalidate">
@@ -416,6 +408,7 @@
                                                     @Html.DropDownList("ColourID", (IEnumerable<SelectListItem>)ViewBag.coloutList, "Select", new { @class = "input-xs tagDropDown" })
                                                 </label>
                                             </div>
+                                            <button class="btn btn-warning pin-it" style="display:none">Select</button>
                                         </div>
                                     </div>
                                     <div class="custom-scroll table-responsive" style="height:100px; overflow-y: scroll;">
@@ -496,14 +489,126 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-danger btn-ok">Delete</a>
+                    <a class="btn btn-danger btn-ok" id="deleteTagPartBtn" data-dismiss="modal">Delete</a>
                 </div>
             </div>
         </div>
     </div>
     <!-- Confirmation Box For Deleting Tag Part Ends -->
+    <!-- Modal for Custom Port -->
+    <div class="modal fade" id="customPortDiv" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Customer Carrier</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="widget-body no-padding">
+                        <div id="new-customer-carrier-form" class="smart-form" novalidate="novalidate">
+                            @*@Html.HiddenFor(model => model.PartId)*@
 
-    <input type="hidden" id="partsSelected" value="" />
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="select">
+                                            <input type="text" value="" placeholder="Name" />
+                                            @*@Html.TextBoxFor(model => model.PartNo, new { placeholder = Html.DisplayNameFor(n => n.PartNo) })
+                                                @Html.ValidationMessageFor(model => model.PartNo, "", new { @class = "text-danger" })*@
+                                            <i>
+                                            </i>
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @*@Html.TextBoxFor(model => model.Name, new { placeholder = Html.DisplayNameFor(n => n.Name) })
+                                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })*@
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="textarea">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @*@Html.TextAreaFor(model => model.Comment, new { placeholder = Html.DisplayNameFor(n => n.Comment) })
+                                                @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })*@
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @*@Html.TextBoxFor(model => model.Weight, new { placeholder = Html.DisplayNameFor(n => n.Weight) })
+                                                @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })*@
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @*@Html.DropDownListFor(model => model.WeightUnit, Enumerable.Empty<SelectListItem>(), "Select a Carrier", new { @id = "CarrierList" })
+                                                @Html.ValidationMessageFor(model => model.WeightUnit, "", new { @class = "text-danger" })*@
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @*@Html.TextBoxFor(model => model.Quantity, new { placeholder = Html.DisplayNameFor(n => n.Quantity) })
+                                                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })*@
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @*@Html.DropDownListFor(model => model.QuantityUnit, Enumerable.Empty<SelectListItem>(), "Select a Carrier", new { @id = "CarrierList" })
+                                                @Html.ValidationMessageFor(model => model.QuantityUnit, "", new { @class = "text-danger" })*@
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @*@Html.TextBoxFor(model => model.Price, new { placeholder = Html.DisplayNameFor(n => n.Price) })
+                                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })*@
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            @*@Html.DropDownListFor(model => model.PriceUnit, Enumerable.Empty<SelectListItem>(), "Select a Carrier", new { @id = "CarrierList" })
+                                                @Html.ValidationMessageFor(model => model.PriceUnit, "", new { @class = "text-danger" })*@
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input"></label>
+                                        <div class="custom-scroll dropFile">
+                                            @*<form action="upload.php" class="dropzone dz-clickable" id="mydropzone"><div class="dz-default dz-message"><span><span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp;&nbsp;<h4 class="display-inline"> (Or Click)</h4></span></span></span></span></div></form>*@
+                                            <form action="~/Order/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone dz-clickable" id="dropzoneForm" style="min-height:inherit">
+
+                                                <div class="dz-default dz-message">
+                                                    <span>
+                                                        <span class="text-center">
+                                                            <span class="font-lg visible-xs-block visible-sm-block visible-lg-block">
+                                                                <span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>
+                                                                    &nbsp;&nbsp;
+                                                                    <h4 class="display-inline"> (Or Click)</h4>
+                                                                </span>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="newShippingAddressSubmit">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for Custom Port Ends -->
+    <input type="hidden" id="hdnOrderPartIDs" value="@ViewBag.OrderPartIDs " />
 
 </div>
 <!-- END MAIN CONTENT -->
@@ -514,14 +619,15 @@
         display: -ms-flexbox;
         display: flex;
     }
-    .orderDetailPanel > div {
-            margin: 0px 5px 15px 0px;
-    }
 
-    .orderDetailPanel .dropFile {
+        .orderDetailPanel > div {
+            margin: 0px 5px 15px 0px;
+        }
+
+        .orderDetailPanel .dropFile {
             overflow-y: scroll;
             max-height: 200px;
-    }
+        }
 
     .tagDropDown {
         max-width: inherit;
@@ -558,25 +664,11 @@
 @section pagespecific {
 
     <script>
-
-        function createTag() {
-            var tagName = $('#txtTagName').val();
-            if (tagName) {
-
-            } else {
-                $('#txtTagName').focus();
-                alert('Please enter Tag name');
-            }
+        function editPart(id) {
+            $('#shipping_edit_modal').attr('data-orderPartId', id);
+            $('#shipping_edit_modal').modal('show');
         }
 
-        function removePartFrmTag(cntrl) {
-            alert(this)
-            $(cntrl).closest('tr').remove();
-
-        }
-
-        function editPart() {
-            $('#shipping_edit_modal').modal('show');}
         function getPartById(part_id) {
             var return_data;
             var id = parseInt(part_id);
@@ -597,47 +689,61 @@
 
         function addPartToTag(part) {
             var check;
-            var tableBody = $('#emptyFormTagTable > tbody');
-            var rowCount = $('#emptyFormTagTable tbody tr').length;
-            var item = part[0];
-            if (item != null) {
-                check = checkIfPartAlreadyExistsInTag(rowCount, item.PartID);
-                if (!check) {
-                    var tr = document.createElement('tr');
-                    $(tr).attr('data-partId', item.PartID);
-                    var trCol1 = document.createElement('td');
-                    var trCol2 = document.createElement('td');
-                    var trCol3 = document.createElement('td');
-                    var trCol4 = document.createElement('td');
+            //we are getting count of the tags that are active
+            var activeTagsCount = $('.tagPanelDetail').children('.active').length;
+            // only 1 tag can be active
+            if (activeTagsCount === 1) {
+                // we are getting the tag that is active in the tags section
+                var activeTagSection = $('.tagPanelDetail').children('.active');
+                //finding the active tag's table container that holds the table with class custom-scroll
+                var tableContainer = $(activeTagSection).children('.custom-scroll');
+                //getting the table in which we have to add the part
+                var activeTagTable = $(tableContainer).children('.table');
+                //getting table body of the table as our will have thead and tbody as its children
+                var activeTagTableBody = $(activeTagTable).children()[1];
+                //getting row count of the tbody
+                var rowCount = $(activeTagTableBody).children().length;
+                var item = part[0];
+                if (item != null) {
+                    check = checkIfPartAlreadyExistsInTag(activeTagTableBody, rowCount, item.PartID);
+                    //check = false;
+                    if (!check) {
+                        var tr = document.createElement('tr');
+                        $(tr).attr('data-partId', item.PartID);
+                        var trCol1 = document.createElement('td');
+                        var trCol2 = document.createElement('td');
+                        var trCol3 = document.createElement('td');
+                        var trCol4 = document.createElement('td');
 
-                    trCol1.innerHTML = rowCount + 1;
-                    trCol2.innerHTML = item.Name;
-                    trCol3.innerHTML = item.Description;
-                    var anchorTag = document.createElement('a');
-                    anchorTag.setAttribute("onclick", "removePartFrmTag(this)");
-                    anchorTag.setAttribute("href", "javascript:void(0);");
-                    var icon = document.createElement('i');
-                    $(icon).addClass('fa fa-remove text-danger');
-                    anchorTag.appendChild(icon);
-                    trCol4.appendChild(anchorTag);
+                        trCol1.innerHTML = rowCount + 1;
+                        trCol2.innerHTML = item.Name;
+                        trCol3.innerHTML = item.Description;
+                        var anchorTag = document.createElement('a');
+                        anchorTag.setAttribute("onclick", "removePartFrmTag(this)");
+                        anchorTag.setAttribute("href", "javascript:void(0);");
+                        var icon = document.createElement('i');
+                        $(icon).addClass('fa fa-remove text-danger');
+                        anchorTag.appendChild(icon);
+                        trCol4.appendChild(anchorTag);
 
-                    tr.appendChild(trCol1);
-                    tr.appendChild(trCol2);
-                    tr.appendChild(trCol3);
-                    tr.appendChild(trCol4);
-                    tableBody[0].appendChild(tr);
+                        tr.appendChild(trCol1);
+                        tr.appendChild(trCol2);
+                        tr.appendChild(trCol3);
+                        tr.appendChild(trCol4);
+                        $(activeTagTableBody)[0].appendChild(tr);
+                    } else {
+                        toastr.error("This part already exists in Tag");
+                    }
                 }
-                else {
-                    alert("This part already exists in Tag");
-                }
-
+            } else {
+                toastr.info("No tag is active.");
             }
         }
 
-        function checkIfPartAlreadyExistsInTag(count, partId) {
+        function checkIfPartAlreadyExistsInTag(activeTagTableBody, count, partId) {
             var ids = [];
             if (count > 0) {
-                $("#emptyFormTagTable tbody tr").each(function () {
+                $(activeTagTableBody).children().each(function () {
                     var part_id = $(this).data('partid');
                     ids.push(part_id);
                 });
@@ -653,7 +759,10 @@
         }
 
         function customPart() { }
+
         function uploadFileOfPart() { }
+
+
     </script>
 
     <script>
@@ -665,162 +774,181 @@
             phone: 480
         };
 
-        var clientTable = $('#PartsList').DataTable({
-            serverSide: true,
-            "ajax": {
-                "url": appRoot + "order/GetOrders",
-                "type": 'GET',
-                "data": function (d) {
-                    d.PartsIds = $('#partsSelected').val();
 
-                }
-            },
-            "bInfo": false, //Dont display info e.g. "Showing 1 to 4 of 4 entries"
-            "searching": false, //Disable searching abilities in DataTables:
-            "bPaginate": false,//Dont want paging
-            "columnDefs": [{
-                "searchable": false,
-                "orderable": false,
-                "targets": 0
-            }],
-            "order": [[1, 'asc']],
-            columns: [
-                {
-                    name: 'partID',
-                    data: "partID",
-                    title: "#",
-                    sortable: false,
-                    searchable: false
-                },
-                {
-                    name: 'categoryID',
-                    data: "category.name",
-                    title: "Category",
-                    sortable: true,
-                    searchable: true
-                },
-                {
-                    name: 'partID',
-                    data: "partID",
-                    title: "PartIDs",
-                    sortable: true,
-                    searchable: true
-                },
-                {
-                    name: 'image',
-                    data: "image",
-                    title: "Image",
-                    sortable: true,
-                    searchable: true
-                },
-                {
-                    name: 'employeeID',
-                    data: "employeeID",
-                    title: "No.",
-                    sortable: true,
-                    searchable: true
-                },
-                {
-                    name: 'description',
-                    data: "description",
-                    title: "Description",
-                    sortable: true,
-                    searchable: true
-                },
-                {
-                    name: 'prices',
-                    data: "prices",
-                    title: "Price",
-                    sortable: true,
-                    searchable: true
-                },
-                {
-                    name: 'comments',
-                    data: "comments",
-                    title: "Comment",
-                    sortable: true,
-                    searchable: true
-                },
-                {
-                    name: 'weightMeasurement',
-                    data: "weightMeasurement",
-                    title: "Qty",
-                    sortable: true,
-                    searchable: true
-                },
-                {
-                    name: 'weightMeasurement',
-                    data: "weightMeasurement",
-                    title: "Mea Unit",
-                    width: "60px",
-                    sortable: true,
-                    searchable: true
-                },
-                {
-                    name: 'weight',
-                    data: "weight",
-                    title: "Weight",
-                    sortable: true,
-                    searchable: true
-                },
-                {
-                    name: 'partID',
-                    data: "partID",
-                    title: "Action",
-                    sortable: false,
-                    searchable: false,
-                    width: "150px",
-                    render: function (data, type, row) {
-                        if (type === 'display') {
 
-                            return '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Edit" onclick="editPart(' + data + ');"> Edit </a> &nbsp;&nbsp;' +
-                                '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Add" onclick="getPartById(' + data + ');"> Add </a>&nbsp; &nbsp;' +
-                                '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Custom" onclick="customPart(' + data + ');"> Custom </a>'
-                        }
-                        return data;
+
+        var clientTable= $('#PartsList').DataTable({
+                serverSide: true,
+                "ajax": {
+                    "url": appRoot + "order/GetOrderParts",
+                    "type": 'GET',
+                    "data": function (d) {
+                        d.OrderPartsIds = $('#hdnOrderPartIDs').val();
+                        d.custOrderID = $('#custOrderID').val();
+                    },
+                    "dataSrc": function (json) {
+                        // manipulate your data (json)
+                       // console.log(json)
+                        return json.data;
                     }
                 },
-                {
-                    name: 'files',
-                    data: "files",
-                    title: "File",
-                    sortable: false,
-                    searchable: false,
-                    render: function (data, type, row) {
-                        if (type === 'display') {
+                "bInfo": false, //Dont display info e.g. "Showing 1 to 4 of 4 entries"
+                "searching": false, //Disable searching abilities in DataTables:
+                "bPaginate": false,//Dont want paging
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                }],
+                "order": [[1, 'asc']],
+                columns: [
+                    {
+                        name: 'custOrderPartId',
+                        data: "custOrderPartId",
+                        title: "#",
+                        sortable: false,
+                        searchable: false
+                    },
+                    {
+                        name: 'category',
+                        data: "category",
+                        title: "Category",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'partID',
+                        data: "partID",
+                        title: "PartIDs",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'image',
+                        data: "image",
+                        title: "Image",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'number',
+                        data: "number",
+                        title: "No.",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'description',
+                        data: "description",
+                        title: "Description",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'price',
+                        data: "price",
+                        title: "Price",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'comments',
+                        data: "comments",
+                        title: "Comment",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'quantity',
+                        data: "quantity",
+                        title: "Qty",
 
-                            return '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Edit" onclick="uploadFileOfPart(' + data + ');"> Upload File </a>';
+                        width: "40px",
+                        sortable: true,
+                        searchable: true,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+
+                                return '<input type="text" style="width:40px" name="' + row.custOrderPartId+ '" value="' + data + '" oninput="updateQunatity(this);" />';
+                            }
+                            return data;
                         }
-                        return data;
-                    }
-                }
-            ],
-            "scrollX": true,
-            "oLanguage": {
-                "sSearch": ""
-            },
-            initComplete: function () {
+                    },
+                    {
+                        name: 'meaUnit',
+                        data: "meaUnit.shortDescription",
+                        title: "Mea Unit",
+                        width: "60px",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'weight',
+                        data: "weight",
+                        title: "Weight",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'partID',
+                        data: "partID",
+                        title: "Action",
+                        sortable: false,
+                        searchable: false,
+                        width: "150px",
+                        render: function (data, type, row) {
+                            if (type === 'display') {
 
-            },
-            "autoWidth": true,
-            "preDrawCallback": function () {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper) {
-                    responsiveHelper = new ResponsiveDatatablesHelper($('#PartsList'), breakpointDefinition);
+                                return '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Edit" onclick="editPart(' + data + ');"> Edit </a> &nbsp;&nbsp;' +
+                                    '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Add" onclick="getPartById(' + data + ');"> Add </a>&nbsp; &nbsp;' +
+                                    '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Custom" onclick="customPart(' + data + ');"> Custom </a>'
+                            }
+                            return data;
+                        }
+                    },
+                    {
+                        name: 'files',
+                        data: "files",
+                        title: "File",
+                        sortable: false,
+                        searchable: false,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+
+                                return '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Edit" onclick="uploadFileOfPart(' + data + ');"> Upload File </a>';
+                            }
+                            return data;
+                        }
+                    }
+                ],
+                "scrollX": true,
+                "oLanguage": {
+                    "sSearch": ""
+                },
+                initComplete: function () {
+
+                },
+                "autoWidth": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper) {
+                        responsiveHelper = new ResponsiveDatatablesHelper($('#PartsList'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper.respond();
                 }
-            },
-            "rowCallback": function (nRow) {
-                responsiveHelper.createExpandIcon(nRow);
-            },
-            "drawCallback": function (oSettings) {
-                responsiveHelper.respond();
-            }
-        });
-        clientTable.on('order.dt search.dt', function () {
-            clientTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
             });
-        }).draw();
+            clientTable.on('order.dt search.dt', function() {
+                clientTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function(cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+
+
 
         var attendeeUrl = '@Url.Action("GetItems", "Order")';
         var pageSize = 20;
@@ -877,95 +1005,127 @@
         });
 
         function addPartItem(itemId) {
-            var attendeeUrl = '@Url.Action("GetPartAgainstId", "Order")';
-            var counter = 0;
-            var partsId = $('#partsSelected').val();
-            if (partsId) {
-                if (partsId.indexOf(itemId) == -1) {
-                    partsId += "," + itemId;
+
+          //  GetOrderParts(true);
+
+            $.ajax({
+                dataType: "json",
+                type: "POST",
+                async: false,
+                url: appRoot + "order/AttachPartWithOrder",
+                data: {
+                    'PartsId': itemId, 'custOrderID': $('#custOrderID').val()
+                },
+                success: function (response) {
+                    if (response && response.status) {
+                        var partsId = $('#hdnOrderPartIDs').val();
+                        if (partsId) {
+                            if (partsId.indexOf(response.OrderPartId) == -1) {
+                                partsId += "," + response.OrderPartId;
+                            }
+                        } else {
+                            partsId = response.OrderPartId;
+                        }
+                        $('#hdnOrderPartIDs').val(partsId);
+                        clientTable.ajax.reload();
+                    } else {
+
+                        toastr.warning("This product already exists in this order");
+                    }
+
                 }
-            } else {
-                partsId = itemId;
-            }
-            $('#partsSelected').val(partsId);
-            clientTable.ajax.reload();
+            });
 
         }
 
     </script>
     <script type="text/javascript">
+        // PAGE RELATED SCRIPTS
 
-          /* DO NOT REMOVE : GLOBAL FUNCTIONS!
-           *
-           * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
-           *
-           * // activate tooltips
-           * $("[rel=tooltip]").tooltip();
-           *
-           * // activate popovers
-           * $("[rel=popover]").popover();
-           *
-           * // activate popovers with hover states
-           * $("[rel=popover-hover]").popover({ trigger: "hover" });
-           *
-           * // activate inline charts
-           * runAllCharts();
-           *
-           * // setup widgets
-           * setup_widgets_desktop();
-           *
-           * // run form elements
-           * runAllForms();
-           *
-           ********************************
-           *
-           * pageSetUp() is needed whenever you load a page.
-           * It initializes and checks for all basic elements of the page
-           * and makes rendering easier.
-           *
-           */
+        // pagefunction
 
-          //    pageSetUp();
+        var pagefunction = function () {
 
-          /*
-           * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
-           * eg alert("my home function");
-           *
-           * var pagefunction = function() {
-           *   ...
-           * }
-           * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
-           *
-           */
 
-          // PAGE RELATED SCRIPTS
+            $("#mydropzone").dropzone({
+                //url: "/file/post",
+                addRemoveLinks: true,
+                maxFilesize: 0.5,
+                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+                dictResponseError: 'Error uploading file!',
 
-          // pagefunction
 
-          var pagefunction = function () {
+            });
+            //File Upload response from the server
+            Dropzone.autoDiscover = false;
 
-              Dropzone.autoDiscover = false;
-              $("#mydropzone").dropzone({
-                  //url: "/file/post",
-                  addRemoveLinks: true,
-                  maxFilesize: 0.5,
-                  dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
-                  dictResponseError: 'Error uploading file!'
-              });
 
-              //File Upload response from the server
-              Dropzone.options.dropzoneForm = {
-                  init: function () {
-                      this.on("complete", function (data) {
-                          //var res = eval('(' + data.xhr.responseText + ')');
-                          var res = JSON.parse(data.xhr.responseText);
-                      });
-                  }
-              };
 
-          };
-
+        };
+        var arrfilenames = [];
         // end pagefunction
+        Dropzone.options.dropzoneForm = {
+            init: function () {
+                this.on("complete", function (data) {
+                    //var res = eval('(' + data.xhr.responseText + ')');
+                    if (data.status != "error") {
+                        var res = JSON.parse(data.xhr.responseText);
+                    }
+
+                });
+                var thisDropzone = this;
+                var custOrderID = $('#custOrderID').val();
+                //Call the action method to load the images from the server
+                $.getJSON("/order/GetAttachments/" + custOrderID).done(function (data) {
+                    if (data.Data != '') {
+
+                        $.each(data.Data, function (index, item) {
+                            //// Create the mock file:
+                            var mockFile = {
+                                name: item.FileName,
+                                size: item.size
+                            };
+
+                            // Call the default addedfile event handler
+                            thisDropzone.emit("addedfile", mockFile);
+
+                            // And optionally show the thumbnail of the file:
+                            thisDropzone.emit("thumbnail", mockFile, item.Path);
+
+                            // If you use the maxFiles option, make sure you adjust it to the
+                            // correct amount:
+                            //var existingFileCount = 1; // The number of files already uploaded
+                            //myDropzone.options.maxFiles = myDropzone.options.maxFiles - existingFileCount;
+                        });
+                    }
+
+                });
+            },
+            accept: function (file, done) {
+                if (arrfilenames.length > 0) {
+
+
+                    Dropzone.instances.forEach(function (dropzone, e) {
+
+                        for (var i = 0; i < dropzone.files.length; i++) {
+                            arrfilenames.push(dropzone.files[i].name.replace(/\.[^.]+$/, ''));
+
+                        }
+
+                    });
+                    var filename = file.name.replace(/\.[^.]+$/, '')
+                    if ($.inArray(filename, arrfilenames) !== -1) {
+                        var error_msg = "Error! The File is already in Queue";
+                        done(error_msg);
+                        this.removeFile(file);
+                        toastr.error(error_msg);
+                    }
+                    else {
+                        done();
+                    }
+                }
+            }
+        };
 
     </script>
     <script>
@@ -1005,8 +1165,15 @@
 
         function removePartFrmTag(cntrl) {
             //$.confirm(function () { $(cntrl).closest('tr').remove(); }, null)
+            var custOrderId = $('#custOrderID').val();
+            var parentTr = $(cntrl).parent().parent();
+            $(parentTr).attr('data-custorderid', custOrderId);
+            $(parentTr).attr('data-tobedeleted', "true");
             $('#confirm-delete').modal('show');
+
         }
+
+
 
     </script>
 }

@@ -1,0 +1,423 @@
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="col-xs-12">
+        <h1 class="page-title txt-color-blueDark">
+            <i class="fa-fw fa fa-truck"></i>
+            Dashboard
+            <span>
+                >
+                Subtitle
+            </span>
+        </h1>
+    </div>
+    <section id="widget-grid" class="">
+        <!-- START ROW -->
+        <div class="row">
+            <div class="col-sm-6">
+                <!-- NEW COL START -->
+                <article>
+                    <div class="jarviswidget  jarviswidget-color-darken" id="PartsGrid" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-custombutton="false" role="widget">
+                        <header role="heading">
+                            <label  style="margin-left:10px">Orders in Queue</label>
+                        </header>
+                        <!-- widget div-->
+                        <div role="content">
+                            <!-- widget content -->
+                            <div class="widget-body no-padding">
+                                <div class="tab-content padding-10">
+                                    <div class="tab-pane fade active in" id="AllParts">
+                                        <div class="padding-10">
+                                            <table id="PartsList" class="table table-striped table-bordered table-hover"></table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                </article>
+                <!-- END COL -->
+            </div>
+            <div class="col-sm-6" id="customer_lookup_section">
+                <article>
+                    <!-- NEW COL START -->
+                    <div class="jarviswidget  jarviswidget-color-darken" id="wid-id-0" data-widget-sortable="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" role="widget">
+                        <header role="heading">
+                            <label style="margin-left:10px">Customer Lookup</label>
+                        </header>
+                        <!-- widget div-->
+                        <div role="content">
+                            <div class="row">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="email">Company Name:</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" id="company_name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="pwd">Name:</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" id="name">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <a href="@Url.Action("New", "Customer")" class="btn btn-sm btn-success"> <i class="fa fa-plus"></i> New Customer </a>
+                                </div>
+                                <div class="col-sm-6">
+                                    <button class="btn btn-primary pull-right">Search</button>
+                                </div>
+                            </div>
+                            <div class="widget-body row">
+                                <div class="padding-10">
+                                    <table id="Customers" class="table table-striped table-bordered table-hover"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- END COL -->
+                </article>
+            </div>
+        </div>
+        <!-- END ROW -->
+    </section>
+</div>
+<!-- END MAIN CONTENT -->
+<style>
+    .orderDetailPanel {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+        .orderDetailPanel > div {
+            margin: 0px 5px 15px 0px;
+        }
+
+        .orderDetailPanel .dropFile {
+            overflow-y: scroll;
+            max-height: 200px;
+        }
+</style>
+@section pagespecific {
+
+    <script>
+        function removePartFrmTag(cntrl) {
+            $.confirm(function () { $(cntrl).closest('tr').remove(); }, null)
+
+        }
+
+
+            var responsiveHelper = undefined;
+
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            var clientTable = $('#PartsList').DataTable({
+                serverSide: true,
+                //ajax: appRoot + "Dashboard/GetCustomerOrders",
+                "ajax": {
+                    "url": appRoot + "Dashboard/GetCustomerOrders",
+                    "type": 'GET',
+                    "data": function (d) {
+                        d.customerId = -1;
+
+                    },
+                    "dataSrc": function (json) {
+                        // manipulate your data (json)
+                        console.log(json)
+                        return json.data;
+                    }
+                },
+                "bFilter": false,
+                "bLengthChange": false,
+                "bInfo": false,
+                "type": 'GET',
+               
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                }],
+                "order": [[1, 'asc']],
+                columns: [
+                    {
+                        name: 'partID',
+                        data: 'custOrderID',
+                        title: "Order ID",
+                        sortable: true,
+                        searchable: true,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return '<a href="javascript:void(0);"  title=" Edit" onclick="viewOrder(' + data + ');">' + data + '</a> '
+                            }
+                            return data;
+                        }
+                    },
+                    
+                    {
+                        name: 'partID',
+                        data: "customer.company",
+                        title: "Company",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'image',
+                        data: "revision",
+                        title: "State",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'employeeID',
+                        data: "employee.firstName",
+                        title: "Employee",
+                        sortable: true,
+                        searchable: true,
+                        "render": function (data, type, full, meta) {
+                            return full.employee.firstName + " " + full.employee.lastName;
+                        }
+                    },
+                    {
+                        name: 'description',
+                        data: "createdDate",
+                        title: "Date Created",
+                        sortable: true,
+                        searchable: true,
+                        "render": function (data, type, full, meta) {
+                            return new Date(data).toLocaleString();
+                        }
+                    },
+                    {
+                        name: 'partID',
+                        data: "custOrderID",
+                        title: "Action",
+                        sortable: false,
+                        searchable: false,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+
+                                return '<a href="javascript:void(0);" title=" Edit" onclick="viewOrder(' + data + ');"> View </a> ';
+                            }
+                            return data;
+                        }
+                    }
+                ],
+                "scrollX": true,
+                "oLanguage": {
+                    "sSearch": ""
+                },
+                //dom: "<'dt-toolbar'<'col-xs-12 col-sm-5 col-md-2 col-lg-2'B><'col-xs-12 col-sm-5 col-md-5 col-lg-5 'f><'hidden-sm hidden-xs col-md-2 col-lg-2 pull-right'l>r>" +
+                //"t" +
+                //"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+                buttons: [
+                    {
+                        className: "category-select",
+                        text: '',
+                        action: function (e, dt, node, config) {
+                            alert('Button activated');
+                        }
+                    }
+
+                ],
+                initComplete: function () {
+                    $('.category-select').parent().html(' <section>' +
+
+                        '<label class="select" > ' +
+                        '<select class="input-sm" id= "CategorySearchDDL" > ' +
+                        '<option value= "0" selected> Select Category </option > ' +
+                        '<option value= "1" > Alexandra</option > ' +
+                        '<option value= "2" > Alice</option > ' +
+                        '<option value= "3" > Anastasia</option > ' +
+                        '<option value= "4" > Avelina</option > ' +
+                        '   </select >' +
+                        '</label > ' +
+                        '</section >')
+                    $('.dataTables_filter input').attr("placeholder", "Find by product ID or Description");
+                    $('.dataTables_filter input').css("min-width", "250px");
+                },
+                "autoWidth": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper) {
+                        responsiveHelper = new ResponsiveDatatablesHelper($('#PartsList'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper.respond();
+                }
+            });
+
+
+           
+            clientTable.on('order.dt search.dt', function () {
+                clientTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+
+            function viewOrder(custOrderID) {
+                window.location.href = appRoot + "Order/View/" + custOrderID;
+            }
+
+            var customerTable = $('#Customers').DataTable({
+                serverSide: true,
+                //ajax: appRoot + "customer/GetCustomers",
+                "ajax": {
+                    "url": appRoot + "customer/GetCustomers",
+                    "type": 'GET',
+                    "data": function (d) {
+                        //d.PartsIds = $('#partsSelected').val();
+
+                    },
+                    "dataSrc": function (json) {
+                        // manipulate your data (json)
+                        
+                        return json.data;
+                    }
+                },
+                "bFilter": false,
+                "bLengthChange": false,
+              
+                columns: [
+                    {
+                        name: 'customerID',
+                        data: 'customerID',
+                        title: "Customer ID",
+                        sortable: true,
+                        searchable: true,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+
+                                return '<a href="javascript:void(0);" title=" Edit" onclick="cutomerEdit(' + data + ');"> ' + data + ' </a> ';
+                            }
+                            return data;
+                        }
+                    },
+                    {
+                        name: 'company',
+                        data: "company",
+                        title: "Company",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'address1',
+                        data: "address1",
+                        title: "First",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'city',
+                        data: "city",
+                        title: "Last",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'province',
+                        data: "created",
+                        title: "Date Created",
+                        sortable: true,
+                        searchable: true,
+                        "render": function (data, type, full, meta) {
+                            return new Date(data).toLocaleString();
+                        }
+                    },
+                    {
+                        name: 'customerID',
+                        data: "customerID",
+                        title: "Action",
+                        sortable: false,
+                        searchable: false,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+
+                                return '<a href="javascript:void(0);" title=" Edit" onclick="customerEdit(' + data + ');"> Edit </a> &nbsp;' +
+                                    '<a href="javascript:void(0);" title=" Edit" onclick="addCustomerOrder(' + data + ');"> Order </a> &nbsp;' +
+                                    '<a href="javascript:void(0);" title=" Edit" onclick="customerPreviews(' + data + ');"> Previews </a> &nbsp;' +
+                                    '<a href="javascript:void(0);" title=" Edit" onclick="customerOrders(' + data + ');"> Orders </a> &nbsp;'
+                            }
+                            return data;
+                        }
+                    }
+                ],
+
+                buttons: [
+                   {
+                       className: "new-customer",
+                       text: '',
+                       action: function (e, dt, node, config) {
+                           alert('Button activated');
+                       }
+                   }
+
+                ],
+                initComplete: function () {
+                    $('.new-customer').parent().html('<a href="@Url.Action("New", "Customer")" class="btn btn-sm btn-success"> <i class="fa fa-plus"></i> New Customer </a>');
+                },
+                "autoWidth": true,
+                "scrollX": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper) {
+                        responsiveHelper = new ResponsiveDatatablesHelper($('#Customers'), breakpointDefinition);
+                    }
+                },
+
+                "drawCallback": function (oSettings) {
+                    responsiveHelper.respond();
+                }
+            });
+
+
+        function customerEdit(customerId) { }
+        function addCustomerOrder(customerId) {
+            window.location.href = appRoot + "Order/AddOrderForCustomer/" + customerId;
+        }
+        function customerPreviews(customerId) { }
+        function customerOrders(customerId) {
+            window.location.href = appRoot + "Order/ViewCustomerOrder/" + customerId;
+        }
+    </script>
+    <script type="text/javascript">
+        // pagefunction
+        var pagefunction = function () {
+            Dropzone.autoDiscover = false;
+            $("#mydropzone").dropzone({
+                //url: "/file/post",
+                addRemoveLinks: true,
+                maxFilesize: 0.5,
+                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+                dictResponseError: 'Error uploading file!'
+            });
+
+            //File Upload response from the server
+            Dropzone.options.dropzoneForm = {
+                init: function () {
+                    this.on("complete", function (data) {
+                        //var res = eval('(' + data.xhr.responseText + ')');
+                        var res = JSON.parse(data.xhr.responseText);
+                    });
+                }
+            };
+
+        };
+        // end pagefunction
+    </script>
+}
+

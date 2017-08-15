@@ -13,6 +13,9 @@
     <!-- Basic Styles -->
     @Styles.Render("~/content/smartadmin")
 	@Styles.Render("~/content/css/CenDek.css")
+    @Styles.Render("~/content/dropzonescss")
+
+    
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	
     <!-- FAVICONS -->
@@ -42,6 +45,7 @@
     <script type="text/javascript">
             var appRoot = '@Url.Content("~")';
     </script>
+   
 </head>
 <body class="@ViewBag.PageClass @Settings.CurrentTheme">
     @{ Html.RenderPartial("_Header", RenderSection("topright", false)); }
@@ -49,8 +53,9 @@
     <div id="main" role="main">
         @{ Html.RenderPartialIf("_Ribbon", Request.IsAuthenticated); }
         @RenderBody()
+        
     </div>
-    
+   
     @{ Html.RenderPartial("_Scripts", RenderSection("pagespecific", false)); }
 </body>
 

@@ -47,6 +47,16 @@ namespace DataAccess.Models.Mapping
                         m.MapRightKey("FileID");
                     });
 
+            // Relationships
+            this.HasMany(t => t.Parts)
+                .WithMany(t => t.CustOrders)
+                .Map(m =>
+                {
+                    m.ToTable("CustOrderPart");
+                    m.MapLeftKey("CustOrderID");
+                    m.MapRightKey("OrderPartID");
+                });
+
             this.HasOptional(t => t.Currency)
                 .WithMany(t => t.CustOrders)
                 .HasForeignKey(d => d.CostCurrencyID);
