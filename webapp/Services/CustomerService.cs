@@ -42,6 +42,8 @@ namespace CenDek.Services
                 customer.DekSmartDiscount = updatedCustomer.DekSmartDiscount;
                 customer.GSTExempt = updatedCustomer.GSTExempt;
                 customer.PSTExempt = updatedCustomer.PSTExempt;
+                customer.ShipCharges = updatedCustomer.ShipCharges;
+                customer.Packaging = updatedCustomer.Packaging;
                 customer.Modified = DateTime.UtcNow;
                 await _dbContext.SaveChangesAsync();
                 return new { success = true, responseText = "Customer Saved" };
@@ -58,6 +60,8 @@ namespace CenDek.Services
             newCustomer.Modified = DateTime.Now;
             newCustomer.GSTExempt = false;
             newCustomer.PSTExempt = false;
+            newCustomer.ShipCharges = "Collect";
+            newCustomer.Packaging = 4;
 
             _dbContext.Customers.Add(newCustomer);
 
