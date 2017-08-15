@@ -246,3 +246,5 @@ webapp/Scripts/plugins/datatables/Select-1.2.2/
 webapp/Scripts/plugins/datatables/JSZip-3.1.3/
 /webapp/Images/WallImages/imagepath
 /webapp/Properties/PublishProfiles
+
+.DS_Store
