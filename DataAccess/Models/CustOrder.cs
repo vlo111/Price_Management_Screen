@@ -8,6 +8,7 @@ namespace DataAccess.Models
         public CustOrder()
         {
             this.Files = new List<File>();
+            this.Parts = new List<OrderPart>();
         }
 
         public int CustOrderID { get; set; }
@@ -31,5 +32,7 @@ namespace DataAccess.Models
         public virtual Employee Employee { get; set; }
         public virtual Employee Employee1 { get; set; }
         public virtual ICollection<File> Files { get; set; }
+        public virtual ICollection<OrderPart> Parts { get; set; }
+      
     }
 }

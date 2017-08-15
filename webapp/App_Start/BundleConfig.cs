@@ -11,6 +11,7 @@ namespace CenDek
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new StyleBundle("~/content/smartadmin").Include(
+                "~/Content/toastr.css",
                 "~/Content/css/bootstrap.min.css",
                 "~/Scripts/plugins/datatables/datatables.min.css",
                 "~/Scripts/plugins/datatable-responsive/css/datatables.responsive.css",
@@ -21,6 +22,10 @@ namespace CenDek
                 "~/Content/css/smartadmin-rtl.min.css",
                 "~/Content/css/smartadmin-skins.min.css",
                 "~/Content/css/CenDek.css"));
+
+            bundles.Add(new StyleBundle("~/content/dropzonescss").Include(
+                     "~/Scripts/dropzone/css/basic.css",
+                     "~/Scripts/dropzone/css/dropzone.css"));
 
             bundles.Add(new ScriptBundle("~/Scripts/smartadmin").Include(
                 "~/Scripts/app.config.js",
@@ -36,7 +41,15 @@ namespace CenDek
                 "~/Scripts/plugins/bootstrap-progressbar/bootstrap-progressbar.min.js",
                 "~/Scripts/plugins/msie-fix/jquery.mb.browser.min.js",
                 "~/Scripts/plugins/fastclick/fastclick.min.js",
-                "~/Scripts/app.min.js"));
+                "~/Scripts/app.min.js",
+                "~/Scripts/toastr.js"
+                ));
+
+            bundles.Add(new ScriptBundle("~/Scripts/dropzonescripts").Include(
+                     "~/Scripts/dropzone/dropzone.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/appJs").Include(
+                     "~/Scripts/app/orderJs.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/datatables").Include(
                 "~/Scripts/plugins/datatables/datatables.min.js",

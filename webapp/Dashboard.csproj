@@ -23,6 +23,7 @@
     <RestorePackages>true</RestorePackages>
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -326,6 +327,7 @@
     <Content Include="Content\img\splash\touch-icon-ipad.png" />
     <Content Include="Content\img\splash\touch-icon-iphone-retina.png" />
     <Content Include="Content\img\vt-menu.png" />
+    <Content Include="Content\toastr.css" />
     <Content Include="Fonts\fontawesome-webfont.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -348,7 +350,16 @@
     <Content Include="Scripts\app.seed.min.js">
       <DependentUpon>app.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\app\orderJs.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\dropzone\basic.css" />
+    <Content Include="Scripts\dropzone\basic.min.css" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="Scripts\dropzone\dropzone.css" />
+    <Content Include="Scripts\dropzone\dropzone.js" />
+    <Content Include="Scripts\dropzone\dropzone.min.css" />
+    <Content Include="Scripts\dropzone\dropzone.min.js" />
     <Content Include="Scripts\libs\datatables.min.js" />
     <Content Include="Scripts\libs\jquery-2.1.1.min.js" />
     <Content Include="Scripts\libs\jquery-ui-1.10.3.min.js" />
@@ -400,6 +411,8 @@
     <Content Include="Scripts\plugins\msie-fix\jquery.mb.browser.min.js" />
     <Content Include="Scripts\plugins\select2\readme.txt" />
     <Content Include="Scripts\plugins\select2\select2.min.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -449,8 +462,10 @@
     <Content Include="Fonts\FontAwesome.otf" />
     <Compile Include="App_Helpers\Extensions.cs" />
     <Compile Include="App_Start\DIConfig.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Models\BreadCrumbs.cs" />
     <Compile Include="Models\OrderViewModels.cs" />
+    <None Include="Properties\PublishProfiles\CenDekFolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\LaunchPad.pubxml" />
     <Content Include="Views\Customer\Detail.cshtml" />
     <Content Include="Scripts\plugins\bootstrap-tags\dist\bootstrap-tagsinput.min.js.map" />
@@ -458,17 +473,23 @@
     <Content Include="Views\Customer\Partial_Views\NewContact.cshtml" />
     <Content Include="Views\Customer\Partial_Views\EditCustomer.cshtml" />
     <Content Include="Views\Customer\Partial_Views\NewCarrier.cshtml" />
-    <Content Include="Views\Order\New.cshtml" />
+    <Content Include="Views\Order\Detail.cshtml" />
     <Content Include="Views\Order\Edit.cshtml" />
     <Content Include="Views\Settings\Detail.cshtml" />
     <Content Include="Views\Settings\New.cshtml" />
     <Content Include="Views\Settings\Partial_Views\UpdateCarrierDetails.cshtml" />
     <Content Include="Views\Customer\Partial_Views\ContactCards.cshtml" />
+    <Content Include="Views\Order\Partial_Views\_CustomPortPartial.cshtml" />
+    <Content Include="Views\Order\CompareOrder.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Order\Dashboard.cshtml" />
     <Content Include="Views\Settings\Carriers.cshtml" />
     <Content Include="Views\Customer\Partial_Views\NewContactInfo.cshtml" />
     <Content Include="Views\Customer\Partial_Views\ShippingAddress.cshtml" />
     <Content Include="Views\Customer\Partial_Views\NewCustomer.cshtml" />
     <Content Include="Views\Customer\Partial_Views\Contact.cshtml" />
+    <Content Include="Views\Order\OrderReview.cshtml" />
+    <Content Include="Views\Order\ShippingTagDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,414 @@
+﻿<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="col-xs-12">
+        <h1 class="page-title txt-color-blueDark">
+            <i class="fa-fw fa fa-truck"></i>
+            Orders
+            <span>
+                >
+                Subtitle
+            </span>
+        </h1>
+    </div>
+    <section id="widget-grid" class="">
+        <!-- START ROW -->
+        <div class="row">
+            <div class="col-sm-6">
+                <!-- NEW COL START -->
+                <article>
+                    <div class="jarviswidget" id="PartsGrid" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-custombutton="false" role="widget">
+                        <header role="heading">
+                            <label>Order No:</label>
+                        </header>
+                        <!-- widget div-->
+                        <div role="content">
+                            <!-- widget content -->
+                            <div class="row">
+                                <div class="col-sm-3 ">
+                                    <label>Mike</label>
+                                </div>
+                                <div class="col-sm-9 col-sm-push-3">
+                                    <span>Drowning File&nbsp; <input type="text" readonly/></span>
+                                </div>
+                            </div>
+                            <div class="widget-body no-padding">
+                                <div class="tab-content padding-10">
+                                    <div class="tab-pane fade active in" id="AllParts">
+                                        <div class="padding-10">
+                                            <table id="PartsList" class="table table-striped table-bordered table-hover"></table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row rowButtons">
+                                <div class="col-sm-12">
+                                    <div class="pull-right">
+                                        <button class="btn btn-primary">Edit</button>
+                                        <button class="btn btn-success">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                </article>
+                <!-- END COL -->
+            </div>
+            <div class="col-sm-6">
+                <article>
+                    <!-- NEW COL START -->
+                    <div class="jarviswidget" id="OrdersGrid" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-custombutton="false" role="widget">
+                        <header role="heading">
+                            <label style="margin-left:10px">Order No:</label>
+                        </header>
+                        <!-- widget div-->
+                        <div role="content">
+                            <!-- widget content -->
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label>Fred</label>
+                                </div>
+                                <div class="col-sm-9 col-sm-push-3">
+                                    <span>Drowning File&nbsp; <input type="text" readonly /></span>
+                                </div>
+                            </div>
+                            <div class="widget-body no-padding">
+                                <div class="tab-content padding-10">
+                                    <div class="tab-pane fade active in" id="AllParts">
+                                        <div class="padding-10">
+                                            <table id="OrdersList" class="table table-striped table-bordered table-hover"></table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row rowButtons">
+                                <div class="col-sm-12">
+                                    <div class="pull-right">
+                                        <button class="btn btn-primary">Edit</button>
+                                        <button class="btn btn-success">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- END COL -->
+                </article>
+            </div>
+        </div>
+        <!-- END ROW -->
+    </section>
+</div>
+<!-- END MAIN CONTENT -->
+<style>
+    .orderDetailPanel {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+        .orderDetailPanel > div {
+            margin: 0px 5px 15px 0px;
+        }
+
+        .orderDetailPanel .dropFile {
+            overflow-y: scroll;
+            max-height: 200px;
+        }
+        .dataTables_scrollHeadInner{
+            width:100% !important
+        }
+        #PartsList{
+            width:100% !important
+        }
+        #OrdersList{
+            width:100% !important
+        }
+        .rowButtons{
+            margin-bottom:5px;
+        }
+</style>
+@section pagespecific {
+
+    <script>
+        function removePartFrmTag(cntrl) {
+            $.confirm(function () { $(cntrl).closest('tr').remove(); }, null)
+        }
+        $(document).ready(function () {
+            var responsiveHelper_datatable_tabletools = undefined;
+            var responsiveHelper = undefined;
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+            var clientTable = $('#PartsList').DataTable({
+                serverSide: true,
+                ajax: appRoot + "order/GetOrders",
+                "bFilter": false,
+                "bLengthChange": false,
+                "bInfo": false,
+                "type": 'GET',
+                'beforeSend': function (request) {
+                    request.setRequestHeader("AdditionalParameters", [{ "subCategory": $('#CategorySearchDDL').val(), "Category": $('[name=CategoryType] li.active').attr('name') }]);
+                },
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                }],
+                "order": [[1, 'asc']],
+                columns: [
+                    {
+                        name: 'partID',
+                        data: 'partID',
+                        title: "#",
+                        sortable: false,
+                        searchable: false
+                    },
+                    {
+                        name: 'categoryID',
+                        data: "categoryID",
+                        title: "Tag",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'partID',
+                        data: "partID",
+                        title: "Profile",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'image',
+                        data: "image",
+                        title: "Color",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'employeeID',
+                        data: "employeeID",
+                        title: "Prod ID",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'description',
+                        data: "description",
+                        title: "Description",
+                        sortable: true,
+                        searchable: true
+                    }
+                ],
+                "scrollX": true,
+                "oLanguage": {
+                    "sSearch": ""
+                },
+                //dom: "<'dt-toolbar'<'col-xs-12 col-sm-5 col-md-2 col-lg-2'B><'col-xs-12 col-sm-5 col-md-5 col-lg-5 'f><'hidden-sm hidden-xs col-md-2 col-lg-2 pull-right'l>r>" +
+                //"t" +
+                //"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+                buttons: [
+                    {
+                        className: "category-select",
+                        text: '',
+                        action: function (e, dt, node, config) {
+                            alert('Button activated');
+                        }
+                    }
+
+                ],
+                initComplete: function () {
+                    $('.category-select').parent().html(' <section>' +
+
+                        '<label class="select" > ' +
+                        '<select class="input-sm" id= "CategorySearchDDL" > ' +
+                        '<option value= "0" selected> Select Category </option > ' +
+                        '<option value= "1" > Alexandra</option > ' +
+                        '<option value= "2" > Alice</option > ' +
+                        '<option value= "3" > Anastasia</option > ' +
+                        '<option value= "4" > Avelina</option > ' +
+                        '   </select >' +
+                        '</label > ' +
+                        '</section >')
+                    $('.dataTables_filter input').attr("placeholder", "Find by product ID or Description");
+                    $('.dataTables_filter input').css("min-width", "250px");
+                },
+                "autoWidth": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper) {
+                        responsiveHelper = new ResponsiveDatatablesHelper($('#PartsList'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper.respond();
+                }
+            });
+
+
+            $('#PartsList tbody').on('click', 'tr', function () {
+                var data = clientTable.row(this).data();
+                window.location.href = appRoot + "Customer/Detail/" + data.customerID;
+            });
+            clientTable.on('order.dt search.dt', function () {
+                clientTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+
+            var orderTable = $('#OrdersList').DataTable({
+                serverSide: true,
+                ajax: appRoot + "order/GetOrders",
+                "bFilter": false,
+                "bInfo": false,
+                "bLengthChange": false,
+                "type": 'GET',
+                'beforeSend': function (request) {
+                    request.setRequestHeader("AdditionalParameters", [{ "subCategory": $('#CategorySearchDDL').val(), "Category": $('[name=CategoryType] li.active').attr('name') }]);
+                },
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                }],
+                "order": [[1, 'asc']],
+                columns: [
+                    {
+                        name: 'partID',
+                        data: 'partID',
+                        title: "#",
+                        sortable: false,
+                        searchable: false
+                    },
+                    {
+                        name: 'categoryID',
+                        data: "categoryID",
+                        title: "Tag",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'partID',
+                        data: "partID",
+                        title: "Profile",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'image',
+                        data: "image",
+                        title: "Color",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'employeeID',
+                        data: "employeeID",
+                        title: "Prod ID",
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'description',
+                        data: "description",
+                        title: "Description",
+                        sortable: true,
+                        searchable: true
+                    }
+                ],
+                "scrollX": true,
+                "oLanguage": {
+                    "sSearch": ""
+                },
+                //dom: "<'dt-toolbar'<'col-xs-12 col-sm-5 col-md-2 col-lg-2'B><'col-xs-12 col-sm-5 col-md-5 col-lg-5 'f><'hidden-sm hidden-xs col-md-2 col-lg-2 pull-right'l>r>" +
+                //"t" +
+                //"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+                buttons: [
+                    {
+                        className: "category-select",
+                        text: '',
+                        action: function (e, dt, node, config) {
+                            alert('Button activated');
+                        }
+                    }
+
+                ],
+                initComplete: function () {
+                    $('.category-select').parent().html(' <section>' +
+
+                        '<label class="select" > ' +
+                        '<select class="input-sm" id= "CategorySearchDDL" > ' +
+                        '<option value= "0" selected> Select Category </option > ' +
+                        '<option value= "1" > Alexandra</option > ' +
+                        '<option value= "2" > Alice</option > ' +
+                        '<option value= "3" > Anastasia</option > ' +
+                        '<option value= "4" > Avelina</option > ' +
+                        '   </select >' +
+                        '</label > ' +
+                        '</section >')
+                    $('.dataTables_filter input').attr("placeholder", "Find by product ID or Description");
+                    $('.dataTables_filter input').css("min-width", "250px");
+                },
+                "autoWidth": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper) {
+                        responsiveHelper = new ResponsiveDatatablesHelper($('#OrdersList'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper.respond();
+                }
+            });
+
+
+            $('#OrdersList tbody').on('click', 'tr', function () {
+                var data = clientTable.row(this).data();
+                //alert('You clicked on ' + data[0] + '\'s row');
+                window.location.href = appRoot + "Customer/Detail/" + data.customerID;
+            });
+            orderTable.on('order.dt search.dt', function () {
+                orderTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+        });
+
+    </script>
+    <script type="text/javascript">
+        // pagefunction
+        var pagefunction = function () {
+            Dropzone.autoDiscover = false;
+            $("#mydropzone").dropzone({
+                //url: "/file/post",
+                addRemoveLinks: true,
+                maxFilesize: 0.5,
+                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+                dictResponseError: 'Error uploading file!'
+            });
+
+            //File Upload response from the server
+            Dropzone.options.dropzoneForm = {
+                init: function () {
+                    this.on("complete", function (data) {
+                        //var res = eval('(' + data.xhr.responseText + ')');
+                        var res = JSON.parse(data.xhr.responseText);
+                    });
+                }
+            };
+
+        };
+        // end pagefunction
+    </script>
+}
+
