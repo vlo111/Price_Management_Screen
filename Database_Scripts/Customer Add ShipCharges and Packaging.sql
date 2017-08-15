@@ -5,5 +5,5 @@ end
 
 if not exists (select * from information_schema.columns where table_name = 'Customer' and column_name = 'Packaging')
 begin
-	alter table Customer add Packaging varchar(20) not null default 4;
+	alter table Customer add Packaging int not null default 4;
 end
