@@ -1,3 +1,5 @@
+delete from Carrier;
+
 insert into Carrier (CarrierName, City) select 'Ace Courier', 'Unknown'
 insert into Carrier (CarrierName, City) select 'Ace', 'Unknown'
 insert into Carrier (CarrierName, City) select 'APPS Cargo', 'Unknown'
