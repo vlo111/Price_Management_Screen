@@ -3402,201 +3402,198 @@ update Customer set Packaging = 4, ShipCharges = 'Collect' where CustomerID = 31
 update Customer set Packaging = 4, ShipCharges = 'Collect' where CustomerID = 1279
 update Customer set Packaging = 4, ShipCharges = 'Collect' where CustomerID = 1935
 
-declare @i int;
-set @i = 0;
-
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3193, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2607, (select CarrierID from Carrier where CarrierName = 'Customer Pick up'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3163, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3067, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3251, (select CarrierID from Carrier where CarrierName = 'Greyhound'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3002, (select CarrierID from Carrier where CarrierName = 'Overland/Roseneau'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3161, (select CarrierID from Carrier where CarrierName = 'Customer Pick up'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3151, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2785, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2794, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3138, (select CarrierID from Carrier where CarrierName = 'Van Kam'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3243, (select CarrierID from Carrier where CarrierName = 'Greyhound'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3252, (select CarrierID from Carrier where CarrierName = 'Manitoulin Transport'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3256, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1640, (select CarrierID from Carrier where CarrierName = 'Customer Pick up'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1012, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2693, (select CarrierID from Carrier where CarrierName = 'Kindersley'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3236, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2979, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2754, (select CarrierID from Carrier where CarrierName = 'Day & Ross'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2818, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1041, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1252, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2856, (select CarrierID from Carrier where CarrierName = 'Kindersley'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3059, (select CarrierID from Carrier where CarrierName = 'Rogmay'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2729, (select CarrierID from Carrier where CarrierName = 'Rogmay Services'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2832, (select CarrierID from Carrier where CarrierName = 'Manitoulin Transport'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2789, (select CarrierID from Carrier where CarrierName = 'Berry & Smith'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3153, (select CarrierID from Carrier where CarrierName = 'Rogmay Services'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3233, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1674, (select CarrierID from Carrier where CarrierName = 'Rogmay Services'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3098, (select CarrierID from Carrier where CarrierName = 'Day & Ross'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3069, (select CarrierID from Carrier where CarrierName = 'Get Quote for Customer'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3189, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3194, (select CarrierID from Carrier where CarrierName = 'Van Kam'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2808, (select CarrierID from Carrier where CarrierName = 'DHL'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2774, (select CarrierID from Carrier where CarrierName = 'Van Kam'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1011, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2783, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1380, (select CarrierID from Carrier where CarrierName = 'Tiger'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2512, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2827, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2936, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3250, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3080, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3104, (select CarrierID from Carrier where CarrierName = 'Overland/GRIMSHAW'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2588, (select CarrierID from Carrier where CarrierName = 'Customer Pick up'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3264, (select CarrierID from Carrier where CarrierName = 'Kindersley'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2978, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2822, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2828, (select CarrierID from Carrier where CarrierName = 'Will Advise'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2847, (select CarrierID from Carrier where CarrierName = 'Vitran'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2394, (select CarrierID from Carrier where CarrierName = 'Jays'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3159, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3072, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2312, (select CarrierID from Carrier where CarrierName = 'Kindersley'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2959, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2964, (select CarrierID from Carrier where CarrierName = 'Overland/Bandstra'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2874, (select CarrierID from Carrier where CarrierName = 'Clark Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1404, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3172, (select CarrierID from Carrier where CarrierName = 'Reimer Express'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2708, (select CarrierID from Carrier where CarrierName = 'Kindersley'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2800, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2441, (select CarrierID from Carrier where CarrierName = 'Kindersley'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3173, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3083, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2947, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2458, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2467, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2872, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1004, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1024, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3204, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1385, (select CarrierID from Carrier where CarrierName = 'Customer P/U'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2705, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1013, (select CarrierID from Carrier where CarrierName = 'Overland/B & R Eckels'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1068, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1028, (select CarrierID from Carrier where CarrierName = 'Overland/Comox Pacific'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1046, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1451, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1713, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3005, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3162, (select CarrierID from Carrier where CarrierName = 'Overland/Grimshaw'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2974, (select CarrierID from Carrier where CarrierName = 'Van Kam'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2980, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2057, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2683, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3209, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1040, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1290, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2050, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1618, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2265, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2975, (select CarrierID from Carrier where CarrierName = 'Customer Pick up'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3208, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1296, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1448, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2695, (select CarrierID from Carrier where CarrierName = 'Day & Ross'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2812, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3171, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1074, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3174, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2838, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2781, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2821, (select CarrierID from Carrier where CarrierName = 'Day & Ross'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3232, (select CarrierID from Carrier where CarrierName = 'Greyhound'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2994, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3244, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1061, (select CarrierID from Carrier where CarrierName = 'Rosenau'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2123, (select CarrierID from Carrier where CarrierName = 'Clark Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2331, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3215, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1157, (select CarrierID from Carrier where CarrierName = 'Reimer Express'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2148, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3102, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2014, (select CarrierID from Carrier where CarrierName = 'Customer Pick up'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2253, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3164, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1647, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2844, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3191, (select CarrierID from Carrier where CarrierName = 'Will Advise'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3261, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2817, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2422, (select CarrierID from Carrier where CarrierName = 'Customer P/U'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3165, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2325, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2459, (select CarrierID from Carrier where CarrierName = 'Customer Pick up'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1703, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2322, (select CarrierID from Carrier where CarrierName = 'Customer Pick up'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2739, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3185, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1353, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3167, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3205, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2569, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2097, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1698, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2390, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2786, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3190, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2784, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3219, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2853, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3257, (select CarrierID from Carrier where CarrierName = 'VanKam/Mustang'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2795, (select CarrierID from Carrier where CarrierName = 'Kindersley'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2805, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3156, (select CarrierID from Carrier where CarrierName = 'Customer Pick up'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2615, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2843, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2954, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2967, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3181, (select CarrierID from Carrier where CarrierName = 'Overland/Roseneau'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3184, (select CarrierID from Carrier where CarrierName = 'Kindersley'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1188, (select CarrierID from Carrier where CarrierName = 'Customer Pick up'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1413, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2992, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3017, (select CarrierID from Carrier where CarrierName = 'Customer Pick up'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3168, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2878, (select CarrierID from Carrier where CarrierName = 'Customer Pick up'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3265, (select CarrierID from Carrier where CarrierName = 'Clark Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1006, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2937, (select CarrierID from Carrier where CarrierName = 'Customer Pick up'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3235, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2991, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3046, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3130, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2731, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2661, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3050, (select CarrierID from Carrier where CarrierName = 'APPS Cargo'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3045, (select CarrierID from Carrier where CarrierName = 'Customer P/U'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1102, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2833, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3195, (select CarrierID from Carrier where CarrierName = 'Van Kam'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2058, (select CarrierID from Carrier where CarrierName = 'Tiger'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2212, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2811, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1661, (select CarrierID from Carrier where CarrierName = 'Ace Courier'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3229, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2791, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3183, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2036, (select CarrierID from Carrier where CarrierName = 'Overland/GRIMSHAW'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2565, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3218, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3259, (select CarrierID from Carrier where CarrierName = 'Will Advise'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2598, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3222, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3126, (select CarrierID from Carrier where CarrierName = 'Ace'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3155, (select CarrierID from Carrier where CarrierName = 'Purolator'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3160, (select CarrierID from Carrier where CarrierName = 'Customer P/U'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2764, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2229, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3157, (select CarrierID from Carrier where CarrierName = 'Bandstra'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 2119, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 3177, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways'); set @i = @i + 1;
-insert into CustomerCarrier (CustomerCarrierID, CustomerID, CarrierID) select @i, 1279, (select CarrierID from Carrier where CarrierName = 'Overland'); set @i = @i + 1;
+insert into CustomerCarrier (CustomerID, CarrierID) select 3193, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2607, (select CarrierID from Carrier where CarrierName = 'Customer Pick up')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3163, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3067, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3251, (select CarrierID from Carrier where CarrierName = 'Greyhound')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3002, (select CarrierID from Carrier where CarrierName = 'Overland/Roseneau')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3161, (select CarrierID from Carrier where CarrierName = 'Customer Pick up')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3151, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2785, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2794, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3138, (select CarrierID from Carrier where CarrierName = 'Van Kam')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3243, (select CarrierID from Carrier where CarrierName = 'Greyhound')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3252, (select CarrierID from Carrier where CarrierName = 'Manitoulin Transport')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3256, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1640, (select CarrierID from Carrier where CarrierName = 'Customer Pick up')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1012, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2693, (select CarrierID from Carrier where CarrierName = 'Kindersley')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3236, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2979, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2754, (select CarrierID from Carrier where CarrierName = 'Day & Ross')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2818, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1041, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1252, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2856, (select CarrierID from Carrier where CarrierName = 'Kindersley')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3059, (select CarrierID from Carrier where CarrierName = 'Rogmay')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2729, (select CarrierID from Carrier where CarrierName = 'Rogmay Services')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2832, (select CarrierID from Carrier where CarrierName = 'Manitoulin Transport')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2789, (select CarrierID from Carrier where CarrierName = 'Berry & Smith')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3153, (select CarrierID from Carrier where CarrierName = 'Rogmay Services')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3233, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1674, (select CarrierID from Carrier where CarrierName = 'Rogmay Services')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3098, (select CarrierID from Carrier where CarrierName = 'Day & Ross')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3069, (select CarrierID from Carrier where CarrierName = 'Get Quote for Customer')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3189, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3194, (select CarrierID from Carrier where CarrierName = 'Van Kam')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2808, (select CarrierID from Carrier where CarrierName = 'DHL')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2774, (select CarrierID from Carrier where CarrierName = 'Van Kam')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1011, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2783, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1380, (select CarrierID from Carrier where CarrierName = 'Tiger')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2512, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2827, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2936, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3250, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3080, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3104, (select CarrierID from Carrier where CarrierName = 'Overland/GRIMSHAW')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2588, (select CarrierID from Carrier where CarrierName = 'Customer Pick up')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3264, (select CarrierID from Carrier where CarrierName = 'Kindersley')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2978, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2822, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2828, (select CarrierID from Carrier where CarrierName = 'Will Advise')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2847, (select CarrierID from Carrier where CarrierName = 'Vitran')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2394, (select CarrierID from Carrier where CarrierName = 'Jays')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3159, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3072, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2312, (select CarrierID from Carrier where CarrierName = 'Kindersley')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2959, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2964, (select CarrierID from Carrier where CarrierName = 'Overland/Bandstra')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2874, (select CarrierID from Carrier where CarrierName = 'Clark Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1404, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3172, (select CarrierID from Carrier where CarrierName = 'Reimer Express')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2708, (select CarrierID from Carrier where CarrierName = 'Kindersley')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2800, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2441, (select CarrierID from Carrier where CarrierName = 'Kindersley')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3173, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3083, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2947, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2458, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2467, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2872, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1004, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1024, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3204, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1385, (select CarrierID from Carrier where CarrierName = 'Customer P/U')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2705, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1013, (select CarrierID from Carrier where CarrierName = 'Overland/B & R Eckels')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1068, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1028, (select CarrierID from Carrier where CarrierName = 'Overland/Comox Pacific')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1046, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1451, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1713, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3005, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3162, (select CarrierID from Carrier where CarrierName = 'Overland/Grimshaw')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2974, (select CarrierID from Carrier where CarrierName = 'Van Kam')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2980, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2057, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2683, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3209, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1040, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1290, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2050, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1618, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2265, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2975, (select CarrierID from Carrier where CarrierName = 'Customer Pick up')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3208, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1296, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1448, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2695, (select CarrierID from Carrier where CarrierName = 'Day & Ross')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2812, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3171, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1074, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3174, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2838, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2781, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2821, (select CarrierID from Carrier where CarrierName = 'Day & Ross')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3232, (select CarrierID from Carrier where CarrierName = 'Greyhound')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2994, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3244, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1061, (select CarrierID from Carrier where CarrierName = 'Rosenau')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2123, (select CarrierID from Carrier where CarrierName = 'Clark Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2331, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3215, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1157, (select CarrierID from Carrier where CarrierName = 'Reimer Express')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2148, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3102, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2014, (select CarrierID from Carrier where CarrierName = 'Customer Pick up')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2253, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3164, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1647, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2844, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3191, (select CarrierID from Carrier where CarrierName = 'Will Advise')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3261, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2817, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2422, (select CarrierID from Carrier where CarrierName = 'Customer P/U')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3165, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2325, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2459, (select CarrierID from Carrier where CarrierName = 'Customer Pick up')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1703, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2322, (select CarrierID from Carrier where CarrierName = 'Customer Pick up')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2739, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3185, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1353, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3167, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3205, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2569, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2097, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1698, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2390, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2786, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3190, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2784, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3219, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2853, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3257, (select CarrierID from Carrier where CarrierName = 'VanKam/Mustang')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2795, (select CarrierID from Carrier where CarrierName = 'Kindersley')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2805, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3156, (select CarrierID from Carrier where CarrierName = 'Customer Pick up')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2615, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2843, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2954, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2967, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3181, (select CarrierID from Carrier where CarrierName = 'Overland/Roseneau')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3184, (select CarrierID from Carrier where CarrierName = 'Kindersley')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1188, (select CarrierID from Carrier where CarrierName = 'Customer Pick up')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1413, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2992, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3017, (select CarrierID from Carrier where CarrierName = 'Customer Pick up')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3168, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2878, (select CarrierID from Carrier where CarrierName = 'Customer Pick up')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3265, (select CarrierID from Carrier where CarrierName = 'Clark Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1006, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2937, (select CarrierID from Carrier where CarrierName = 'Customer Pick up')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3235, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2991, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3046, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3130, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2731, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2661, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3050, (select CarrierID from Carrier where CarrierName = 'APPS Cargo')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3045, (select CarrierID from Carrier where CarrierName = 'Customer P/U')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1102, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2833, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3195, (select CarrierID from Carrier where CarrierName = 'Van Kam')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2058, (select CarrierID from Carrier where CarrierName = 'Tiger')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2212, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2811, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1661, (select CarrierID from Carrier where CarrierName = 'Ace Courier')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3229, (select CarrierID from Carrier where CarrierName = 'Diamond Delivery')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2791, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3183, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2036, (select CarrierID from Carrier where CarrierName = 'Overland/GRIMSHAW')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2565, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3218, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3259, (select CarrierID from Carrier where CarrierName = 'Will Advise')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2598, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3222, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3126, (select CarrierID from Carrier where CarrierName = 'Ace')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3155, (select CarrierID from Carrier where CarrierName = 'Purolator')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3160, (select CarrierID from Carrier where CarrierName = 'Customer P/U')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2764, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2229, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3157, (select CarrierID from Carrier where CarrierName = 'Bandstra')
+insert into CustomerCarrier (CustomerID, CarrierID) select 2119, (select CarrierID from Carrier where CarrierName = 'Overland')
+insert into CustomerCarrier (CustomerID, CarrierID) select 3177, (select CarrierID from Carrier where CarrierName = 'Canadian Freightways')
+insert into CustomerCarrier (CustomerID, CarrierID) select 1279, (select CarrierID from Carrier where CarrierName = 'Overland')
