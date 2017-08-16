@@ -93,7 +93,7 @@ namespace CenDek.Controllers
             ViewBag.dropdownVD = dropdownVD;
             ViewBag.customerList = new SelectList(_dbContext.Customers.Where(n => (!string.IsNullOrEmpty(n.Company))).ToList(), "CustomerID", "Company");
             ViewBag.coloutList = new SelectList(_dbContext.Colours.Where(n => (!string.IsNullOrEmpty(n.Name))).ToList(), "ColourID", "Name");
-            ViewBag.categoriesList = new SelectList(_dbContext.Categories.Where(n => (!string.IsNullOrEmpty(n.Name))).ToList(), "CategoryID", "Name");
+            ViewBag.categoriesList = GetCategoriesSelectList(0);
 
             #endregion
             var custOrders = _dbContext.CustOrders.FirstOrDefault(n => n.CustOrderID == id);
@@ -113,6 +113,97 @@ namespace CenDek.Controllers
 
             ViewBag.OrderId = id;
             return View(model);
+        }
+
+     
+        private IEnumerable<SelectListItem> GetCategoriesSelectList(int CategoryParentID)
+        {
+            var categories = _dbContext.Categories.ToList();
+            // Initialise list and add first "All" item
+            List<SelectListItem> options = new List<SelectListItem>();
+            // Get the top level parents
+            var parents = categories.Where(x => x.CategoryParentID == CategoryParentID);
+            foreach (var parent in parents)
+            {
+                // Add SelectListItem for the parent
+                options.Add(new SelectListItem()
+                {
+                    Value = parent.CategoryID.ToString(),
+                    Text = parent.Name
+                });
+                // Get the child items associated with the parent
+                var children = categories.Where(x => x.CategoryParentID == parent.CategoryID);
+                // Add SelectListItem for each child
+                foreach (var child in children)
+                {
+                    options.Add(new SelectListItem()
+                    {
+                        Value = child.CategoryID.ToString(),
+                        Text = string.Format("\xA0\xA0{0}", child.Name)
+                    });
+                    var subchildren = categories.Where(x => x.CategoryParentID == child.CategoryID);
+                    foreach (var subchild in subchildren)
+                    {
+                        options.Add(new SelectListItem()
+                        {
+                            Value = subchild.CategoryID.ToString(),
+                            Text = string.Format("\xA0\xA0\xA0\xA0{0}", subchild.Name)
+                        });
+
+                    }
+                }
+            }
+            return options;
+        }
+
+        [HttpGet]
+        public ActionResult GetCategoriest(String CategoryParentID)
+        {
+            var categories = _dbContext.Categories.ToList();
+            // Initialise list and add first "All" item
+            List<SelectListItem> options = new List<SelectListItem>();
+            // Get the top level parents
+            IEnumerable<Category> parents;
+            if (CategoryParentID.Equals("All") || CategoryParentID.Equals("Recommended"))
+            {
+                 parents = categories;
+            }
+            else
+            {
+                 parents = categories.Where(x => x.Name == CategoryParentID);
+            }
+            
+            foreach (var parent in parents)
+            {
+                // Add SelectListItem for the parent
+                options.Add(new SelectListItem()
+                {
+                    Value = parent.CategoryID.ToString(),
+                    Text = parent.Name
+                });
+                // Get the child items associated with the parent
+                var children = categories.Where(x => x.CategoryParentID == parent.CategoryID);
+                // Add SelectListItem for each child
+                foreach (var child in children)
+                {
+                    options.Add(new SelectListItem()
+                    {
+                        Value = child.CategoryID.ToString(),
+                        Text = string.Format("\xA0\xA0{0}", child.Name)
+                    });
+                    var subchildren = categories.Where(x => x.CategoryParentID == child.CategoryID);
+                    foreach (var subchild in subchildren)
+                    {
+                        options.Add(new SelectListItem()
+                        {
+                            Value = subchild.CategoryID.ToString(),
+                            Text = string.Format("\xA0\xA0\xA0\xA0{0}", subchild.Name)
+                        });
+
+                    }
+                }
+            }
+            return Json(new { Data = options }, JsonRequestBehavior.AllowGet);
         }
 
         // GET
@@ -529,15 +620,41 @@ namespace CenDek.Controllers
 
             List<Part> PartsList = new List<Part>();
 
-            if (subCategory > 0)
+            IQueryable<Part> PartsListFilter ;
+
+            #region 'Check for, sub category must be of selected category'
+            if (!Category.Equals("All"))
             {
-                PartsList = data.Where(_item => _item.CategoryID == subCategory && _item.Description.ToLower().Contains(searchTerm.ToLower()))
-                    .OrderBy(m => m.Description).Skip(pageNum).Take(pageSize).ToList<Part>();
+
+                int parentCatId = _dbContext.Categories.FirstOrDefault(n => n.Name.Equals(Category)).CategoryID;
+                var partsCategories = _dbContext.Categories.Where(n => n.CategoryParentID == parentCatId);
+
+                PartsListFilter = (from part in data
+                             join cat in partsCategories
+                             on part.CategoryID equals cat.CategoryID
+
+                             select part);
+
             }
             else
             {
-                PartsList = data.Where(_item => _item.Description.ToLower().Contains(searchTerm.ToLower()))
-                    .OrderBy(m => m.Description).Skip(pageNum).Take(pageSize).ToList<Part>();
+                PartsListFilter = (from part in data
+                                   select part);
+
+            }
+            #endregion
+
+
+            if (subCategory > 0)
+            {
+
+                PartsList = PartsListFilter.Where(_item => _item.CategoryID == subCategory && _item.Name.ToLower().Contains(searchTerm.ToLower()))
+                    .OrderBy(m => m.Name).Skip(pageNum).Take(pageSize).ToList<Part>();
+            }
+            else
+            {
+                PartsList = PartsListFilter.Where(_item => _item.Name.ToLower().Contains(searchTerm.ToLower()))
+                    .OrderBy(m => m.Name).Skip(pageNum).Take(pageSize).ToList<Part>();
             }
 
             int attendeeCount = PartsList.Count();
@@ -560,7 +677,7 @@ namespace CenDek.Controllers
             //Loop through our attendees and translate it into a text value and an id for the select list
             foreach (Part item in parts)
             {
-                jsonAttendees.Results.Add(new Select2Result { id = item.PartID.ToString(), text = item.Description });
+                jsonAttendees.Results.Add(new Select2Result { id = item.PartID.ToString(), text = item.Name });
             }
             //Set the total count of the results from the query.
             jsonAttendees.Total = totalAttendees;

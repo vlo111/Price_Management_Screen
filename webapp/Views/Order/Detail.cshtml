@@ -244,25 +244,25 @@
 
                             <ul id="widget-tab-1" class="nav  nav-tabs" name="CategoryType">
 
-                                <li class="active" name="All" onclick="refreshPartsGrid();">
+                                <li class="active" name="All" onclick="refreshPartsGrid(this);">
 
                                     <a data-toggle="tab" href="#AllParts" aria-expanded="true">  <span class="hidden-mobile hidden-tablet"> All </span> </a>
 
                                 </li>
 
-                                <li class="" name="Post" onclick="refreshPartsGrid();">
+                                <li class="" name="Posts" onclick="refreshPartsGrid(this);">
                                     <a data-toggle="tab" href="#AllParts" aria-expanded="false"> <span class="hidden-mobile hidden-tablet"> Post </span></a>
                                 </li>
 
-                                <li class="" name="Pillars" onclick="refreshPartsGrid();">
+                                <li class="" name="Pillars" onclick="refreshPartsGrid(this);">
                                     <a data-toggle="tab" href="#AllParts" aria-expanded="false">  <span class="hidden-mobile hidden-tablet"> Pillars </span></a>
                                 </li>
 
-                                <li class="" name="Parts" onclick="refreshPartsGrid();">
+                                <li class="" name="Parts" onclick="refreshPartsGrid(this);">
                                     <a data-toggle="tab" href="#AllParts" aria-expanded="false">  <span class="hidden-mobile hidden-tablet"> Parts </span></a>
                                 </li>
 
-                                <li class="" name="Recommended" onclick="refreshPartsGrid();">
+                                <li class="" name="Recommended" onclick="refreshPartsGrid(this);">
                                     <a data-toggle="tab" href="#AllParts" aria-expanded="false">  <span class="hidden-mobile hidden-tablet"> Recommended </span></a>
                                 </li>
 
@@ -777,176 +777,176 @@
 
 
 
-        var clientTable= $('#PartsList').DataTable({
-                serverSide: true,
-                "ajax": {
-                    "url": appRoot + "order/GetOrderParts",
-                    "type": 'GET',
-                    "data": function (d) {
-                        d.OrderPartsIds = $('#hdnOrderPartIDs').val();
-                        d.custOrderID = $('#custOrderID').val();
-                    },
-                    "dataSrc": function (json) {
-                        // manipulate your data (json)
-                       // console.log(json)
-                        return json.data;
-                    }
+        var clientTable = $('#PartsList').DataTable({
+            serverSide: true,
+            "ajax": {
+                "url": appRoot + "order/GetOrderParts",
+                "type": 'GET',
+                "data": function (d) {
+                    d.OrderPartsIds = $('#hdnOrderPartIDs').val();
+                    d.custOrderID = $('#custOrderID').val();
                 },
-                "bInfo": false, //Dont display info e.g. "Showing 1 to 4 of 4 entries"
-                "searching": false, //Disable searching abilities in DataTables:
-                "bPaginate": false,//Dont want paging
-                "columnDefs": [{
-                    "searchable": false,
-                    "orderable": false,
-                    "targets": 0
-                }],
-                "order": [[1, 'asc']],
-                columns: [
-                    {
-                        name: 'custOrderPartId',
-                        data: "custOrderPartId",
-                        title: "#",
-                        sortable: false,
-                        searchable: false
-                    },
-                    {
-                        name: 'category',
-                        data: "category",
-                        title: "Category",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'partID',
-                        data: "partID",
-                        title: "PartIDs",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'image',
-                        data: "image",
-                        title: "Image",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'number',
-                        data: "number",
-                        title: "No.",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'description',
-                        data: "description",
-                        title: "Description",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'price',
-                        data: "price",
-                        title: "Price",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'comments',
-                        data: "comments",
-                        title: "Comment",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'quantity',
-                        data: "quantity",
-                        title: "Qty",
-
-                        width: "40px",
-                        sortable: true,
-                        searchable: true,
-                        render: function (data, type, row) {
-                            if (type === 'display') {
-
-                                return '<input type="text" style="width:40px" name="' + row.custOrderPartId+ '" value="' + data + '" oninput="updateQunatity(this);" />';
-                            }
-                            return data;
-                        }
-                    },
-                    {
-                        name: 'meaUnit',
-                        data: "meaUnit.shortDescription",
-                        title: "Mea Unit",
-                        width: "60px",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'weight',
-                        data: "weight",
-                        title: "Weight",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'partID',
-                        data: "partID",
-                        title: "Action",
-                        sortable: false,
-                        searchable: false,
-                        width: "150px",
-                        render: function (data, type, row) {
-                            if (type === 'display') {
-
-                                return '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Edit" onclick="editPart(' + data + ');"> Edit </a> &nbsp;&nbsp;' +
-                                    '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Add" onclick="getPartById(' + data + ');"> Add </a>&nbsp; &nbsp;' +
-                                    '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Custom" onclick="customPart(' + data + ');"> Custom </a>'
-                            }
-                            return data;
-                        }
-                    },
-                    {
-                        name: 'files',
-                        data: "files",
-                        title: "File",
-                        sortable: false,
-                        searchable: false,
-                        render: function (data, type, row) {
-                            if (type === 'display') {
-
-                                return '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Edit" onclick="uploadFileOfPart(' + data + ');"> Upload File </a>';
-                            }
-                            return data;
-                        }
-                    }
-                ],
-                "scrollX": true,
-                "oLanguage": {
-                    "sSearch": ""
-                },
-                initComplete: function () {
-
-                },
-                "autoWidth": true,
-                "preDrawCallback": function () {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper) {
-                        responsiveHelper = new ResponsiveDatatablesHelper($('#PartsList'), breakpointDefinition);
-                    }
-                },
-                "rowCallback": function (nRow) {
-                    responsiveHelper.createExpandIcon(nRow);
-                },
-                "drawCallback": function (oSettings) {
-                    responsiveHelper.respond();
+                "dataSrc": function (json) {
+                    // manipulate your data (json)
+                    // console.log(json)
+                    return json.data;
                 }
+            },
+            "bInfo": false, //Dont display info e.g. "Showing 1 to 4 of 4 entries"
+            "searching": false, //Disable searching abilities in DataTables:
+            "bPaginate": false,//Dont want paging
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            }],
+            "order": [[1, 'asc']],
+            columns: [
+                {
+                    name: 'custOrderPartId',
+                    data: "custOrderPartId",
+                    title: "#",
+                    sortable: false,
+                    searchable: false
+                },
+                {
+                    name: 'category',
+                    data: "category",
+                    title: "Category",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'partID',
+                    data: "partID",
+                    title: "PartIDs",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'image',
+                    data: "image",
+                    title: "Image",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'number',
+                    data: "number",
+                    title: "No.",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'description',
+                    data: "description",
+                    title: "Description",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'price',
+                    data: "price",
+                    title: "Price",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'comments',
+                    data: "comments",
+                    title: "Comment",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'quantity',
+                    data: "quantity",
+                    title: "Qty",
+
+                    width: "40px",
+                    sortable: true,
+                    searchable: true,
+                    render: function (data, type, row) {
+                        if (type === 'display') {
+
+                            return '<input type="text" style="width:40px" name="' + row.custOrderPartId + '" value="' + data + '" oninput="updateQunatity(this);" />';
+                        }
+                        return data;
+                    }
+                },
+                {
+                    name: 'meaUnit',
+                    data: "meaUnit.shortDescription",
+                    title: "Mea Unit",
+                    width: "60px",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'weight',
+                    data: "weight",
+                    title: "Weight",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'partID',
+                    data: "partID",
+                    title: "Action",
+                    sortable: false,
+                    searchable: false,
+                    width: "150px",
+                    render: function (data, type, row) {
+                        if (type === 'display') {
+
+                            return '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Edit" onclick="editPart(' + data + ');"> Edit </a> &nbsp;&nbsp;' +
+                                '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Add" onclick="getPartById(' + data + ');"> Add </a>&nbsp; &nbsp;' +
+                                '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Custom" onclick="customPart(' + data + ');"> Custom </a>'
+                        }
+                        return data;
+                    }
+                },
+                {
+                    name: 'files',
+                    data: "files",
+                    title: "File",
+                    sortable: false,
+                    searchable: false,
+                    render: function (data, type, row) {
+                        if (type === 'display') {
+
+                            return '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Edit" onclick="uploadFileOfPart(' + data + ');"> Upload File </a>';
+                        }
+                        return data;
+                    }
+                }
+            ],
+            "scrollX": true,
+            "oLanguage": {
+                "sSearch": ""
+            },
+            initComplete: function () {
+
+            },
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper) {
+                    responsiveHelper = new ResponsiveDatatablesHelper($('#PartsList'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper.respond();
+            }
+        });
+        clientTable.on('order.dt search.dt', function () {
+            clientTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
             });
-            clientTable.on('order.dt search.dt', function() {
-                clientTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function(cell, i) {
-                    cell.innerHTML = i + 1;
-                });
-            }).draw();
+        }).draw();
 
 
 
@@ -1003,6 +1003,37 @@
 
             $("#txt_productSearch").select2("val", "");
         });
+
+        function refreshPartsGrid(obj) {
+            var attendeeUrl = '@Url.Action("GetCategoriest", "Order")';
+            var CategoryParentID = $(obj).attr('name');
+
+            if (!($(obj).hasClass('active'))) {
+
+                 $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    async: false,
+                    url: attendeeUrl,
+                    data: {
+                        'CategoryParentID': CategoryParentID
+                    },
+                    success: function (response) {
+
+                        var select = $("#Categoryddl");
+                        select.children().remove();
+                        if (response.Data) {
+                            select.append($("<option>").val("").text("select"));
+                            $(response.Data).each(function (index, item) {
+                                select.append($("<option>").val(item.Value).text(item.Text));
+                            });
+                        }
+
+                    }
+                });
+
+            }
+        }
 
         function addPartItem(itemId) {
 
