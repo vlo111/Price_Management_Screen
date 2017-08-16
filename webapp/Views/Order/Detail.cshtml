@@ -609,7 +609,7 @@
     </div>
     <!-- Modal for Custom Port Ends -->
     <input type="hidden" id="hdnOrderPartIDs" value="@ViewBag.OrderPartIDs " />
-
+    <input type="hidden" id="hdnCategory" value="All" />
 </div>
 <!-- END MAIN CONTENT -->
 <style>
@@ -785,6 +785,9 @@
                 "data": function (d) {
                     d.OrderPartsIds = $('#hdnOrderPartIDs').val();
                     d.custOrderID = $('#custOrderID').val();
+                    d.Category = $('#hdnCategory').val();
+                    
+
                 },
                 "dataSrc": function (json) {
                     // manipulate your data (json)
@@ -869,7 +872,9 @@
                     render: function (data, type, row) {
                         if (type === 'display') {
 
-                            return '<input type="text" style="width:40px" name="' + row.custOrderPartId + '" value="' + data + '" oninput="updateQunatity(this);" />';
+                            return '<input type="number" onblur="updateQunatity(this);"  onchange="this.value = parseFloat(this.value).toFixed(2)" '+
+                            'pattern = "^\d+(?:\.\d{1,2})?$"  min= "0" value= "0" step= ".01" style= "width:100%" '+
+                            'name = "' + row.custOrderPartId + '" value= "' + data + '"  />';
                         }
                         return data;
                     }
@@ -1028,10 +1033,11 @@
                                 select.append($("<option>").val(item.Value).text(item.Text));
                             });
                         }
-
+                        
                     }
                 });
-
+                 $('#hdnCategory').val(CategoryParentID);
+                 clientTable.ajax.reload();
             }
         }
 

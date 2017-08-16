@@ -54,26 +54,47 @@ namespace CenDek.Controllers
                 return RedirectToAction("Dashboard", "Order");
 
             }
-            NewCustomerOrder model = new NewCustomerOrder();
-            var customer = await _dbContext.Customers.FindAsync(id);
-            model.customer = customer;
-            model.customerID = customer.CustomerID;
-
-            CustOrder _custOrder = new CustOrder()
+            try
             {
-                Customer = model.customer,
-                CustomerID = model.customerID,
-                CreatedDate = DateTime.UtcNow,
-                Revision = -1,
-                InvoiceNo = "",
-                EmployeeID = model.customer.EmployeeID,
-                GroupUrgencyID = -1,
-                CommentsCentury = model.customer.Comments
-            };
+                Employee emp = _dbContext.Employees.FirstOrDefault(); //todo
 
-            _dbContext.CustOrders.Add(_custOrder);
-            _dbContext.SaveChanges();
-            return RedirectToAction("Detail", "Order", new { id = _custOrder.CustOrderID });
+                NewCustomerOrder model = new NewCustomerOrder();
+                var customer = await _dbContext.Customers.FindAsync(id);
+                model.customer = customer;
+                model.customerID = customer.CustomerID;
+
+                CustOrder _custOrder = new CustOrder()
+                {
+                    Customer = model.customer,
+                    CustomerID = model.customerID,
+                    CreatedDate = DateTime.UtcNow,
+                    Revision = -1,
+                    InvoiceNo = "",
+                    EmployeeID = emp.EmployeeID,
+                    GroupUrgencyID = -1,
+                    CommentsCentury = "" //todo
+                };
+
+                _dbContext.CustOrders.Add(_custOrder);
+                _dbContext.SaveChanges();
+                return RedirectToAction("Detail", "Order", new { id = _custOrder.CustOrderID });
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    // For testing purpose, consoling the bug, we will explicitly handle this exception later
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+
+            }
+            return RedirectToAction("Detail", "Order");
 
         }
         // GET
@@ -115,7 +136,7 @@ namespace CenDek.Controllers
             return View(model);
         }
 
-     
+
         private IEnumerable<SelectListItem> GetCategoriesSelectList(int CategoryParentID)
         {
             var categories = _dbContext.Categories.ToList();
@@ -166,13 +187,13 @@ namespace CenDek.Controllers
             IEnumerable<Category> parents;
             if (CategoryParentID.Equals("All") || CategoryParentID.Equals("Recommended"))
             {
-                 parents = categories;
+                parents = categories;
             }
             else
             {
-                 parents = categories.Where(x => x.Name == CategoryParentID);
+                parents = categories.Where(x => x.Name == CategoryParentID);
             }
-            
+
             foreach (var parent in parents)
             {
                 // Add SelectListItem for the parent
@@ -382,9 +403,19 @@ namespace CenDek.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetOrderParts(IDataTablesRequest request, string OrderPartsIds, int custOrderID)
+        public ActionResult GetOrderParts(IDataTablesRequest request, string OrderPartsIds, int custOrderID, string Category = null)
         {
             List<CustOrderPart> _custOrderPartList = new List<CustOrderPart>();
+
+            Category catObject = new Category();
+            if (Category.Equals("All") || Category.Equals("Recommended"))
+            {
+                catObject = null;
+            }
+            else
+            {
+                catObject = _dbContext.Categories.FirstOrDefault(x => x.Name.Equals(Category));
+            }
 
             if (!string.IsNullOrEmpty(OrderPartsIds) && custOrderID > 0)
             {
@@ -397,7 +428,9 @@ namespace CenDek.Controllers
 
                 CustOrder cust = _dbContext.CustOrders.FirstOrDefault(n => n.CustOrderID == custOrderID);
                 var t = OrderPartsIds.Split(',').ToList();
-                List<OrderPart> _orderParts = _dbContext.OrderParts.Where(n => t.Contains(n.OrderPartID.ToString())).ToList<OrderPart>();
+                List<OrderPart> _orderParts = _dbContext.OrderParts
+                    .Where(n => t.Contains(n.OrderPartID.ToString()))
+                    .ToList<OrderPart>();
                 // Global filtering.
                 // Filter is being manually applied due to in-memmory (IEnumerable) data.
                 // If you want something rather easier, check IEnumerableExtensions Sample.
@@ -406,26 +439,39 @@ namespace CenDek.Controllers
 
                 foreach (var _itemPart in _orderParts)
                 {
-                    Part _Part = data.FirstOrDefault(_item => _item.PartID == _itemPart.PartID);
-                    _Part.Category = _dbContext.Categories.FirstOrDefault(x => x.CategoryID == _Part.CategoryID);
-                    _Part.MeasUnit = _dbContext.MeasUnits.FirstOrDefault(x => x.MeasUnitID == _Part.MeasUnitID);
-                    CustOrderPart _custOrderPart = new CustOrderPart()
-                    {
-                        CustOrderPartId = _itemPart.OrderPartID,
-                        category = _Part.Category.Name,
-                        partID = _itemPart.PartID + "",
-                        Image = _Part.Image,
-                        Number = "0",
-                        Description = _Part.Description,
-                        Price = _itemPart.PriceID,
-                        Comments = _itemPart.Comments,
-                        Quantity = _itemPart.Quantity,
-                        MeaUnit = _Part.MeasUnit,
-                        Weight = _Part.Weight,
-                        Files = _itemPart.Files
-                    };
+                    Part _Part = new Part();
 
-                    _custOrderPartList.Add(_custOrderPart);
+                    if (catObject != null)
+                    {
+                        _Part = data.FirstOrDefault(_item => _item.PartID == _itemPart.PartID && catObject.CategoryID == _item.CategoryID);
+                    }
+                    else
+                    {
+                        _Part = data.FirstOrDefault(_item => _item.PartID == _itemPart.PartID);
+                    }
+                    if (_Part != null && _Part.PartID > 0)
+                    {
+                        _Part.Category = _dbContext.Categories.FirstOrDefault(x => x.CategoryID == _Part.CategoryID);
+                        _Part.MeasUnit = _dbContext.MeasUnits.FirstOrDefault(x => x.MeasUnitID == _Part.MeasUnitID);
+                        CustOrderPart _custOrderPart = new CustOrderPart()
+                        {
+                            CustOrderPartId = _itemPart.OrderPartID,
+                            category = _Part.Category.Name,
+                            partID = _itemPart.PartID + "",
+                            Image = _Part.Image,
+                            Number = "0",
+                            Description = _Part.Description,
+                            Price = _itemPart.PriceID,
+                            Comments = _itemPart.Comments,
+                            Quantity = _itemPart.Quantity,
+                            MeaUnit = _Part.MeasUnit,
+                            Weight = _Part.Weight,
+                            Files = _itemPart.Files
+                        };
+
+                        _custOrderPartList.Add(_custOrderPart);
+                    }
+
                 }
 
 
@@ -620,28 +666,37 @@ namespace CenDek.Controllers
 
             List<Part> PartsList = new List<Part>();
 
-            IQueryable<Part> PartsListFilter ;
+
 
             #region 'Check for, sub category must be of selected category'
-            if (!Category.Equals("All"))
+
+            IQueryable<Part> PartsListFilter = new List<Part>() as IQueryable<Part>;
+
+            bool partsExists = false;
+
+            if (!(Category.Equals("All") || Category.Equals("Recommended")))
             {
+                var catObj = _dbContext.Categories.FirstOrDefault(n => n.Name.Equals(Category));
+                int parentCatId = (catObj != null) ? catObj.CategoryID : -1;
+                if (parentCatId>0)
+                {
+                    var partsCategories = _dbContext.Categories.Where(n => n.CategoryParentID == parentCatId);
 
-                int parentCatId = _dbContext.Categories.FirstOrDefault(n => n.Name.Equals(Category)).CategoryID;
-                var partsCategories = _dbContext.Categories.Where(n => n.CategoryParentID == parentCatId);
+                    PartsListFilter = (from part in data
+                                       join cat in partsCategories
+                                       on part.CategoryID equals cat.CategoryID
 
-                PartsListFilter = (from part in data
-                             join cat in partsCategories
-                             on part.CategoryID equals cat.CategoryID
-
-                             select part);
-
+                                       select part);
+                    partsExists = true;
+                }
             }
-            else
+            if(!partsExists)
             {
                 PartsListFilter = (from part in data
                                    select part);
 
             }
+
             #endregion
 
 
