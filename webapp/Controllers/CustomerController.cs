@@ -224,6 +224,18 @@ namespace CenDek.Controllers
             return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public ActionResult OkToDelete(int customerId)
+        {
+            int count = 0;
+            Customer customer = _dbContext.Customers.Where(x => x.CustomerID == customerId).Single();
+            count += _dbContext.CustOrders.Where(x => x.CustomerID == customerId).Count();
+            count += _dbContext.CustomerContacts.Where(x => x.CustomerID == customerId).Count();
+            count += _dbContext.CustomerCarriers.Where(x => x.CustomerID == customerId).Count();
+            count += _dbContext.ShippingAddresses.Where(x => x.CustomerID == customerId).Count();
+            return Json(new { OkToDelete = count == 0 }, JsonRequestBehavior.AllowGet);
+        }
+
         // *** BEGIN CUSTOMER CONTACTS ***
 
         [HttpGet]

@@ -529,7 +529,27 @@
                     ReloadContactCards();
                 });
             });
+
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                var tab = $(e.target).attr("href"); // activated tab
+                if (tab == "#s1") {
+                    EnableDisableDeleteCustomerButton();
+                }
+            });
+
+            EnableDisableDeleteCustomerButton();
         });
+
+        function EnableDisableDeleteCustomerButton() {
+            $.ajax({
+                type: "GET",
+                url: appRoot + "customer/OkToDelete",
+                data: { customerId: @Model.CustomerID }
+            })
+            .success(function (result) {
+                $('#DeleteCustomer').prop("disabled", !result.OkToDelete);
+            });
+        }
 
         // *** END JQUERY DOCUMENT READY SECTION ***
 
