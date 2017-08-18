@@ -189,14 +189,19 @@ namespace CenDek.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetCategoriest(String CategoryParentID)
+        public ActionResult GetCategoriest(String CategoryParentID, int EntityId = 0)
         {
             var categories = _dbContext.Categories.ToList();
             // Initialise list and add first "All" item
             List<SelectListItem> options = new List<SelectListItem>();
             // Get the top level parents
             IEnumerable<Category> parents;
-            if (CategoryParentID.Equals("All") || CategoryParentID.Equals("Recommended"))
+
+            if (EntityId > 0)
+            {
+                parents = categories.Where(x => x.CategoryParentID == EntityId);
+            }
+            else if (CategoryParentID.Equals("All") || CategoryParentID.Equals("Recommended"))
             {
                 parents = categories;
             }
@@ -239,7 +244,7 @@ namespace CenDek.Controllers
         }
 
         // GET
-        [HttpPost]
+        [HttpGet]
         public ActionResult New()
         {
             return View();
@@ -328,6 +333,101 @@ namespace CenDek.Controllers
             {
                 isSavedSuccessfully = false;
             }
+            if (isSavedSuccessfully)
+            {
+                return Json(new { Message = fName });
+            }
+            else
+            {
+                return Json(new { Message = "Error in saving file" });
+            }
+        }
+
+        [HttpPost]
+        public void removeAttachments(int custOrderId, string fileName)
+        {
+            CustOrder custOrder = _dbContext.CustOrders.FirstOrDefault(n => n.CustOrderID == custOrderId);    //getting customer order against the custOrderId
+            if (custOrder != null)
+            {
+                try
+                {
+                    var fileObj = custOrder.Files.FirstOrDefault(n => n.Name.Equals(fileName));
+                    custOrder.Files.Remove(fileObj);
+                    _dbContext.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+
+                }
+
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult SaveOrderPartFile()
+        {
+            bool isSavedSuccessfully = false;
+            string fName = "";
+            var id = Int32.Parse(Request.Form["orderPartId"]);
+            var comment = Request.Form["comment"];
+            try
+            {
+                HttpPostedFileBase file = Request.Files[0];   //server gets the files in Request
+                if (file != null && id > 0)
+                {
+                    fName = file.FileName;
+                    if (file.ContentLength > 0)
+                    {
+                        string imagesPath = string.Format("{0}Images\\WallImages", Server.MapPath(@"\"));
+                        var directory = new DirectoryInfo(imagesPath);
+                        if (!directory.Exists)
+                        {
+                            Directory.CreateDirectory(imagesPath);
+                        }
+                        var originalDirectory = new DirectoryInfo(imagesPath);
+                        string pathString = Path.Combine(originalDirectory.ToString(), "imagepath");   //path in solution where the file would be saved
+                        bool isExists = Directory.Exists(pathString);    //checking if path specified exists
+                        if (!isExists)
+                            Directory.CreateDirectory(pathString);
+
+                        var path = $"{pathString}\\{file.FileName}";    //creating absolute path where file will be saved 
+                        file.SaveAs(path);
+                        byte[] data;
+                        using (Stream inputStream = file.InputStream)
+                        {
+                            MemoryStream memoryStream = inputStream as MemoryStream;
+                            if (memoryStream == null)
+                            {
+                                memoryStream = new MemoryStream();
+                                inputStream.CopyTo(memoryStream);
+                            }
+                            data = memoryStream.ToArray();
+                        }
+
+                        OrderPart orderPart = _dbContext.OrderParts.FirstOrDefault(n => n.PartID == id);    //getting customer order against the custOrderId
+                        if (orderPart != null)
+                        {
+                            orderPart.Files.Add(new DataAccess.Models.File()   // if order exists add these file[s] to that order
+                            {
+                                Contents = data,
+                                Type = file.ContentType,
+                                Name = file.FileName,
+                                EmployeeID = 1
+                            });
+                            orderPart.Comments = comment;    // updating the comment of this order part
+                            _dbContext.SaveChanges();
+                            isSavedSuccessfully = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                isSavedSuccessfully = false;
+            }
+
             if (isSavedSuccessfully)
             {
                 return Json(new { Message = fName });
@@ -430,13 +530,10 @@ namespace CenDek.Controllers
 
             if (!string.IsNullOrEmpty(OrderPartsIds) && custOrderID > 0)
             {
-
-
                 _dbContext.Configuration.LazyLoadingEnabled = false;
                 _dbContext.Configuration.ProxyCreationEnabled = false;
 
                 var data = _dbContext.Parts.ToList();
-
 
                 // Paging filtered data.
                 // Paging is rather manual due to in-memmory (IEnumerable) data.
@@ -444,18 +541,26 @@ namespace CenDek.Controllers
 
                 CustOrder cust = _dbContext.CustOrders.FirstOrDefault(n => n.CustOrderID == custOrderID);
                 var t = OrderPartsIds.Split(',').ToList();
-                List<OrderPart> _orderParts = _dbContext.OrderParts
-                    .OrderBy(n=>n.OrderPartID)
+                List<OrderPart> _orderParts = _dbContext.OrderParts.Include("Files")
+                    .OrderBy(n => n.OrderPartID)
                     .Where(n => t.Contains(n.OrderPartID.ToString()))
                     .ToList<OrderPart>();
                 // Global filtering.
                 // Filter is being manually applied due to in-memmory (IEnumerable) data.
                 // If you want something rather easier, check IEnumerableExtensions Sample.
 
-
-
                 foreach (var _itemPart in _orderParts)
                 {
+                    if (_itemPart != null)
+                    {
+                        foreach (var fileObj in _itemPart.Files)
+                        {
+                            if (fileObj != null)
+                            {
+                                fileObj.OrderParts = null;
+                            }
+                        }
+                    }
                     Part _Part = new Part();
 
                     if (catObject != null)
@@ -493,8 +598,8 @@ namespace CenDek.Controllers
 
 
             }
-          
-           
+
+
 
             // Response creation. To create your response you need to reference your request, to avoid
             // request/response tampering and to ensure response will be correctly created.
@@ -657,9 +762,34 @@ namespace CenDek.Controllers
             return Json(new { status = false });
         }
 
-        public ActionResult CompareOrder()
+        public ActionResult CompareOrder(int? custOrderId)
         {
-            return View();
+            List<CompareOrderViewModel> _custOrderPartList = new List<CompareOrderViewModel>();
+            _dbContext.Configuration.LazyLoadingEnabled = false;
+            _dbContext.Configuration.ProxyCreationEnabled = false;
+            if (custOrderId != null && custOrderId > 0)
+            {
+                var tagsList = _dbContext.Tags.Include("OrderParts").Where(n => n.OrderID == custOrderId);
+                foreach (var _tag in tagsList)
+                {
+                    var orderparts = _tag.OrderParts;
+                    foreach (var _orderPart in orderparts)
+                    {
+                        var part = _dbContext.Parts.FirstOrDefault(n => n.PartID == _orderPart.PartID);
+                        CompareOrderViewModel _custOrderPart = new CompareOrderViewModel()
+                        {
+                            Tag = _tag.TagName,
+                            Colour = "",
+                            Group = "",
+                            PartId = part.PartID,
+                            PartName = part.Name
+                        };
+                        _custOrderPartList.Add(_custOrderPart);
+                    }
+                }
+
+            }
+            return View(_custOrderPartList);
         }
 
         public JsonResult SaveShippingPartFromOrder(string quantity, string comments, int orderId, int partId)
@@ -952,31 +1082,42 @@ namespace CenDek.Controllers
         {
             var status = true;
             var tagId = 0;
+            var message = "";
             if (custOrderId > 0)
             {
                 var custOrder = _dbContext.CustOrders.FirstOrDefault(x => x.CustOrderID == custOrderId);
                 if (custOrder != null)
                 {
                     // if custOrder is not null, this means custOrder exists against custOrderId, now we can add tag
-                    var tag = new Tag()
+                    // but there can only be one tag with unique same so putting this check below to ensure it
+                    var flag = _dbContext.Tags.Any(x => x.TagName.ToLower() == tagName.ToLower());
+                    if (!flag)
                     {
-                        TagName = tagName,
-                        OrderID = custOrderId,
-                        ShipmentID = null
-                    };
-                    try
-                    {
-                        _dbContext.Tags.Add(tag);
-                        _dbContext.SaveChanges();
-                        tagId = tag.TagID;
+                        var tag = new Tag()
+                        {
+                            TagName = tagName,
+                            OrderID = custOrderId,
+                            ShipmentID = null
+                        };
+                        try
+                        {
+                            _dbContext.Tags.Add(tag);
+                            _dbContext.SaveChanges();
+                            tagId = tag.TagID;
+                        }
+                        catch (Exception e)
+                        {
+                            status = false;
+                        }
                     }
-                    catch (Exception e)
+                    else
                     {
                         status = false;
+                        message = "Tag with this name already exists!";
                     }
                 }
             }
-            return Json(new { status, tagId }, JsonRequestBehavior.AllowGet);
+            return Json(new { status, tagId, message }, JsonRequestBehavior.AllowGet);
         }
 
 

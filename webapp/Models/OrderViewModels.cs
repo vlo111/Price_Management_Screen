@@ -9,28 +9,28 @@ using DataAccess.Models;
 
 namespace CenDek.Models
 {
-	public class NewCustomerOrder
-	{
-	    public NewCustomerOrder()
-	    {
-	        Files = new List<FileInfo>();
-	    }
-		//display
-        public  DataAccess.Models.Customer customer { get; set; }
+    public class NewCustomerOrder
+    {
+        public NewCustomerOrder()
+        {
+            Files = new List<FileInfo>();
+        }
+        //display
+        public DataAccess.Models.Customer customer { get; set; }
 
-		public int customerID { get; set; }
+        public int customerID { get; set; }
         [DisplayName("Work Order No")]
-		public string workOrderNumber { get; set; }
+        public string workOrderNumber { get; set; }
         [DisplayName("Invoice No")]
         public string invoiceNumber { get; set; }
-		public int contactID { get; set; }
+        public int contactID { get; set; }
 
         //pricing
         [DisplayName("Currency")]
         public int currencyID { get; set; }
         [DisplayName("Price Order Date")]
         public DateTime priceOrderDate { get; set; }
-	    public List<FileInfo> Files { get; set; }
+        public List<FileInfo> Files { get; set; }
 
     }
 
@@ -128,4 +128,17 @@ namespace CenDek.Models
         //     A second and final invoice has been sent to the customer.
         FinalInvoice = 10
     }
+
+    public class CompareOrderViewModel
+    {
+        public string Tag { get; set; }
+        public string Profile { get; set; }
+        public string Colour { get; set; }
+        public string Group { get; set; }
+        public int PartId { get; set; }
+        public string PartName { get; set; }
+        
+    }
+
+
 }

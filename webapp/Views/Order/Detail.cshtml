@@ -33,11 +33,15 @@
                 </div>
                 <div class="col-md-4 pull-right">
                     <div class="col-md-5">
-                        <select class="input-lg" id="EntityDDl">
-                            <option value="">Select</option>
-                            <option value="1">Century</option>
-                            <option value="2">Deksmart</option>
-                        </select>
+                        @*<select class="input-lg" id="EntityDDl">
+                                <option value="">Select</option>
+                                <option value="1">Century</option>
+                                <option value="2">Deksmart</option>
+                            </select>*@
+                        @Html.DropDownList("EntityDDl",
+                            ((IEnumerable<SelectListItem>)ViewBag.categoriesList).Where(x => x.Text.Equals("DekSmart") || x.Text.Equals("Century")),
+                            "Select",
+                                  new { @class = "input-lg" })
                     </div>
                     <div class="col-md-5 pull-right">
                         <h1 class="semi-bold ">Order: @ViewBag.OrderId</h1>
@@ -212,7 +216,7 @@
                                         </fieldset>
 
                                         <div class="custom-scroll dropFile">
-                                            <form action="~/Order/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone dz-clickable" id="dropzoneForm" style="min-height:inherit">
+                                            <form action="~/Order/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone dz-clickable" id="dropzoneFormOrder" style="min-height:inherit">
 
                                                 <div class="dz-default dz-message">
                                                     <span>
@@ -512,21 +516,21 @@
                                         <label class="input"></label>
                                         <div class="custom-scroll dropFile">
                                             @*<form action="upload.php" class="dropzone dz-clickable" id="mydropzone"><div class="dz-default dz-message"><span><span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp;&nbsp;<h4 class="display-inline"> (Or Click)</h4></span></span></span></span></div></form>*@
-                                            <form action="~/Order/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone dz-clickable" id="dropzoneForm" style="min-height:inherit">
+                                            @*<form action="~/Order/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone dz-clickable" id="dropzoneForm" style="min-height:inherit">
 
-                                                <div class="dz-default dz-message">
-                                                    <span>
-                                                        <span class="text-center">
-                                                            <span class="font-lg visible-xs-block visible-sm-block visible-lg-block">
-                                                                <span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>
-                                                                    &nbsp;&nbsp;
-                                                                    <h4 class="display-inline"> (Or Click)</h4>
+                                                    <div class="dz-default dz-message">
+                                                        <span>
+                                                            <span class="text-center">
+                                                                <span class="font-lg visible-xs-block visible-sm-block visible-lg-block">
+                                                                    <span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>
+                                                                        &nbsp;&nbsp;
+                                                                        <h4 class="display-inline"> (Or Click)</h4>
+                                                                    </span>
                                                                 </span>
                                                             </span>
                                                         </span>
-                                                    </span>
-                                                </div>
-                                            </form>
+                                                    </div>
+                                                </form>*@
                                         </div>
                                     </section>
                                 </div>
@@ -801,6 +805,10 @@
                     return json.data;
                 }
             },
+            "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                var index =  ( (iDisplayIndex + 1));
+                $('td:eq(0)', nRow).html(index);
+            },
             "bInfo": false, //Dont display info e.g. "Showing 1 to 4 of 4 entries"
             "searching": false, //Disable searching abilities in DataTables:
             "bPaginate": false,//Dont want paging
@@ -861,7 +869,7 @@
                     sortable: true,
                     searchable: true,
                     render: $.fn.dataTable.render.number(',', '.', 0, '$')
-                
+
 
                 },
                 {
@@ -958,11 +966,11 @@
                 responsiveHelper.respond();
             }
         });
-        clientTable.on('order.dt search.dt', function () {
-            clientTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
-            });
-        }).draw();
+        //clientTable.on('order.dt search.dt', function () {
+        //    clientTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+        //        cell.innerHTML = i + 1;
+        //    });
+        //}).draw();
 
 
 
@@ -1020,6 +1028,12 @@
             $("#txt_productSearch").select2("val", "");
         });
 
+        $("#EntityDDl").on("change", function (event) {
+
+            // getting selected value
+            refreshPartsGrid();
+        });
+
         function updateQunatity(obj) {
             var orderPartId = obj.name;
             var attendeeUrl = '@Url.Action("UpdateQuantityOrderPart", "Order")';
@@ -1042,7 +1056,7 @@
 
         function refreshPartsGrid(obj) {
             var attendeeUrl = '@Url.Action("GetCategoriest", "Order")';
-            var CategoryParentID = $(obj).attr('name');
+            var CategoryParentID = (obj) ? $(obj).attr('name') : $('[name=CategoryType] li.active').attr('name');
 
             if (!($(obj).hasClass('active'))) {
 
@@ -1052,7 +1066,8 @@
                     async: false,
                     url: attendeeUrl,
                     data: {
-                        'CategoryParentID': CategoryParentID
+                        'CategoryParentID': CategoryParentID,
+                        'EntityId':$("#EntityDDl").val()
                     },
                     success: function (response) {
 
@@ -1105,32 +1120,21 @@
         }
 
     </script>
+
     <script type="text/javascript">
         // PAGE RELATED SCRIPTS
 
         // pagefunction
 
-        var pagefunction = function () {
+        //  var pagefunction = function () {
 
 
-            $("#mydropzone").dropzone({
-                //url: "/file/post",
-                addRemoveLinks: true,
-                maxFilesize: 0.5,
-                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
-                dictResponseError: 'Error uploading file!'
-
-
-            });
-            //File Upload response from the server
-            Dropzone.autoDiscover = false;
-
-
-
-        };
-        var arrfilenames = [];
-        // end pagefunction
-        Dropzone.options.dropzoneForm = {
+        var dash = $("#dropzoneFormOrder").dropzone({
+            //url: "/file/post",
+            addRemoveLinks: true,
+            maxFilesize: 0.5,
+            dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+            dictResponseError: 'Error uploading file!',
             init: function () {
                 this.on("complete", function (data) {
                     //var res = eval('(' + data.xhr.responseText + ')');
@@ -1168,19 +1172,21 @@
                 });
             },
             accept: function (file, done) {
-                if (arrfilenames.length > 0) {
-
-
-                    Dropzone.instances.forEach(function (dropzone, e) {
-
-                        for (var i = 0; i < dropzone.files.length; i++) {
-                            arrfilenames.push(dropzone.files[i].name.replace(/\.[^.]+$/, ''));
-
+                if (this.files.length) {
+                    var fileExists = false;
+                    var i, len, pre;
+                    for (i = 0, len = this.files.length; i < len - 1; i++) {
+                        if (this.files[i].name == file.name) {
+                            fileExists = true;
+                            var error_msg = "Error! The File is already in Queue";
+                            done(error_msg);
+                            toastr.error(error_msg);
+                            return (pre = file.previewElement) != null ? pre.parentNode.removeChild(file.previewElement) : void 0;
                         }
+                    }
 
-                    });
                     var filename = file.name.replace(/\.[^.]+$/, '')
-                    if ($.inArray(filename, arrfilenames) !== -1) {
+                    if (fileExists) {
                         var error_msg = "Error! The File is already in Queue";
                         done(error_msg);
                         this.removeFile(file);
@@ -1190,10 +1196,24 @@
                         done();
                     }
                 }
+            },
+            removedfile: function (file) {
+                var name = file.name;
+                $.ajax({
+                    type: 'POST',
+                    url: "/order/removeAttachments",
+                    data: { 'custOrderID': $('#custOrderID').val(), "fileName": name },
+                });
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
             }
-        };
+
+        });
+        //File Upload response from the server
+        Dropzone.autoDiscover = false;
 
     </script>
+
     <script>
 
         var quantity, comments;
@@ -1249,9 +1269,9 @@
                     } else if (State == 'Primary') {
                         window.location.href = "/Dashboard/Index";
                     } else if (State == 'Secondary') {
-                        window.location.href = "/Order/CompareOrder";
+                        window.location.href = "/Order/CompareOrder?custOrderId=" + $('#custOrderID').val();
                     } else if (State == 'Review') {
-                        window.location.href = "/Order/CompareOrder";
+                        window.location.href = "/Order/CompareOrder?custOrderId=" + $('#custOrderID').val();
                     }
 
 
