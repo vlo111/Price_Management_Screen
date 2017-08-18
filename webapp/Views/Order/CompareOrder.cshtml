@@ -146,14 +146,13 @@
             };
             var clientTable = $('#PartsList').DataTable({
                 serverSide: true,
-                ajax: appRoot + "order/GetOrders",
+                ajax: appRoot + "order/GetOrdersGrid",
                 "bFilter": false,
                 "bLengthChange": false,
                 "bInfo": false,
                 "type": 'GET',
-                'beforeSend': function (request) {
-                    request.setRequestHeader("AdditionalParameters", [{ "subCategory": $('#CategorySearchDDL').val(), "Category": $('[name=CategoryType] li.active').attr('name') }]);
-                },
+
+
                 "columnDefs": [{
                     "searchable": false,
                     "orderable": false,
@@ -265,7 +264,7 @@
 
             var orderTable = $('#OrdersList').DataTable({
                 serverSide: true,
-                ajax: appRoot + "order/GetOrders",
+                ajax: appRoot + "order/GetOrdersGrid",
                 "bFilter": false,
                 "bInfo": false,
                 "bLengthChange": false,

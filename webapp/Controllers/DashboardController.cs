@@ -31,7 +31,7 @@ namespace CenDek.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <param name="customerId"></param>
-        /// <returns></returns>
+        /// <returns></returns>      
         [HttpGet]
         public ActionResult GetCustomerOrders(IDataTablesRequest request, int customerId)
         {
@@ -45,10 +45,10 @@ namespace CenDek.Controllers
             var orderColums = request.Columns.Where(x => x.Sort != null);
             var data = _dbContext.CustOrders;
             filteredData = data;
-            if (customerId>0)
+            if (customerId > 0)
             {
                 dataPage = data.Where(n => n.CustomerID == customerId)
-                   .OrderBy(n=>n.CustOrderID)
+                   .OrderBy(n => n.CustOrderID)
                     .Skip(request.Start).Take(request.Length);
             }
             else
@@ -66,6 +66,8 @@ namespace CenDek.Controllers
                 item.Employee = _dbContext.Employees.FirstOrDefault(x => x.EmployeeID == item.EmployeeID);
                 if (item.Employee != null)
                     item.Employee.CustOrders = null;
+
+                item.StateName = Enum.GetName(typeof(Models.OrderStates), item.State);
             }
 
 

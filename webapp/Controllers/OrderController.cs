@@ -58,25 +58,36 @@ namespace CenDek.Controllers
             {
                 Employee emp = _dbContext.Employees.FirstOrDefault(); //todo
 
-                NewCustomerOrder model = new NewCustomerOrder();
+
                 var customer = await _dbContext.Customers.FindAsync(id);
-                model.customer = customer;
-                model.customerID = customer.CustomerID;
+
 
                 CustOrder _custOrder = new CustOrder()
                 {
-                    Customer = model.customer,
-                    CustomerID = model.customerID,
+                    Customer = customer,
+                    CustomerID = customer.CustomerID,
                     CreatedDate = DateTime.UtcNow,
                     Revision = -1,
                     InvoiceNo = "",
                     EmployeeID = emp.EmployeeID,
                     GroupUrgencyID = -1,
+                    State = (int)OrderStates.Draft,
                     CommentsCentury = "" //todo
                 };
 
                 _dbContext.CustOrders.Add(_custOrder);
                 _dbContext.SaveChanges();
+
+                // here we are creating a default tag against new order
+                int custOrderId = _custOrder.CustOrderID;
+                var tagname = "Default-" + custOrderId;
+                _dbContext.Tags.Add(new Tag
+                {
+                    OrderID = custOrderId,
+                    TagName = tagname
+                });
+                _dbContext.SaveChanges();
+
                 return RedirectToAction("Detail", "Order", new { id = _custOrder.CustOrderID });
             }
             catch (DbEntityValidationException e)
@@ -123,8 +134,8 @@ namespace CenDek.Controllers
                 var customer = await _dbContext.Customers.FindAsync(custOrders.CustomerID);
                 if (customer != null)
                 {
-                    model.customer = customer;
-                    model.customerID = customer.CustomerID;
+                    custOrders.Customer = customer;
+                    custOrders.CustomerID = customer.CustomerID;
                 }
 
 
@@ -133,7 +144,7 @@ namespace CenDek.Controllers
             }
 
             ViewBag.OrderId = id;
-            return View(model);
+            return View(custOrders);
         }
 
 
@@ -426,9 +437,15 @@ namespace CenDek.Controllers
 
                 var data = _dbContext.Parts.ToList();
 
+
+                // Paging filtered data.
+                // Paging is rather manual due to in-memmory (IEnumerable) data.
+                var orderColums = request.Columns.Where(x => x.Sort != null);
+
                 CustOrder cust = _dbContext.CustOrders.FirstOrDefault(n => n.CustOrderID == custOrderID);
                 var t = OrderPartsIds.Split(',').ToList();
                 List<OrderPart> _orderParts = _dbContext.OrderParts
+                    .OrderBy(n=>n.OrderPartID)
                     .Where(n => t.Contains(n.OrderPartID.ToString()))
                     .ToList<OrderPart>();
                 // Global filtering.
@@ -461,7 +478,7 @@ namespace CenDek.Controllers
                             Image = _Part.Image,
                             Number = "0",
                             Description = _Part.Description,
-                            Price = _itemPart.PriceID,
+                            Price = _Part.PriceID,
                             Comments = _itemPart.Comments,
                             Quantity = _itemPart.Quantity,
                             MeaUnit = _Part.MeasUnit,
@@ -476,10 +493,8 @@ namespace CenDek.Controllers
 
 
             }
-            // Paging filtered data.
-            // Paging is rather manual due to in-memmory (IEnumerable) data.
-            var orderColums = request.Columns.Where(x => x.Sort != null);
-
+          
+           
 
             // Response creation. To create your response you need to reference your request, to avoid
             // request/response tampering and to ensure response will be correctly created.
@@ -488,6 +503,27 @@ namespace CenDek.Controllers
             // Easier way is to return a new 'DataTablesJsonResult', which will automatically convert your
             // response to a json-compatible content, so DataTables can read it when received.
             return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetPartAgainstId(int partId)
+        {
+            _dbContext.Configuration.LazyLoadingEnabled = false;
+            _dbContext.Configuration.ProxyCreationEnabled = false;
+            var data = _dbContext.Parts;
+
+            // Global filtering.
+            // Filter is being manually applied due to in-memmory (IEnumerable) data.
+            // If you want something rather easier, check IEnumerableExtensions Sample.
+            Part PartObj = new Part();
+
+
+            PartObj = data.FirstOrDefault(_item => _item.PartID == partId) as Part;
+
+            // var filteredData = data.Where(_item => _item.CategoryID == subCategory && _item.Description.Contains(request.Search.Value));
+
+            // Easier way is to return a new 'DataTablesJsonResult', which will automatically convert your
+            // response to a json-compatible content, so DataTables can read it when received.
+            return new JsonResult { Data = PartObj, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [HttpGet]
@@ -509,8 +545,6 @@ namespace CenDek.Controllers
                 // Global filtering.
                 // Filter is being manually applied due to in-memmory (IEnumerable) data.
                 // If you want something rather easier, check IEnumerableExtensions Sample.
-
-
 
                 foreach (var _itemPart in _orderParts)
                 {
@@ -559,8 +593,6 @@ namespace CenDek.Controllers
 
             if (PartsId > 0 && custOrderID > 0)
             {
-
-
                 _dbContext.Configuration.LazyLoadingEnabled = false;
                 _dbContext.Configuration.ProxyCreationEnabled = false;
 
@@ -636,26 +668,7 @@ namespace CenDek.Controllers
             return Json(status, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetPartAgainstId(int partId)
-        {
-            _dbContext.Configuration.LazyLoadingEnabled = false;
-            _dbContext.Configuration.ProxyCreationEnabled = false;
-            var data = _dbContext.Parts;
 
-            // Global filtering.
-            // Filter is being manually applied due to in-memmory (IEnumerable) data.
-            // If you want something rather easier, check IEnumerableExtensions Sample.
-            List<Part> PartsList = new List<Part>();
-
-
-            PartsList = data.Where(_item => _item.PartID == partId).ToList<Part>();
-
-            // var filteredData = data.Where(_item => _item.CategoryID == subCategory && _item.Description.Contains(request.Search.Value));
-
-            // Easier way is to return a new 'DataTablesJsonResult', which will automatically convert your
-            // response to a json-compatible content, so DataTables can read it when received.
-            return new JsonResult { Data = PartsList, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
 
         [HttpGet]
         public ActionResult GetItems(string searchTerm, int pageSize, int pageNum, string Category, int subCategory)
@@ -678,7 +691,7 @@ namespace CenDek.Controllers
             {
                 var catObj = _dbContext.Categories.FirstOrDefault(n => n.Name.Equals(Category));
                 int parentCatId = (catObj != null) ? catObj.CategoryID : -1;
-                if (parentCatId>0)
+                if (parentCatId > 0)
                 {
                     var partsCategories = _dbContext.Categories.Where(n => n.CategoryParentID == parentCatId);
 
@@ -690,7 +703,7 @@ namespace CenDek.Controllers
                     partsExists = true;
                 }
             }
-            if(!partsExists)
+            if (!partsExists)
             {
                 PartsListFilter = (from part in data
                                    select part);
@@ -740,18 +753,6 @@ namespace CenDek.Controllers
             return jsonAttendees;
         }
 
-        //Extra classes to format the results the way the select2 dropdown wants them
-        public class Select2PagedResult
-        {
-            public int Total { get; set; }
-            public List<Select2Result> Results { get; set; }
-        }
-
-        public class Select2Result
-        {
-            public string id { get; set; }
-            public string text { get; set; }
-        }
 
         public ActionResult Dashboard(int? customerId)
         {
@@ -782,6 +783,131 @@ namespace CenDek.Controllers
         }
 
         #region JSON Methods
+        /// <summary>
+        /// This method will add an entry in the OrderPartTag table when a user adds any orderpart in any tag
+        /// </summary>
+        /// <param name="partId"></param>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        public JsonResult SaveOrderPartInOrderPartTag(int partId, int tagId)
+        {
+            bool status = false;
+            _dbContext.Configuration.LazyLoadingEnabled = false;
+            _dbContext.Configuration.ProxyCreationEnabled = false;
+
+            var orderPart = _dbContext.OrderParts.FirstOrDefault(x => x.PartID == partId);
+            if (orderPart != null && tagId > 0)
+            {
+                try
+                {
+                    Tag tag = _dbContext.Tags.FirstOrDefault(n => n.TagID == tagId);
+                    orderPart.Tags.Add(tag);
+                    _dbContext.SaveChanges();
+                    status = true;
+                }
+                catch (Exception e)
+                {
+                    status = false;
+                }
+
+            }
+
+            return Json(status, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult UpdateOrderState(int custOrderId, string State)
+        {
+            var status = true;
+            if (custOrderId > 0 && !string.IsNullOrEmpty(State))
+            {
+                var custOrder = _dbContext.CustOrders.FirstOrDefault(x => x.CustOrderID == custOrderId);
+                if (custOrder != null)
+                {
+                    if (State.Equals("Draft"))
+                    {
+                        custOrder.State = (int)OrderStates.Draft;
+                    }
+                    else if (State.Equals("Primary"))
+                    {
+                        custOrder.State = (int)OrderStates.Primary;
+                    }
+                    else if (State.Equals("Secondary"))
+                    {
+                        custOrder.State = (int)OrderStates.Secondary;
+                    }
+                    else if (State.Equals("Review"))
+                    {
+                        custOrder.State = (int)OrderStates.Review;
+                    }
+                    else if (State.Equals("Failed"))
+                    {
+                        custOrder.State = (int)OrderStates.Failed;
+                    }
+                    else if (State.Equals("Approved"))
+                    {
+                        custOrder.State = (int)OrderStates.Approved;
+                    }
+                    else if (State.Equals("Quote"))
+                    {
+                        custOrder.State = (int)OrderStates.Quote;
+                    }
+                    else if (State.Equals("Shipping"))
+                    {
+                        custOrder.State = (int)OrderStates.Shipping;
+                    }
+                    else if (State.Equals("WorkOrder"))
+                    {
+                        custOrder.State = (int)OrderStates.WorkOrder;
+                    }
+                    else if (State.Equals("Invoiced"))
+                    {
+                        custOrder.State = (int)OrderStates.Invoiced;
+                    }
+                    else if (State.Equals("FinalInvoice"))
+                    {
+                        custOrder.State = (int)OrderStates.FinalInvoice;
+                    }
+
+                }
+                try
+                {
+                    _dbContext.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                    status = false;
+                }
+
+            }
+            return Json(status);
+        }
+
+
+        public JsonResult UpdateQuantityOrderPart(float quantity, int orderPartId)
+        {
+            var status = true;
+            if (orderPartId > 0)
+            {
+                _dbContext.Configuration.LazyLoadingEnabled = false;   //property is used to set the lazy loading behavior of related objects
+                _dbContext.Configuration.ProxyCreationEnabled = false;
+                var data = _dbContext.OrderParts.FirstOrDefault(x => x.OrderPartID == orderPartId);
+                try
+                {
+                    if (data != null)
+                    {
+                        data.Quantity = quantity;
+                        _dbContext.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+                    status = false;
+                }
+            }
+            return Json(status, JsonRequestBehavior.AllowGet);
+        }
+
 
         /// <summary>
         /// This function saves quantity and comments for an order part in the database
@@ -822,9 +948,10 @@ namespace CenDek.Controllers
         /// <param name="tagName"></param>
         /// <param name="shipmentId"></param>
         /// <returns></returns>
-        public JsonResult AddTagToOrder(int custOrderId, string tagName, int shipmentId)
+        public JsonResult AddNewTagInOrder(int custOrderId, string tagName, int shipmentId)
         {
             var status = true;
+            var tagId = 0;
             if (custOrderId > 0)
             {
                 var custOrder = _dbContext.CustOrders.FirstOrDefault(x => x.CustOrderID == custOrderId);
@@ -834,15 +961,46 @@ namespace CenDek.Controllers
                     var tag = new Tag()
                     {
                         TagName = tagName,
-                        OrderID = custOrderId//,
-                        //ShipmentID = 4      // TODO: replace this ShipmentId with the parameter accepted in this function once functionality gets completed
+                        OrderID = custOrderId,
+                        ShipmentID = null
                     };
                     try
                     {
                         _dbContext.Tags.Add(tag);
                         _dbContext.SaveChanges();
+                        tagId = tag.TagID;
+                    }
+                    catch (Exception e)
+                    {
+                        status = false;
+                    }
+                }
+            }
+            return Json(new { status, tagId }, JsonRequestBehavior.AllowGet);
+        }
 
 
+        /// <summary>
+        /// This method will delete a part that was added in any tag by the user
+        /// </summary>
+        /// <param name="partId"></param>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        public JsonResult DeletePartFromOrderTag(int partId, int tagId)
+        {
+            var status = false;
+            if (partId > 0)
+            {
+                var orderPart = _dbContext.OrderParts.FirstOrDefault(x => x.PartID == partId);
+                if (orderPart != null && tagId > 0)
+                {
+                    //if orderPart is not null, this means orderPart exists against partId
+                    try
+                    {
+                        var tab = orderPart.Tags.FirstOrDefault(x => x.TagID == tagId);
+                        orderPart.Tags.Remove(tab);
+                        _dbContext.SaveChanges();
+                        status = true;
                     }
                     catch (Exception e)
                     {
@@ -853,32 +1011,56 @@ namespace CenDek.Controllers
             return Json(status, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeletePartFromOrderTag(int custOrderId, int partId)
+        /// <summary>
+        /// This method returns all the tags added for an order
+        /// </summary>
+        /// <param name="custOrderId"></param>
+        /// <returns></returns>
+        public JsonResult GetAllTagsByOrderId(int custOrderId)
+        {
+            _dbContext.Configuration.LazyLoadingEnabled = false;
+            _dbContext.Configuration.ProxyCreationEnabled = false;
+            if (custOrderId > 0)
+            {
+                var tags = _dbContext.Tags.Include("OrderParts").Where(x => x.OrderID == custOrderId).ToList();
+                foreach (var tagObj in tags)
+                {
+                    if (tagObj.OrderParts != null)
+                    {
+                        foreach (var orderPartObj in tagObj.OrderParts)
+                        {
+                            if (orderPartObj != null)
+                            {
+                                var part = _dbContext.Parts.FirstOrDefault(x => x.PartID == orderPartObj.PartID);
+                                if (part != null)
+                                {
+                                    orderPartObj.Part = part;
+                                    orderPartObj.Part.OrderParts = null;   // removing circular dependency
+                                }
+                                orderPartObj.Tags = null;  // removing circular dependency
+                            }
+                        }
+                    }
+                }
+                return Json(tags, JsonRequestBehavior.AllowGet);
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+
+
+        #endregion
+
+        #region compare Order
+        public JsonResult getCompareOrderInfo(int custOrderId)
         {
             var status = true;
             if (custOrderId > 0)
             {
-                var custOrder = _dbContext.CustOrders.FirstOrDefault(x => x.CustOrderID == custOrderId);
-                if (custOrder != null)
-                {
-                    // if custOrder is not null, this means custOrder exists against custOrderId, now we can add tag
-
-                    //try
-                    //{
-                    //    _dbContext.Tags.Add(tag);
-                    //    _dbContext.SaveChanges();
-
-
-                    //}
-                    //catch (Exception e)
-                    //{
-                    //    status = false;
-                    //}
-                }
+                var OrderInfo = _dbContext.CustOrders.FirstOrDefault(n => n.CustOrderID == custOrderId);
+                _dbContext.Tags.Where(n => n.OrderID == custOrderId);
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }
-
         #endregion
     }
 }

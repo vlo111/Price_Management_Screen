@@ -13,15 +13,17 @@ var OrderJs = function () {
     });
 
     function saveTagInOrder(tagName, custOrderId) {
+        var tagId = 0;
         $.ajax({
             dataType: "json",
-            url: "/Order/AddTagToOrder",
+            url: "/Order/AddNewTagInOrder",
             async: false,
             type: "POST",
             data: { "custOrderId": custOrderId, "tagName": tagName, "shipmentId": 0 },
             success: function (data) {
-                if (data) {
+                if (data.status) {
                     toastr.success("Tag saved in Order");
+                    tagId = data.tagId;
                 } else {
                     toastr.error("An error occurred. Try again");
                 }
@@ -30,27 +32,37 @@ var OrderJs = function () {
 
             }
         });
+        return tagId;
     }
 
     function createNewTag(tagName, custOrderId) {
+        var tagId = saveTagInOrder(tagName, custOrderId);
+        if (tagId > 0) {      // this means tag was successfully saved in the tag table
+            createTag(tagName, tagId);
+        }
+    }
+
+    function createTag(tagName, tagId) {
         var parentDiv = $('.tagPanelDetail');
         var emptyTagFormDiv = $('.emptyFormTag');
         var containerDiv = document.createElement("div");
-        //$(containerDiv).addClass("panel panel-default tagPanel active");
-        $(containerDiv).addClass("panel panel-default tagPanel newAddedTagDiv");
+        $(containerDiv).attr('data-tagid', tagId);
+        $(containerDiv).addClass("panel panel-default tagPanel newAddedTagDiv active");
+        //$(containerDiv).addClass("panel panel-default tagPanel newAddedTagDiv");
 
         var formHorizontalDiv = document.createElement("div");
         $(formHorizontalDiv).addClass("form-horizontal");
 
-        createNameFormGroup(tagName, containerDiv, emptyTagFormDiv, formHorizontalDiv);
-        createProfilePriorityFormGroup(containerDiv, emptyTagFormDiv, formHorizontalDiv);
-        createColorFormGroup(containerDiv, emptyTagFormDiv, formHorizontalDiv);
-        createPartsTable(containerDiv);
+        createNameFormGroup(tagName, containerDiv, formHorizontalDiv);
+        createProfilePriorityFormGroup(containerDiv, formHorizontalDiv);
+        createColorFormGroup(containerDiv, formHorizontalDiv);
+        createPartsTable(containerDiv, null);
         $(parentDiv).prepend(containerDiv);   // putting form-horizontal in panel-default div
-        saveTagInOrder(tagName, custOrderId);
+        checkIfAnyOtherActiveTagIsPresent();
+        showSelectButtonOnDefaultTag();
     }
 
-    function createNameFormGroup(tagName, containerDiv, emptyTagFormDiv, formHorizontalDiv) {
+    function createNameFormGroup(tagName, containerDiv, formHorizontalDiv) {
         var divFormGroup = document.createElement("div");
         $(divFormGroup).addClass("form-group");
 
@@ -117,7 +129,7 @@ var OrderJs = function () {
         containerDiv.appendChild(formHorizontalDiv);   // putting form-group in form-horizontal
     }
 
-    function createProfilePriorityFormGroup(containerDiv, emptyTagFormDiv, formHorizontalDiv) {
+    function createProfilePriorityFormGroup(containerDiv, formHorizontalDiv) {
         var divFormGroup = document.createElement("div");
         $(divFormGroup).addClass("form-group");
 
@@ -212,7 +224,7 @@ var OrderJs = function () {
         containerDiv.appendChild(formHorizontalDiv);   // putting form-group in form-horizontal
     }
 
-    function createColorFormGroup(containerDiv, emptyTagFormDiv, formHorizontalDiv) {
+    function createColorFormGroup(containerDiv, formHorizontalDiv) {
         var divFormGroup = document.createElement("div");
         $(divFormGroup).addClass("form-group");
 
@@ -255,22 +267,29 @@ var OrderJs = function () {
 
         colorDropDownDiv.appendChild(selectLabel);  // putting label in the div
         /////////// color label and its dropdown has been appended here /////////////////
+        var saveBtn = document.createElement("button");
+        $(saveBtn).addClass("btn btn-xs btn-success");
+        saveBtn.innerHTML = "Save";
+        saveBtn.style.marginRight = '3px';
 
-        var pinMeBtn = document.createElement("button");
-        $(pinMeBtn).addClass("btn btn-warning pin-it");
-        pinMeBtn.innerHTML = "Select";
+
+        var selectBtn = document.createElement("button");
+        $(selectBtn).addClass("btn btn-xs btn-warning pin-it");
+        selectBtn.innerHTML = "Select";
+        $(selectBtn).css('display', 'none');
 
         divFormGroup.appendChild(colorLabel);    // putting group label in the form-group
         divFormGroup.appendChild(colorDropDownDiv);   // putting group dropdown in the form-group
-        divFormGroup.appendChild(pinMeBtn);   // putting PIN ME button in the form-group
+        divFormGroup.appendChild(saveBtn);   // putting Save button in the form-group
+        divFormGroup.appendChild(selectBtn);   // putting Select button in the form-group
         formHorizontalDiv.appendChild(divFormGroup);   // putting form-group in form-horizontal
         containerDiv.appendChild(formHorizontalDiv);   // putting form-group in form-horizontal
     }
 
-    function createPartsTable(containerDiv) {
+    function createPartsTable(containerDiv, data) {
         var tableDiv = document.createElement("div");
         $(tableDiv).addClass('custom-scroll table-responsive');
-        tableDiv.style.height = '100px';
+        tableDiv.style.maxHeight = '150px';
         tableDiv.style.overflow = 'scroll';
 
         var table = document.createElement("table");
@@ -296,6 +315,39 @@ var OrderJs = function () {
         tableHead.appendChild(tableHeadRow);   // appending TR in THEAD
 
         var tableBody = document.createElement('tbody');   // empty table body
+        if (data != null && data.length > 0) {
+            var rowCount = $(tableBody).children().length;
+            // this is the case when order is shown in edit mode and a tag has some order parts in it
+            for (var i = 0; i < data.length; i++) {
+                var partObj = data[i].Part;
+                if (partObj != null)
+                {
+                    var tableBodyRow = document.createElement('tr');
+                    $(tableBodyRow).attr('data-partId', partObj.PartID);
+                    var tableBodyRowCol1 = document.createElement('td');
+                    tableBodyRowCol1.innerHTML = (i+1);
+                    var tableBodyRowCol2 = document.createElement('td');
+                    tableBodyRowCol2.innerHTML = partObj.PartID;
+                    var tableBodyRowCol3 = document.createElement('td');
+                    tableBodyRowCol3.innerHTML = partObj.Name;
+                    var tableBodyRowCol4 = document.createElement('td');
+                    var anchorTag = document.createElement('a');
+                    anchorTag.setAttribute("onclick", "removePartFrmTag(this)");
+                    anchorTag.setAttribute("href", "javascript:void(0);");
+                    var icon = document.createElement('i');
+                    $(icon).addClass('fa fa-remove text-danger');
+                    anchorTag.appendChild(icon);
+                    tableBodyRowCol4.appendChild(anchorTag);
+
+                    tableBodyRow.appendChild(tableBodyRowCol1);     // appending TDs in TR in table body
+                    tableBodyRow.appendChild(tableBodyRowCol2);
+                    tableBodyRow.appendChild(tableBodyRowCol3);
+                    tableBodyRow.appendChild(tableBodyRowCol4);
+
+                    tableBody.appendChild(tableBodyRow);    // appending TR in TBODY
+                }
+            }
+        }
 
         table.appendChild(tableHead);   // appedning THEAD in TABLE
         table.appendChild(tableBody);   // appedning TBODY in TABLE
@@ -328,73 +380,135 @@ var OrderJs = function () {
         saveCommentsAndQuantity(quantity, comment, orderPartId);
     });
 
-    function showPinItButtonOnDefaultTag() {
+    function showSelectButtonOnDefaultTag() {
         // this code will show pin it button on default tag
         var defaultTagDiv = $('.emptyFormTag');
         var formHorizontalDiv = $(defaultTagDiv).children()[0];
         var buttonFormGroupDiv = $(formHorizontalDiv).children()[2];
-        var button = $(buttonFormGroupDiv).children()[2];
-        $(button).css('display', 'block');
+        var button = $(buttonFormGroupDiv).children()[3];
+        $(button).css('display', 'inline');
     }
 
     $(document).on('click', '.pin-it', function () {
         var activeTagsLength = $('.tagPanelDetail').children('.active').length;
         if (activeTagsLength > 0) {
-            toastr.warning("There can be only one Active Tag");
-        }
-        else {
-            var divToMakeActive = $(this).closest(".newAddedTagDiv");
+            // there will be only one active tag at a time, this code will make the already active tag inactive
+            var activeTag = $('.tagPanelDetail').children('.active');
+            $(activeTag).removeClass('active');
+
+            //this code shows the select button in the div which is made inactive
+            var formHorizontalDiv = $(activeTag).children()[0];
+            var buttonFormGroupDiv = $(formHorizontalDiv).children()[2];
+            var button = $(buttonFormGroupDiv).children()[3];
+            $(button).css('display', 'inline');
+
+            //this code will make div active whose select button was clicked
+            var divToMakeActive = $(this).closest(".tagPanel");
             $(divToMakeActive).addClass('active');
             $(this).hide();
-            showPinItButtonOnDefaultTag();
         }
     });
+
+    function deletePartFromTag(custOrderId, partId, tagId) {
+        var status = false;
+        if (partId !== "" && tagId !== "") {
+            $.ajax({
+                dataType: "json",
+                url: "/Order/DeletePartFromOrderTag",
+                async: false,
+                type: "POST",
+                data: { "partId": parseInt(partId), "tagId": parseInt(tagId) },
+                success: function (data) {
+                    if (data) {
+                        toastr.success("Part successfully deleted from Tag");
+                        status = true;
+                    } else {
+                        toastr.error("An error occurred. Try again");
+                        status = false;
+                    }
+                }
+            });
+            return status;
+        }
+    }
 
     $('#deleteTagPartBtn').on('click', function () {
         var custOrderId = "";
         var partId = "";
-        var shouldRemove = false;
-        // we are getting the tag that is active in the tags section
-        var activeTagSection = $('.tagPanelDetail').children('.active');
-        //finding the active tag's table container that holds the table with class custom-scroll
-        var tableContainer = $(activeTagSection).children('.custom-scroll');
-        //getting the table in which we have to add the part
-        var activeTagTable = $(tableContainer).children('.table');
-        //getting table body of the table as our will have thead and tbody as its children
-        var activeTagTableBody = $(activeTagTable).children()[1];
-        //getting row count of the tbody
-        var rowCount = $(activeTagTableBody).children().length;
-        $(activeTagTableBody).children().each(function () {
-            var value = $(this).data('tobedeleted');
-            if (value === true) {
-                $(this).remove();
-                //custOrderId = $(this).data('custorderid');
-                //partId = $(this).data('partid');
-            }
-        });
+        var tagId = "";
 
-        //if (custOrderId !== "" && partId !== "") {
-        //    $.ajax({
-        //        dataType: "json",
-        //        url: "/Order/DeletePartFromOrderTag",
-        //        async: false,
-        //        type: "POST",
-        //        data: { "custOrderId": parseInt(custOrderId), "partId": parseInt(partId) },
-        //        success: function (data) {
-        //            if (data) {
-        //                toastr.success("Part successfully deleted from Tag");
-        //            } else {
-        //                toastr.error("An error occurred. Try again");
-        //            }
-        //        },
-        //        failure: function (data) {
-
-        //        }
-        //    });
-        //}
+        var rowToBeDeleted = $('.toBeDeleted');   // when remove button is clicked we add a class to the row toBeDeleted
+        partId = $(rowToBeDeleted).data('partid');
+        custOrderId = $(rowToBeDeleted).data('custorderid');
+        var tagDiv = $(rowToBeDeleted).closest('.tagPanel');
+        tagId = $(tagDiv).data('tagid');
+        var check = deletePartFromTag(custOrderId, partId, tagId);
+        if (check) {
+            $(rowToBeDeleted).remove();
+        }
     });
 
-    return {
+    function checkIfAnyOtherActiveTagIsPresent() {
+        // this function is executed after another active tag is added i.e. 2 active tags
+        var activeTagsLength = $('.tagPanelDetail').children('.active').length;
+        if (activeTagsLength > 1) {
+            var activeTags = $('.tagPanelDetail').children('.active');
+            $(activeTags).each(function () {
+                if ($(this).is(':first-child')) {
+                    // here first child is the one that is newly added so we don't have to do anything with it
+                } else {
+                    // we will be in the else part when there is any other tag active that was previously added so we have to remove its active class
+                    // and display its select button
+                    $(this).removeClass('active');
+                    var formHorizontalDiv = $(this).children()[0];
+                    var buttonFormGroupDiv = $(formHorizontalDiv).children()[2];
+                    var button = $(buttonFormGroupDiv).children()[3];
+                    $(button).css('display', 'inline');
+                }
+            });
+        }
+    }
 
+    function renderTagsInView(tags) {
+        // this function is used to show all the tags of an order including default and others
+        if (tags.length > 0) {
+            for (var i = 0; i < tags.length; i++) {
+                var tag = tags[i];
+                var parentDiv = $('.tagPanelDetail');
+                var emptyTagFormDiv = $('.emptyFormTag');
+                var containerDiv = document.createElement("div");
+                $(containerDiv).attr('data-tagid', tag.TagID);
+                $(containerDiv).addClass("panel panel-default tagPanel newAddedTagDiv active");
+                var formHorizontalDiv = document.createElement("div");
+                $(formHorizontalDiv).addClass("form-horizontal");
+
+                if (tag.TagName.toLowerCase().indexOf("default") >= 0) {
+                    //this means this tag was a default one because we create default tag Default-OrderNo
+                    createNameFormGroup(tag.TagName, containerDiv, formHorizontalDiv);
+                    createProfilePriorityFormGroup(containerDiv, formHorizontalDiv);
+                    createColorFormGroup(containerDiv, formHorizontalDiv);
+                    createPartsTable(containerDiv, tag.OrderParts);
+                    $(parentDiv).prepend(containerDiv);   // putting form-horizontal in panel-default div
+                    //checkIfAnyOtherActiveTagIsPresent();
+                    //showSelectButtonOnDefaultTag();
+                }
+                else {
+                    // here those tags will come that were added above default tag
+                    console.log("not default");
+                    createNameFormGroup(tag.TagName, containerDiv, formHorizontalDiv);
+                    createProfilePriorityFormGroup(containerDiv, formHorizontalDiv);
+                    createColorFormGroup(containerDiv, formHorizontalDiv);
+                    createPartsTable(containerDiv, tag.OrderParts);
+                    $(parentDiv).prepend(containerDiv);   // putting form-horizontal in panel-default div
+                    checkIfAnyOtherActiveTagIsPresent();
+                    showSelectButtonOnDefaultTag();
+                }
+            }
+        }
+    }
+
+    return {
+        createNewTag: createNewTag,
+        renderTagsInView: renderTagsInView
     }
 }();

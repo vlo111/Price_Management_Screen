@@ -350,6 +350,7 @@
     <Content Include="Scripts\app.seed.min.js">
       <DependentUpon>app.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\app\CenDekService.js" />
     <Content Include="Scripts\app\orderJs.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\dropzone\basic.css" />
