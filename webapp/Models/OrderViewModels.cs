@@ -139,6 +139,11 @@ namespace CenDek.Models
         public string PartName { get; set; }
         
     }
+    public class OrderDashboardViewModel
+    {
+        public int CustomerId { get; set; }
+        public  List<string> Company { get; set; }
 
+    }
 
 }

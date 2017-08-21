@@ -886,8 +886,15 @@ namespace CenDek.Controllers
 
         public ActionResult Dashboard(int? customerId)
         {
-            ViewBag.CustomerId = customerId == null ? -1 : customerId;
-            return View();
+            var Company = _dbContext.Customers.Select(n => n.Company).ToList();
+            Company = Company.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
+            Company.Sort();
+            OrderDashboardViewModel model = new OrderDashboardViewModel() {
+                CustomerId = customerId.GetValueOrDefault(-1),
+                Company = Company
+            };
+        
+            return View(model);
         }
 
         public async Task<ActionResult> ViewCustomerOrder(int? id)

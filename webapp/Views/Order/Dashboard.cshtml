@@ -1,3 +1,4 @@
+@model OrderDashboardViewModel
 <!-- MAIN CONTENT -->
 <div id="content">
     <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
@@ -6,7 +7,7 @@
             Orders
             <span>
                 >
-                Subtitle
+                Dashboard
             </span>
         </h1>
     </div>
@@ -32,27 +33,19 @@
                             <div class="row">
                                 <div class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="control-label col-sm-3">Company</label>
-                                        <div class="col-sm-4">
-                                            <select class="form-control" id="TagGroup">
-                                                <option value="0">Select</option>
-                                                <option value="1">Alexandra</option>
-                                                <option value="2">Alice</option>
-                                                <option value="3">Anastasia</option>
-                                                <option value="4">Avelina</option>
-                                            </select>
+                                        <label class="control-label col-sm-1">Company</label>
+                                        <div class="col-sm-3">
+                                          
+                                            @Html.DropDownListFor(x=>x.Company, new SelectList(Model.Company),"Select", new { @class = "form-control" })
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3" for="TagGroup">State</label>
+                                
+                                        <label class="control-label col-sm-1" for="TagGroup">State</label>
+                                       
+                                        <div class="col-sm-3">
+                                            @Html.DropDownList("State", EnumHelper.GetSelectList(typeof(OrderStates)),"Select",new { @class = "form-control" })
+                                        </div>
                                         <div class="col-sm-4">
-                                            <select class="form-control" id="TagGroup">
-                                                <option value="0">Select</option>
-                                                <option value="1">Alexandra</option>
-                                                <option value="2">Alice</option>
-                                                <option value="3">Anastasia</option>
-                                                <option value="4">Avelina</option>
-                                            </select>
+                                            <input class="btn btn-primary" type="button" onclick="filterOrders();" value="Search"/>
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +99,7 @@
         </div>
         <!-- END ROW -->
     </section>
-    <input type="hidden" id="customerId" value="@ViewBag.CustomerId"/>
+    <input type="hidden" id="customerId" value="@Model.CustomerId"/>
 </div>
 <!-- END MAIN CONTENT -->
 
@@ -166,74 +159,7 @@
 
 @section pagespecific {
 
-    <script>
-        var attendeeUrl = '@Url.Action("GetItems", "Order")';
-        var pageSize = 20;
-        function tagHtml() { }
-
-        function removePartFrmTag(cntrl) {
-            alert(this)
-            $(cntrl).closest('tr').remove();
-
-        }
-
-        var responsiveHelper_datatable_tabletools = undefined;
-        var responsiveHelper = undefined;
-        var breakpointDefinition = {
-            tablet: 1024,
-            phone: 480
-        };
-
-        function editPart() { }
-        function addPartInTag() { }
-        function customPart() { }
-    </script>
-
-    <script>
-       
-
-        function addPartItem(itemId) {
-            var attendeeUrl = '@Url.Action("GetPartAgainstId", "Order")';
-            var counter = 0;
-            $.ajax({
-                url: attendeeUrl,
-                dataType: 'json',
-                delay: 250,
-                type: 'GET',
-                data: { partId: itemId },
-
-
-                success: function (responseResult) {
-                    //Used to determine whether or not there are more results available,
-                    //and if requests for more data should be sent in the infinite scrolling
-                    console.log(responseResult);
-                    $.each(responseResult, function (index, item) {
-                        drawRowinDT(item);
-                    });
-                },
-                cache: true
-            });
-
-        }
-        function drawRowinDT(data) {
-            ordersTable.row.add([
-                0 + '.1',
-                data.categoryID,
-                data.partID,
-                data.image,
-                data.image,
-                data.description,
-                data.prices,
-                data.comments,
-                data.weightMeasurement,
-                data.weightMeasurement,
-                data.weight,
-                data.partID,
-                data.files
-
-            ]).draw(false);
-        }
-
+   <script>
 
         var clientTable = $('#OrdersList').DataTable({
             serverSide: true,
@@ -243,7 +169,8 @@
                 "type": 'GET',
                 "data": function (d) {
                     d.customerId = $('#customerId').val();
-
+                    d.company = $('#Company option:selected').text() == "Select" ?null:$('#Company option:selected').text();
+                    d.state = $('#State').val() == "" ? null : $('#State').val();
                 },
                 "dataSrc": function (json) {
                     // manipulate your data (json)
@@ -278,7 +205,7 @@
 
                 {
                     name: 'companyName',
-                    data: "customer.company",
+                    data: "company",
                     title: "Company",
                     sortable: true,
                     searchable: true
@@ -292,12 +219,12 @@
                 },
                 {
                     name: 'employeeName',
-                    data: "employee.firstName",
+                    data: "firstName",
                     title: "Employee",
                     sortable: true,
                     searchable: true,
                     "render": function (data, type, full, meta) {
-                        return full.employee.firstName + " " + full.employee.lastName;
+                        return full.firstName + " " + full.lastName;
                     }
                 },
                 {
@@ -358,54 +285,17 @@
                 $('.dataTables_filter input').attr("placeholder", "Find by product ID or Description");
                 $('.dataTables_filter input').css("min-width", "250px");
             },
-            "autoWidth": true,
-            "preDrawCallback": function () {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper) {
-                    responsiveHelper = new ResponsiveDatatablesHelper($('#OrdersList'), breakpointDefinition);
-                }
-            },
-            "rowCallback": function (nRow) {
-                responsiveHelper.createExpandIcon(nRow);
-            },
-            "drawCallback": function (oSettings) {
-                responsiveHelper.respond();
-            }
+            "autoWidth": true
+           
         });
         
         function viewOrder(custOrderID) {
             window.location.href = appRoot + "Order/View/" + custOrderID;
         }
+
+        function filterOrders() {
+            clientTable.ajax.reload();
+        }
     </script>
-    <script type="text/javascript">
-        // PAGE RELATED SCRIPTS
-
-        // pagefunction
-
-        var pagefunction = function () {
-
-            Dropzone.autoDiscover = false;
-            $("#mydropzone").dropzone({
-                //url: "/file/post",
-                addRemoveLinks: true,
-                maxFilesize: 0.5,
-                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
-                dictResponseError: 'Error uploading file!'
-            });
-
-            //File Upload response from the server
-            Dropzone.options.dropzoneForm = {
-                init: function () {
-                    this.on("complete", function (data) {
-                        //var res = eval('(' + data.xhr.responseText + ')');
-                        var res = JSON.parse(data.xhr.responseText);
-                    });
-                }
-            };
-
-        };
-
-        // end pagefunction
-
-    </script>
+  
 }
