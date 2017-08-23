@@ -17,6 +17,7 @@ namespace DataAccess.Models
         public int CustomerID { get; set; }
         public string PONum { get; set; }
         public string InvoiceNo { get; set; }
+        public string WorkOrderNo { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public int EmployeeID { get; set; }
         public Nullable<int> ApproverID { get; set; }

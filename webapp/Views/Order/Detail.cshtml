@@ -91,7 +91,7 @@
                                                 <div class="form-group has-feedback">
                                                     <label class="col-md-4" for="Customer">Customer</label>
                                                     <div class="col-md-8">
-                                                        @Html.DropDownList("CustomerID", new SelectList(ViewBag.EmployeeDropdown, "EmployeeId", "Name"), "Select", new { @class = "input-sm" })
+                                                        @Html.DropDownList("CustomerID", new SelectList(ViewBag.ContactDropdown, "ContactId", "Name"), "Select", new { @class = "input-sm" })
                                                         <i class="fa fa-edit" title="edit"></i>
                                                     </div>
                                                 </div>
@@ -152,7 +152,7 @@
                                                     <label class="col-md-4" for="Carrier">Carrier</label>
                                                     <div class="col-md-8">
                                                         <label class="select">
-                                                            @Html.DropDownList("PriorityID", (IEnumerable<SelectListItem>)ViewBag.dropdownVD, "Select", new { @class = "input-sm" })
+                                                            @Html.DropDownList("PriorityID", (IEnumerable<SelectListItem>)ViewBag.dropdownVD, "Select", new { @class = "input-sm", style = "width: 80%;" })
                                                             <i class="fa fa-edit" title="edit"></i>
                                                         </label>
                                                     </div>
@@ -350,13 +350,14 @@
     <div class="modal fade" id="edit_prder_part_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Edit Order Part</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-horizontal">
-                        <form action="~/Order/SaveOrderPartFile" method="post" enctype="multipart/form-data" class="dropzone dz-clickable" id="orderPartFileForm" style="min-height:inherit">
+                <form action="~/Order/SaveOrderPartFile" method="post" enctype="multipart/form-data" class="dropzone dz-clickable" id="orderPartFileForm" style="min-height:inherit">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Edit Order Part</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="control-label col-sm-3">Comments:</label>
                                 <div class="col-sm-7">
@@ -378,13 +379,14 @@
                                 </div>
                                 @Html.Hidden("orderPartId")
                             </div>
-                        </form>
+
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button class="btn  btn-success" id="save_order_part_edit_btn" data-dismiss="modal">Save</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button class="btn  btn-success" type="submit" id="save_order_part_edit_btn" data-dismiss="modal">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -585,7 +587,8 @@
 
         OrderJs.getTagsForCurrentCustomerOrder();
 
-        $('#orderPartFileForm').on('submit', function() {
+        $('#orderPartFileForm').on('submit', function () {
+            console.log("i'm submit value")
             var id = $('#edit_prder_part_modal').data('orderpartid');
             $('#orderPartId').val(id);
         });
@@ -600,7 +603,9 @@
                 var submitButton = document.querySelector("#save_order_part_edit_btn");
                 var myDropzone = this; //closure
 
-                submitButton.addEventListener("click", function() {
+                submitButton.addEventListener("click", function () {
+                    console.log("i'm dropzone");
+                    $('#orderPartFileForm').submit();
                     myDropzone.processQueue(); //tell Dropzone to process all queued files
                 });
             }

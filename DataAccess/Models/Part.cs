@@ -21,7 +21,7 @@ namespace DataAccess.Models
         public Nullable<int> AltPartID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int CategoryID { get; set; }
+        public int? CategoryID { get; set; }
         public Nullable<int> ImageID { get; set; }
         public Nullable<int> PartStatusID { get; set; }
         public bool CustomFlag { get; set; }

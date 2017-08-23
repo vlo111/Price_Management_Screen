@@ -41,7 +41,7 @@ namespace CenDek.Controllers
 
             IQueryable<CustOrder> filteredData;
             // IQueryable<CustOrder> dataPage;
-         
+
             var orderColums = request.Columns.Where(x => x.Sort != null);
             //var fieldsort = orderColums.Select(n => n.Field);
             //foreach (var item in fieldsort)
@@ -51,39 +51,51 @@ namespace CenDek.Controllers
             //        item = "State";
             //    }
             //}
-//
-           // }
+            //
+            // }
             var data = _dbContext.CustOrders;
             filteredData = data;
-            
-            int State = string.IsNullOrEmpty(state) ? -1 : int.Parse(state);
-            
+            //int? State = null;
+            //int? customer = null;
+            //if (!string.IsNullOrEmpty(state))
+            //{
+            //    State = int.Parse(state);
+            //}
+            //if (customerId > 0)
+            //{
+            //    customer = customerId;
+            //} //todo
+
+
 
             var dataPage = (from c in _dbContext.CustOrders
-                             join a in _dbContext.Customers on c.CustomerID equals a.CustomerID
-                             join e in _dbContext.Employees on c.EmployeeID equals e.EmployeeID
+                            join a in _dbContext.Customers on c.CustomerID equals a.CustomerID
+                            join e in _dbContext.Employees on c.EmployeeID equals e.EmployeeID
+                            //where object.Equals(c.CustomerID, customer) &&
+                            //object.Equals(a.Company, company) &&
 
-                             select new
-                             {
-                                 CustOrderID = c.CustOrderID,
-                                 Company = a.Company,
-                                 FirstName = e.FirstName,
-                                 LastName = e.LastName,
-                                 CreatedDate = c.CreatedDate,
-                                 State = c.State
+                            // object.Equals(c.State, State)
+                            select new
+                            {
+                                CustOrderID = c.CustOrderID,
+                                Company = a.Company,
+                                FirstName = e.FirstName,
+                                LastName = e.LastName,
+                                CreatedDate = c.CreatedDate,
+                                State = c.State
 
-                             }).OrderBy(orderColums).Skip(request.Start).Take(request.Length).AsEnumerable().Select(o => new
-                             {
-                                 CustOrderID = o.CustOrderID,
-                                 Company = o.Company,
-                                 FirstName = o.FirstName,
-                                 LastName = o.LastName,
-                                 CreatedDate = o.CreatedDate,
-                                 State = o.State,
-                                 StateName = Enum.GetName(typeof(Models.OrderStates), o.State)
-                             });
+                            }).OrderBy(orderColums).Skip(request.Start).Take(request.Length).AsEnumerable().Select(o => new
+                            {
+                                CustOrderID = o.CustOrderID,
+                                Company = o.Company,
+                                FirstName = o.FirstName,
+                                LastName = o.LastName,
+                                CreatedDate = o.CreatedDate,
+                                State = o.State,
+                                StateName = Enum.GetName(typeof(Models.OrderStates), o.State)
+                            });
 
-            
+
 
 
             var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);

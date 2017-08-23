@@ -40,7 +40,7 @@ var OrderJs = function () {
 
     function createNewTag(tagName, custOrderId) {
         var tagId = saveTagInOrder(tagName, custOrderId);
-        if (tagId > 0) {      // this means tag was successfully saved in the tag table
+        if (tagId > 0) { // this means tag was successfully saved in the tag table
             createTag(tagName, tagId);
         }
     }
@@ -60,7 +60,7 @@ var OrderJs = function () {
         createProfilePriorityFormGroup(containerDiv, formHorizontalDiv);
         createColorFormGroup(containerDiv, formHorizontalDiv);
         createPartsTable(containerDiv, null);
-        $(parentDiv).prepend(containerDiv);   // putting form-horizontal in panel-default div
+        $(parentDiv).prepend(containerDiv); // putting form-horizontal in panel-default div
         checkIfAnyOtherActiveTagIsPresent();
         showSelectButtonOnDefaultTag();
     }
@@ -83,7 +83,7 @@ var OrderJs = function () {
         nameInputField.placeHolder = "99418-2";
         nameInputField.value = tagName;
 
-        $(nameInputDiv).append(nameInputField);  // putting input field in its div
+        $(nameInputDiv).append(nameInputField); // putting input field in its div
 
         var groupLabel = document.createElement("label");
         $(groupLabel).addClass("col-sm-6 col-md-2 col-lg-2 tagLabel");
@@ -114,22 +114,22 @@ var OrderJs = function () {
         var option5 = document.createElement('option');
         option5.value = 4;
         option5.text = 'Avelina';
-        selectGroup.appendChild(option1);   // adding options to Group dropdown
+        selectGroup.appendChild(option1); // adding options to Group dropdown
         selectGroup.appendChild(option2);
         selectGroup.appendChild(option3);
         selectGroup.appendChild(option4);
         selectGroup.appendChild(option5);
 
-        selectLabel.appendChild(selectGroup);   // putting dropdown in its label
+        selectLabel.appendChild(selectGroup); // putting dropdown in its label
 
-        groupDropDownDiv.appendChild(selectLabel);  // putting label in the div
+        groupDropDownDiv.appendChild(selectLabel); // putting label in the div
 
-        divFormGroup.appendChild(nameLabel);   // putting name label in the form-group
-        divFormGroup.appendChild(nameInputDiv);   // putting name input field in the form-group
-        divFormGroup.appendChild(groupLabel);    // putting group label in the form-group
-        divFormGroup.appendChild(groupDropDownDiv);   // putting group dropdown in the form-group
-        formHorizontalDiv.appendChild(divFormGroup);   // putting form-group in form-horizontal
-        containerDiv.appendChild(formHorizontalDiv);   // putting form-group in form-horizontal
+        divFormGroup.appendChild(nameLabel); // putting name label in the form-group
+        divFormGroup.appendChild(nameInputDiv); // putting name input field in the form-group
+        divFormGroup.appendChild(groupLabel); // putting group label in the form-group
+        divFormGroup.appendChild(groupDropDownDiv); // putting group dropdown in the form-group
+        formHorizontalDiv.appendChild(divFormGroup); // putting form-group in form-horizontal
+        containerDiv.appendChild(formHorizontalDiv); // putting form-group in form-horizontal
     }
 
     function createProfilePriorityFormGroup(containerDiv, formHorizontalDiv) {
@@ -165,17 +165,17 @@ var OrderJs = function () {
         var profileOption5 = document.createElement('option');
         profileOption5.value = 4;
         profileOption5.text = 'Avelina';
-        selectProfile.appendChild(profileOption1);   // adding options to Group dropdown
+        selectProfile.appendChild(profileOption1); // adding options to Group dropdown
         selectProfile.appendChild(profileOption2);
         selectProfile.appendChild(profileOption3);
         selectProfile.appendChild(profileOption4);
         selectProfile.appendChild(profileOption5);
 
-        selectLabel.appendChild(selectProfile);   // putting dropdown in its label
+        selectLabel.appendChild(selectProfile); // putting dropdown in its label
 
-        profileDropDownDiv.appendChild(selectLabel);  // putting label in the div
+        profileDropDownDiv.appendChild(selectLabel); // putting label in the div
 
-        selectLabel = null;  // so that is can be used again for priority
+        selectLabel = null; // so that is can be used again for priority
         /////////// profile label and its dropdown has been appended here /////////////////
 
 
@@ -208,23 +208,23 @@ var OrderJs = function () {
         var priorityOption5 = document.createElement('option');
         priorityOption5.value = 4;
         priorityOption5.text = 'Avelina';
-        selectPriority.appendChild(priorityOption1);   // adding options to Group dropdown
+        selectPriority.appendChild(priorityOption1); // adding options to Group dropdown
         selectPriority.appendChild(priorityOption2);
         selectPriority.appendChild(priorityOption3);
         selectPriority.appendChild(priorityOption4);
         selectPriority.appendChild(priorityOption5);
 
-        selectLabel.appendChild(selectPriority);   // putting dropdown in its label
+        selectLabel.appendChild(selectPriority); // putting dropdown in its label
 
-        priorityDropDownDiv.appendChild(selectLabel);  // putting label in the div
+        priorityDropDownDiv.appendChild(selectLabel); // putting label in the div
         /////////// priority label and its dropdown has been appended here /////////////////
 
-        divFormGroup.appendChild(profileLabel);   // putting profile label in the form-group
-        divFormGroup.appendChild(profileDropDownDiv);   // putting profile dropdown
-        divFormGroup.appendChild(priorityLabel);    // putting priority label in the form-group
-        divFormGroup.appendChild(priorityDropDownDiv);   // putting priority dropdown in the form-group
-        formHorizontalDiv.appendChild(divFormGroup);   // putting form-group in form-horizontal
-        containerDiv.appendChild(formHorizontalDiv);   // putting form-group in form-horizontal
+        divFormGroup.appendChild(profileLabel); // putting profile label in the form-group
+        divFormGroup.appendChild(profileDropDownDiv); // putting profile dropdown
+        divFormGroup.appendChild(priorityLabel); // putting priority label in the form-group
+        divFormGroup.appendChild(priorityDropDownDiv); // putting priority dropdown in the form-group
+        formHorizontalDiv.appendChild(divFormGroup); // putting form-group in form-horizontal
+        containerDiv.appendChild(formHorizontalDiv); // putting form-group in form-horizontal
     }
 
     function createColorFormGroup(containerDiv, formHorizontalDiv) {
@@ -260,15 +260,15 @@ var OrderJs = function () {
         var option5 = document.createElement('option');
         option5.value = 4;
         option5.text = 'Avelina';
-        selectColor.appendChild(option1);   // adding options to Group dropdown
+        selectColor.appendChild(option1); // adding options to Group dropdown
         selectColor.appendChild(option2);
         selectColor.appendChild(option3);
         selectColor.appendChild(option4);
         selectColor.appendChild(option5);
 
-        selectLabel.appendChild(selectColor);   // putting dropdown in its label
+        selectLabel.appendChild(selectColor); // putting dropdown in its label
 
-        colorDropDownDiv.appendChild(selectLabel);  // putting label in the div
+        colorDropDownDiv.appendChild(selectLabel); // putting label in the div
         /////////// color label and its dropdown has been appended here /////////////////
         var saveBtn = document.createElement("button");
         $(saveBtn).addClass("btn btn-xs btn-success");
@@ -281,12 +281,12 @@ var OrderJs = function () {
         selectBtn.innerHTML = "Select";
         $(selectBtn).css('display', 'none');
 
-        divFormGroup.appendChild(colorLabel);    // putting group label in the form-group
-        divFormGroup.appendChild(colorDropDownDiv);   // putting group dropdown in the form-group
-        divFormGroup.appendChild(saveBtn);   // putting Save button in the form-group
-        divFormGroup.appendChild(selectBtn);   // putting Select button in the form-group
-        formHorizontalDiv.appendChild(divFormGroup);   // putting form-group in form-horizontal
-        containerDiv.appendChild(formHorizontalDiv);   // putting form-group in form-horizontal
+        divFormGroup.appendChild(colorLabel); // putting group label in the form-group
+        divFormGroup.appendChild(colorDropDownDiv); // putting group dropdown in the form-group
+        divFormGroup.appendChild(saveBtn); // putting Save button in the form-group
+        divFormGroup.appendChild(selectBtn); // putting Select button in the form-group
+        formHorizontalDiv.appendChild(divFormGroup); // putting form-group in form-horizontal
+        containerDiv.appendChild(formHorizontalDiv); // putting form-group in form-horizontal
     }
 
     function createPartsTable(containerDiv, data) {
@@ -310,14 +310,14 @@ var OrderJs = function () {
         var tableHeadRowCol4 = document.createElement('th');
         tableHeadRowCol4.innerHTML = 'Act';
 
-        tableHeadRow.appendChild(tableHeadRowCol1);    // appending THs in TR in table head
+        tableHeadRow.appendChild(tableHeadRowCol1); // appending THs in TR in table head
         tableHeadRow.appendChild(tableHeadRowCol2);
         tableHeadRow.appendChild(tableHeadRowCol3);
         tableHeadRow.appendChild(tableHeadRowCol4);
 
-        tableHead.appendChild(tableHeadRow);   // appending TR in THEAD
+        tableHead.appendChild(tableHeadRow); // appending TR in THEAD
 
-        var tableBody = document.createElement('tbody');   // empty table body
+        var tableBody = document.createElement('tbody'); // empty table body
         if (data != null && data.length > 0) {
             var rowCount = $(tableBody).children().length;
             // this is the case when order is shown in edit mode and a tag has some order parts in it
@@ -341,20 +341,20 @@ var OrderJs = function () {
                     anchorTag.appendChild(icon);
                     tableBodyRowCol4.appendChild(anchorTag);
 
-                    tableBodyRow.appendChild(tableBodyRowCol1);     // appending TDs in TR in table body
+                    tableBodyRow.appendChild(tableBodyRowCol1); // appending TDs in TR in table body
                     tableBodyRow.appendChild(tableBodyRowCol2);
                     tableBodyRow.appendChild(tableBodyRowCol3);
                     tableBodyRow.appendChild(tableBodyRowCol4);
 
-                    tableBody.appendChild(tableBodyRow);    // appending TR in TBODY
+                    tableBody.appendChild(tableBodyRow); // appending TR in TBODY
                 }
             }
         }
 
-        table.appendChild(tableHead);   // appedning THEAD in TABLE
-        table.appendChild(tableBody);   // appedning TBODY in TABLE
-        tableDiv.appendChild(table);    // appending TABLE in div
-        containerDiv.appendChild(tableDiv);   // putting table div in container i.e. panel panel-default tagPanel active
+        table.appendChild(tableHead); // appedning THEAD in TABLE
+        table.appendChild(tableBody); // appedning TBODY in TABLE
+        tableDiv.appendChild(table); // appending TABLE in div
+        containerDiv.appendChild(tableDiv); // putting table div in container i.e. panel panel-default tagPanel active
     }
 
     function saveCommentsAndQuantity(quantity, comment, orderPartId) {
@@ -439,7 +439,7 @@ var OrderJs = function () {
         var partId = "";
         var tagId = "";
 
-        var rowToBeDeleted = $('.toBeDeleted');   // when remove button is clicked we add a class to the row toBeDeleted
+        var rowToBeDeleted = $('.toBeDeleted'); // when remove button is clicked we add a class to the row toBeDeleted
         partId = $(rowToBeDeleted).data('partid');
         custOrderId = $(rowToBeDeleted).data('custorderid');
         var tagDiv = $(rowToBeDeleted).closest('.tagPanel');
@@ -490,18 +490,17 @@ var OrderJs = function () {
                     createProfilePriorityFormGroup(containerDiv, formHorizontalDiv);
                     createColorFormGroup(containerDiv, formHorizontalDiv);
                     createPartsTable(containerDiv, tag.OrderParts);
-                    $(parentDiv).prepend(containerDiv);   // putting form-horizontal in panel-default div
+                    $(parentDiv).prepend(containerDiv); // putting form-horizontal in panel-default div
                     //checkIfAnyOtherActiveTagIsPresent();
                     //showSelectButtonOnDefaultTag();
-                }
-                else {
+                } else {
                     // here those tags will come that were added above default tag
                     console.log("not default");
                     createNameFormGroup(tag.TagName, containerDiv, formHorizontalDiv);
                     createProfilePriorityFormGroup(containerDiv, formHorizontalDiv);
                     createColorFormGroup(containerDiv, formHorizontalDiv);
                     createPartsTable(containerDiv, tag.OrderParts);
-                    $(parentDiv).prepend(containerDiv);   // putting form-horizontal in panel-default div
+                    $(parentDiv).prepend(containerDiv); // putting form-horizontal in panel-default div
                     checkIfAnyOtherActiveTagIsPresent();
                     showSelectButtonOnDefaultTag();
                 }
@@ -665,6 +664,39 @@ var OrderJs = function () {
 
         return false;
     }
+
+    $('#order_approve_btn').on('click', function () {
+        console.log("Approva")
+        var status = true;
+        var custOrderId = $('#custOrderId').val();
+        var approverId = $("#approvers option:selected").val();
+        var poNumber = $('#po_number').val();
+
+        if (poNumber === "") {
+            status = false;
+            toastr.error("Please enter PO Number to approve.");
+        }
+        if (approverId <= 0) {
+            status = false;
+            toastr.error("Please select valid approver.");
+        }
+        if (status) {
+            $.ajax({
+                dataType: "json",
+                async: false,
+                type: "POST",
+                url: "/Order/ApproveOrder",
+                data: { "approverId": approverId, "poNumber": poNumber, "custOrderId": custOrderId },
+                success: function (data) {
+                    if (data) {
+                        toastr.success("Order successfully approved.");
+                    } else {
+                        toastr.error("An error occurred while approving order.");
+                    }
+                }
+            });
+        }
+    });
 
     return {
         createNewTag: createNewTag,

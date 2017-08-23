@@ -116,20 +116,26 @@ namespace CenDek.Controllers
                 return RedirectToAction("Dashboard", "Order");
 
             }
+
+            var custOrders = _dbContext.CustOrders.FirstOrDefault(n => n.CustOrderID == id);
+            var orderCustomer = _dbContext.Customers.Include("CustomerContacts").FirstOrDefault(x => x.CustomerID == custOrders.CustomerID);
             NewCustomerOrder model = new NewCustomerOrder();
 
             #region dropdowns
-            var dropdownVD = new SelectList(_dbContext.Carriers.Where(n => (!string.IsNullOrEmpty(n.CarrierName))).ToList(), "CarrierID", "CarrierName");
+            // todo var customerCarriers = _dbContext.CustomerCarriers.Select(cc => cc.CustomerID == custOrders.CustomerID);
+            var dropdownVD = new SelectList(_dbContext.Carriers.Include("CustomerCarriers").Where(n => (!string.IsNullOrEmpty(n.CarrierName))).ToList(), "CarrierID", "CarrierName");
             ViewData["StudDataVD"] = dropdownVD;
             //using viewbag  
             ViewBag.dropdownVD = dropdownVD;
             ViewBag.customerList = new SelectList(_dbContext.Customers.Where(n => (!string.IsNullOrEmpty(n.Company))).ToList(), "CustomerID", "Company");
             ViewBag.coloutList = new SelectList(_dbContext.Colours.Where(n => (!string.IsNullOrEmpty(n.Name))).ToList(), "ColourID", "Name");
             ViewBag.categoriesList = GetCategoriesSelectList(0);
-            ViewBag.EmployeeDropdown = GenerateEmployeesDropdown(_dbContext.Employees.ToList());
+
+            if (orderCustomer != null)
+                ViewBag.ContactDropdown = GenerateCustomerContactsDropdown(orderCustomer.CustomerContacts.ToList());
 
             #endregion
-            var custOrders = _dbContext.CustOrders.FirstOrDefault(n => n.CustOrderID == id);
+
             if (custOrders != null)
             {
                 var customer = await _dbContext.Customers.FindAsync(custOrders.CustomerID);
@@ -242,13 +248,6 @@ namespace CenDek.Controllers
                 }
             }
             return Json(new { Data = options }, JsonRequestBehavior.AllowGet);
-        }
-
-        // GET
-        [HttpGet]
-        public ActionResult New()
-        {
-            return View();
         }
 
         // GET
@@ -756,11 +755,12 @@ namespace CenDek.Controllers
 
         public ActionResult CompareOrder(int? id)
         {
-            List<CompareOrderViewModel> custOrderPartList = new List<CompareOrderViewModel>();
-            _dbContext.Configuration.LazyLoadingEnabled = false;
-            _dbContext.Configuration.ProxyCreationEnabled = false;
+          
             if (id != null && id > 0)
             {
+                List<CompareOrderViewModel> custOrderPartList = new List<CompareOrderViewModel>();
+                _dbContext.Configuration.LazyLoadingEnabled = false;
+                _dbContext.Configuration.ProxyCreationEnabled = false;
                 var tagsList = _dbContext.Tags.Include("OrderParts").Where(n => n.OrderID == id);
                 foreach (var tag in tagsList)
                 {
@@ -772,26 +772,38 @@ namespace CenDek.Controllers
                         custOrderPartList.Add(custOrderPart);
                     }
                 }
+                return View(custOrderPartList);
             }
-            return View(custOrderPartList);
+            else
+            {
+                return RedirectToAction("Dashboard", "Order");
+            }
+            
         }
 
+        /// <summary>
+        /// This method returns the Customer Order data by its id for Review.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult OrderReview(int? id)
         {
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
-            OrderReviewViewModel viewModel = new OrderReviewViewModel();
-            List<CompareOrderViewModel> custOrderPartList = new List<CompareOrderViewModel>();
-
-            viewModel.EmployeeDropdown = GenerateEmployeesDropdown(_dbContext.Employees.ToList());
-            viewModel.Currencies = _dbContext.Currencies.ToList();
+           
 
             if (id != null && id > 0)
             {
+                OrderReviewViewModel viewModel = new OrderReviewViewModel();
+                List<CompareOrderViewModel> custOrderPartList = new List<CompareOrderViewModel>();
+
+                viewModel.EmployeeDropdown = GenerateEmployeesDropdown(_dbContext.Employees.ToList());
+                viewModel.Currencies = _dbContext.Currencies.ToList();
                 var custOrder = _dbContext.CustOrders.Include("Customer").FirstOrDefault(x => x.CustOrderID == id);
                 if (custOrder != null)
                 {
                     viewModel.Order = custOrder;
+                    viewModel.CustOrderId = custOrder.CustOrderID;
                     custOrder.Customer.CustOrders = null;  // removing circular dependency
                     var orderCustomer = _dbContext.Customers.Include("CustomerContacts").Include("CustomerCarriers").FirstOrDefault(x => x.CustomerID == custOrder.CustomerID);
                     if (orderCustomer != null)
@@ -836,12 +848,17 @@ namespace CenDek.Controllers
                 {
                     viewModel.OrderParts = custOrderPartList;
                 }
+                return View(viewModel);
             }
-            return View(viewModel);
+            else
+            {
+                return RedirectToAction("Dashboard", "Order");
+            }
+           
         }
 
         /// <summary>
-        /// This function returns an object of CompareOrderVM that is used for the list in grids for OrderReview and CompareOrder
+        /// This function returns an object of CompareOrderVM that is used to create lists in grids for OrderReview and CompareOrder
         /// </summary>
         /// <param name="tag"></param>
         /// <param name="orderPart"></param>
@@ -851,7 +868,6 @@ namespace CenDek.Controllers
         /// <returns></returns>
         public CompareOrderViewModel GenerateCompareOrderViewModel(Tag tag, OrderPart orderPart, Part part, string fileName, string measureUnit)
         {
-            //part.MeasUnit = _dbContext.MeasUnits.FirstOrDefault(x => x.MeasUnitID == part.MeasUnitID);
             var coVm = new CompareOrderViewModel
             {
                 Tag = tag.TagName,
@@ -967,11 +983,12 @@ namespace CenDek.Controllers
             var Company = _dbContext.Customers.Select(n => n.Company).ToList();
             Company = Company.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
             Company.Sort();
-            OrderDashboardViewModel model = new OrderDashboardViewModel() {
+            OrderDashboardViewModel model = new OrderDashboardViewModel()
+            {
                 CustomerId = customerId.GetValueOrDefault(-1),
                 Company = Company
             };
-        
+
             return View(model);
         }
 
@@ -1099,7 +1116,12 @@ namespace CenDek.Controllers
             return Json(status);
         }
 
-
+        /// <summary>
+        /// This method updates the Quantity in an Order part when the quantity changes in Order part grid in Order Details.
+        /// </summary>
+        /// <param name="quantity"></param>
+        /// <param name="orderPartId"></param>
+        /// <returns></returns>
         public JsonResult UpdateQuantityOrderPart(float quantity, int orderPartId)
         {
             var status = true;
@@ -1274,6 +1296,39 @@ namespace CenDek.Controllers
             return Json(null, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// This method updates the state of a customer order by its id
+        /// </summary>
+        /// <param name="approverId"> This param is of Employee who approves the order</param>
+        /// <param name="poNumber"></param>
+        /// <param name="custOrderId">Order id against which states is updated</param>
+        /// <returns></returns>
+        public JsonResult ApproveOrder(int approverId, string poNumber, int custOrderId)
+        {
+            _dbContext.Configuration.LazyLoadingEnabled = false;
+            _dbContext.Configuration.ProxyCreationEnabled = false;
+            var status = false;
+            if (custOrderId > 0)
+            {
+                var custOrder = _dbContext.CustOrders.FirstOrDefault(x => x.CustOrderID == custOrderId);
+                if (custOrder != null)
+                {
+                    try
+                    {
+                        custOrder.ApproverID = approverId;
+                        custOrder.PONum = poNumber;
+                        custOrder.State = (int)OrderStates.Approved;
+                        _dbContext.SaveChanges();
+                        status = true;
+                    }
+                    catch (Exception e)
+                    {
+                        status = false;
+                    }
+                }
+            }
+            return Json(status, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 

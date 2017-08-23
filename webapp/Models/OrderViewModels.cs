@@ -179,6 +179,7 @@ namespace CenDek.Models
         public int CarrierId { get; set; }
         public int EmployeeId { get; set; }
         public int CurrencyId { get; set; }
+        public int CustOrderId { get; set; }
     }
 
     public class CustomerContactDropdown
