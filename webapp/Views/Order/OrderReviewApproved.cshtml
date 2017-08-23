@@ -115,30 +115,32 @@
                                         <div class="form-horizontal bv-form" novalidate="novalidate">
                                             <fieldset>
                                                 <legend>
-                                                    <strong>Action - Approve</strong>
+                                                    <strong>Action - Quote/Order</strong>
                                                 </legend>
                                             </fieldset>
                                             <fieldset>
                                                 <div class="form-group has-feedback">
-                                                    <label class="col-md-5">Approver</label>
-                                                    <div class="col-md-7">
-                                                        @Html.DropDownListFor(model => Model.EmployeeId, new SelectList(Model.EmployeeDropdown, "EmployeeId", "Name"), "Select", new { @class = "form-control input-sm", @id = "approvers" })
-                                                    </div>
+                                                    <label class="col-md-12">Approved By: Victor 12 June 2017</label>
                                                 </div>
                                             </fieldset>
                                             <fieldset>
                                                 <div class="form-group has-feedback">
-                                                    <label class="col-md-5" for="Carrier">PO Number</label>
-                                                    <div class="col-md-7">
-                                                        <input type="text" class="form-control pull-right" id="po_number" />
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <div class="col-md-7"></div>
                                                     <div class="col-md-5">
-                                                        <button class="btn btn-primary form-control pull-right">Approve</button>
+                                                        <button class="btn btn-primary">Quote</button>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <div class="form-group has-feedback">
+                                                    <div class="col-md-5">
+                                                        <button class="btn btn-primary">Work Order</button>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <div class="form-group has-feedback">
+                                                    <div class="col-md-5">
+                                                        <button class="btn btn-primary">Update Order</button>
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -159,7 +161,7 @@
                                                 <div class="form-group has-feedback">
                                                     <span class="col-sm-6 no-padding">Shipping for Tag</span>
                                                     <div class="col-sm-6 no-padding">
-                                                        @Html.DropDownListFor(model => Model.ShipmentTagId, new SelectList(Model.Tags, "TagID", "TagName"), "", new { @style= "width:100%", @id = "custOrderTags", multiple = "multiple" })
+                                                        @Html.DropDownListFor(model => Model.ShipmentTagId, new SelectList(Model.TagDropdown, "TagId", "Name"), "", new { @style = "width:100%", @id = "custOrderTags", multiple = "multiple" })
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -178,7 +180,7 @@
                                                 <div class="form-group has-feedback">
                                                     <span class="col-sm-6 no-padding">Carrier</span>
                                                     <div class="col-sm-6 no-padding">
-                                                        @Html.DropDownListFor(model => Model.CarrierId, new SelectList(Model.Carriers, "CustomerCarrierID", "Account"), "Select", new { @class = "form-control input-sm", @id = "carriers" })
+                                                        @Html.DropDownListFor(model => Model.CustomerContactId, new SelectList(Model.CarrierDropdown, "CarrierId", "Name"), "Select", new { @class = "form-control input-sm", @id = "carriers" })
                                                         @*<input type="text" class="form-control pull-right" id="carrier"/>*@
                                                     </div>
                                                 </div>
@@ -273,21 +275,21 @@
                                                                     <td>@orderPart.PartName</td>
                                                                     <td>
                                                                         @if (orderPart.Custom)
-                                                                    {
-                                                                        <i class="fa fa-check-square" aria-hidden="true"></i>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <i class="fa fa-times" aria-hidden="true"></i>
-                                                                    }
-                                                                </td>
-                                                                <td>@orderPart.Comment</td>
-                                                                <td>@orderPart.Quantity</td>
-                                                                <td>@orderPart.MeasureUnit</td>
-                                                                <td>@orderPart.Weight</td>
-                                                                <td>@orderPart.FileName</td>
-                                                                <td></td>
-                                                                <td>@orderPart.Total</td>
+                                                                        {
+                                                                            <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                                        }
+                                                                    </td>
+                                                                    <td>@orderPart.Comment</td>
+                                                                    <td>@orderPart.Quantity</td>
+                                                                    <td></td>
+                                                                    <td>@orderPart.Weight</td>
+                                                                    <td>@orderPart.FileName</td>
+                                                                    <td></td>
+                                                                    <td>@orderPart.Total</td>
                                                                 </tr>
                                                             }
                                                         }
@@ -319,7 +321,13 @@
                                     <div class="form-group has-feedback">
                                         <label class="col-md-5">Currency</label>
                                         <div class="col-sm-7">
-                                            @Html.DropDownListFor(model => Model.CurrencyId, new SelectList(Model.Currencies, "CurrencyID", "Code"), "Select", new { @class = "form-control input-sm", @id = "currencies" })
+                                            <select class="input-sm currencyDropDown form-control" id="currency_dropdown">
+                                                <option value="0">Select</option>
+                                                <option value="1">Alexandra</option>
+                                                <option value="2">Alice</option>
+                                                <option value="3">Anastasia</option>
+                                                <option value="4">Avelina</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -389,46 +397,6 @@
                                 </fieldset>
                                 <fieldset>
                                     <div class="form-group has-feedback">
-                                        <label class="col-md-6">Kit Processng Fee</label>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control pull-right" id="kitFeeValue" />
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <div class="form-group has-feedback">
-                                        <label class="col-md-6">Crate Fee</label>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control pull-right" id="crateFeeValue" />
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <div class="form-group has-feedback">
-                                        <label class="col-md-6">Packaging Fee</label>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control pull-right" id="packFeeValue" />
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <div class="form-group has-feedback">
-                                        <label class="col-md-6">Color Fee</label>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control pull-right" id="colorFeeValue" />
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <div class="form-group has-feedback">
-                                        <label class="col-md-6">Freight</label>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control pull-right" id="freightValue" />
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <div class="form-group has-feedback">
                                         <label class="col-md-6">Balance Due</label>
                                         <div class="col-sm-6">
                                             <label class="pull-right" id="balanceDueValue">$ 90</label>
@@ -463,7 +431,6 @@
             overflow-y: scroll;
             max-height: 200px;
         }
-
 </style>
 
 @section pagespecific {

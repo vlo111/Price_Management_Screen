@@ -38,7 +38,7 @@ namespace CenDek.Controllers
             return RedirectToAction("Dashboard", "Order");
         }
 
-        public async Task<ActionResult> View(int? id)
+        public ActionResult View(int? id)
         {
             if (id == null)
             {
@@ -126,6 +126,7 @@ namespace CenDek.Controllers
             ViewBag.customerList = new SelectList(_dbContext.Customers.Where(n => (!string.IsNullOrEmpty(n.Company))).ToList(), "CustomerID", "Company");
             ViewBag.coloutList = new SelectList(_dbContext.Colours.Where(n => (!string.IsNullOrEmpty(n.Name))).ToList(), "ColourID", "Name");
             ViewBag.categoriesList = GetCategoriesSelectList(0);
+            ViewBag.EmployeeDropdown = GenerateEmployeesDropdown(_dbContext.Employees.ToList());
 
             #endregion
             var custOrders = _dbContext.CustOrders.FirstOrDefault(n => n.CustOrderID == id);
@@ -148,13 +149,13 @@ namespace CenDek.Controllers
         }
 
 
-        private IEnumerable<SelectListItem> GetCategoriesSelectList(int CategoryParentID)
+        private IEnumerable<SelectListItem> GetCategoriesSelectList(int categoryParentId)
         {
             var categories = _dbContext.Categories.ToList();
             // Initialise list and add first "All" item
             List<SelectListItem> options = new List<SelectListItem>();
             // Get the top level parents
-            var parents = categories.Where(x => x.CategoryParentID == CategoryParentID);
+            var parents = categories.Where(x => x.CategoryParentID == categoryParentId);
             foreach (var parent in parents)
             {
                 // Add SelectListItem for the parent
@@ -189,7 +190,7 @@ namespace CenDek.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetCategoriest(String CategoryParentID, int EntityId = 0)
+        public ActionResult GetCategories(String categoryParentId, int entityId = 0)
         {
             var categories = _dbContext.Categories.ToList();
             // Initialise list and add first "All" item
@@ -197,17 +198,17 @@ namespace CenDek.Controllers
             // Get the top level parents
             IEnumerable<Category> parents;
 
-            if (EntityId > 0)
+            if (entityId > 0)
             {
-                parents = categories.Where(x => x.CategoryParentID == EntityId);
+                parents = categories.Where(x => x.CategoryParentID == entityId);
             }
-            else if (CategoryParentID.Equals("All") || CategoryParentID.Equals("Recommended"))
+            else if (categoryParentId.Equals("All") || categoryParentId.Equals("Recommended"))
             {
                 parents = categories;
             }
             else
             {
-                parents = categories.Where(x => x.Name == CategoryParentID);
+                parents = categories.Where(x => x.Name == categoryParentId);
             }
 
             foreach (var parent in parents)
@@ -344,7 +345,7 @@ namespace CenDek.Controllers
         }
 
         [HttpPost]
-        public void removeAttachments(int custOrderId, string fileName)
+        public void RemoveAttachments(int custOrderId, string fileName)
         {
             CustOrder custOrder = _dbContext.CustOrders.FirstOrDefault(n => n.CustOrderID == custOrderId);    //getting customer order against the custOrderId
             if (custOrder != null)
@@ -365,11 +366,18 @@ namespace CenDek.Controllers
 
         }
 
+
+        /// <summary>
+        /// This method saves a file against each order part and also saves an optional commment with that part.
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult SaveOrderPartFile()
         {
             bool isSavedSuccessfully = false;
             string fName = "";
+
+            // getting orderpartid and comment from the request form
             var id = Int32.Parse(Request.Form["orderPartId"]);
             var comment = Request.Form["comment"];
             try
@@ -514,21 +522,24 @@ namespace CenDek.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetOrderParts(IDataTablesRequest request, string OrderPartsIds, int custOrderID, string Category = null)
+        public ActionResult GetOrderParts(IDataTablesRequest request, string orderPartsIds, int custOrderId, string category = null)
         {
-            List<CustOrderPart> _custOrderPartList = new List<CustOrderPart>();
+            List<CustOrderPart> custOrderPartList = new List<CustOrderPart>();
 
             Category catObject = new Category();
-            if (Category.Equals("All") || Category.Equals("Recommended"))
+            if (category != null)
             {
-                catObject = null;
-            }
-            else
-            {
-                catObject = _dbContext.Categories.FirstOrDefault(x => x.Name.Equals(Category));
+                if (category.Equals("All") || category.Equals("Recommended"))
+                {
+                    catObject = null;
+                }
+                else
+                {
+                    catObject = _dbContext.Categories.FirstOrDefault(x => x.Name.Equals(category));
+                }
             }
 
-            if (!string.IsNullOrEmpty(OrderPartsIds) && custOrderID > 0)
+            if (!string.IsNullOrEmpty(orderPartsIds) && custOrderId > 0)
             {
                 _dbContext.Configuration.LazyLoadingEnabled = false;
                 _dbContext.Configuration.ProxyCreationEnabled = false;
@@ -539,96 +550,77 @@ namespace CenDek.Controllers
                 // Paging is rather manual due to in-memmory (IEnumerable) data.
                 var orderColums = request.Columns.Where(x => x.Sort != null);
 
-                CustOrder cust = _dbContext.CustOrders.FirstOrDefault(n => n.CustOrderID == custOrderID);
-                var t = OrderPartsIds.Split(',').ToList();
-                List<OrderPart> _orderParts = _dbContext.OrderParts.Include("Files")
+                CustOrder cust = _dbContext.CustOrders.FirstOrDefault(n => n.CustOrderID == custOrderId);
+                var t = orderPartsIds.Split(',').ToList();
+                List<OrderPart> orderParts = _dbContext.OrderParts.Include("Files")
                     .OrderBy(n => n.OrderPartID)
                     .Where(n => t.Contains(n.OrderPartID.ToString()))
                     .ToList<OrderPart>();
-                // Global filtering.
-                // Filter is being manually applied due to in-memmory (IEnumerable) data.
-                // If you want something rather easier, check IEnumerableExtensions Sample.
 
-                foreach (var _itemPart in _orderParts)
+                foreach (var itemPart in orderParts)
                 {
-                    if (_itemPart != null)
+                    if (itemPart != null)
                     {
-                        foreach (var fileObj in _itemPart.Files)
+                        foreach (var fileObj in itemPart.Files)
                         {
                             if (fileObj != null)
                             {
                                 fileObj.OrderParts = null;
                             }
                         }
-                    }
-                    Part _Part = new Part();
+                        var part = new Part();
 
-                    if (catObject != null)
-                    {
-                        _Part = data.FirstOrDefault(_item => _item.PartID == _itemPart.PartID && catObject.CategoryID == _item.CategoryID);
-                    }
-                    else
-                    {
-                        _Part = data.FirstOrDefault(_item => _item.PartID == _itemPart.PartID);
-                    }
-                    if (_Part != null && _Part.PartID > 0)
-                    {
-                        _Part.Category = _dbContext.Categories.FirstOrDefault(x => x.CategoryID == _Part.CategoryID);
-                        _Part.MeasUnit = _dbContext.MeasUnits.FirstOrDefault(x => x.MeasUnitID == _Part.MeasUnitID);
-                        CustOrderPart _custOrderPart = new CustOrderPart()
+                        if (catObject != null)
                         {
-                            CustOrderPartId = _itemPart.OrderPartID,
-                            category = _Part.Category.Name,
-                            partID = _itemPart.PartID + "",
-                            Image = _Part.Image,
-                            Number = "0",
-                            Description = _Part.Description,
-                            Price = _Part.PriceID,
-                            Comments = _itemPart.Comments,
-                            Quantity = _itemPart.Quantity,
-                            MeaUnit = _Part.MeasUnit,
-                            Weight = _Part.Weight,
-                            Files = _itemPart.Files
-                        };
+                            part = data.FirstOrDefault(x => x.PartID == itemPart.PartID && catObject.CategoryID == x.CategoryID);
+                        }
+                        else
+                        {
+                            part = data.FirstOrDefault(x => x.PartID == itemPart.PartID);
+                        }
+                        if (part != null && part.PartID > 0)
+                        {
+                            part.Category = _dbContext.Categories.FirstOrDefault(x => x.CategoryID == part.CategoryID);
+                            part.MeasUnit = _dbContext.MeasUnits.FirstOrDefault(x => x.MeasUnitID == part.MeasUnitID);
+                            CustOrderPart custOrderPart = new CustOrderPart
+                            {
+                                CustOrderPartId = itemPart.OrderPartID,
+                                category = part.Category?.Name,
+                                partID = itemPart.PartID + "",
+                                Image = part.Image,
+                                Number = "0",
+                                Description = part.Description,
+                                Price = part.PriceID,
+                                Comments = itemPart.Comments,
+                                Quantity = itemPart.Quantity,
+                                MeaUnit = part.MeasUnit,
+                                Weight = part.Weight,
+                                Files = itemPart.Files
+                            };
 
-                        _custOrderPartList.Add(_custOrderPart);
+                            custOrderPartList.Add(custOrderPart);
+                        }
                     }
-
                 }
-
-
             }
 
-
-
-            // Response creation. To create your response you need to reference your request, to avoid
-            // request/response tampering and to ensure response will be correctly created.
-            var response = DataTablesResponse.Create(request, _custOrderPartList.Count(), _custOrderPartList.Count(), _custOrderPartList);
-
-            // Easier way is to return a new 'DataTablesJsonResult', which will automatically convert your
-            // response to a json-compatible content, so DataTables can read it when received.
+            var response = DataTablesResponse.Create(request, custOrderPartList.Count, custOrderPartList.Count, custOrderPartList);
             return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// This method returns a part against an id.
+        /// </summary>
+        /// <param name="partId"></param>
+        /// <returns></returns>
         public ActionResult GetPartAgainstId(int partId)
         {
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
-            var data = _dbContext.Parts;
 
-            // Global filtering.
-            // Filter is being manually applied due to in-memmory (IEnumerable) data.
-            // If you want something rather easier, check IEnumerableExtensions Sample.
-            Part PartObj = new Part();
+            var partObj = _dbContext.Parts.FirstOrDefault(x => x.PartID == partId);
 
-
-            PartObj = data.FirstOrDefault(_item => _item.PartID == partId) as Part;
-
-            // var filteredData = data.Where(_item => _item.CategoryID == subCategory && _item.Description.Contains(request.Search.Value));
-
-            // Easier way is to return a new 'DataTablesJsonResult', which will automatically convert your
-            // response to a json-compatible content, so DataTables can read it when received.
-            return new JsonResult { Data = PartObj, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            return new JsonResult { Data = partObj, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [HttpGet]
@@ -762,34 +754,123 @@ namespace CenDek.Controllers
             return Json(new { status = false });
         }
 
-        public ActionResult CompareOrder(int? custOrderId)
+        public ActionResult CompareOrder(int? id)
         {
-            List<CompareOrderViewModel> _custOrderPartList = new List<CompareOrderViewModel>();
+            List<CompareOrderViewModel> custOrderPartList = new List<CompareOrderViewModel>();
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
-            if (custOrderId != null && custOrderId > 0)
+            if (id != null && id > 0)
             {
-                var tagsList = _dbContext.Tags.Include("OrderParts").Where(n => n.OrderID == custOrderId);
-                foreach (var _tag in tagsList)
+                var tagsList = _dbContext.Tags.Include("OrderParts").Where(n => n.OrderID == id);
+                foreach (var tag in tagsList)
                 {
-                    var orderparts = _tag.OrderParts;
-                    foreach (var _orderPart in orderparts)
+                    var orderparts = tag.OrderParts;
+                    foreach (var orderPart in orderparts)
                     {
-                        var part = _dbContext.Parts.FirstOrDefault(n => n.PartID == _orderPart.PartID);
-                        CompareOrderViewModel _custOrderPart = new CompareOrderViewModel()
-                        {
-                            Tag = _tag.TagName,
-                            Colour = "",
-                            Group = "",
-                            PartId = part.PartID,
-                            PartName = part.Name
-                        };
-                        _custOrderPartList.Add(_custOrderPart);
+                        var part = _dbContext.Parts.FirstOrDefault(n => n.PartID == orderPart.PartID);
+                        var custOrderPart = GenerateCompareOrderViewModel(tag, orderPart, part, "", "");
+                        custOrderPartList.Add(custOrderPart);
+                    }
+                }
+            }
+            return View(custOrderPartList);
+        }
+
+        public ActionResult OrderReview(int? id)
+        {
+            _dbContext.Configuration.LazyLoadingEnabled = false;
+            _dbContext.Configuration.ProxyCreationEnabled = false;
+            OrderReviewViewModel viewModel = new OrderReviewViewModel();
+            List<CompareOrderViewModel> custOrderPartList = new List<CompareOrderViewModel>();
+
+            viewModel.EmployeeDropdown = GenerateEmployeesDropdown(_dbContext.Employees.ToList());
+            viewModel.Currencies = _dbContext.Currencies.ToList();
+
+            if (id != null && id > 0)
+            {
+                var custOrder = _dbContext.CustOrders.Include("Customer").FirstOrDefault(x => x.CustOrderID == id);
+                if (custOrder != null)
+                {
+                    viewModel.Order = custOrder;
+                    custOrder.Customer.CustOrders = null;  // removing circular dependency
+                    var orderCustomer = _dbContext.Customers.Include("CustomerContacts").Include("CustomerCarriers").FirstOrDefault(x => x.CustomerID == custOrder.CustomerID);
+                    if (orderCustomer != null)
+                    {
+                        viewModel.Customer = orderCustomer;
+                        viewModel.CustomerContactId = orderCustomer.CustomerID;
+                        viewModel.ContactDropdown = GenerateCustomerContactsDropdown(orderCustomer.CustomerContacts.ToList());
+                        viewModel.Carriers = orderCustomer.CustomerCarriers.ToList();
                     }
                 }
 
+                var tagsList = _dbContext.Tags.Include("OrderParts").Where(n => n.OrderID == id);
+                viewModel.Tags = tagsList.ToList();
+                foreach (var tag in tagsList)
+                {
+                    var orderparts = tag.OrderParts;
+                    foreach (var orderPart in orderparts)
+                    {
+                        var part = _dbContext.Parts.FirstOrDefault(n => n.PartID == orderPart.PartID);
+
+                        var fileName = "";
+                        var files = orderPart.Files.ToList();
+                        if (files.Count > 0)
+                        {
+                            // here we will be selecting only first file because we can add only a single file against an order part
+                            fileName = files[0].Name;
+                        }
+                        var measureUnit = "";
+                        if (part != null)
+                        {
+                            var unit = _dbContext.MeasUnits.FirstOrDefault(x => x.MeasUnitID == part.MeasUnitID);
+                            if (unit != null)
+                            {
+                                measureUnit = unit.ShortDescription;
+                            }
+                        }
+                        var custOrderPart = GenerateCompareOrderViewModel(tag, orderPart, part, fileName, measureUnit);
+                        custOrderPartList.Add(custOrderPart);
+                    }
+                }
+                if (custOrderPartList.Count > 0)
+                {
+                    viewModel.OrderParts = custOrderPartList;
+                }
             }
-            return View(_custOrderPartList);
+            return View(viewModel);
+        }
+
+        /// <summary>
+        /// This function returns an object of CompareOrderVM that is used for the list in grids for OrderReview and CompareOrder
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="orderPart"></param>
+        /// <param name="part"></param>
+        /// <param name="fileName"></param>
+        /// <param name="measureUnit"></param>
+        /// <returns></returns>
+        public CompareOrderViewModel GenerateCompareOrderViewModel(Tag tag, OrderPart orderPart, Part part, string fileName, string measureUnit)
+        {
+            //part.MeasUnit = _dbContext.MeasUnits.FirstOrDefault(x => x.MeasUnitID == part.MeasUnitID);
+            var coVm = new CompareOrderViewModel
+            {
+                Tag = tag.TagName,
+                Profile = "",
+                Colour = "",
+                Group = "",
+                PartId = part?.PartID ?? default(int),
+                PartName = part?.Name ?? String.Empty,
+                Custom = false,
+                Comment = orderPart.Comments,
+                Quantity = orderPart.Quantity,
+                FileName = fileName,
+                Total = part?.PriceID ?? default(int),
+                Weight = part?.Weight ?? default(double),
+                MeasureUnit = measureUnit
+
+            };
+
+            return coVm;
         }
 
         public JsonResult SaveShippingPartFromOrder(string quantity, string comments, int orderId, int partId)
@@ -797,8 +878,6 @@ namespace CenDek.Controllers
             var status = true;
             return Json(status, JsonRequestBehavior.AllowGet);
         }
-
-
 
         [HttpGet]
         public ActionResult GetItems(string searchTerm, int pageSize, int pageNum, string Category, int subCategory)
@@ -883,7 +962,6 @@ namespace CenDek.Controllers
             return jsonAttendees;
         }
 
-
         public ActionResult Dashboard(int? customerId)
         {
             var Company = _dbContext.Customers.Select(n => n.Company).ToList();
@@ -909,14 +987,15 @@ namespace CenDek.Controllers
             return RedirectToAction("Dashboard", "Order", new { customerId = id });
         }
 
-        public ActionResult OrderReview()
+        public ActionResult ShippingTagDetails()
         {
             return View();
         }
 
-        public ActionResult ShippingTagDetails()
+        public ActionResult OrderReviewApproved()
         {
-            return View();
+            OrderReviewViewModel viewModel = new OrderReviewViewModel();
+            return View(viewModel);
         }
 
         #region JSON Methods
@@ -1208,6 +1287,40 @@ namespace CenDek.Controllers
                 _dbContext.Tags.Where(n => n.OrderID == custOrderId);
             }
             return Json("", JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region Common Utility Methods
+        public List<CustomerContactDropdown> GenerateCustomerContactsDropdown(List<CustomerContact> list)
+        {
+            var listToReturn = new List<CustomerContactDropdown>();
+            if (list.Count > 0)
+            {
+                foreach (var contact in list)
+                {
+                    var obj = new CustomerContactDropdown();
+                    obj.ContactId = contact.CustomerID;
+                    obj.Name = contact.First + " " + contact.Last;
+                    listToReturn.Add(obj);
+                }
+            }
+            return listToReturn;
+        }
+
+        public List<EmployeeDropdown> GenerateEmployeesDropdown(List<Employee> list)
+        {
+            var listToReturn = new List<EmployeeDropdown>();
+            if (list.Count > 0)
+            {
+                foreach (var employee in list)
+                {
+                    var obj = new EmployeeDropdown();
+                    obj.EmployeeId = employee.EmployeeID;
+                    obj.Name = employee.FirstName + " " + employee.LastName;
+                    listToReturn.Add(obj);
+                }
+            }
+            return listToReturn;
         }
         #endregion
     }

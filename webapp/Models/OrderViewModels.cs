@@ -137,13 +137,60 @@ namespace CenDek.Models
         public string Group { get; set; }
         public int PartId { get; set; }
         public string PartName { get; set; }
-        
+        public bool Custom { get; set; }
+        public string Comment { get; set; }
+        public double Quantity { get; set; }
+        public string MeasureUnit { get; set; }
+        public double Weight { get; set; }
+        public string FileName { get; set; }
+        public string UnitSell { get; set; }
+        public double Total { get; set; }
+
     }
     public class OrderDashboardViewModel
     {
         public int CustomerId { get; set; }
-        public  List<string> Company { get; set; }
+        public List<string> Company { get; set; }
 
+    }
+    public class OrderReviewViewModel
+    {
+        public OrderReviewViewModel()
+        {
+            OrderParts = new List<CompareOrderViewModel>();
+            Customer = new Customer();
+            Order = new CustOrder();
+            ContactDropdown = new List<CustomerContactDropdown>();
+            Tags = new List<Tag>();
+            EmployeeDropdown = new List<EmployeeDropdown>();
+            Currencies = new List<Currency>();
+            Carriers = new List<CustomerCarrier>();
+        }
+        public List<CompareOrderViewModel> OrderParts { get; set; }
+        public Customer Customer { get; set; }
+        public CustOrder Order { get; set; }
+        public List<CustomerContactDropdown> ContactDropdown { get; set; }
+        public List<Tag> Tags { get; set; }
+        public List<EmployeeDropdown> EmployeeDropdown { get; set; }
+        public List<Currency> Currencies { get; set; }
+        public List<CustomerCarrier> Carriers { get; set; }
+        public int CustomerContactId { get; set; }
+        public int ShipmentTagId { get; set; }
+        public int CarrierId { get; set; }
+        public int EmployeeId { get; set; }
+        public int CurrencyId { get; set; }
+    }
+
+    public class CustomerContactDropdown
+    {
+        public int ContactId { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class EmployeeDropdown
+    {
+        public int EmployeeId { get; set; }
+        public string Name { get; set; }
     }
 
 }

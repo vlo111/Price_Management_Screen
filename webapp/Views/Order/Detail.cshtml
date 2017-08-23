@@ -28,16 +28,11 @@
                     else
                     {
                         <button class="btn btn-primary" id="btnCompare">Compare</button>
-                        <button class="btn btn-default" id="btnReview">Review</button>
                     }
+                    <button class="btn btn-default" id="btnReview">Review</button>
                 </div>
                 <div class="col-md-4 pull-right">
                     <div class="col-md-5">
-                        @*<select class="input-lg" id="EntityDDl">
-                                <option value="">Select</option>
-                                <option value="1">Century</option>
-                                <option value="2">Deksmart</option>
-                            </select>*@
                         @Html.DropDownList("EntityDDl",
                             ((IEnumerable<SelectListItem>)ViewBag.categoriesList).Where(x => x.Text.Equals("DekSmart") || x.Text.Equals("Century")),
                             "Select",
@@ -47,7 +42,6 @@
                         <h1 class="semi-bold ">Order: @ViewBag.OrderId</h1>
                     </div>
                 </div>
-
             </div>
 
         </div>
@@ -69,17 +63,13 @@
 
                         <!-- widget div-->
                         <header role="heading">
-                            @*<div class="jarviswidget-ctrls" role="menu">   <a href="javascript:void(0);" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a>  </div>*@
-
                             <h2 class="font-md"><strong>Order</strong> <i>Details</i></h2>
-
                             <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
                         </header>
                         <div role="content">
                             <div class="orderDetailPanel">
                                 <!-- Customer Div-->
                                 <div class="col-sm-12 col-md-6 col-lg-4 panel panel-default">
-
                                     <!-- widget content -->
                                     <div class="widget-body">
                                         <div id="checkout-form" class="form-horizontal bv-form" novalidate="novalidate">
@@ -97,19 +87,15 @@
                                                     </div>
                                                 </div>
                                             </fieldset>
-
                                             <fieldset>
                                                 <div class="form-group has-feedback">
                                                     <label class="col-md-4" for="Customer">Customer</label>
                                                     <div class="col-md-8">
-                                                        @Html.Label(Model.Customer.CustomerContacts.FirstOrDefault().First + ' ' + Model.Customer.CustomerContacts.FirstOrDefault().Last)
-                                                        @*@Html.DropDownList("CustomerID", (IEnumerable<SelectListItem>)ViewBag.customerList, "Select", new { @class = "input-sm" })*@
+                                                        @Html.DropDownList("CustomerID", new SelectList(ViewBag.EmployeeDropdown, "EmployeeId", "Name"), "Select", new { @class = "input-sm" })
                                                         <i class="fa fa-edit" title="edit"></i>
                                                     </div>
                                                 </div>
                                             </fieldset>
-
-
                                             <fieldset>
                                                 <div class="form-group has-feedback">
                                                     <label class="col-md-4">Work Order No.</label>
@@ -118,9 +104,6 @@
                                                     </div>
                                                 </div>
                                             </fieldset>
-
-
-
                                             <fieldset>
                                                 <div class="form-group has-feedback">
                                                     <label class="col-md-4">Account No.</label>
@@ -131,8 +114,6 @@
                                                     </div>
                                                 </div>
                                             </fieldset>
-
-
                                         </div>
                                     </div>
                                     <!-- end widget content -->
@@ -171,16 +152,8 @@
                                                     <label class="col-md-4" for="Carrier">Carrier</label>
                                                     <div class="col-md-8">
                                                         <label class="select">
-
                                                             @Html.DropDownList("PriorityID", (IEnumerable<SelectListItem>)ViewBag.dropdownVD, "Select", new { @class = "input-sm" })
                                                             <i class="fa fa-edit" title="edit"></i>
-                                                            @*<select class="input-sm" id="Carrier">
-                                                                    <option value="0">Choose name</option>
-                                                                    <option value="1">Alexandra</option>
-                                                                    <option value="2">Alice</option>
-                                                                    <option value="3">Anastasia</option>
-                                                                    <option value="4">Avelina</option>
-                                                                </select> <i class="fa fa-edit" title="edit"></i>*@
                                                         </label>
                                                     </div>
                                                 </div>
@@ -283,17 +256,12 @@
 
                         <!-- widget div-->
                         <div role="content">
-
-
                             <!-- end widget edit box -->
                             <!-- widget content -->
                             <div class="widget-body no-padding">
-
                                 <!-- widget body text-->
-
                                 <div class="tab-content padding-10">
                                     <div class="tab-pane fade active in" id="AllParts">
-
                                         <div class="padding-10">
                                             <div class="row">
                                                 <label class="col-sm-6 col-md-6 col-lg-6  select">
@@ -379,37 +347,49 @@
         <!-- END ROW -->
     </section>
     <!-- Modal -->
-    <div class="modal fade" id="shipping_edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="edit_prder_part_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                    <h4 class="modal-title" id="myModalLabel">Edit Order Part</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal">
-                        <div class="form-group">
-                            <label class="control-label col-sm-3">Quantity:</label>
-                            <div class="col-sm-7">
-                                <input type="number" class="form-control" id="quantity">
+                    <div class="form-horizontal">
+                        <form action="~/Order/SaveOrderPartFile" method="post" enctype="multipart/form-data" class="dropzone dz-clickable" id="orderPartFileForm" style="min-height:inherit">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Comments:</label>
+                                <div class="col-sm-7">
+                                    @Html.TextArea("comment", null, new { @class = "form-control" })
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-3">Comments:</label>
-                            <div class="col-sm-7">
-                                <textarea class="form-control" id="comment"></textarea>
+                            <div class="custom-scroll dropFile">
+                                <div class="dz-default dz-message">
+                                    <span>
+                                        <span class="text-center">
+                                            <span class="font-lg visible-xs-block visible-sm-block visible-lg-block">
+                                                <span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>
+                                                    &nbsp;&nbsp;
+                                                    <h4 class="display-inline"> (Or Click)</h4>
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </div>
+                                @Html.Hidden("orderPartId")
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-danger btn-success" id="save_shipping_edit_changes">Save</a>
+                    <button class="btn  btn-success" id="save_order_part_edit_btn" data-dismiss="modal">Save</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Modal Ends -->
+
     <!-- Confirmation Box For Deleting Tag Part -->
     <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -603,179 +583,43 @@
 
     <script>
 
-        function getTagsForCurrentCustomerOrder() {
-            var custOrderId = $('#custOrderID').val();
-            $.ajax({
-                dataType: "json",
-                type: "GET",
-                async: false,
-                url: "/Order/GetAllTagsByOrderId",
-                data: { 'custOrderId': custOrderId },
-                success: function (data) {
-                    if (data != null) {
-                        OrderJs.renderTagsInView(data);
-                    }
-                }
-            });
-        }
+        OrderJs.getTagsForCurrentCustomerOrder();
 
-        getTagsForCurrentCustomerOrder();
+        $('#orderPartFileForm').on('submit', function() {
+            var id = $('#edit_prder_part_modal').data('orderpartid');
+            $('#orderPartId').val(id);
+        });
+
+        var drop = $("#orderPartFileForm").dropzone({
+            maxFiles: 1,
+            maxFilesize: 2,
+            //prevents Dropzone from uploading dropped files immediately
+            autoProcessQueue: false,
+            addRemoveLinks: true,
+            init: function() {
+                var submitButton = document.querySelector("#save_order_part_edit_btn");
+                var myDropzone = this; //closure
+
+                submitButton.addEventListener("click", function() {
+                    myDropzone.processQueue(); //tell Dropzone to process all queued files
+                });
+            }
+        });
+
 
     </script>
     <script>
         function editPart(id) {
-            $('#shipping_edit_modal').attr('data-orderPartId', id);
-            $('#shipping_edit_modal').modal('show');
+            $('#edit_prder_part_modal').attr('data-orderPartId', id);
+            $('#orderPartId').val(id);
+            $('#edit_prder_part_modal').modal('show');
         }
 
-
-        function saveOrderPartInOrderPartTag(partId, tagId) {
-            $.ajax({
-                dataType: "json",
-                type: "GET",
-                async: false,
-                url: "/Order/SaveOrderPartInOrderPartTag",
-                data: { 'partId': partId, 'tagId': tagId },
-                success: function (data) {
-                    if (data) {
-                        toastr.success("Part successfully added into Tag");
-                    } else {
-                        toastr.error("An error occured");
-                    }
-
-                }
-            });
-        }
-
-        var nameOfTag = "";
-        function addPartToTag(partId) {
-            var check;
-            //we are getting count of the tags that are active
-            var activeTagsCount = $('.tagPanelDetail').children('.active').length;
-            // only 1 tag can be active
-            if (activeTagsCount > 0) {
-                var part = getPartById(partId);
-
-                //check = checkIfPartAlreadyExistsInAnyTag();
-
-                // we are getting the tag that is active in the tags section
-                var activeTagSection = $('.tagPanelDetail').children('.active');
-                var tagId = $(activeTagSection).data('tagid');
-                //finding the active tag's table container that holds the table with class custom-scroll
-                var tableContainer = $(activeTagSection).children('.custom-scroll');
-                //getting the table in which we have to add the part
-                var activeTagTable = $(tableContainer).children('.table');
-                //getting table body of the table as our will have thead and tbody as its children
-                var activeTagTableBody = $(activeTagTable).children()[1];
-                //getting row count of the tbody
-                var rowCount = $(activeTagTableBody).children().length;
-                var item = part;
-                if (item != null) {
-                    check = checkIfPartAlreadyExistsInTag(activeTagTableBody, rowCount, item.PartID);
-                    //check = false;
-                    if (!check) {
-                        var tr = document.createElement('tr');
-                        $(tr).attr('data-partId', item.PartID);
-                        var trCol1 = document.createElement('td');
-                        var trCol2 = document.createElement('td');
-                        var trCol3 = document.createElement('td');
-                        var trCol4 = document.createElement('td');
-
-                        trCol1.innerHTML = rowCount + 1;
-                        trCol2.innerHTML = item.PartID;
-                        trCol3.innerHTML = item.Name;
-                        var anchorTag = document.createElement('a');
-                        anchorTag.setAttribute("onclick", "removePartFrmTag(this)");
-                        anchorTag.setAttribute("href", "javascript:void(0);");
-                        var icon = document.createElement('i');
-                        $(icon).addClass('fa fa-remove text-danger');
-                        anchorTag.appendChild(icon);
-                        trCol4.appendChild(anchorTag);
-
-                        tr.appendChild(trCol1);
-                        tr.appendChild(trCol2);
-                        tr.appendChild(trCol3);
-                        tr.appendChild(trCol4);
-                        $(activeTagTableBody)[0].appendChild(tr);
-
-                        saveOrderPartInOrderPartTag(part.PartID, tagId);
-                    } else {
-                        toastr.error("This part already exists in " + nameOfTag + " Tag");
-                    }
-                }
-            } else {
-                toastr.info("No tag is active. Create a new tag.");
-            }
-        }
-
-        function getPartById(part_id) {
-            var returnData;
-            var id = parseInt(part_id);
-            if (!isNaN(id) && id > 0) {
-                $.ajax({
-                    dataType: "json",
-                    type: "GET",
-                    async: false,
-                    url: "/Order/GetPartAgainstId",
-                    data: { 'partId': id },
-                    success: function (data) {
-                        if (data != null) {
-                            returnData = data;
-                            //addPartToTag(return_data);
-                        } else {
-                            toastr.error("An error occured");
-                        }
-
-                    }
-                });
-                return returnData;
-            }
-        }
-
-        function checkIfPartAlreadyExistsInTag(activeTagTableBody, count, partId) {
-            var ids = [];
-            var array = [];
-            var tagPartObj = function (partId, tagName) {
-                this.Id = partId;
-                this.Name = tagName;
-            };
-
-            // we are getting all the tags in the tags section
-            var allTagsDiv = $('.tagPanelDetail').children();
-
-            for (var j = 0; j < allTagsDiv.length; j++) {
-                var tagDiv = allTagsDiv[j];
-                var formHorizontalDiv = $(tagDiv).children()[0];
-                var nameFormGroup = $(formHorizontalDiv).children()[0];
-                var nameInputElementContainer = $(nameFormGroup).children(1);
-                var nameInputElement = $(nameInputElementContainer).children('#tagName')[0];
-                var tagName = nameInputElement.value;
-                var tagTableDiv = $(tagDiv).children()[1];
-                var tagTableElement = $(tagTableDiv).children()[0];
-                var tagTableBody = $(tagTableElement).children()[1];
-                $(tagTableBody).children().each(function () {
-                    var part_id = $(this).data('partid');
-                    ids.push(part_id);
-                    array.push((new tagPartObj(part_id, tagName)));
-                });
-            }
-
-            for (var i = 0; i < array.length; i++) {
-                var obj = array[i];
-                if (obj.Id === partId) {
-                    nameOfTag = obj.Name;
-                    return true;
-                }
-            }
-
-            return false;
+        function addPart(id) {
+            OrderJs.addPartToTag(id);
         }
 
         function customPart() { }
-
-        function uploadFileOfPart() { }
-
-
     </script>
 
     <script>
@@ -923,23 +767,24 @@
                         if (type === 'display') {
 
                             return '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Edit" onclick="editPart(' + data + ');"> Edit </a> &nbsp;&nbsp;' +
-                                //'<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Add" onclick="getPartById(' + data + ');"> Add </a>&nbsp; &nbsp;' +
-                                '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Add" onclick="addPartToTag(' + data + ');"> Add </a>&nbsp; &nbsp;' +
-                                '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Custom" onclick="customPart(' + data + ');"> Custom </a>'
+                                //'<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Add" onclick="addPartToTag(' + data + ');"> Add </a>&nbsp; &nbsp;' +
+                                '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Add" onclick="addPart(' + data + ');"> Add </a>&nbsp; &nbsp;' +
+                                '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Custom" onclick="customPart(' + data + ');"> Custom </a>';
                         }
                         return data;
                     }
                 },
                 {
                     name: 'files',
-                    data: "files",
+                    data: "files[0].name",
                     title: "File",
                     sortable: false,
                     searchable: false,
                     render: function (data, type, row) {
                         if (type === 'display') {
-
-                            return '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Edit" onclick="uploadFileOfPart(' + data + ');"> Upload File </a>';
+                            if (data !== "") {
+                                return '<a href="javascript:void(0);"> ' + data + ' </a>';
+                            }
                         }
                         return data;
                     }
@@ -1055,7 +900,7 @@
         }
 
         function refreshPartsGrid(obj) {
-            var attendeeUrl = '@Url.Action("GetCategoriest", "Order")';
+            var attendeeUrl = '@Url.Action("GetCategories", "Order")';
             var CategoryParentID = (obj) ? $(obj).attr('name') : $('[name=CategoryType] li.active').attr('name');
 
             if (!($(obj).hasClass('active'))) {
@@ -1122,12 +967,6 @@
     </script>
 
     <script type="text/javascript">
-        // PAGE RELATED SCRIPTS
-
-        // pagefunction
-
-        //  var pagefunction = function () {
-
 
         var dash = $("#dropzoneFormOrder").dropzone({
             //url: "/file/post",
@@ -1201,7 +1040,7 @@
                 var name = file.name;
                 $.ajax({
                     type: 'POST',
-                    url: "/order/removeAttachments",
+                    url: "/order/RemoveAttachments",
                     data: { 'custOrderID': $('#custOrderID').val(), "fileName": name },
                 });
                 var _ref;
@@ -1216,30 +1055,6 @@
 
     <script>
 
-        var quantity, comments;
-        $('#save_shipping_edit_changes').on('click', function () {
-            quantity = $('#quantity').val();
-            comments = $('#comment').val();
-
-            var status = post();
-            if (status)
-                $('#shipping_edit_modal').modal('hide');
-        });
-
-        function post() {
-            var return_data;
-            $.ajax({
-                dataType: "json",
-                type: "POST",
-                async: false,
-                url: "/Order/SaveShippingPartFromOrder",
-                data: { 'quantity': quantity, 'comments': comments, 'orderId': 1, 'partId': 2 },
-                success: function (data) {
-                    return_data = data;
-                }
-            });
-            return return_data;
-        }
         $('#btnSaveOrder').on('click', function () {
             UpdateOrderState('Draft');
         });
@@ -1269,12 +1084,12 @@
                     } else if (State == 'Primary') {
                         window.location.href = "/Dashboard/Index";
                     } else if (State == 'Secondary') {
-                        window.location.href = "/Order/CompareOrder?custOrderId=" + $('#custOrderID').val();
+                        //window.location.href = "/Order/CompareOrder?custOrderId=" + $('#custOrderID').val();
+                        window.location.href = "/Order/CompareOrder/" + $('#custOrderID').val();
                     } else if (State == 'Review') {
-                        window.location.href = "/Order/CompareOrder?custOrderId=" + $('#custOrderID').val();
+                        //window.location.href = "/Order/OrderReview?custOrderId=" + $('#custOrderID').val();
+                        window.location.href = "/Order/OrderReview/" + $('#custOrderID').val();
                     }
-
-
                 },
                 failure: function (data) {
 

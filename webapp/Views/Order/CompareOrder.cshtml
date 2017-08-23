@@ -118,7 +118,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if (Model != null && Model.Count() > 0)
+                                                    @if (Model != null && Model.Any())
                                                     {
                                                         foreach (var tag in Model)
                                                         {
@@ -158,55 +158,16 @@
     </section>
 </div>
 <!-- END MAIN CONTENT -->
+
+
 <style>
-    .orderDetailPanel {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-    }
-
-        .orderDetailPanel > div {
-            margin: 0px 5px 15px 0px;
-        }
-
-        .orderDetailPanel .dropFile {
-            overflow-y: scroll;
-            max-height: 200px;
-        }
-
-
     .rowButtons {
         margin-bottom: 5px;
     }
 </style>
+
+
 @section pagespecific {
 
-    </script>
-    <script type="text/javascript">
-        // pagefunction
-        var pagefunction = function () {
-            Dropzone.autoDiscover = false;
-            $("#mydropzone").dropzone({
-                //url: "/file/post",
-                addRemoveLinks: true,
-                maxFilesize: 0.5,
-                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
-                dictResponseError: 'Error uploading file!'
-            });
-
-            //File Upload response from the server
-            Dropzone.options.dropzoneForm = {
-                init: function () {
-                    this.on("complete", function (data) {
-                        //var res = eval('(' + data.xhr.responseText + ')');
-                        var res = JSON.parse(data.xhr.responseText);
-                    });
-                }
-            };
-
-        };
-        // end pagefunction
-    </script>
 }
 

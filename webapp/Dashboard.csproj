@@ -491,6 +491,7 @@
     <Content Include="Views\Customer\Partial_Views\Contact.cshtml" />
     <Content Include="Views\Order\OrderReview.cshtml" />
     <Content Include="Views\Order\ShippingTagDetails.cshtml" />
+    <Content Include="Views\Order\OrderReviewApproved.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

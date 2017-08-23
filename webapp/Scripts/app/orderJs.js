@@ -1,6 +1,9 @@
 ﻿
 // Module Revealing Pattern For Order Related Scripts
 var OrderJs = function () {
+
+    var nameOfTag = "";
+
     $('#create_tag_btn').on('click', function () {
         var tagName = $('#tag_name').val();
         var custOrderId = $('#custOrderID').val();
@@ -320,12 +323,11 @@ var OrderJs = function () {
             // this is the case when order is shown in edit mode and a tag has some order parts in it
             for (var i = 0; i < data.length; i++) {
                 var partObj = data[i].Part;
-                if (partObj != null)
-                {
+                if (partObj != null) {
                     var tableBodyRow = document.createElement('tr');
                     $(tableBodyRow).attr('data-partId', partObj.PartID);
                     var tableBodyRowCol1 = document.createElement('td');
-                    tableBodyRowCol1.innerHTML = (i+1);
+                    tableBodyRowCol1.innerHTML = (i + 1);
                     var tableBodyRowCol2 = document.createElement('td');
                     tableBodyRowCol2.innerHTML = partObj.PartID;
                     var tableBodyRowCol3 = document.createElement('td');
@@ -507,8 +509,167 @@ var OrderJs = function () {
         }
     }
 
+    function getTagsForCurrentCustomerOrder() {
+        var custOrderId = $('#custOrderID').val();
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            async: false,
+            url: "/Order/GetAllTagsByOrderId",
+            data: { 'custOrderId': custOrderId },
+            success: function (data) {
+                if (data != null) {
+                    OrderJs.renderTagsInView(data);
+                }
+            }
+        });
+    }
+
+    function saveOrderPartInOrderPartTag(partId, tagId) {
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            async: false,
+            url: "/Order/SaveOrderPartInOrderPartTag",
+            data: { 'partId': partId, 'tagId': tagId },
+            success: function (data) {
+                if (data) {
+                    toastr.success("Part successfully added into Tag");
+                } else {
+                    toastr.error("An error occured");
+                }
+
+            }
+        });
+    }
+
+    function addPartToTag(partId) {
+        var check;
+        //we are getting count of the tags that are active
+        var activeTagsCount = $('.tagPanelDetail').children('.active').length;
+        // only 1 tag can be active
+        if (activeTagsCount > 0) {
+            var part = getPartById(partId);
+
+            //check = checkIfPartAlreadyExistsInAnyTag();
+
+            // we are getting the tag that is active in the tags section
+            var activeTagSection = $('.tagPanelDetail').children('.active');
+            var tagId = $(activeTagSection).data('tagid');
+            //finding the active tag's table container that holds the table with class custom-scroll
+            var tableContainer = $(activeTagSection).children('.custom-scroll');
+            //getting the table in which we have to add the part
+            var activeTagTable = $(tableContainer).children('.table');
+            //getting table body of the table as our will have thead and tbody as its children
+            var activeTagTableBody = $(activeTagTable).children()[1];
+            //getting row count of the tbody
+            var rowCount = $(activeTagTableBody).children().length;
+            var item = part;
+            if (item != null) {
+                check = checkIfPartAlreadyExistsInTag(activeTagTableBody, rowCount, item.PartID);
+                //check = false;
+                if (!check) {
+                    var tr = document.createElement('tr');
+                    $(tr).attr('data-partId', item.PartID);
+                    var trCol1 = document.createElement('td');
+                    var trCol2 = document.createElement('td');
+                    var trCol3 = document.createElement('td');
+                    var trCol4 = document.createElement('td');
+
+                    trCol1.innerHTML = rowCount + 1;
+                    trCol2.innerHTML = item.PartID;
+                    trCol3.innerHTML = item.Name;
+                    var anchorTag = document.createElement('a');
+                    anchorTag.setAttribute("onclick", "removePartFrmTag(this)");
+                    anchorTag.setAttribute("href", "javascript:void(0);");
+                    var icon = document.createElement('i');
+                    $(icon).addClass('fa fa-remove text-danger');
+                    anchorTag.appendChild(icon);
+                    trCol4.appendChild(anchorTag);
+
+                    tr.appendChild(trCol1);
+                    tr.appendChild(trCol2);
+                    tr.appendChild(trCol3);
+                    tr.appendChild(trCol4);
+                    $(activeTagTableBody)[0].appendChild(tr);
+
+                    saveOrderPartInOrderPartTag(part.PartID, tagId);
+                } else {
+                    toastr.error("This part already exists in " + nameOfTag + " Tag");
+                }
+            }
+        } else {
+            toastr.info("No tag is active. Create a new tag.");
+        }
+    }
+
+    function getPartById(part_id) {
+        var returnData;
+        var id = parseInt(part_id);
+        if (!isNaN(id) && id > 0) {
+            $.ajax({
+                dataType: "json",
+                type: "GET",
+                async: false,
+                url: "/Order/GetPartAgainstId",
+                data: { 'partId': id },
+                success: function (data) {
+                    if (data != null) {
+                        returnData = data;
+                        //addPartToTag(return_data);
+                    } else {
+                        toastr.error("An error occured");
+                    }
+
+                }
+            });
+            return returnData;
+        }
+    }
+
+    function checkIfPartAlreadyExistsInTag(activeTagTableBody, count, partId) {
+        var ids = [];
+        var array = [];
+        var tagPartObj = function (partId, tagName) {
+            this.Id = partId;
+            this.Name = tagName;
+        };
+
+        // we are getting all the tags in the tags section
+        var allTagsDiv = $('.tagPanelDetail').children();
+
+        for (var j = 0; j < allTagsDiv.length; j++) {
+            var tagDiv = allTagsDiv[j];
+            var formHorizontalDiv = $(tagDiv).children()[0];
+            var nameFormGroup = $(formHorizontalDiv).children()[0];
+            var nameInputElementContainer = $(nameFormGroup).children(1);
+            var nameInputElement = $(nameInputElementContainer).children('#tagName')[0];
+            var tagName = nameInputElement.value;
+            var tagTableDiv = $(tagDiv).children()[1];
+            var tagTableElement = $(tagTableDiv).children()[0];
+            var tagTableBody = $(tagTableElement).children()[1];
+            $(tagTableBody).children().each(function () {
+                var part_id = $(this).data('partid');
+                ids.push(part_id);
+                array.push((new tagPartObj(part_id, tagName)));
+            });
+        }
+
+        for (var i = 0; i < array.length; i++) {
+            var obj = array[i];
+            if (obj.Id === partId) {
+                nameOfTag = obj.Name;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     return {
         createNewTag: createNewTag,
-        renderTagsInView: renderTagsInView
+        renderTagsInView: renderTagsInView,
+        getTagsForCurrentCustomerOrder: getTagsForCurrentCustomerOrder,
+        addPartToTag: addPartToTag
     }
 }();
