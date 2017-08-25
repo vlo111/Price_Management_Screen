@@ -14,6 +14,9 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.InvoiceNo)
                 .IsRequired();
 
+            this.Property(t => t.State)
+                .IsRequired();
+
             this.Property(t => t.CommentsCentury)
                 .IsRequired()
                 .IsFixedLength()
@@ -36,6 +39,7 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.GroupUrgencyID).HasColumnName("GroupUrgencyID");
             this.Property(t => t.DiscountAmountPercentage).HasColumnName("DiscountAmountPercentage");
             this.Property(t => t.CommentsCentury).HasColumnName("CommentsCentury");
+            this.Property(t => t.State).HasColumnName("State");
 
             // Relationships
             this.HasMany(t => t.Files)

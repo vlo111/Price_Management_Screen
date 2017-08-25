@@ -166,26 +166,26 @@
                     
                     {
                         name: 'partID',
-                        data: "customer.company",
+                        data: "company",
                         title: "Company",
                         sortable: true,
                         searchable: true
                     },
                     {
-                        name: 'image',
-                        data: "revision",
+                        name: 'stateName',
+                        data: "stateName",
                         title: "State",
                         sortable: true,
                         searchable: true
                     },
                     {
                         name: 'employeeID',
-                        data: "employee.firstName",
+                        data: "firstName",
                         title: "Employee",
                         sortable: true,
                         searchable: true,
-                        "render": function (data, type, full, meta) {
-                            return full.employee.firstName + " " + full.employee.lastName;
+                        "render": function (data, type, employee, meta) {
+                            return employee.firstName + " " + employee.lastName;
                         }
                     },
                     {

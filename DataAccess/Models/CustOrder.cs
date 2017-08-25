@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccess.Models
 {
@@ -16,6 +17,7 @@ namespace DataAccess.Models
         public int CustomerID { get; set; }
         public string PONum { get; set; }
         public string InvoiceNo { get; set; }
+        public string WorkOrderNo { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public int EmployeeID { get; set; }
         public Nullable<int> ApproverID { get; set; }
@@ -26,6 +28,10 @@ namespace DataAccess.Models
         public int GroupUrgencyID { get; set; }
         public Nullable<double> DiscountAmountPercentage { get; set; }
         public string CommentsCentury { get; set; }
+        
+        public int State { get; set; }
+        [NotMapped]
+        public string StateName { get; set; }
         public virtual Currency Currency { get; set; }
         public virtual Currency Currency1 { get; set; }
         public virtual Customer Customer { get; set; }

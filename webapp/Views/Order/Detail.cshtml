@@ -1,4 +1,4 @@
-﻿@model CenDek.Models.NewCustomerOrder
+﻿@model DataAccess.Models.CustOrder
 <!-- MAIN CONTENT -->
 <div id="content">
 
@@ -20,24 +20,28 @@
 
             <div class="row">
                 <div class="col-md-8">
-                    <button class="btn btn-primary" id="compareOrderBtn">Compare</button>
-                    <button class="btn btn-default">Review</button>
-                    <button class="btn btn-success" id="saveOrderBtn">Save</button>
-                    <button class="btn btn-danger">Complete</button>
+                    @if (Model.State == (int)OrderStates.Draft)
+                    {
+                        <button class="btn btn-success" id="btnSaveOrder">Save</button>
+                        <button class="btn btn-danger" id="btnComplete">Complete</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-primary" id="btnCompare">Compare</button>
+                    }
+                    <button class="btn btn-default" id="btnReview">Review</button>
                 </div>
                 <div class="col-md-4 pull-right">
                     <div class="col-md-5">
-                        <select class="input-lg" id="EntityDDl">
-                            <option value="">Select</option>
-                            <option value="1">Century</option>
-                            <option value="2">Deksmart</option>
-                        </select>
+                        @Html.DropDownList("EntityDDl",
+                            ((IEnumerable<SelectListItem>)ViewBag.categoriesList).Where(x => x.Text.Equals("DekSmart") || x.Text.Equals("Century")),
+                            "Select",
+                                  new { @class = "input-lg" })
                     </div>
                     <div class="col-md-5 pull-right">
                         <h1 class="semi-bold ">Order: @ViewBag.OrderId</h1>
                     </div>
                 </div>
-
             </div>
 
         </div>
@@ -59,17 +63,13 @@
 
                         <!-- widget div-->
                         <header role="heading">
-                            @*<div class="jarviswidget-ctrls" role="menu">   <a href="javascript:void(0);" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a>  </div>*@
-
                             <h2 class="font-md"><strong>Order</strong> <i>Details</i></h2>
-
                             <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
                         </header>
                         <div role="content">
                             <div class="orderDetailPanel">
                                 <!-- Customer Div-->
                                 <div class="col-sm-12 col-md-6 col-lg-4 panel panel-default">
-
                                     <!-- widget content -->
                                     <div class="widget-body">
                                         <div id="checkout-form" class="form-horizontal bv-form" novalidate="novalidate">
@@ -82,24 +82,20 @@
                                                 <div class="form-group has-feedback">
                                                     <label class="col-md-4">Company</label>
                                                     <div class="col-md-8">
-                                                        @Html.Label(Model.customer.Company) &nbsp;<i class="fa fa-edit" title="edit"></i>
+                                                        @Html.Label(Model.Customer.Company) &nbsp;<i class="fa fa-edit" title="edit"></i>
 
                                                     </div>
                                                 </div>
                                             </fieldset>
-
                                             <fieldset>
                                                 <div class="form-group has-feedback">
                                                     <label class="col-md-4" for="Customer">Customer</label>
                                                     <div class="col-md-8">
-                                                        @Html.Label(Model.customer.CustomerContacts.FirstOrDefault().First + ' ' + Model.customer.CustomerContacts.FirstOrDefault().Last)
-                                                        @*@Html.DropDownList("CustomerID", (IEnumerable<SelectListItem>)ViewBag.customerList, "Select", new { @class = "input-sm" })*@
+                                                        @Html.DropDownList("CustomerID", new SelectList(ViewBag.ContactDropdown, "ContactId", "Name"), "Select", new { @class = "input-sm" })
                                                         <i class="fa fa-edit" title="edit"></i>
                                                     </div>
                                                 </div>
                                             </fieldset>
-
-
                                             <fieldset>
                                                 <div class="form-group has-feedback">
                                                     <label class="col-md-4">Work Order No.</label>
@@ -108,9 +104,6 @@
                                                     </div>
                                                 </div>
                                             </fieldset>
-
-
-
                                             <fieldset>
                                                 <div class="form-group has-feedback">
                                                     <label class="col-md-4">Account No.</label>
@@ -121,8 +114,6 @@
                                                     </div>
                                                 </div>
                                             </fieldset>
-
-
                                         </div>
                                     </div>
                                     <!-- end widget content -->
@@ -161,16 +152,8 @@
                                                     <label class="col-md-4" for="Carrier">Carrier</label>
                                                     <div class="col-md-8">
                                                         <label class="select">
-
-                                                            @Html.DropDownList("PriorityID", (IEnumerable<SelectListItem>)ViewBag.dropdownVD, "Select", new { @class = "input-sm" })
+                                                            @Html.DropDownList("PriorityID", (IEnumerable<SelectListItem>)ViewBag.dropdownVD, "Select", new { @class = "input-sm", style = "width: 80%;" })
                                                             <i class="fa fa-edit" title="edit"></i>
-                                                            @*<select class="input-sm" id="Carrier">
-                                                                    <option value="0">Choose name</option>
-                                                                    <option value="1">Alexandra</option>
-                                                                    <option value="2">Alice</option>
-                                                                    <option value="3">Anastasia</option>
-                                                                    <option value="4">Avelina</option>
-                                                                </select> <i class="fa fa-edit" title="edit"></i>*@
                                                         </label>
                                                     </div>
                                                 </div>
@@ -206,7 +189,7 @@
                                         </fieldset>
 
                                         <div class="custom-scroll dropFile">
-                                            <form action="~/Order/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone dz-clickable" id="dropzoneForm" style="min-height:inherit">
+                                            <form action="~/Order/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone dz-clickable" id="dropzoneFormOrder" style="min-height:inherit">
 
                                                 <div class="dz-default dz-message">
                                                     <span>
@@ -244,25 +227,25 @@
 
                             <ul id="widget-tab-1" class="nav  nav-tabs" name="CategoryType">
 
-                                <li class="active" name="All" onclick="refreshPartsGrid();">
+                                <li class="active" name="All" onclick="refreshPartsGrid(this);">
 
                                     <a data-toggle="tab" href="#AllParts" aria-expanded="true">  <span class="hidden-mobile hidden-tablet"> All </span> </a>
 
                                 </li>
 
-                                <li class="" name="Post" onclick="refreshPartsGrid();">
+                                <li class="" name="Posts" onclick="refreshPartsGrid(this);">
                                     <a data-toggle="tab" href="#AllParts" aria-expanded="false"> <span class="hidden-mobile hidden-tablet"> Post </span></a>
                                 </li>
 
-                                <li class="" name="Pillars" onclick="refreshPartsGrid();">
+                                <li class="" name="Pillars" onclick="refreshPartsGrid(this);">
                                     <a data-toggle="tab" href="#AllParts" aria-expanded="false">  <span class="hidden-mobile hidden-tablet"> Pillars </span></a>
                                 </li>
 
-                                <li class="" name="Parts" onclick="refreshPartsGrid();">
+                                <li class="" name="Parts" onclick="refreshPartsGrid(this);">
                                     <a data-toggle="tab" href="#AllParts" aria-expanded="false">  <span class="hidden-mobile hidden-tablet"> Parts </span></a>
                                 </li>
 
-                                <li class="" name="Recommended" onclick="refreshPartsGrid();">
+                                <li class="" name="Recommended" onclick="refreshPartsGrid(this);">
                                     <a data-toggle="tab" href="#AllParts" aria-expanded="false">  <span class="hidden-mobile hidden-tablet"> Recommended </span></a>
                                 </li>
 
@@ -273,17 +256,12 @@
 
                         <!-- widget div-->
                         <div role="content">
-
-
                             <!-- end widget edit box -->
                             <!-- widget content -->
                             <div class="widget-body no-padding">
-
                                 <!-- widget body text-->
-
                                 <div class="tab-content padding-10">
                                     <div class="tab-pane fade active in" id="AllParts">
-
                                         <div class="padding-10">
                                             <div class="row">
                                                 <label class="col-sm-6 col-md-6 col-lg-6  select">
@@ -354,80 +332,8 @@
                                     </div>
                                 </fieldset>
                             </div>
-                            <div class="panel panel-default tagPanelDetail">
-                                <div class="panel panel-default tagPanel emptyFormTag">
-                                    <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <label for="tagName" class="col-sm-6 col-md-2 col-lg-2 tagLabel">Name</label>
-                                            <div class="col-sm-6 col-md-4 col-lg-4">
-                                                <input type="text" class="form-control input-xs" id="tagName" placeholder="99418-2">
-                                            </div>
-                                            <label class="col-sm-6 col-md-2 col-lg-2 tagLabel" for="TagGroup">Group</label>
-                                            <div class="col-sm-6 col-md-4 col-lg-4">
-                                                <label class="select">
-                                                    <select class="input-xs tagDropDown" id="TagGroup">
-                                                        <option value="0">Select</option>
-                                                        <option value="1">Alexandra</option>
-                                                        <option value="2">Alice</option>
-                                                        <option value="3">Anastasia</option>
-                                                        <option value="4">Avelina</option>
-                                                    </select>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-6 col-md-2 col-lg-2 tagLabel" for="TagProfile">Profile</label>
-                                            <div class="col-sm-6 col-md-4 col-lg-4">
-                                                <label class="select">
-                                                    <select class="input-xs tagDropDown" id="TagProfile">
-                                                        <option value="0">Select</option>
-                                                        <option value="1">Century</option>
-                                                        <option value="2">Alice</option>
-                                                        <option value="3">Anastasia</option>
-                                                        <option value="4">Avelina</option>
-                                                    </select>
-                                                </label>
-                                            </div>
-                                            <label class="col-sm-6 col-md-2 col-lg-2 tagLabel" for="TagPriority">Priority</label>
-                                            <div class="col-sm-6 col-md-4 col-lg-4">
-                                                <label class="select">
-                                                    <select class="input-xs tagDropDown" id="TagPriority">
-                                                        <option value="0">Select</option>
-                                                        <option value="1">Normal</option>
-                                                        <option value="2">Alice</option>
-                                                        <option value="3">Anastasia</option>
-                                                        <option value="4">Avelina</option>
-                                                    </select>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-6 col-md-2 col-lg-2 tagLabel" for="TagColour">Colour</label>
-                                            <div class="col-sm-6 col-md-4 col-lg-4">
-                                                <label class="select">
-                                                    @Html.DropDownList("ColourID", (IEnumerable<SelectListItem>)ViewBag.coloutList, "Select", new { @class = "input-xs tagDropDown" })
-                                                </label>
-                                            </div>
-                                            <button class="btn btn-warning pin-it" style="display:none">Select</button>
-                                        </div>
-                                    </div>
-                                    <div class="custom-scroll table-responsive" style="height:100px; overflow-y: scroll;">
-                                        <table class="table table-bordered" id="emptyFormTagTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>PartsId</th>
-                                                    <th>Description</th>
-                                                    <th>Act</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- This table will by dynamically populated. -->
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-                                </div>
+                            <div class="panel panel-default tagPanelDetail custom-scroll" style="max-height: 800px; overflow-y: scroll;">
+                                <!-- Here Tag divs will be added dynamically -->
                             </div>
                         </div>
                         <!-- end widget content -->
@@ -441,37 +347,51 @@
         <!-- END ROW -->
     </section>
     <!-- Modal -->
-    <div class="modal fade" id="shipping_edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="edit_prder_part_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
-                        <div class="form-group">
-                            <label class="control-label col-sm-3">Quantity:</label>
-                            <div class="col-sm-7">
-                                <input type="number" class="form-control" id="quantity">
+                <form action="~/Order/SaveOrderPartFile" method="post" enctype="multipart/form-data" class="dropzone dz-clickable" id="orderPartFileForm" style="min-height:inherit">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Edit Order Part</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Comments:</label>
+                                <div class="col-sm-7">
+                                    @Html.TextArea("comment", null, new { @class = "form-control" })
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-3">Comments:</label>
-                            <div class="col-sm-7">
-                                <textarea class="form-control" id="comment"></textarea>
+                            <div class="custom-scroll dropFile">
+                                <div class="dz-default dz-message">
+                                    <span>
+                                        <span class="text-center">
+                                            <span class="font-lg visible-xs-block visible-sm-block visible-lg-block">
+                                                <span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>
+                                                    &nbsp;&nbsp;
+                                                    <h4 class="display-inline"> (Or Click)</h4>
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </div>
+                                @Html.Hidden("orderPartId")
                             </div>
+
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-danger btn-success" id="save_shipping_edit_changes">Save</a>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button class="btn  btn-success" type="submit" id="save_order_part_edit_btn" data-dismiss="modal">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
     <!-- Modal Ends -->
+
     <!-- Confirmation Box For Deleting Tag Part -->
     <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -578,21 +498,21 @@
                                         <label class="input"></label>
                                         <div class="custom-scroll dropFile">
                                             @*<form action="upload.php" class="dropzone dz-clickable" id="mydropzone"><div class="dz-default dz-message"><span><span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp;&nbsp;<h4 class="display-inline"> (Or Click)</h4></span></span></span></span></div></form>*@
-                                            <form action="~/Order/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone dz-clickable" id="dropzoneForm" style="min-height:inherit">
+                                            @*<form action="~/Order/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone dz-clickable" id="dropzoneForm" style="min-height:inherit">
 
-                                                <div class="dz-default dz-message">
-                                                    <span>
-                                                        <span class="text-center">
-                                                            <span class="font-lg visible-xs-block visible-sm-block visible-lg-block">
-                                                                <span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>
-                                                                    &nbsp;&nbsp;
-                                                                    <h4 class="display-inline"> (Or Click)</h4>
+                                                    <div class="dz-default dz-message">
+                                                        <span>
+                                                            <span class="text-center">
+                                                                <span class="font-lg visible-xs-block visible-sm-block visible-lg-block">
+                                                                    <span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>
+                                                                        &nbsp;&nbsp;
+                                                                        <h4 class="display-inline"> (Or Click)</h4>
+                                                                    </span>
                                                                 </span>
                                                             </span>
                                                         </span>
-                                                    </span>
-                                                </div>
-                                            </form>
+                                                    </div>
+                                                </form>*@
                                         </div>
                                     </section>
                                 </div>
@@ -609,7 +529,7 @@
     </div>
     <!-- Modal for Custom Port Ends -->
     <input type="hidden" id="hdnOrderPartIDs" value="@ViewBag.OrderPartIDs " />
-
+    <input type="hidden" id="hdnCategory" value="All" />
 </div>
 <!-- END MAIN CONTENT -->
 <style>
@@ -664,105 +584,47 @@
 @section pagespecific {
 
     <script>
+
+        OrderJs.getTagsForCurrentCustomerOrder();
+
+        $('#orderPartFileForm').on('submit', function () {
+            console.log("i'm submit value")
+            var id = $('#edit_prder_part_modal').data('orderpartid');
+            $('#orderPartId').val(id);
+        });
+
+        var drop = $("#orderPartFileForm").dropzone({
+            maxFiles: 1,
+            maxFilesize: 2,
+            //prevents Dropzone from uploading dropped files immediately
+            autoProcessQueue: false,
+            addRemoveLinks: true,
+            init: function() {
+                var submitButton = document.querySelector("#save_order_part_edit_btn");
+                var myDropzone = this; //closure
+
+                submitButton.addEventListener("click", function () {
+                    console.log("i'm dropzone");
+                    $('#orderPartFileForm').submit();
+                    myDropzone.processQueue(); //tell Dropzone to process all queued files
+                });
+            }
+        });
+
+
+    </script>
+    <script>
         function editPart(id) {
-            $('#shipping_edit_modal').attr('data-orderPartId', id);
-            $('#shipping_edit_modal').modal('show');
+            $('#edit_prder_part_modal').attr('data-orderPartId', id);
+            $('#orderPartId').val(id);
+            $('#edit_prder_part_modal').modal('show');
         }
 
-        function getPartById(part_id) {
-            var return_data;
-            var id = parseInt(part_id);
-            if (!isNaN(id) && id > 0) {
-                $.ajax({
-                    dataType: "json",
-                    type: "GET",
-                    async: false,
-                    url: "/Order/GetPartAgainstId",
-                    data: { 'partId': id },
-                    success: function (data) {
-                        return_data = data;
-                        addPartToTag(return_data);
-                    }
-                });
-            }
-        }
-
-        function addPartToTag(part) {
-            var check;
-            //we are getting count of the tags that are active
-            var activeTagsCount = $('.tagPanelDetail').children('.active').length;
-            // only 1 tag can be active
-            if (activeTagsCount === 1) {
-                // we are getting the tag that is active in the tags section
-                var activeTagSection = $('.tagPanelDetail').children('.active');
-                //finding the active tag's table container that holds the table with class custom-scroll
-                var tableContainer = $(activeTagSection).children('.custom-scroll');
-                //getting the table in which we have to add the part
-                var activeTagTable = $(tableContainer).children('.table');
-                //getting table body of the table as our will have thead and tbody as its children
-                var activeTagTableBody = $(activeTagTable).children()[1];
-                //getting row count of the tbody
-                var rowCount = $(activeTagTableBody).children().length;
-                var item = part[0];
-                if (item != null) {
-                    check = checkIfPartAlreadyExistsInTag(activeTagTableBody, rowCount, item.PartID);
-                    //check = false;
-                    if (!check) {
-                        var tr = document.createElement('tr');
-                        $(tr).attr('data-partId', item.PartID);
-                        var trCol1 = document.createElement('td');
-                        var trCol2 = document.createElement('td');
-                        var trCol3 = document.createElement('td');
-                        var trCol4 = document.createElement('td');
-
-                        trCol1.innerHTML = rowCount + 1;
-                        trCol2.innerHTML = item.Name;
-                        trCol3.innerHTML = item.Description;
-                        var anchorTag = document.createElement('a');
-                        anchorTag.setAttribute("onclick", "removePartFrmTag(this)");
-                        anchorTag.setAttribute("href", "javascript:void(0);");
-                        var icon = document.createElement('i');
-                        $(icon).addClass('fa fa-remove text-danger');
-                        anchorTag.appendChild(icon);
-                        trCol4.appendChild(anchorTag);
-
-                        tr.appendChild(trCol1);
-                        tr.appendChild(trCol2);
-                        tr.appendChild(trCol3);
-                        tr.appendChild(trCol4);
-                        $(activeTagTableBody)[0].appendChild(tr);
-                    } else {
-                        toastr.error("This part already exists in Tag");
-                    }
-                }
-            } else {
-                toastr.info("No tag is active.");
-            }
-        }
-
-        function checkIfPartAlreadyExistsInTag(activeTagTableBody, count, partId) {
-            var ids = [];
-            if (count > 0) {
-                $(activeTagTableBody).children().each(function () {
-                    var part_id = $(this).data('partid');
-                    ids.push(part_id);
-                });
-                for (var i = 0; i < ids.length; i++) {
-                    if (ids[i] === partId) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-            return false;
+        function addPart(id) {
+            OrderJs.addPartToTag(id);
         }
 
         function customPart() { }
-
-        function uploadFileOfPart() { }
-
-
     </script>
 
     <script>
@@ -774,179 +636,191 @@
             phone: 480
         };
 
+        var clientTable = $('#PartsList').DataTable({
+            serverSide: true,
+            "ajax": {
+                "url": appRoot + "order/GetOrderParts",
+                "type": 'GET',
+                "data": function (d) {
+                    d.OrderPartsIds = $('#hdnOrderPartIDs').val();
+                    d.custOrderID = $('#custOrderID').val();
+                    d.Category = $('#hdnCategory').val();
 
-
-
-        var clientTable= $('#PartsList').DataTable({
-                serverSide: true,
-                "ajax": {
-                    "url": appRoot + "order/GetOrderParts",
-                    "type": 'GET',
-                    "data": function (d) {
-                        d.OrderPartsIds = $('#hdnOrderPartIDs').val();
-                        d.custOrderID = $('#custOrderID').val();
-                    },
-                    "dataSrc": function (json) {
-                        // manipulate your data (json)
-                       // console.log(json)
-                        return json.data;
-                    }
-                },
-                "bInfo": false, //Dont display info e.g. "Showing 1 to 4 of 4 entries"
-                "searching": false, //Disable searching abilities in DataTables:
-                "bPaginate": false,//Dont want paging
-                "columnDefs": [{
-                    "searchable": false,
-                    "orderable": false,
-                    "targets": 0
-                }],
-                "order": [[1, 'asc']],
-                columns: [
-                    {
-                        name: 'custOrderPartId',
-                        data: "custOrderPartId",
-                        title: "#",
-                        sortable: false,
-                        searchable: false
-                    },
-                    {
-                        name: 'category',
-                        data: "category",
-                        title: "Category",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'partID',
-                        data: "partID",
-                        title: "PartIDs",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'image',
-                        data: "image",
-                        title: "Image",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'number',
-                        data: "number",
-                        title: "No.",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'description',
-                        data: "description",
-                        title: "Description",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'price',
-                        data: "price",
-                        title: "Price",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'comments',
-                        data: "comments",
-                        title: "Comment",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'quantity',
-                        data: "quantity",
-                        title: "Qty",
-
-                        width: "40px",
-                        sortable: true,
-                        searchable: true,
-                        render: function (data, type, row) {
-                            if (type === 'display') {
-
-                                return '<input type="text" style="width:40px" name="' + row.custOrderPartId+ '" value="' + data + '" oninput="updateQunatity(this);" />';
-                            }
-                            return data;
-                        }
-                    },
-                    {
-                        name: 'meaUnit',
-                        data: "meaUnit.shortDescription",
-                        title: "Mea Unit",
-                        width: "60px",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'weight',
-                        data: "weight",
-                        title: "Weight",
-                        sortable: true,
-                        searchable: true
-                    },
-                    {
-                        name: 'partID',
-                        data: "partID",
-                        title: "Action",
-                        sortable: false,
-                        searchable: false,
-                        width: "150px",
-                        render: function (data, type, row) {
-                            if (type === 'display') {
-
-                                return '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Edit" onclick="editPart(' + data + ');"> Edit </a> &nbsp;&nbsp;' +
-                                    '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Add" onclick="getPartById(' + data + ');"> Add </a>&nbsp; &nbsp;' +
-                                    '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Custom" onclick="customPart(' + data + ');"> Custom </a>'
-                            }
-                            return data;
-                        }
-                    },
-                    {
-                        name: 'files',
-                        data: "files",
-                        title: "File",
-                        sortable: false,
-                        searchable: false,
-                        render: function (data, type, row) {
-                            if (type === 'display') {
-
-                                return '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Edit" onclick="uploadFileOfPart(' + data + ');"> Upload File </a>';
-                            }
-                            return data;
-                        }
-                    }
-                ],
-                "scrollX": true,
-                "oLanguage": {
-                    "sSearch": ""
-                },
-                initComplete: function () {
 
                 },
-                "autoWidth": true,
-                "preDrawCallback": function () {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper) {
-                        responsiveHelper = new ResponsiveDatatablesHelper($('#PartsList'), breakpointDefinition);
-                    }
-                },
-                "rowCallback": function (nRow) {
-                    responsiveHelper.createExpandIcon(nRow);
-                },
-                "drawCallback": function (oSettings) {
-                    responsiveHelper.respond();
+                "dataSrc": function (json) {
+                    // manipulate your data (json)
+                    // console.log(json)
+                    return json.data;
                 }
-            });
-            clientTable.on('order.dt search.dt', function() {
-                clientTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function(cell, i) {
-                    cell.innerHTML = i + 1;
-                });
-            }).draw();
+            },
+            "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                var index =  ( (iDisplayIndex + 1));
+                $('td:eq(0)', nRow).html(index);
+            },
+            "bInfo": false, //Dont display info e.g. "Showing 1 to 4 of 4 entries"
+            "searching": false, //Disable searching abilities in DataTables:
+            "bPaginate": false,//Dont want paging
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            }],
+            "processing": true,
+            "order": [[1, 'asc']],
+            columns: [
+                {
+                    name: 'custOrderPartId',
+                    data: "custOrderPartId",
+                    title: "#",
+                    sortable: false,
+                    searchable: false
+                },
+                {
+                    name: 'category',
+                    data: "category",
+                    title: "Category",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'partID',
+                    data: "partID",
+                    title: "PartIDs",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'image',
+                    data: "image",
+                    title: "Image",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'number',
+                    data: "number",
+                    title: "No.",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'description',
+                    data: "description",
+                    title: "Description",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'price',
+                    data: "price",
+                    title: "Price",
+                    sortable: true,
+                    searchable: true,
+                    render: $.fn.dataTable.render.number(',', '.', 0, '$')
+
+
+                },
+                {
+                    name: 'comments',
+                    data: "comments",
+                    title: "Comment",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'quantity',
+                    data: "quantity",
+                    title: "Qty",
+
+                    width: "60px",
+                    sortable: false,
+                    searchable: false,
+                    render: function (data, type, row) {
+                        if (type === 'display') {
+                            data = parseFloat(data).toFixed(2);
+                            return '<input type="number" onblur="updateQunatity(this);"  onchange="this.value = parseFloat(this.value).toFixed(2)" '+
+                            'pattern = "^\d+(?:\.\d{1,2})?$"  min= "0" step= ".01" style= "width:100%" '+
+                            'name = "' + row.custOrderPartId + '" value= "' + data + '"  />';
+                        }
+                        return data;
+                    }
+                },
+                {
+                    name: 'meaUnit',
+                    data: "meaUnit.shortDescription",
+                    title: "Mea Unit",
+                    width: "60px",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'weight',
+                    data: "weight",
+                    title: "Weight",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'partID',
+                    data: "partID",
+                    title: "Action",
+                    sortable: false,
+                    searchable: false,
+                    width: "150px",
+                    render: function (data, type, row) {
+                        if (type === 'display') {
+
+                            return '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Edit" onclick="editPart(' + data + ');"> Edit </a> &nbsp;&nbsp;' +
+                                //'<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Add" onclick="addPartToTag(' + data + ');"> Add </a>&nbsp; &nbsp;' +
+                                '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Add" onclick="addPart(' + data + ');"> Add </a>&nbsp; &nbsp;' +
+                                '<a href="javascript:void(0);" class="btn btn-info btn-xs" title=" Custom" onclick="customPart(' + data + ');"> Custom </a>';
+                        }
+                        return data;
+                    }
+                },
+                {
+                    name: 'files',
+                    data: "files[0].name",
+                    title: "File",
+                    sortable: false,
+                    searchable: false,
+                    render: function (data, type, row) {
+                        if (type === 'display') {
+                            if (data !== "") {
+                                return '<a href="javascript:void(0);"> ' + data + ' </a>';
+                            }
+                        }
+                        return data;
+                    }
+                }
+            ],
+            "scrollX": true,
+            "oLanguage": {
+                "sSearch": ""
+            },
+            initComplete: function () {
+
+            },
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper) {
+                    responsiveHelper = new ResponsiveDatatablesHelper($('#PartsList'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper.respond();
+            }
+        });
+        //clientTable.on('order.dt search.dt', function () {
+        //    clientTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+        //        cell.innerHTML = i + 1;
+        //    });
+        //}).draw();
 
 
 
@@ -1004,17 +878,74 @@
             $("#txt_productSearch").select2("val", "");
         });
 
+        $("#EntityDDl").on("change", function (event) {
+
+            // getting selected value
+            refreshPartsGrid();
+        });
+
+        function updateQunatity(obj) {
+            var orderPartId = obj.name;
+            var attendeeUrl = '@Url.Action("UpdateQuantityOrderPart", "Order")';
+            $.ajax({
+                dataType: "json",
+                type: "POST",
+                async: false,
+                url: attendeeUrl,
+                data: {
+                    'orderPartId': orderPartId,
+                    'quantity': obj.value
+                },
+                success: function (response) {
+
+                    console.log(response);
+
+                }
+            });
+        }
+
+        function refreshPartsGrid(obj) {
+            var attendeeUrl = '@Url.Action("GetCategories", "Order")';
+            var CategoryParentID = (obj) ? $(obj).attr('name') : $('[name=CategoryType] li.active').attr('name');
+
+            if (!($(obj).hasClass('active'))) {
+
+                 $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    async: false,
+                    url: attendeeUrl,
+                    data: {
+                        'CategoryParentID': CategoryParentID,
+                        'EntityId':$("#EntityDDl").val()
+                    },
+                    success: function (response) {
+
+                        var select = $("#Categoryddl");
+                        select.children().remove();
+                        if (response.Data) {
+                            select.append($("<option>").val("").text("select"));
+                            $(response.Data).each(function (index, item) {
+                                select.append($("<option>").val(item.Value).text(item.Text));
+                            });
+                        }
+
+                    }
+                });
+                 $('#hdnCategory').val(CategoryParentID);
+                 clientTable.ajax.reload();
+            }
+        }
+
         function addPartItem(itemId) {
-
-          //  GetOrderParts(true);
-
             $.ajax({
                 dataType: "json",
                 type: "POST",
                 async: false,
                 url: appRoot + "order/AttachPartWithOrder",
                 data: {
-                    'PartsId': itemId, 'custOrderID': $('#custOrderID').val()
+                    'PartsId': itemId,
+                    'custOrderID': $('#custOrderID').val()
                 },
                 success: function (response) {
                     if (response && response.status) {
@@ -1039,32 +970,15 @@
         }
 
     </script>
+
     <script type="text/javascript">
-        // PAGE RELATED SCRIPTS
 
-        // pagefunction
-
-        var pagefunction = function () {
-
-
-            $("#mydropzone").dropzone({
-                //url: "/file/post",
-                addRemoveLinks: true,
-                maxFilesize: 0.5,
-                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
-                dictResponseError: 'Error uploading file!',
-
-
-            });
-            //File Upload response from the server
-            Dropzone.autoDiscover = false;
-
-
-
-        };
-        var arrfilenames = [];
-        // end pagefunction
-        Dropzone.options.dropzoneForm = {
+        var dash = $("#dropzoneFormOrder").dropzone({
+            //url: "/file/post",
+            addRemoveLinks: true,
+            maxFilesize: 0.5,
+            dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+            dictResponseError: 'Error uploading file!',
             init: function () {
                 this.on("complete", function (data) {
                     //var res = eval('(' + data.xhr.responseText + ')');
@@ -1102,19 +1016,21 @@
                 });
             },
             accept: function (file, done) {
-                if (arrfilenames.length > 0) {
-
-
-                    Dropzone.instances.forEach(function (dropzone, e) {
-
-                        for (var i = 0; i < dropzone.files.length; i++) {
-                            arrfilenames.push(dropzone.files[i].name.replace(/\.[^.]+$/, ''));
-
+                if (this.files.length) {
+                    var fileExists = false;
+                    var i, len, pre;
+                    for (i = 0, len = this.files.length; i < len - 1; i++) {
+                        if (this.files[i].name == file.name) {
+                            fileExists = true;
+                            var error_msg = "Error! The File is already in Queue";
+                            done(error_msg);
+                            toastr.error(error_msg);
+                            return (pre = file.previewElement) != null ? pre.parentNode.removeChild(file.previewElement) : void 0;
                         }
+                    }
 
-                    });
                     var filename = file.name.replace(/\.[^.]+$/, '')
-                    if ($.inArray(filename, arrfilenames) !== -1) {
+                    if (fileExists) {
                         var error_msg = "Error! The File is already in Queue";
                         done(error_msg);
                         this.removeFile(file);
@@ -1124,56 +1040,76 @@
                         done();
                     }
                 }
+            },
+            removedfile: function (file) {
+                var name = file.name;
+                $.ajax({
+                    type: 'POST',
+                    url: "/order/RemoveAttachments",
+                    data: { 'custOrderID': $('#custOrderID').val(), "fileName": name },
+                });
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
             }
-        };
+
+        });
+        //File Upload response from the server
+        Dropzone.autoDiscover = false;
 
     </script>
+
     <script>
 
-        var quantity, comments;
-        $('#save_shipping_edit_changes').on('click', function () {
-            quantity = $('#quantity').val();
-            comments = $('#comment').val();
-
-            var status = post();
-            if (status)
-                $('#shipping_edit_modal').modal('hide');
+        $('#btnSaveOrder').on('click', function () {
+            UpdateOrderState('Draft');
         });
 
-        function post() {
-            var return_data;
+        $('#btnComplete').on('click', function () {
+            UpdateOrderState('Primary');
+        });
+
+        $('#btnCompare').on('click', function () {
+            UpdateOrderState('Secondary');
+        });
+
+        $('#btnReview').on('click', function () {
+            UpdateOrderState('Review');
+        });
+
+        function UpdateOrderState(State) {
             $.ajax({
                 dataType: "json",
-                type: "POST",
+                url: "/Order/UpdateOrderState",
                 async: false,
-                url: "/Order/SaveShippingPartFromOrder",
-                data: { 'quantity': quantity, 'comments': comments, 'orderId': 1, 'partId': 2 },
+                type: "POST",
+                data: { 'custOrderID': $('#custOrderID').val(), "State": State },
                 success: function (data) {
-                    return_data = data;
+                    if (State == 'Draft') {
+                        window.location.href = "/Dashboard/Index";
+                    } else if (State == 'Primary') {
+                        window.location.href = "/Dashboard/Index";
+                    } else if (State == 'Secondary') {
+                        //window.location.href = "/Order/CompareOrder?custOrderId=" + $('#custOrderID').val();
+                        window.location.href = "/Order/CompareOrder/" + $('#custOrderID').val();
+                    } else if (State == 'Review') {
+                        //window.location.href = "/Order/OrderReview?custOrderId=" + $('#custOrderID').val();
+                        window.location.href = "/Order/OrderReview/" + $('#custOrderID').val();
+                    }
+                },
+                failure: function (data) {
+
                 }
             });
-            return return_data;
         }
-        $('#saveOrderBtn').on('click', function () {
-            window.location.href = "/Dashboard/Index";
-        });
-
-        $('#compareOrderBtn').on('click', function () {
-            window.location.href = "/Order/CompareOrder";
-        });
-
 
         function removePartFrmTag(cntrl) {
-            //$.confirm(function () { $(cntrl).closest('tr').remove(); }, null)
             var custOrderId = $('#custOrderID').val();
             var parentTr = $(cntrl).parent().parent();
             $(parentTr).attr('data-custorderid', custOrderId);
             $(parentTr).attr('data-tobedeleted', "true");
+            $(parentTr).addClass('toBeDeleted');
             $('#confirm-delete').modal('show');
-
         }
-
-
 
     </script>
 }

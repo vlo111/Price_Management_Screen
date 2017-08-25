@@ -350,6 +350,7 @@
     <Content Include="Scripts\app.seed.min.js">
       <DependentUpon>app.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\app\CenDekService.js" />
     <Content Include="Scripts\app\orderJs.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\dropzone\basic.css" />
@@ -490,6 +491,7 @@
     <Content Include="Views\Customer\Partial_Views\Contact.cshtml" />
     <Content Include="Views\Order\OrderReview.cshtml" />
     <Content Include="Views\Order\ShippingTagDetails.cshtml" />
+    <Content Include="Views\Order\OrderReviewApproved.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -970,30 +970,6 @@
     </script>
     <script>
 
-        var quantity, comments;
-        $('#save_shipping_edit_changes').on('click', function () {
-            quantity = $('#quantity').val();
-            comments = $('#comment').val();
-
-            var status = post();
-            if (status)
-                $('#shipping_edit_modal').modal('hide');
-        });
-
-        function post() {
-            var return_data;
-            $.ajax({
-                dataType: "json",
-                type: "POST",
-                async: false,
-                url: "/Order/SaveShippingPartFromOrder",
-                data: { 'quantity': quantity, 'comments': comments, 'orderId': 1, 'partId': 2 },
-                success: function (data) {
-                    return_data = data;
-                }
-            });
-            return return_data;
-        }
         $('#saveOrderBtn').on('click', function () {
             window.location.href = "/Dashboard/Index";
         });

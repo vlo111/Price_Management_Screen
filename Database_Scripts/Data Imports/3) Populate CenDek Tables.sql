@@ -1,5 +1,10 @@
 
 SET IDENTITY_INSERT [dbo].[Category] ON
+  if not exists(select 1 from Category where name='Century')
+  begin
+	  insert into Category (Name,CategoryParentID)
+	  values ('Century',0)
+  end
 INSERT [dbo].[Category] ([CategoryID], [Name], [CategoryParentID]) VALUES (1, N'DekSmart', 0)
 INSERT [dbo].[Category] ([CategoryID], [Name], [CategoryParentID]) VALUES (2, N'Long', 1)
 INSERT [dbo].[Category] ([CategoryID], [Name], [CategoryParentID]) VALUES (3, N'Parts', 1)
