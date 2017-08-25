@@ -13,6 +13,7 @@ using DataTables.AspNet.Core;
 using DataTables.AspNet.Mvc5;
 using CenDek.App_Helpers;
 using System.Data.Entity.Validation;
+using System.Configuration;
 
 namespace CenDek.Controllers
 {
@@ -118,6 +119,12 @@ namespace CenDek.Controllers
             }
 
             var custOrders = _dbContext.CustOrders.FirstOrDefault(n => n.CustOrderID == id);
+
+            if (custOrders.State > 2)
+            {
+                return RedirectToAction("OrderReview", "Order", new { id = id });
+            }
+
             var orderCustomer = _dbContext.Customers.Include("CustomerContacts").FirstOrDefault(x => x.CustomerID == custOrders.CustomerID);
             NewCustomerOrder model = new NewCustomerOrder();
 
@@ -447,8 +454,14 @@ namespace CenDek.Controllers
 
         public ActionResult GetAttachments(int id)
         {
+
+            return Json(new { Data = getFilesDetails(id) }, JsonRequestBehavior.AllowGet);
+        }
+
+        private List<AttachmentsModel> getFilesDetails(int id)
+        {
             var attachmentsList = new List<AttachmentsModel>();
-            var custOrders = _dbContext.CustOrders.FirstOrDefault(n => n.CustOrderID == id);
+            var custOrders = _dbContext.CustOrders.Include("Files").FirstOrDefault(n => n.CustOrderID == id);
             if (custOrders != null)
             {
                 string imagesPath = string.Format("{0}Images\\WallImages\\imagepath", Server.MapPath(@"\"));
@@ -461,12 +474,14 @@ namespace CenDek.Controllers
                 }
 
                 var filesFromDirectory = directory.GetFiles().ToList();  // getting all files from directory
-                foreach (var dirFile in filesFromDirectory)
+                foreach (var file in custOrders.Files)
                 {
-                    var i = dirFile.Length;
-                    var dirFileName = dirFile.Name;
-                    foreach (var file in custOrders.Files)
+
+                    foreach (var dirFile in filesFromDirectory)
                     {
+                        var i = dirFile.Length;
+                        var dirFileName = dirFile.Name;
+
                         if (dirFileName == file.Name)
                         {
                             attachmentsList.Add(
@@ -483,10 +498,7 @@ namespace CenDek.Controllers
                     }
                 }
             }
-
-
-
-            return Json(new { Data = attachmentsList }, JsonRequestBehavior.AllowGet);
+            return attachmentsList;
         }
 
         public ActionResult GetOrdersGrid(IDataTablesRequest request)
@@ -755,10 +767,10 @@ namespace CenDek.Controllers
 
         public ActionResult CompareOrder(int? id)
         {
-          
+
             if (id != null && id > 0)
             {
-                List<CompareOrderViewModel> custOrderPartList = new List<CompareOrderViewModel>();
+                CompareOrderViewModel custOrderPartList = new CompareOrderViewModel();
                 _dbContext.Configuration.LazyLoadingEnabled = false;
                 _dbContext.Configuration.ProxyCreationEnabled = false;
                 var tagsList = _dbContext.Tags.Include("OrderParts").Where(n => n.OrderID == id);
@@ -769,7 +781,14 @@ namespace CenDek.Controllers
                     {
                         var part = _dbContext.Parts.FirstOrDefault(n => n.PartID == orderPart.PartID);
                         var custOrderPart = GenerateCompareOrderViewModel(tag, orderPart, part, "", "");
-                        custOrderPartList.Add(custOrderPart);
+                        custOrderPartList.PartsDetail.Add(custOrderPart);
+
+                        var custOrder = _dbContext.CustOrders.Include("Employee").FirstOrDefault(n => n.CustOrderID == id); ;
+                        custOrderPartList.OrderNo = custOrder.CustOrderID;
+                        custOrderPartList.Employee = custOrder.Employee.FirstName + ' ' + custOrder.Employee.LastName;
+                        var FilesLIst = custOrder.Files.ToList<DataAccess.Models.File>();
+                        custOrderPartList.Files = getFilesDetails(custOrder.CustOrderID);
+
                     }
                 }
                 return View(custOrderPartList);
@@ -778,27 +797,29 @@ namespace CenDek.Controllers
             {
                 return RedirectToAction("Dashboard", "Order");
             }
-            
+
         }
 
         /// <summary>
         /// This method returns the Customer Order data by its id for Review.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
-        public ActionResult OrderReview(int? id)
+        /// <returns></returns> //todo remove
+        public ActionResult OrderReview_old(int? id)
         {
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
-           
+
 
             if (id != null && id > 0)
             {
                 OrderReviewViewModel viewModel = new OrderReviewViewModel();
-                List<CompareOrderViewModel> custOrderPartList = new List<CompareOrderViewModel>();
+                CompareOrderViewModel custOrderPartList = new CompareOrderViewModel();
 
                 viewModel.EmployeeDropdown = GenerateEmployeesDropdown(_dbContext.Employees.ToList());
                 viewModel.Currencies = _dbContext.Currencies.ToList();
+
+                #region Customer information
                 var custOrder = _dbContext.CustOrders.Include("Customer").FirstOrDefault(x => x.CustOrderID == id);
                 if (custOrder != null)
                 {
@@ -814,6 +835,9 @@ namespace CenDek.Controllers
                         viewModel.Carriers = orderCustomer.CustomerCarriers.ToList();
                     }
                 }
+                #endregion
+                double totalprice = 0;
+                #region Tag information
 
                 var tagsList = _dbContext.Tags.Include("OrderParts").Where(n => n.OrderID == id);
                 viewModel.Tags = tagsList.ToList();
@@ -839,24 +863,171 @@ namespace CenDek.Controllers
                             {
                                 measureUnit = unit.ShortDescription;
                             }
+                            totalprice += part.PriceID;
                         }
                         var custOrderPart = GenerateCompareOrderViewModel(tag, orderPart, part, fileName, measureUnit);
-                        custOrderPartList.Add(custOrderPart);
+                        custOrderPartList.PartsDetail.Add(custOrderPart);
                     }
                 }
-                if (custOrderPartList.Count > 0)
+                #endregion
+
+                #region Pricing Cad
+                bool gstneed = custOrder.Customer.GSTExempt;
+                bool pstneed = custOrder.Customer.PSTExempt;
+                double DekSmartDiscount = 0;
+
+                double GSTrate = Double.Parse(ConfigurationManager.AppSettings["GST"].ToString());
+                double PSTrate = Double.Parse(ConfigurationManager.AppSettings["PST"].ToString());
+                viewModel.PriceCad = new PricingCADModel()
                 {
-                    viewModel.OrderParts = custOrderPartList;
-                }
+                    GST = (custOrder.Customer.GSTExempt) ? totalprice * (GSTrate / 100) : 0,
+                    PST = (custOrder.Customer.PSTExempt) ? totalprice * (PSTrate / 100) : 0,
+                    PriceTotal = totalprice,
+                    PriceOrderDate = DateTime.Now.ToShortDateString(),
+                    Dicsount = DekSmartDiscount,
+                    SubTotal = totalprice - DekSmartDiscount
+                };
+                #endregion
+
+                viewModel.OrderParts = custOrderPartList;
+
                 return View(viewModel);
             }
             else
             {
                 return RedirectToAction("Dashboard", "Order");
             }
-           
-        }
 
+        }
+        public ActionResult OrderReview(int? id)
+        {
+            _dbContext.Configuration.LazyLoadingEnabled = false;
+            _dbContext.Configuration.ProxyCreationEnabled = false;
+
+
+            if (id != null && id > 0)
+            {
+                OrderReviewViewModel viewModel = new OrderReviewViewModel();
+                CompareOrderViewModel custOrderPartList = new CompareOrderViewModel();
+                
+                viewModel.Currencies = _dbContext.Currencies.ToList();
+
+
+
+                #region Customer information
+                var custOrder = _dbContext.CustOrders.Include("Customer").FirstOrDefault(x => x.CustOrderID == id);
+                if (custOrder != null)
+                {
+                    if (custOrder.State == (int)OrderStates.Review)
+                    {
+                        viewModel.EmployeeDropdown = GenerateEmployeesDropdown(_dbContext.Employees.ToList());
+
+                    }
+                    if (custOrder.State == (int)OrderStates.Approved)
+                    {
+                        var approvalEmployee = _dbContext.Employees.FirstOrDefault(n => n.EmployeeID == custOrder.ApproverID);
+                        viewModel.ApprovarName = approvalEmployee.FirstName + " " + approvalEmployee.LastName;
+
+                    }
+                    if (custOrder.State == (int)OrderStates.Quote)
+                    {
+
+                    }
+                    if (custOrder.State == (int)OrderStates.Shipping)
+                    {
+
+                    }
+                    if (custOrder.State == (int)OrderStates.WorkOrder)
+                    {
+
+                    }
+                    if (custOrder.State == (int)OrderStates.Invoiced)
+                    {
+
+                    }
+                    if (custOrder.State == (int)OrderStates.FinalInvoice)
+                    {
+
+                    }
+
+                    viewModel.StateUpdatedOn = custOrder.StateUpdatedOn.GetValueOrDefault().ToShortDateString();
+
+                    viewModel.Order = custOrder;
+                    viewModel.CustOrderId = custOrder.CustOrderID;
+                    custOrder.Customer.CustOrders = null;  // removing circular dependency
+                    var orderCustomer = _dbContext.Customers.Include("CustomerContacts").Include("CustomerCarriers").FirstOrDefault(x => x.CustomerID == custOrder.CustomerID);
+                    if (orderCustomer != null)
+                    {
+                        viewModel.Customer = orderCustomer;
+                        viewModel.CustomerContactId = orderCustomer.CustomerID;
+                        viewModel.ContactDropdown = GenerateCustomerContactsDropdown(orderCustomer.CustomerContacts.ToList());
+                        viewModel.Carriers = orderCustomer.CustomerCarriers.ToList();
+                    }
+                }
+                #endregion
+                double totalprice = 0;
+                #region Tag information
+
+                var tagsList = _dbContext.Tags.Include("OrderParts").Where(n => n.OrderID == id);
+                viewModel.Tags = tagsList.ToList();
+                foreach (var tag in tagsList)
+                {
+                    var orderparts = tag.OrderParts;
+                    foreach (var orderPart in orderparts)
+                    {
+                        var part = _dbContext.Parts.FirstOrDefault(n => n.PartID == orderPart.PartID);
+
+                        var fileName = "";
+                        var files = orderPart.Files.ToList();
+                        if (files.Count > 0)
+                        {
+                            // here we will be selecting only first file because we can add only a single file against an order part
+                            fileName = files[0].Name;
+                        }
+                        var measureUnit = "";
+                        if (part != null)
+                        {
+                            var unit = _dbContext.MeasUnits.FirstOrDefault(x => x.MeasUnitID == part.MeasUnitID);
+                            if (unit != null)
+                            {
+                                measureUnit = unit.ShortDescription;
+                            }
+                            totalprice += part.PriceID;
+                        }
+                        var custOrderPart = GenerateCompareOrderViewModel(tag, orderPart, part, fileName, measureUnit);
+                        custOrderPartList.PartsDetail.Add(custOrderPart);
+                    }
+                }
+                #endregion
+
+                #region Pricing Cad
+                bool gstneed = custOrder.Customer.GSTExempt;
+                bool pstneed = custOrder.Customer.PSTExempt;
+                double DekSmartDiscount = 0;
+
+                double GSTrate = Double.Parse(ConfigurationManager.AppSettings["GST"].ToString());
+                double PSTrate = Double.Parse(ConfigurationManager.AppSettings["PST"].ToString());
+                viewModel.PriceCad = new PricingCADModel()
+                {
+                    GST = (custOrder.Customer.GSTExempt) ? totalprice * (GSTrate / 100) : 0,
+                    PST = (custOrder.Customer.PSTExempt) ? totalprice * (PSTrate / 100) : 0,
+                    PriceTotal = totalprice,
+                    PriceOrderDate = DateTime.Now.ToShortDateString(),
+                    Dicsount = DekSmartDiscount,
+                    SubTotal = totalprice - DekSmartDiscount
+                };
+                #endregion
+
+                viewModel.OrderParts = custOrderPartList;
+
+                return View(viewModel);
+            }
+            else
+            {
+                return RedirectToAction("Dashboard", "Order");
+            }
+
+        }
         /// <summary>
         /// This function returns an object of CompareOrderVM that is used to create lists in grids for OrderReview and CompareOrder
         /// </summary>
@@ -866,9 +1037,9 @@ namespace CenDek.Controllers
         /// <param name="fileName"></param>
         /// <param name="measureUnit"></param>
         /// <returns></returns>
-        public CompareOrderViewModel GenerateCompareOrderViewModel(Tag tag, OrderPart orderPart, Part part, string fileName, string measureUnit)
+        public CompareOrderTagModel GenerateCompareOrderViewModel(Tag tag, OrderPart orderPart, Part part, string fileName, string measureUnit)
         {
-            var coVm = new CompareOrderViewModel
+            var coVm = new CompareOrderTagModel
             {
                 Tag = tag.TagName,
                 Profile = "",
@@ -1008,11 +1179,105 @@ namespace CenDek.Controllers
         {
             return View();
         }
-
-        public ActionResult OrderReviewApproved()
+        //todo remove this
+        public ActionResult OrderReviewApproved(int? id)
         {
-            OrderReviewViewModel viewModel = new OrderReviewViewModel();
-            return View(viewModel);
+            _dbContext.Configuration.LazyLoadingEnabled = false;
+            _dbContext.Configuration.ProxyCreationEnabled = false;
+
+
+            if (id != null && id > 0)
+            {
+                OrderReviewViewModel viewModel = new OrderReviewViewModel();
+                CompareOrderViewModel custOrderPartList = new CompareOrderViewModel();
+
+                viewModel.Currencies = _dbContext.Currencies.ToList();
+
+                #region Customer information
+                var custOrder = _dbContext.CustOrders.Include("Customer").FirstOrDefault(x => x.CustOrderID == id);
+                if (custOrder != null)
+                {
+                    viewModel.Order = custOrder;
+                    viewModel.CustOrderId = custOrder.CustOrderID;
+                    custOrder.Customer.CustOrders = null;  // removing circular dependency
+                    var orderCustomer = _dbContext.Customers.Include("CustomerContacts").Include("CustomerCarriers").FirstOrDefault(x => x.CustomerID == custOrder.CustomerID);
+                    if (orderCustomer != null)
+                    {
+                        viewModel.Customer = orderCustomer;
+                        viewModel.CustomerContactId = orderCustomer.CustomerID;
+                        viewModel.ContactDropdown = GenerateCustomerContactsDropdown(orderCustomer.CustomerContacts.ToList());
+                        viewModel.Carriers = orderCustomer.CustomerCarriers.ToList();
+                    }
+
+                    viewModel.StateUpdatedOn = custOrder.StateUpdatedOn.GetValueOrDefault().ToShortDateString();
+                    var approvalEmployee = _dbContext.Employees.FirstOrDefault(n => n.EmployeeID == custOrder.ApproverID);
+                    viewModel.ApprovarName = approvalEmployee.FirstName + " " + approvalEmployee.LastName;
+                }
+                #endregion
+
+
+
+                double totalprice = 0;
+                #region Tag information
+
+                var tagsList = _dbContext.Tags.Include("OrderParts").Where(n => n.OrderID == id);
+                viewModel.Tags = tagsList.ToList();
+                foreach (var tag in tagsList)
+                {
+                    var orderparts = tag.OrderParts;
+                    foreach (var orderPart in orderparts)
+                    {
+                        var part = _dbContext.Parts.FirstOrDefault(n => n.PartID == orderPart.PartID);
+
+                        var fileName = "";
+                        var files = orderPart.Files.ToList();
+                        if (files.Count > 0)
+                        {
+                            // here we will be selecting only first file because we can add only a single file against an order part
+                            fileName = files[0].Name;
+                        }
+                        var measureUnit = "";
+                        if (part != null)
+                        {
+                            var unit = _dbContext.MeasUnits.FirstOrDefault(x => x.MeasUnitID == part.MeasUnitID);
+                            if (unit != null)
+                            {
+                                measureUnit = unit.ShortDescription;
+                            }
+                            totalprice += part.PriceID;
+                        }
+                        var custOrderPart = GenerateCompareOrderViewModel(tag, orderPart, part, fileName, measureUnit);
+                        custOrderPartList.PartsDetail.Add(custOrderPart);
+                    }
+                }
+                #endregion
+
+                #region Pricing Cad
+                bool gstneed = custOrder.Customer.GSTExempt;
+                bool pstneed = custOrder.Customer.PSTExempt;
+                double DekSmartDiscount = 0;
+
+                double GSTrate = Double.Parse(ConfigurationManager.AppSettings["GST"].ToString());
+                double PSTrate = Double.Parse(ConfigurationManager.AppSettings["PST"].ToString());
+                viewModel.PriceCad = new PricingCADModel()
+                {
+                    GST = (custOrder.Customer.GSTExempt) ? totalprice * (GSTrate / 100) : 0,
+                    PST = (custOrder.Customer.PSTExempt) ? totalprice * (PSTrate / 100) : 0,
+                    PriceTotal = totalprice,
+                    PriceOrderDate = DateTime.Now.ToShortDateString(),
+                    Dicsount = DekSmartDiscount,
+                    SubTotal = totalprice - DekSmartDiscount
+                };
+                #endregion
+
+                viewModel.OrderParts = custOrderPartList;
+
+                return View(viewModel);
+            }
+            else
+            {
+                return RedirectToAction("Dashboard", "Order");
+            }
         }
 
         #region JSON Methods
@@ -1022,28 +1287,36 @@ namespace CenDek.Controllers
         /// <param name="partId"></param>
         /// <param name="tagId"></param>
         /// <returns></returns>
-        public JsonResult SaveOrderPartInOrderPartTag(int partId, int tagId)
+        public JsonResult SaveOrderPartInOrderPartTag(int partId, int tagId,int custOrderId)
         {
             bool status = false;
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
 
-            var orderPart = _dbContext.OrderParts.FirstOrDefault(x => x.PartID == partId);
-            if (orderPart != null && tagId > 0)
+            var custOrder = _dbContext.CustOrders.Include("Parts").FirstOrDefault(n => n.CustOrderID == custOrderId);
+            if (custOrder != null)
             {
-                try
+                var orderPart= custOrder.Parts.FirstOrDefault(x => x.PartID == partId);
+                if (orderPart != null && tagId > 0)
                 {
-                    Tag tag = _dbContext.Tags.FirstOrDefault(n => n.TagID == tagId);
-                    orderPart.Tags.Add(tag);
-                    _dbContext.SaveChanges();
-                    status = true;
-                }
-                catch (Exception e)
-                {
-                    status = false;
-                }
+                    try
+                    {
+                        Tag tag = _dbContext.Tags.FirstOrDefault(n => n.TagID == tagId);
+                        orderPart.Tags.Add(tag);
+                        _dbContext.SaveChanges();
+                        status = true;
+                    }
+                    catch (Exception e)
+                    {
+                        status = false;
+                    }
 
+                }
             }
+
+
+                
+           
 
             return Json(status, JsonRequestBehavior.AllowGet);
         }
@@ -1100,6 +1373,7 @@ namespace CenDek.Controllers
                     {
                         custOrder.State = (int)OrderStates.FinalInvoice;
                     }
+                    custOrder.StateUpdatedOn = DateTime.UtcNow;
 
                 }
                 try
@@ -1318,6 +1592,7 @@ namespace CenDek.Controllers
                         custOrder.ApproverID = approverId;
                         custOrder.PONum = poNumber;
                         custOrder.State = (int)OrderStates.Approved;
+                        custOrder.StateUpdatedOn = DateTime.UtcNow;
                         _dbContext.SaveChanges();
                         status = true;
                     }
@@ -1331,7 +1606,39 @@ namespace CenDek.Controllers
         }
 
         #endregion
+        public JsonResult CheckAllOrderPartsAreAddedToTag(int custOrderId)
+        {
+            _dbContext.Configuration.LazyLoadingEnabled = false;
+            _dbContext.Configuration.ProxyCreationEnabled = false;
+            List<int> orderPartIdsList = new List<int>();  // this list contains ids that are part of any of the tags
+            List<int> custOrderPartIdsList = new List<int>();  // this list contains ids that are added in the order
+            if (custOrderId > 0)
+            {
+                var custOrder = _dbContext.CustOrders.Include("Parts").FirstOrDefault(n => n.CustOrderID == custOrderId);
+                if (custOrder != null)
+                {
+                    custOrderPartIdsList.AddRange(custOrder.Parts.Select(orderPart => orderPart.OrderPartID));
+                }
 
+                var tagsList = _dbContext.Tags.Include("OrderParts").Where(n => n.OrderID == custOrderId);
+                foreach (var tag in tagsList)
+                {
+                    var orderparts = tag.OrderParts;
+                    foreach (var orderPart in orderparts)
+                    {
+                        if (orderPart != null)
+                        {
+                            orderPartIdsList.Add(orderPart.OrderPartID);
+                        }
+                    }
+                }
+                // here we are checking the difference between lists which are in custOrderPartList but not in orderPartList
+                // if there is any difference, status will be false
+                var status = !custOrderPartIdsList.Except(orderPartIdsList).Any();
+                return Json(status, JsonRequestBehavior.AllowGet);
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
         #region compare Order
         public JsonResult getCompareOrderInfo(int custOrderId)
         {

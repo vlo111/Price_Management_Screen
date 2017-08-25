@@ -6,8 +6,8 @@ var OrderJs = function () {
 
     $('#create_tag_btn').on('click', function () {
         var tagName = $('#tag_name').val();
-        var custOrderId = $('#custOrderID').val();
-        if (tagName != null && tagName !== "") {
+        var custOrderId = $('#custOrderId').val();
+        if (tagName !== null && tagName !== "") {
             createNewTag(tagName, custOrderId);
             $('#tag_name').val("");
         } else {
@@ -318,12 +318,12 @@ var OrderJs = function () {
         tableHead.appendChild(tableHeadRow); // appending TR in THEAD
 
         var tableBody = document.createElement('tbody'); // empty table body
-        if (data != null && data.length > 0) {
+        if (data !== null && data.length > 0) {
             var rowCount = $(tableBody).children().length;
             // this is the case when order is shown in edit mode and a tag has some order parts in it
             for (var i = 0; i < data.length; i++) {
                 var partObj = data[i].Part;
-                if (partObj != null) {
+                if (partObj !== null) {
                     var tableBodyRow = document.createElement('tr');
                     $(tableBodyRow).attr('data-partId', partObj.PartID);
                     var tableBodyRowCol1 = document.createElement('td');
@@ -509,7 +509,7 @@ var OrderJs = function () {
     }
 
     function getTagsForCurrentCustomerOrder() {
-        var custOrderId = $('#custOrderID').val();
+        var custOrderId = $('#custOrderId').val();
         $.ajax({
             dataType: "json",
             type: "GET",
@@ -517,7 +517,7 @@ var OrderJs = function () {
             url: "/Order/GetAllTagsByOrderId",
             data: { 'custOrderId': custOrderId },
             success: function (data) {
-                if (data != null) {
+                if (data !== null) {
                     OrderJs.renderTagsInView(data);
                 }
             }
@@ -525,12 +525,13 @@ var OrderJs = function () {
     }
 
     function saveOrderPartInOrderPartTag(partId, tagId) {
+        var custOrderId = $('#custOrderId').val();
         $.ajax({
             dataType: "json",
             type: "GET",
             async: false,
             url: "/Order/SaveOrderPartInOrderPartTag",
-            data: { 'partId': partId, 'tagId': tagId },
+            data: { 'partId': partId, 'tagId': tagId, 'custOrderId': custOrderId},
             success: function (data) {
                 if (data) {
                     toastr.success("Part successfully added into Tag");
@@ -564,7 +565,7 @@ var OrderJs = function () {
             //getting row count of the tbody
             var rowCount = $(activeTagTableBody).children().length;
             var item = part;
-            if (item != null) {
+            if (item !== null) {
                 check = checkIfPartAlreadyExistsInTag(activeTagTableBody, rowCount, item.PartID);
                 //check = false;
                 if (!check) {
@@ -613,7 +614,7 @@ var OrderJs = function () {
                 url: "/Order/GetPartAgainstId",
                 data: { 'partId': id },
                 success: function (data) {
-                    if (data != null) {
+                    if (data !== null) {
                         returnData = data;
                         //addPartToTag(return_data);
                     } else {
@@ -665,8 +666,58 @@ var OrderJs = function () {
         return false;
     }
 
+    function UpdateOrderState(State) {
+        var flag = checkAllPartsAreAddedInTags();
+        if (flag) {
+            $.ajax({
+                dataType: "json",
+                url: "/Order/UpdateOrderState",
+                async: false,
+                type: "POST",
+                data: { 'custOrderID': $('#custOrderId').val(), "State": State },
+                success: function (data) {
+                    if (State === 'Draft') {
+                        window.location.href = "/Dashboard/Index";
+                    } else if (State === 'Primary') {
+                        window.location.href = "/Dashboard/Index";
+                    } else if (State === 'Secondary') {
+
+                        window.location.href = "/Order/CompareOrder/" + $('#custOrderId').val();
+                    } else if (State === 'Review') {
+
+                        window.location.href = "/Order/OrderReview/" + $('#custOrderId').val();
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                failure: function (data) {
+
+                }
+            });
+        }
+    }
+    function checkAllPartsAreAddedInTags() {
+        var returnData;
+        $.ajax({
+            dataType: "json",
+            url: "/Order/CheckAllOrderPartsAreAddedToTag",
+            async: false,
+            type: "GET",
+            data: { 'custOrderID': $('#custOrderId').val() },
+            success: function (data) {
+                returnData = data;
+                if (data === false) {
+                    toastr.error("One of the Order Parts is not in any Tag. Add it to Selected Tag to Continue.");
+                }
+            },
+            failure: function (data) {
+
+            }
+        });
+        return returnData;
+    }
     $('#order_approve_btn').on('click', function () {
-        console.log("Approva")
+    
         var status = true;
         var custOrderId = $('#custOrderId').val();
         var approverId = $("#approvers option:selected").val();
@@ -689,9 +740,10 @@ var OrderJs = function () {
                 data: { "approverId": approverId, "poNumber": poNumber, "custOrderId": custOrderId },
                 success: function (data) {
                     if (data) {
-                        toastr.success("Order successfully approved.");
+                        toastr.success("Order successfully updated.");
+                        window.location.reload();
                     } else {
-                        toastr.error("An error occurred while approving order.");
+                        toastr.error("An error occurred while updating order.");
                     }
                 }
             });
@@ -702,6 +754,7 @@ var OrderJs = function () {
         createNewTag: createNewTag,
         renderTagsInView: renderTagsInView,
         getTagsForCurrentCustomerOrder: getTagsForCurrentCustomerOrder,
-        addPartToTag: addPartToTag
+        addPartToTag: addPartToTag,
+        UpdateOrderState: UpdateOrderState
     }
 }();

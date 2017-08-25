@@ -203,7 +203,7 @@
                                                         </span>
                                                     </span>
                                                 </div>
-                                                <input type="hidden" id="custOrderID" name="custOrderID" value="@ViewBag.OrderId" />
+                                                <input type="hidden" id="custOrderId" name="custOrderId" value="@ViewBag.OrderId" />
                                             </form>
                                         </div>
                                     </div>
@@ -643,7 +643,7 @@
                 "type": 'GET',
                 "data": function (d) {
                     d.OrderPartsIds = $('#hdnOrderPartIDs').val();
-                    d.custOrderID = $('#custOrderID').val();
+                    d.custOrderID = $('#custOrderId').val();
                     d.Category = $('#hdnCategory').val();
 
 
@@ -945,7 +945,7 @@
                 url: appRoot + "order/AttachPartWithOrder",
                 data: {
                     'PartsId': itemId,
-                    'custOrderID': $('#custOrderID').val()
+                    'custOrderID': $('#custOrderId').val()
                 },
                 success: function (response) {
                     if (response && response.status) {
@@ -988,7 +988,7 @@
 
                 });
                 var thisDropzone = this;
-                var custOrderID = $('#custOrderID').val();
+                var custOrderID = $('#custOrderId').val();
                 //Call the action method to load the images from the server
                 $.getJSON("/order/GetAttachments/" + custOrderID).done(function (data) {
                     if (data.Data != '') {
@@ -1046,7 +1046,7 @@
                 $.ajax({
                     type: 'POST',
                     url: "/order/RemoveAttachments",
-                    data: { 'custOrderID': $('#custOrderID').val(), "fileName": name },
+                    data: { 'custOrderID': $('#custOrderId').val(), "fileName": name },
                 });
                 var _ref;
                 return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
@@ -1061,49 +1061,24 @@
     <script>
 
         $('#btnSaveOrder').on('click', function () {
-            UpdateOrderState('Draft');
+            OrderJs.UpdateOrderState('Draft');
         });
 
         $('#btnComplete').on('click', function () {
-            UpdateOrderState('Primary');
+            OrderJs.UpdateOrderState('Primary');
         });
 
         $('#btnCompare').on('click', function () {
-            UpdateOrderState('Secondary');
+            OrderJs.UpdateOrderState('Secondary');
         });
 
         $('#btnReview').on('click', function () {
-            UpdateOrderState('Review');
+            OrderJs.UpdateOrderState('Review');
         });
-
-        function UpdateOrderState(State) {
-            $.ajax({
-                dataType: "json",
-                url: "/Order/UpdateOrderState",
-                async: false,
-                type: "POST",
-                data: { 'custOrderID': $('#custOrderID').val(), "State": State },
-                success: function (data) {
-                    if (State == 'Draft') {
-                        window.location.href = "/Dashboard/Index";
-                    } else if (State == 'Primary') {
-                        window.location.href = "/Dashboard/Index";
-                    } else if (State == 'Secondary') {
-                        //window.location.href = "/Order/CompareOrder?custOrderId=" + $('#custOrderID').val();
-                        window.location.href = "/Order/CompareOrder/" + $('#custOrderID').val();
-                    } else if (State == 'Review') {
-                        //window.location.href = "/Order/OrderReview?custOrderId=" + $('#custOrderID').val();
-                        window.location.href = "/Order/OrderReview/" + $('#custOrderID').val();
-                    }
-                },
-                failure: function (data) {
-
-                }
-            });
-        }
+        
 
         function removePartFrmTag(cntrl) {
-            var custOrderId = $('#custOrderID').val();
+            var custOrderId = $('#custOrderId').val();
             var parentTr = $(cntrl).parent().parent();
             $(parentTr).attr('data-custorderid', custOrderId);
             $(parentTr).attr('data-tobedeleted', "true");

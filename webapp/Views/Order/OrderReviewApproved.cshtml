@@ -1,7 +1,7 @@
 @model OrderReviewViewModel
 
 <!-- MAIN CONTENT -->
-<div id="content">
+<div id="content" name="OrderReview">
 
     <div class="row">
         <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
@@ -10,411 +10,546 @@
                 Orders
                 <span>
                     >
-                    Subtitle
+                    Review
                 </span>
             </h1>
         </div>
     </div>
-    <section id="widget-grid" class="">
+    <div id="widget-grid" class="">
         <!-- START ROW -->
         <div class="row">
-            <article class="col-sm-12 col-md-9 col-lg-9">
+            <article class="col-sm-12 col-md-12 col-lg-12">
                 <!-- NEW COL START -->
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <!-- Customer Div-->
-                    <div class="jarviswidget  jarviswidget-color-darken" id="wid-id-2" data-widget-colorbutton="false"
-                         data-widget-editbutton="false"
-                         data-widget-togglebutton="false"
-                         data-widget-deletebutton="false"
-                         data-widget-fullscreenbutton="false"
-                         data-widget-custombutton="false"
-                         data-widget-collapsed="false"
-                         data-widget-sortable="false" role="widget">
-                        <!-- widget div-->
-                        <header role="heading">
-                            <h2 class="font-md"><strong>Order</strong> <i>Details</i></h2>
-                            <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
-                        </header>
-                        <div role="content">
-                            <div class="orderDetailPanel">
-                                <!-- Customer Div-->
-                                <div class="col-sm-12 col-md-6 col-lg-4 panel panel-default">
+                <!-- Customer Div-->
+                <div class="jarviswidget  jarviswidget-color-darken" id="wid-id-2" data-widget-colorbutton="false"
+                     data-widget-editbutton="false"
+                     data-widget-togglebutton="false"
+                     data-widget-deletebutton="false"
+                     data-widget-fullscreenbutton="false"
+                     data-widget-custombutton="false"
+                     data-widget-collapsed="false"
+                     data-widget-sortable="false" role="widget">
+                    <!-- widget div-->
+                    <header role="heading">
+                        <h2 class="font-md"><strong>Order - </strong> <i>@Model.Order.CustOrderID</i></h2>
+                        <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+                    </header>
+                    <div role="content">
+                        <div class="orderDetailPanel">
+                            <!-- Customer Div-->
+                            <div class="col-sm-12 col-md-3 col-lg-3 panel panel-default">
 
-                                    <!-- widget content -->
-                                    <div class="widget-body">
-                                        <div id="checkout-form" class="form-horizontal bv-form" novalidate="novalidate">
+                                <!-- widget content -->
+                                <div class="widget-body">
+                                    <div class="smart-form" id="smart-form-register" novalidate="novalidate">
 
-                                            <fieldset>
-                                                <legend>
-                                                    <strong>Order Info</strong>
-                                                </legend>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group">
-                                                    <label class="control-label col-sm-5">Work Order No.</label>
-                                                    <div class="col-sm-7">
-                                                        <label class="form-control" name="workOrderno" data-bv-field="workOrderno">@Model.Order.CustOrderID</label>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group">
-                                                    <label class="control-label col-sm-5">Invoice No.</label>
-                                                    <div class="col-sm-7">
-                                                        <label class="form-control" name="invoiceNo" data-bv-field="invoiceNo">@Model.Order.InvoiceNo</label>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <legend>
-                                                    <strong>Customer</strong>
-                                                </legend>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <label class="col-md-5">Name</label>
-                                                    <div class="col-md-7">
+                                        <header>
+                                            <strong>Order Info</strong>
+
+                                        </header>
+                                        <fieldset>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Work Order No.</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="control-label" name="workOrderno" data-bv-field="workOrderno">@Model.Order.CustOrderID</label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label ">Invoice No.</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="control-label" name="invoiceNo" data-bv-field="invoiceNo">@Model.Order.InvoiceNo</label>
+                                                </section>
+                                            </div>
+                                        </fieldset>
+                                        <header>
+
+                                            <strong>Customer</strong>
+
+                                        </header>
+                                        <fieldset>
+                                            <div class="row">
+                                                <section class="col-md-5">
+                                                    <label class="control-label">Name</label>
+                                                </section>
+                                                <section class="col-md-7">
+                                                    <label class="select">
                                                         @Html.DropDownListFor(model => Model.CustomerContactId, new SelectList(Model.ContactDropdown, "ContactId", "Name"), "--Select--", new { @class = "form-control input-sm", @id = "customerContacts" })
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <label class="col-md-5">Company</label>
-                                                    <div class="col-md-7">
-                                                        <label class="control-label">
-                                                            @Model.Customer.Company
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <label class="col-md-5">Phone No.</label>
-                                                    <div class="col-md-7">
-                                                        <label class="control-label">@Model.Customer.PhoneNo</label>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <label class="col-md-5">Cell No.</label>
-                                                    <div class="col-md-7">
-                                                        <label class="control-label">@Model.Customer.Fax</label>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                    <!-- end widget content -->
-                                </div>
-                                <!-- Action Div-->
-                                <div class="col-sm-12 col-md-6 col-lg-4 panel panel-default">
-                                    <!-- widget content -->
-                                    <div class="widget-body">
-                                        <div class="form-horizontal bv-form" novalidate="novalidate">
-                                            <fieldset>
-                                                <legend>
-                                                    <strong>Action - Quote/Order</strong>
-                                                </legend>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <label class="col-md-12">Approved By: Victor 12 June 2017</label>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <div class="col-md-5">
-                                                        <button class="btn btn-primary">Quote</button>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <div class="col-md-5">
-                                                        <button class="btn btn-primary">Work Order</button>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <div class="col-md-5">
-                                                        <button class="btn btn-primary">Update Order</button>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
+                                                        <i>
+                                                        </i>
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col-md-5">
+                                                    <label class="control-label">Company</label>
+                                                </section>
+                                                <section class="col-md-7">
+                                                    <label class="control-label">
+                                                        @Model.Customer.Company
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col-md-5">
+                                                    <label class="control-label">Phone No.</label>
+                                                </section>
+                                                <section class="col-md-7">
+                                                    <label class="control-label">@Model.Customer.PhoneNo</label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col-md-5">
+                                                    <label class="control-label">Cell No.</label>
+                                                </section>
+                                                <section class="col-md-7">
+                                                    <label class="control-label">@Model.Customer.Fax</label>
+                                                </section>
+                                            </div>
+                                        </fieldset>
                                     </div>
                                 </div>
-                                <!-- Shipping Div-->
-                                <div class="col-sm-12 col-md-6 col-lg-4 panel panel-default">
-                                    <!-- widget content -->
-                                    <div class="widget-body">
-                                        <div class="form-horizontal" novalidate="novalidate">
-                                            <fieldset>
-                                                <legend>
-                                                    <strong>Shipping</strong>
-                                                </legend>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <span class="col-sm-6 no-padding">Shipping for Tag</span>
-                                                    <div class="col-sm-6 no-padding">
-                                                        @Html.DropDownListFor(model => Model.ShipmentTagId, new SelectList(Model.TagDropdown, "TagId", "Name"), "", new { @style = "width:100%", @id = "custOrderTags", multiple = "multiple" })
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <span class="col-sm-6 no-padding">Proposed Ship Date</span>
-                                                    <div class="col-sm-6 no-padding">
-                                                        <label class="input">
-                                                            @*<i class="icon-append fa fa-calendar"></i>*@
-                                                            <input type="text" name="ship_date" class="datepicker hasDatepicker form-control" data-dateformat="dd/mm/yy" id="dp1503314538839">
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <span class="col-sm-6 no-padding">Carrier</span>
-                                                    <div class="col-sm-6 no-padding">
-                                                        @Html.DropDownListFor(model => Model.CustomerContactId, new SelectList(Model.CarrierDropdown, "CarrierId", "Name"), "Select", new { @class = "form-control input-sm", @id = "carriers" })
-                                                        @*<input type="text" class="form-control pull-right" id="carrier"/>*@
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <span class="col-sm-6 no-padding">Charges</span>
-                                                    <div class="col-sm-6 no-padding">
-                                                        <input type="text" class="form-control pull-right" id="kitFeeValue" />
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <span class="col-sm-6 no-padding">Sales Person</span>
-                                                    <div class="col-sm-6 no-padding">
-                                                        <input type="text" class="form-control pull-right" id="kitFeeValue" />
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-group has-feedback">
-                                                    <span class="col-sm-6 no-padding">Payment Condition</span>
-                                                    <div class="col-sm-6 no-padding">
-                                                        <select class="input-xs form-control" id="paymentCondition">
+                                <!-- end widget content -->
+                            </div>
+                            <!-- Action Div-->
+                            <div class="col-sm-12 col-md-3 col-lg-3 panel panel-default">
+                                <!-- widget content -->
+                                <div class="widget-body">
+                                    <div class="smart-form" id="smart-form-register" novalidate="novalidate">
+                                        <header>
+                                            <strong>Action - Quote/Order</strong>
+
+                                        </header>
+                                        <fieldset>
+                                            <div class="row font-md">
+                                                <label>Approved By: @Model.ApprovarName @Model.ApprovalDate</label>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset>
+                                            <div class="row">
+                                                <button class="btn btn-primary btn-lg btn-block" onclick="sendQuote();">Quote</button>
+                                                <button class="btn btn-primary btn-lg btn-block">Work Order</button>
+                                                <button class="btn btn-primary btn-lg btn-block">Update Order</button>
+
+                                            </div>
+                                        </fieldset>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Shipping Div-->
+                            <div class="col-sm-12 col-md-3 col-lg-3 panel panel-default custom-scroll" style="overflow-y:scroll;">
+                                <!-- widget content -->
+                                <div class="widget-body">
+                                    <div class="form-horizontal smart-form" id="smart-form-register" novalidate="novalidate">
+                                        <header>
+                                            <strong>Shipping</strong>
+
+                                        </header>
+                                        <fieldset>
+                                            <div class="row">
+                                                <section class="col-sm-6">
+                                                    <label>Shipping for Tag</label>
+                                                </section>
+                                                <section class="col-sm-6">
+                                                    <label class="select">
+                                                        @Html.DropDownListFor(model => Model.ShipmentTagId, new SelectList(Model.Tags, "TagID", "TagName"), "", new { @style = "width:100%", @id = "custOrderTags", multiple = "multiple" })
+                                                        <i>
+                                                        </i>
+                                                    </label>
+                                                </section>
+                                            </div>
+
+
+
+                                            <div class="row">
+                                                <section class="col-sm-6">
+                                                    <label>Proposed Ship Date</label>
+                                                </section>
+                                                <section class="col-sm-6">
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-calendar"></i>
+                                                        <input type="text" name="ship_date" placeholder="dd/mm/yyyy" class="datepicker" data-dateformat="dd/mm/yy" id="ship_date">
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col-sm-6">
+                                                    <label>Carrier</label>
+                                                </section>
+                                                <section class="col-sm-6">
+                                                    <label class="select">
+                                                        @Html.DropDownListFor(model => Model.CarrierId, new SelectList(Model.Carriers, "CustomerCarrierID", "Account"), "Select", new { @class = "form-control input-sm", @id = "carriers" })
+                                                        <i>
+                                                        </i>
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col-sm-6">
+                                                    <label>Charges</label>
+                                                </section>
+                                                <section class="col-sm-6">
+                                                    <label class="input">
+                                                        <input type="text" id="kitFeeValue" />
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col-sm-6">
+                                                    <label>Sales Person</label>
+                                                </section>
+                                                <section class="col-sm-6">
+                                                    <label class="input">
+                                                        <input type="text" id="salesPerson" />
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col-sm-6">
+                                                    <label>Payment Condition</label>
+                                                </section>
+
+                                                <section class="col-sm-6">
+                                                    <label class="select">
+                                                        <select id="paymentCondition">
                                                             <option value="0">Select</option>
                                                             <option value="1">Alexandra</option>
                                                             <option value="2">Alice</option>
                                                             <option value="3">Anastasia</option>
                                                             <option value="4">Avelina</option>
                                                         </select>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                    <!-- end widget content -->
-                                </div>
-                                <!-- Tags Div-->
-
-                            </div>
-                        </div>
-                        <!-- end widget div -->
-                    </div>
-
-                </div>
-                <!-- END COL -->
-                <!-- NEW COL START -->
-                <article class="col-sm-12 col-md-12 col-lg-12">
-                    <div class="jarviswidget" id="PartsGrid" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-custombutton="false" role="widget">
-                        <header role="heading">
-                            @*<span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>*@
-                        </header>
-                        <!-- widget div-->
-                        <div class="well">
-                            <div class="widget-body no-padding">
-                                <!-- widget body text-->
-                                <div class="tab-content padding-10">
-                                    <div class="tab-pane fade active in" id="AllParts">
-                                        <div class="padding-10 custom-scroll" style="max-width: inherit; overflow-x: scroll;">
-                                            <div class="row">
-                                                <table id="PartsList" class="table table-striped table-bordered table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <td><strong>Tag</strong></td>
-                                                            <td><strong>Profile</strong></td>
-                                                            <td><strong>Colour</strong></td>
-                                                            <td><strong>Group</strong></td>
-                                                            <td><strong>Prod Id</strong></td>
-                                                            <td><strong>Description</strong></td>
-                                                            <td><strong>Custom</strong></td>
-                                                            <td><strong>Comment</strong></td>
-                                                            <td><strong>Qty</strong></td>
-                                                            <td><strong>Mea Unit</strong></td>
-                                                            <td><strong>Weight</strong></td>
-                                                            <td><strong>File</strong></td>
-                                                            <td><strong>Unit Sell</strong></td>
-                                                            <td><strong>Total</strong></td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @if (Model.OrderParts != null && Model.OrderParts.Count > 0)
-                                                        {
-                                                            foreach (var orderPart in Model.OrderParts)
-                                                            {
-                                                                <tr>
-                                                                    <td>@orderPart.Tag</td>
-                                                                    <td>@orderPart.Profile</td>
-                                                                    <td>@orderPart.Colour</td>
-                                                                    <td>@orderPart.Group</td>
-                                                                    <td>@orderPart.PartId</td>
-                                                                    <td>@orderPart.PartName</td>
-                                                                    <td>
-                                                                        @if (orderPart.Custom)
-                                                                        {
-                                                                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <i class="fa fa-times" aria-hidden="true"></i>
-                                                                        }
-                                                                    </td>
-                                                                    <td>@orderPart.Comment</td>
-                                                                    <td>@orderPart.Quantity</td>
-                                                                    <td></td>
-                                                                    <td>@orderPart.Weight</td>
-                                                                    <td>@orderPart.FileName</td>
-                                                                    <td></td>
-                                                                    <td>@orderPart.Total</td>
-                                                                </tr>
-                                                            }
-                                                        }
-                                                    </tbody>
-                                                </table>
+                                                        <i>
+                                                        </i>
+                                                    </label>
+                                                </section>
                                             </div>
-                                        </div>
+                                        </fieldset>
                                     </div>
                                 </div>
+                                <!-- end widget content -->
                             </div>
-                            <!-- end widget content -->
+                            <!-- Tags Div-->
+                            <!-- NEW COL START -->
+                            <div class="col-sm-12 col-md-3 col-lg-3 panel panel-default custom-scroll" style="overflow-y:scroll;" id="PricingSection">
+
+                                <div class="widget-body">
+                                    <div class="smart-form" id="smart-form-register" novalidate="novalidate">
+                                        <header>
+                                            <strong>Pricing - CAD</strong>
+
+                                        </header>
+                                        <fieldset>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Currency</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    @Html.DropDownListFor(model => Model.CurrencyId, new SelectList(Model.Currencies, "CurrencyID", "Code"), "Select", new { @class = "form-control input-sm", @id = "currencies" })
+                                                    <i>
+                                                    </i>
+                                                </section>
+
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Price Order Date</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-calendar"></i>
+                                                        <input type="text" name="PriceOrderDate" placeholder="dd/mm/yyyy" class="datepicker" data-dateformat="dd/mm/yy" id="priceOrderDate" value="@Model.PriceCad.PriceOrderDate">
+                                                    </label>
+                                                </section>
+
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Total</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="pull-right" id="totalValue">@Model.PriceCad.PriceTotal</label>
+                                                </section>
+
+
+                                            </div>
+                                            @*<div class="row">
+                                                    <section class="col-sm-5">
+                                                        <label class="control-label">Packaging</label>
+                                                    </section>
+                                                    <section class="col-sm-7">
+                                                        <label class="pull-right" id="totalValue">$90</label>
+
+                                                    </section>
+                                                </div>*@
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Discount</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="pull-right" id="totalValue">@Model.PriceCad.Dicsount</label>
+
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Sub Total</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="pull-right" id="totalValue">@Model.PriceCad.SubTotal</label>
+
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">PST</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="pull-right" id="pstValue">@Model.PriceCad.PST %</label>
+
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">GST</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="pull-right" id="gstValue">$ @Model.PriceCad.GST</label>
+
+                                                </section>
+                                            </div>
+                                            @*<div class="row">
+                                                    <section class="col-sm-5">
+                                                        <label class="control-label">HST</label>
+                                                    </section>
+                                                    <section class="col-sm-7">
+                                                        <label class="pull-right" id="hstValue">0 %</label>
+
+                                                    </section>
+                                                </div>*@
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Kit Processng Fee</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <input type="text" class="form-control pull-right" id="kitFeeValue" />
+
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Crate Fee</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <input type="text" class="form-control pull-right" id="crateFeeValue" />
+
+                                                </section>
+                                            </div>
+                                            @*<div class="row">
+                                                    <section class="col-sm-5">
+                                                        <label class="control-label">Packaging Fee</label>
+
+                                                    </section>
+                                                    <section class="col-sm-7">
+                                                        <input type="text" class="form-control pull-right" id="packFeeValue" />
+                                                    </section>
+
+                                                </div>*@
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Color Fee</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="input">
+                                                        <input type="text" class="form-control pull-right" id="colorFeeValue" />
+                                                    </label>
+                                                </section>
+
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-md-5">
+                                                    <label class="control-label">Freight</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="input">
+                                                        <input type="text" class="form-control pull-right" id="freightValue" />
+                                                    </label>
+                                                </section>
+
+
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-md-5">
+                                                    <label class="control-label">Balance Due</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="control-label" id="balanceDueValue">$ 90</label>
+                                                </section>
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- END COL -->
                         </div>
-                        <!-- end widget div -->
                     </div>
-                </article>
+                    <!-- end widget div -->
+
+
+                </div>
+                <div class="row">
+                    <article class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="padding-10 custom-scroll" style="max-width: inherit; overflow-x: scroll;">
+                            <div class="row">
+                                <table id="PartsList" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <td><strong>Tag</strong></td>
+                                            <td><strong>Profile</strong></td>
+                                            <td><strong>Colour</strong></td>
+                                            <td><strong>Group</strong></td>
+                                            <td><strong>Prod Id</strong></td>
+                                            <td><strong>Description</strong></td>
+                                            <td><strong>Custom</strong></td>
+                                            <td><strong>Comment</strong></td>
+                                            <td><strong>Qty</strong></td>
+                                            <td><strong>Mea Unit</strong></td>
+                                            <td><strong>Weight</strong></td>
+                                            <td><strong>File</strong></td>
+                                            <td><strong>Unit Sell</strong></td>
+                                            <td><strong>Total</strong></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.OrderParts != null && Model.OrderParts.PartsDetail != null && Model.OrderParts.PartsDetail.Count > 0)
+                                        {
+                                            foreach (var orderPart in Model.OrderParts.PartsDetail)
+                                            {
+                                                <tr>
+                                                    <td>@orderPart.Tag</td>
+                                                    <td>@orderPart.Profile</td>
+                                                    <td>@orderPart.Colour</td>
+                                                    <td>@orderPart.Group</td>
+                                                    <td>@orderPart.PartId</td>
+                                                    <td>@orderPart.PartName</td>
+                                                    <td>
+                                                        @if (orderPart.Custom)
+                                                        {
+                                                            <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                        }
+                                                    </td>
+                                                    <td>@orderPart.Comment</td>
+                                                    <td>@orderPart.Quantity</td>
+                                                    <td>@orderPart.MeasureUnit</td>
+                                                    <td>@orderPart.Weight</td>
+                                                    <td>@orderPart.FileName</td>
+                                                    <td></td>
+                                                    <td>@orderPart.Total</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </article>
+                </div>
                 <!-- END COL -->
             </article>
-            <article class="col-sm-12 col-md-3 col-lg-3" id="PricingSection">
-                <div class="jarviswidget jarviswidget-color-darken " id="wid-id-2" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" role="widget" style="">
-                    <header role="heading">
-                        <h2 class="font-md"><i>Pricing - CAD</i></h2>
-                        <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
-                    </header>
-                    <!-- widget div-->
-                    <div role="content">
-                        <div class="widget-body">
-                            <div class="form-horizontal pricing-form" novalidate="novalidate">
-                                <fieldset>
-                                    <div class="form-group has-feedback">
-                                        <label class="col-md-5">Currency</label>
-                                        <div class="col-sm-7">
-                                            <select class="input-sm currencyDropDown form-control" id="currency_dropdown">
-                                                <option value="0">Select</option>
-                                                <option value="1">Alexandra</option>
-                                                <option value="2">Alice</option>
-                                                <option value="3">Anastasia</option>
-                                                <option value="4">Avelina</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <div class="form-group has-feedback">
-                                        <label class="col-md-6">Price Order Date</label>
-                                        <div class="col-sm-6">
-                                            <input class="form-control datepicker" />
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <div class="form-group has-feedback">
-                                        <label class="col-md-6">Total</label>
-                                        <div class="col-sm-6">
-                                            <label class="pull-right" id="totalValue">$90</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <div class="form-group has-feedback">
-                                        <label class="col-md-6">Packaging</label>
-                                        <div class="col-sm-6">
-                                            <label class="pull-right" id="totalValue">$90</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <div class="form-group has-feedback">
-                                        <label class="col-md-6">Discount</label>
-                                        <div class="col-sm-6">
-                                            <label class="pull-right" id="totalValue">$90</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <div class="form-group has-feedback">
-                                        <label class="col-md-6">Sub Total</label>
-                                        <div class="col-sm-6">
-                                            <label class="pull-right" id="totalValue">$90</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <div class="form-group has-feedback">
-                                        <label class="col-md-6">PST</label>
-                                        <div class="col-sm-6">
-                                            <label class="pull-right" id="pstValue">0 %</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <div class="form-group has-feedback">
-                                        <label class="col-md-6">GST</label>
-                                        <div class="col-sm-6">
-                                            <label class="pull-right" id="gstValue">$ 4.69</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <div class="form-group has-feedback">
-                                        <label class="col-md-6">HST</label>
-                                        <div class="col-sm-6">
-                                            <label class="pull-right" id="hstValue">0 %</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <div class="form-group has-feedback">
-                                        <label class="col-md-6">Balance Due</label>
-                                        <div class="col-sm-6">
-                                            <label class="pull-right" id="balanceDueValue">$ 90</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
+
+
+
         </div>
         <!-- END ROW -->
-    </section>
+        @Html.HiddenFor(m => m.CustOrderId, new { @id = "custOrderId" })
+        <!-- Modal -->
+        <div class="modal fade" id="printEmailOrder" tabindex="-1" role="dialog" aria-labelledby="myModalprintEmailOrder" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
 
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalprintEmailOrder">Print / Email</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="smart-form">
+                            <fieldset>
+                                <section>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="radio">
+                                                <input type="radio" name="PrintEmail" checked="checked" value="Email">
+                                                <i></i>Email
+                                            </label>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="radio">
+                                                <input type="radio" name="PrintEmail" value="Print">
+                                                <i></i>Print
+                                            </label>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="control-label">
+                                                Name: @Model.Customer.Company
+                                            </label>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section id="EmailDiv">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="input">
+                                                <input type="email" name="email" value="" placeholder="email@xxx.com">
+                                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address</b>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </section>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button class="btn  btn-success" type="submit" id="save_order_part_edit_btn" data-dismiss="modal">Send</button>
+                        @Html.ActionLink("DownloadReport", "QuotationReport", "Report",new { format="pdf", CustOrderId =Model.CustOrderId}, null)
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Modal Ends -->
+
+    </div>
+    <!-- END MAIN CONTENT -->
 </div>
-<!-- END MAIN CONTENT -->
-
 <style>
     .orderDetailPanel {
         display: -webkit-box;
@@ -425,21 +560,43 @@
 
         .orderDetailPanel > div {
             margin: 0px 5px 15px 0px;
-        }
-
-        .orderDetailPanel .dropFile {
-            overflow-y: scroll;
-            max-height: 200px;
+            max-height: 400px;
         }
 </style>
 
 @section pagespecific {
 
     <script>
+        $("input[name$='PrintEmail']").click(function () {
+            var selection = $(this).val();
+            if (selection=="Email") {
+                $("section#EmailDiv").show();
+            } else {
+                $("section#EmailDiv").hide();
+            }
+        });
+        function sendQuote() {
+            //$('#printEmailOrder').on('shown.bs.modal', function () {
+            //    $(this).find('.modal-dialog').css({
+            //        width: 'auto',
+            //        height: 'auto',
+            //        'max-height': '100%'
+            //    });
+            //});
+            $('#printEmailOrder').modal('show');
+        }
         $("#custOrderTags").select2({
             placeholder: "Select",
             allowClear: true
         });
-        
+
+
+        $('[name="OrderReview"] #PartsList').dataTable({
+            "autoWidth": true,
+            "paging": false,
+            "info": false,
+            searching: false
+        }
+        )
     </script>
 }

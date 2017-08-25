@@ -32,6 +32,7 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
             this.Property(t => t.EmployeeID).HasColumnName("EmployeeID");
             this.Property(t => t.ApproverID).HasColumnName("ApproverID");
+            this.Property(t => t.StateUpdatedOn).HasColumnName("StateUpdatedOn"); 
             this.Property(t => t.CostTotal).HasColumnName("CostTotal");
             this.Property(t => t.CostCurrencyID).HasColumnName("CostCurrencyID");
             this.Property(t => t.SellTotal).HasColumnName("SellTotal");

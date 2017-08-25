@@ -20,109 +20,111 @@
         <div class="row">
             <article class="col-sm-12 col-md-12 col-lg-12">
                 <!-- NEW COL START -->
-                
-                    <!-- Customer Div-->
-                    <div class="jarviswidget  jarviswidget-color-darken" id="wid-id-2" data-widget-colorbutton="false"
-                         data-widget-editbutton="false"
-                         data-widget-togglebutton="false"
-                         data-widget-deletebutton="false"
-                         data-widget-fullscreenbutton="false"
-                         data-widget-custombutton="false"
-                         data-widget-collapsed="false"
-                         data-widget-sortable="false" role="widget">
-                        <!-- widget div-->
-                        <header role="heading">
-                            <h2 class="font-md"><strong>Order - </strong> <i>@Model.Order.CustOrderID</i></h2>
-                            <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
-                        </header>
-                        <div role="content">
-                            <div class="orderDetailPanel">
-                                <!-- Customer Div-->
-                                <div class="col-sm-12 col-md-3 col-lg-3 panel panel-default">
+                <!-- Customer Div-->
+                <div class="jarviswidget  jarviswidget-color-darken" id="wid-id-2" data-widget-colorbutton="false"
+                     data-widget-editbutton="false"
+                     data-widget-togglebutton="false"
+                     data-widget-deletebutton="false"
+                     data-widget-fullscreenbutton="false"
+                     data-widget-custombutton="false"
+                     data-widget-collapsed="false"
+                     data-widget-sortable="false" role="widget">
+                    <!-- widget div-->
+                    <header role="heading">
+                        <h2 class="font-md"><strong>Order - </strong> <i>@Model.Order.CustOrderID</i></h2>
+                        <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+                    </header>
+                    <div role="content">
+                        <div class="orderDetailPanel">
+                            <!-- Customer Div-->
+                            <div class="col-sm-12 col-md-3 col-lg-3 panel panel-default">
 
-                                    <!-- widget content -->
-                                    <div class="widget-body">
-                                        <div class="smart-form" id="smart-form-register" novalidate="novalidate">
+                                <!-- widget content -->
+                                <div class="widget-body">
+                                    <div class="smart-form" id="smart-form-register" novalidate="novalidate">
 
-                                            <header>
-                                                <strong>Order Info</strong>
+                                        <header>
+                                            <strong>Order Info</strong>
 
-                                            </header>
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col-sm-5">
-                                                        <label class="control-label">Work Order No.</label>
-                                                    </section>
-                                                    <section class="col-sm-7">
-                                                        <label class="control-label" name="workOrderno" data-bv-field="workOrderno">@Model.Order.CustOrderID</label>
-                                                    </section>
-                                                </div>
+                                        </header>
+                                        <fieldset>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Work Order No.</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="control-label" name="workOrderno" data-bv-field="workOrderno">@Model.Order.CustOrderID</label>
+                                                </section>
+                                            </div>
 
-                                                <div class="row">
-                                                    <section class="col-sm-5">
-                                                        <label class="control-label ">Invoice No.</label>
-                                                    </section>
-                                                    <section class="col-sm-7">
-                                                        <label class="control-label" name="invoiceNo" data-bv-field="invoiceNo">@Model.Order.InvoiceNo</label>
-                                                    </section>
-                                                </div>
-                                            </fieldset>
-                                            <header>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label ">Invoice No.</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="control-label" name="invoiceNo" data-bv-field="invoiceNo">@Model.Order.InvoiceNo</label>
+                                                </section>
+                                            </div>
+                                        </fieldset>
+                                        <header>
 
-                                                <strong>Customer</strong>
+                                            <strong>Customer</strong>
 
-                                            </header>
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col-md-5">
-                                                        <label class="control-label">Name</label>
-                                                    </section>
-                                                    <section class="col-md-7">
-                                                        <label class="select">
-                                                            @Html.DropDownListFor(model => Model.CustomerContactId, new SelectList(Model.ContactDropdown, "ContactId", "Name"), "--Select--", new { @class = "form-control input-sm", @id = "customerContacts" })
-                                                            <i>
-                                                            </i>
-                                                        </label>
-                                                    </section>
-                                                </div>
+                                        </header>
+                                        <fieldset>
+                                            <div class="row">
+                                                <section class="col-md-5">
+                                                    <label class="control-label">Name</label>
+                                                </section>
+                                                <section class="col-md-7">
+                                                    <label class="select">
+                                                        @Html.DropDownListFor(model => Model.CustomerContactId, new SelectList(Model.ContactDropdown, "ContactId", "Name"), "--Select--", new { @class = "form-control input-sm", @id = "customerContacts" })
+                                                        <i>
+                                                        </i>
+                                                    </label>
+                                                </section>
+                                            </div>
 
-                                                <div class="row">
-                                                    <section class="col-md-5">
-                                                        <label class="control-label">Company</label>
-                                                    </section>
-                                                    <section class="col-md-7">
-                                                        <label class="control-label">
-                                                            @Model.Customer.Company
-                                                        </label>
-                                                    </section>
-                                                </div>
+                                            <div class="row">
+                                                <section class="col-md-5">
+                                                    <label class="control-label">Company</label>
+                                                </section>
+                                                <section class="col-md-7">
+                                                    <label class="control-label">
+                                                        @Model.Customer.Company
+                                                    </label>
+                                                </section>
+                                            </div>
 
-                                                <div class="row">
-                                                    <section class="col-md-5">
-                                                        <label class="control-label">Phone No.</label>
-                                                    </section>
-                                                    <section class="col-md-7">
-                                                        <label class="control-label">@Model.Customer.PhoneNo</label>
-                                                    </section>
-                                                </div>
+                                            <div class="row">
+                                                <section class="col-md-5">
+                                                    <label class="control-label">Phone No.</label>
+                                                </section>
+                                                <section class="col-md-7">
+                                                    <label class="control-label">@Model.Customer.PhoneNo</label>
+                                                </section>
+                                            </div>
 
-                                                <div class="row">
-                                                    <section class="col-md-5">
-                                                        <label class="control-label">Cell No.</label>
-                                                    </section>
-                                                    <section class="col-md-7">
-                                                        <label class="control-label">@Model.Customer.Fax</label>
-                                                    </section>
-                                                </div>
-                                            </fieldset>
-                                        </div>
+                                            <div class="row">
+                                                <section class="col-md-5">
+                                                    <label class="control-label">Cell No.</label>
+                                                </section>
+                                                <section class="col-md-7">
+                                                    <label class="control-label">@Model.Customer.Fax</label>
+                                                </section>
+                                            </div>
+                                        </fieldset>
                                     </div>
-                                    <!-- end widget content -->
                                 </div>
-                                <!-- Action Div-->
-                                <div class="col-sm-12 col-md-3 col-lg-3 panel panel-default">
-                                    <!-- widget content -->
-                                    <div class="widget-body">
+                                <!-- end widget content -->
+                            </div>
+                            <!-- Action Div-->
+                            <div class="col-sm-12 col-md-3 col-lg-3 panel panel-default">
+                                <!-- widget content -->
+                                <div class="widget-body">
+                                    <!--Approve-->
+                                    @if (Model.Order.State == (int)OrderStates.Review)
+                                    {
                                         <div class="smart-form" id="smart-form-register" novalidate="novalidate">
                                             <header>
                                                 <strong>Action - Approve</strong>
@@ -159,149 +161,368 @@
                                                 <button class="btn btn-primary" id="order_approve_btn">Approve</button>
                                             </footer>
                                         </div>
-                                    </div>
-                                </div>
-                                <!-- Shipping Div-->
-                                <div class="col-sm-12 col-md-3 col-lg-3 panel panel-default custom-scroll" style="overflow-y:scroll;">
-                                    <!-- widget content -->
-                                    <div class="widget-body">
-                                        <div class="form-horizontal smart-form" id="smart-form-register" novalidate="novalidate">
+                                    }
+                                    <!--Quote-->
+                                    @if (Model.Order.State == (int)OrderStates.Approved)
+                                    {
+                                        <div class="smart-form" id="smart-form-register" novalidate="novalidate">
                                             <header>
-                                                <strong>Shipping</strong>
+                                                <strong>Action - Quote/Order</strong>
 
                                             </header>
                                             <fieldset>
+                                                <div class="row font-md">
+                                                    <label>Approved By: @Model.ApprovarName @Model.StateUpdatedOn</label>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
                                                 <div class="row">
-                                                    <section class="col-sm-6">
-                                                        <label>Shipping for Tag</label>
+                                                    <button class="btn btn-primary btn-lg btn-block" onclick="OrderJs.UpdateOrderState('Quote');">Quote</button>
+                                                    <button class="btn btn-primary btn-lg btn-block" onclick="OrderJs.UpdateOrderState('WorkOrder');">Work Order</button>
+                                                    <button class="btn btn-primary btn-lg btn-block">Update Order</button>
+
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    }
+                                    <!-- Before work Order-->
+                                    @if (Model.Order.State == (int)OrderStates.Quote)
+                                    {
+                                        <div class="smart-form" id="quote_div" novalidate="novalidate">
+                                            <header>
+                                                <strong>Action - Quote</strong>
+                                            </header>
+                                            <fieldset>
+                                                <div class="row font-md">
+                                                    <label>Quote Sent: @Model.StateUpdatedOn</label>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <div class="row">
+                                                    <button class="btn btn-primary btn-lg btn-block" onclick="OrderJs.UpdateOrderState('WorkOrder');">Work Order</button>
+                                                    <button class="btn btn-primary btn-lg btn-block">Update Order</button>
+                                                </div>
+                                                
+                                            </fieldset>
+                                        </div>
+                                    }
+                                    <!-- Shipping -->
+                                    @if (Model.Order.State == (int)OrderStates.Shipping)
+                                    {
+                                        <div class="smart-form" id="order_shipping_div" novalidate="novalidate">
+                                            <header>
+                                                <strong>Action - Order</strong>
+                                            </header>
+                                            <fieldset>
+                                                <div class="row">
+                                                    <section class="col-md-5">
+                                                        <label>Created:</label>
                                                     </section>
-                                                    <section class="col-sm-6">
-                                                        <label class="select">
-                                                            @Html.DropDownListFor(model => Model.ShipmentTagId, new SelectList(Model.Tags, "TagID", "TagName"), "", new { @style = "width:100%", @id = "custOrderTags", multiple = "multiple" })
-                                                            <i>
-                                                            </i>
-                                                        </label>
+                                                    <section class="col-md-7">
+                                                        <label>@Model.StateUpdatedOn</label>
                                                     </section>
                                                 </div>
-
-
-
                                                 <div class="row">
-                                                    <section class="col-sm-6">
-                                                        <label>Proposed Ship Date</label>
+                                                    <section class="col-md-5">
+                                                        <label>Shipping Date</label>
                                                     </section>
-                                                    <section class="col-sm-6">
+                                                    <section class="col-md-7">
                                                         <label class="input">
-                                                            <i class="icon-append fa fa-calendar"></i>
-                                                            <input type="text" name="ship_date" placeholder="dd/mm/yyyy" class="datepicker" data-dateformat="dd/mm/yy" id="ship_date">
+                                                            <input type="text" class="form-control pull-right" id="shpping_date" />
                                                         </label>
                                                     </section>
                                                 </div>
-
                                                 <div class="row">
-                                                    <section class="col-sm-6">
-                                                        <label>Carrier</label>
-                                                    </section>
-                                                    <section class="col-sm-6">
-                                                        <label class="select">
-                                                            @Html.DropDownListFor(model => Model.CarrierId, new SelectList(Model.Carriers, "CustomerCarrierID", "Account"), "Select", new { @class = "form-control input-sm", @id = "carriers" })
-                                                            <i>
-                                                            </i>
-                                                        </label>
+                                                    <section class="col-md-5">
+                                                        <button class="btn btn-primary" onclick="OrderJs.UpdateOrderState('Shipping');">Update Shpping Date</button>
                                                     </section>
                                                 </div>
-
                                                 <div class="row">
-                                                    <section class="col-sm-6">
-                                                        <label>Charges</label>
-                                                    </section>
-                                                    <section class="col-sm-6">
-                                                        <label class="input">
-                                                            <input type="text" id="kitFeeValue" />
-                                                        </label>
+                                                    <section class="col-md-5">
+                                                        <button class="btn btn-primary">Update Order</button>
                                                     </section>
                                                 </div>
-
+                                            </fieldset>
+                                            <footer style="background: none"></footer>
+                                        </div>
+                                    }
+                                    <!--Invoice-->
+                                    @if (Model.Order.State == (int)OrderStates.WorkOrder)
+                                    {
+                                        <div class="smart-form" id="order_shipping_div" novalidate="novalidate">
+                                            <header>
+                                                <strong>Action - Order</strong>
+                                            </header>
+                                            <fieldset>
                                                 <div class="row">
-                                                    <section class="col-sm-6">
-                                                        <label>Sales Person</label>
+                                                    <section class="col-md-5">
+                                                        <label>Created:</label>
                                                     </section>
-                                                    <section class="col-sm-6">
-                                                        <label class="input">
-                                                            <input type="text" id="salesPerson" />
-                                                        </label>
+                                                    <section class="col-md-7">
+                                                        <label>@Model.StateUpdatedOn</label>
                                                     </section>
                                                 </div>
-
                                                 <div class="row">
-                                                    <section class="col-sm-6">
-                                                        <label>Payment Condition</label>
+                                                    <section class="col-md-5">
+                                                        <label>Expected Delivery Date:</label>
                                                     </section>
-
-                                                    <section class="col-sm-6">
-                                                        <label class="select">
-                                                            <select id="paymentCondition">
-                                                                <option value="0">Select</option>
-                                                                <option value="1">Alexandra</option>
-                                                                <option value="2">Alice</option>
-                                                                <option value="3">Anastasia</option>
-                                                                <option value="4">Avelina</option>
-                                                            </select>
-                                                            <i>
-                                                            </i>
-                                                        </label>
+                                                    <section class="col-md-7">
+                                                        <label>@Model.StateUpdatedOn</label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col-md-5">
+                                                        <label>Confirmation Sent:</label>
+                                                    </section>
+                                                    <section class="col-md-7">
+                                                        <label>@Model.StateUpdatedOn</label>
+                                                    </section>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <div class="row">
+                                                        <button class="btn btn-primary btn-lg btn-block" onclick="OrderJs.UpdateOrderState('Invoiced');">Send Invoice</button>
+                                                        <button class="btn btn-primary btn-lg btn-block">Update Order</button>
+                                                </div>
+                                               
+                                            </fieldset>
+                                        </div>
+                                    }
+                                    <!--Final Invoice-->
+                                    @if (Model.Order.State == (int)OrderStates.Invoiced)
+                                    {
+                                        <div class="smart-form" id="order_shipping_div" novalidate="novalidate">
+                                            <header>
+                                                <strong>Action - Order</strong>
+                                            </header>
+                                            <fieldset>
+                                                <div class="row">
+                                                    <section class="col-md-5">
+                                                        <label>Created:</label>
+                                                    </section>
+                                                    <section class="col-md-7">
+                                                        <label>@Model.StateUpdatedOn</label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col-md-5">
+                                                        <label>Expected Delivery Date:</label>
+                                                    </section>
+                                                    <section class="col-md-7">
+                                                        <label>@Model.StateUpdatedOn</label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col-md-5">
+                                                        <label>Confirmation Sent:</label>
+                                                    </section>
+                                                    <section class="col-md-7">
+                                                        <label>@Model.StateUpdatedOn</label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col-md-5">
+                                                        <label>Invoice Sent:</label>
+                                                    </section>
+                                                    <section class="col-md-7">
+                                                        <label>@Model.StateUpdatedOn</label>
+                                                    </section>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <div class="row">
+                                                        <button class="btn btn-primary btn-lg btn-block" onclick="OrderJs.UpdateOrderState('FinalInvoice');">Send Final Invoice</button>
+                                                   
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    }
+                                    <!-- Order Delivered-->
+                                    @if (Model.Order.State == (int)OrderStates.FinalInvoice)
+                                    {
+                                        <div class="smart-form" id="order_shipping_div" novalidate="novalidate">
+                                            <header>
+                                                <strong>Action - Order</strong>
+                                            </header>
+                                            <fieldset>
+                                                <div class="row">
+                                                    <section class="col-md-5">
+                                                        <label>Created:</label>
+                                                    </section>
+                                                    <section class="col-md-7">
+                                                        <label>@Model.StateUpdatedOn</label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col-md-5">
+                                                        <label>Expected Delivery Date:</label>
+                                                    </section>
+                                                    <section class="col-md-7">
+                                                        <label>@Model.StateUpdatedOn</label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col-md-5">
+                                                        <label>Confirmation Sent:</label>
+                                                    </section>
+                                                    <section class="col-md-7">
+                                                        <label>@Model.StateUpdatedOn</label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col-md-5">
+                                                        <label>Invoice Paid:</label>
+                                                    </section>
+                                                    <section class="col-md-7">
+                                                        <label>@Model.StateUpdatedOn</label>
                                                     </section>
                                                 </div>
                                             </fieldset>
                                         </div>
-                                    </div>
-                                    <!-- end widget content -->
+                                    }
                                 </div>
-                                <!-- Tags Div-->
-                                <!-- NEW COL START -->
-                                <div class="col-sm-12 col-md-3 col-lg-3 panel panel-default custom-scroll" style="overflow-y:scroll;" id="PricingSection">
+                            </div>
+                            <!-- Shipping Div-->
+                            <div class="col-sm-12 col-md-3 col-lg-3 panel panel-default custom-scroll" style="overflow-y:scroll;">
+                                <!-- widget content -->
+                                <div class="widget-body">
+                                    <div class="form-horizontal smart-form" id="smart-form-register" novalidate="novalidate">
+                                        <header>
+                                            <strong>Shipping</strong>
 
-                                    <div class="widget-body">
-                                        <div class="smart-form" id="smart-form-register" novalidate="novalidate">
-                                            <header>
-                                                <strong>Pricing - CAD</strong>
-
-                                            </header>
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col-sm-5">
-                                                        <label class="control-label">Currency</label>
-                                                    </section>
-                                                    <section class="col-sm-7">
-                                                        @Html.DropDownListFor(model => Model.CurrencyId, new SelectList(Model.Currencies, "CurrencyID", "Code"), "Select", new { @class = "form-control input-sm", @id = "currencies" })
+                                        </header>
+                                        <fieldset>
+                                            <div class="row">
+                                                <section class="col-sm-6">
+                                                    <label>Shipping for Tag</label>
+                                                </section>
+                                                <section class="col-sm-6">
+                                                    <label class="select">
+                                                        @Html.DropDownListFor(model => Model.ShipmentTagId, new SelectList(Model.Tags, "TagID", "TagName"), "", new { @style = "width:100%", @id = "custOrderTags", multiple = "multiple" })
                                                         <i>
                                                         </i>
-                                                    </section>
-
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col-sm-5">
-                                                        <label class="control-label">Price Order Date</label>
-                                                    </section>
-                                                    <section class="col-sm-7">
-                                                        <label class="input">
-                                                            <i class="icon-append fa fa-calendar"></i>
-                                                            <input type="text" name="PriceOrderDate" placeholder="dd/mm/yyyy" class="datepicker" data-dateformat="dd/mm/yy" id="priceOrderDate">
-                                                        </label>
-                                                    </section>
-
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col-sm-5">
-                                                        <label class="control-label">Total</label>
-                                                    </section>
-                                                    <section class="col-sm-7">
-                                                        <label class="pull-right" id="totalValue">$90</label>
-                                                    </section>
+                                                    </label>
+                                                </section>
+                                            </div>
 
 
-                                                </div>
-                                                <div class="row">
+
+                                            <div class="row">
+                                                <section class="col-sm-6">
+                                                    <label>Proposed Ship Date</label>
+                                                </section>
+                                                <section class="col-sm-6">
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-calendar"></i>
+                                                        <input type="text" name="ship_date" placeholder="dd/mm/yyyy" class="datepicker" data-dateformat="dd/mm/yy" id="ship_date">
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col-sm-6">
+                                                    <label>Carrier</label>
+                                                </section>
+                                                <section class="col-sm-6">
+                                                    <label class="select">
+                                                        @Html.DropDownListFor(model => Model.CarrierId, new SelectList(Model.Carriers, "CustomerCarrierID", "Account"), "Select", new { @class = "form-control input-sm", @id = "carriers" })
+                                                        <i>
+                                                        </i>
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col-sm-6">
+                                                    <label>Charges</label>
+                                                </section>
+                                                <section class="col-sm-6">
+                                                    <label class="input">
+                                                        <input type="text" id="kitFeeValue" />
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col-sm-6">
+                                                    <label>Sales Person</label>
+                                                </section>
+                                                <section class="col-sm-6">
+                                                    <label class="input">
+                                                        <input type="text" id="salesPerson" />
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col-sm-6">
+                                                    <label>Payment Condition</label>
+                                                </section>
+
+                                                <section class="col-sm-6">
+                                                    <label class="select">
+                                                        <select id="paymentCondition">
+                                                            <option value="0">Select</option>
+                                                            <option value="1">Alexandra</option>
+                                                            <option value="2">Alice</option>
+                                                            <option value="3">Anastasia</option>
+                                                            <option value="4">Avelina</option>
+                                                        </select>
+                                                        <i>
+                                                        </i>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <!-- end widget content -->
+                            </div>
+                            <!-- Tags Div-->
+                            <!-- NEW COL START -->
+                            <div class="col-sm-12 col-md-3 col-lg-3 panel panel-default custom-scroll" style="overflow-y:scroll;" id="PricingSection">
+
+                                <div class="widget-body">
+                                    <div class="smart-form" id="smart-form-register" novalidate="novalidate">
+                                        <header>
+                                            <strong>Pricing - CAD</strong>
+
+                                        </header>
+                                        <fieldset>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Currency</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    @Html.DropDownListFor(model => Model.CurrencyId, new SelectList(Model.Currencies, "CurrencyID", "Code"), "Select", new { @class = "form-control input-sm", @id = "currencies" })
+                                                    <i>
+                                                    </i>
+                                                </section>
+
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Price Order Date</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-calendar"></i>
+                                                        <input type="text" name="PriceOrderDate" placeholder="dd/mm/yyyy" class="datepicker" data-dateformat="dd/mm/yy" id="priceOrderDate" value="@Model.PriceCad.PriceOrderDate">
+                                                    </label>
+                                                </section>
+
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Total</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="pull-right" id="totalValue">@Model.PriceCad.PriceTotal</label>
+                                                </section>
+
+
+                                            </div>
+                                            @*<div class="row">
                                                     <section class="col-sm-5">
                                                         <label class="control-label">Packaging</label>
                                                     </section>
@@ -309,112 +530,112 @@
                                                         <label class="pull-right" id="totalValue">$90</label>
 
                                                     </section>
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col-sm-5">
-                                                        <label class="control-label">Discount</label>
-                                                    </section>
-                                                    <section class="col-sm-7">
-                                                        <label class="pull-right" id="totalValue">$90</label>
-
-                                                    </section>
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col-sm-5">
-                                                        <label class="control-label">Sub Total</label>
-                                                    </section>
-                                                    <section class="col-sm-7">
-                                                        <label class="pull-right" id="totalValue">$90</label>
-
-                                                    </section>
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col-sm-5">
-                                                        <label class="control-label">PST</label>
-                                                    </section>
-                                                    <section class="col-sm-7">
-                                                        <label class="pull-right" id="pstValue">0 %</label>
-
-                                                    </section>
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col-sm-5">
-                                                        <label class="control-label">GST</label>
-                                                        </section>
-                                                        <section class="col-sm-7">
-                                                            <label class="pull-right" id="gstValue">$ 4.69</label>
+                                                </div>*@
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Discount</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="pull-right" id="totalValue">@Model.PriceCad.Dicsount</label>
 
                                                 </section>
-                                        </div>
-                                        <div class="row">
-                                            <section class="col-sm-5">
-                                                <label class="control-label">HST</label>
-                                            </section>
-                                            <section class="col-sm-7">
-                                                <label class="pull-right" id="hstValue">0 %</label>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Sub Total</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="pull-right" id="totalValue">@Model.PriceCad.SubTotal</label>
 
-                                            </section>
-                                        </div>
-                                        <div class="row">
-                                            <section class="col-sm-5">
-                                                <label class="control-label">Kit Processng Fee</label>
-                                            </section>
-                                            <section class="col-sm-7">
-                                                <input type="text" class="form-control pull-right" id="kitFeeValue" />
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">PST</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="pull-right" id="pstValue">@Model.PriceCad.PST %</label>
 
-                                            </section>
-                                        </div>
-                                        <div class="row">
-                                            <section class="col-sm-5">
-                                                <label class="control-label">Crate Fee</label>
-                                            </section>
-                                            <section class="col-sm-7">
-                                                <input type="text" class="form-control pull-right" id="crateFeeValue" />
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">GST</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="pull-right" id="gstValue">$ @Model.PriceCad.GST</label>
 
-                                            </section>
-                                        </div>
-                                        <div class="row">
-                                            <section class="col-sm-5">
-                                                <label class="control-label">Packaging Fee</label>
+                                                </section>
+                                            </div>
+                                            @*<div class="row">
+                                                    <section class="col-sm-5">
+                                                        <label class="control-label">HST</label>
+                                                    </section>
+                                                    <section class="col-sm-7">
+                                                        <label class="pull-right" id="hstValue">0 %</label>
 
-                                            </section>
-                                            <section class="col-sm-7">
-                                                <input type="text" class="form-control pull-right" id="packFeeValue" />
-                                            </section>
+                                                    </section>
+                                                </div>*@
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Kit Processng Fee</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <input type="text" class="form-control pull-right" id="kitFeeValue" />
 
-                                        </div>
-                                        <div class="row">
-                                            <section class="col-sm-5">
-                                                <label class="control-label">Color Fee</label>
-                                            </section>
-                                            <section class="col-sm-7">
-                                                <label class="input">
-                                                    <input type="text" class="form-control pull-right" id="colorFeeValue" />
-                                                </label>
-                                            </section>
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Crate Fee</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <input type="text" class="form-control pull-right" id="crateFeeValue" />
 
-                                        </div>
-                                        <div class="row">
-                                            <section class="col-md-5">
-                                                <label class="control-label">Freight</label>
-                                            </section>
-                                            <section class="col-sm-7">
-                                                <label class="input">
-                                                    <input type="text" class="form-control pull-right" id="freightValue" />
-                                                </label>
-                                            </section>
+                                                </section>
+                                            </div>
+                                            @*<div class="row">
+                                                    <section class="col-sm-5">
+                                                        <label class="control-label">Packaging Fee</label>
+
+                                                    </section>
+                                                    <section class="col-sm-7">
+                                                        <input type="text" class="form-control pull-right" id="packFeeValue" />
+                                                    </section>
+
+                                                </div>*@
+                                            <div class="row">
+                                                <section class="col-sm-5">
+                                                    <label class="control-label">Color Fee</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="input">
+                                                        <input type="text" class="form-control pull-right" id="colorFeeValue" />
+                                                    </label>
+                                                </section>
+
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-md-5">
+                                                    <label class="control-label">Freight</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="input">
+                                                        <input type="text" class="form-control pull-right" id="freightValue" />
+                                                    </label>
+                                                </section>
 
 
-                                        </div>
-                                        <div class="row">
-                                            <section class="col-md-5">
-                                                <label class="control-label">Balance Due</label>
-                                            </section>
-                                            <section class="col-sm-7">
-                                                <label class="control-label" id="balanceDueValue">$ 90</label>
-                                            </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-md-5">
+                                                    <label class="control-label">Balance Due</label>
+                                                </section>
+                                                <section class="col-sm-7">
+                                                    <label class="control-label" id="balanceDueValue">$ 90</label>
+                                                </section>
 
-                                        </div>
+                                            </div>
                                         </fieldset>
                                     </div>
                                 </div>
@@ -424,10 +645,10 @@
                         </div>
                     </div>
                     <!-- end widget div -->
-             
 
-        </div>
-                <div class="row" >
+
+                </div>
+                <div class="row">
                     <article class="col-sm-12 col-md-12 col-lg-12">
                         <div class="padding-10 custom-scroll" style="max-width: inherit; overflow-x: scroll;">
                             <div class="row">
@@ -451,9 +672,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if (Model.OrderParts != null && Model.OrderParts.Count > 0)
+                                        @if (Model.OrderParts != null && Model.OrderParts.PartsDetail != null && Model.OrderParts.PartsDetail.Count > 0)
                                         {
-                                            foreach (var orderPart in Model.OrderParts)
+                                            foreach (var orderPart in Model.OrderParts.PartsDetail)
                                             {
                                                 <tr>
                                                     <td>@orderPart.Tag</td>
@@ -489,18 +710,18 @@
 
                     </article>
                 </div>
-        <!-- END COL -->
-        </article>
+                <!-- END COL -->
+            </article>
 
-        
 
-    </div>
-    <!-- END ROW -->
+
+        </div>
+        <!-- END ROW -->
         @Html.HiddenFor(m => m.CustOrderId, new { @id = "custOrderId" })
 
-</div>
-<!-- END MAIN CONTENT -->
     </div>
+    <!-- END MAIN CONTENT -->
+</div>
 <style>
     .orderDetailPanel {
         display: -webkit-box;
@@ -512,11 +733,7 @@
         .orderDetailPanel > div {
             margin: 0px 5px 15px 0px;
             max-height: 400px;
-           
         }
-
-      
-
 </style>
 
 @section pagespecific {
