@@ -46,7 +46,7 @@
 
                         <ul id="Tab1" class="nav nav-tabs bordered">
                             <li class="active">
-                                <a href="#s1" data-toggle="tab" aria-expanded="false"><i class="fa fa-fw fa-lg fa-address-card"></i> Company Details</a>
+                                <a href="#s1" data-toggle="tab" aria-expanded="false"><i class="fa fa-fw fa-lg fa-address-card"></i> Customer Details</a>
                             </li>
                             <li>
                                 <a href="#s2" data-toggle="tab" aria-expanded="false"><i class="fa fa-fw fa-lg fa-users"></i> Contacts</a>
@@ -70,10 +70,30 @@
                                 <div class="padding-10">
                                     <h1><strong>@Html.ValidationMessage("Error", new { @class = "text-danger" })</strong></h1>
                                     <div class="row">
-                                        @Html.Partial("Partial_Views/UpdateCompanyDetails", Model)
+                                        @Html.Partial("Partial_Views/EditCustomer", Model)
                                     </div>
                                 </div>
-
+                                <!-- BEGIN CONTACT CONFIRM DELETE MODAL -->
+                                <div id="DeleteCustomerConfirm" class="modal fade">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 id="DeleteCustomerConfirmTitle" class="modal-title">Confirmation</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p id="DeleteCustomerConfirmMessage"><i class="fa fa-fw fa-lg fa-exclamation-triangle redIcon"></i>This action only works for customers that don't have any orders and other associated data yet. This action cannot be undone.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button id="DeleteCustomerConfirmYes" type="button" class="btn btn-primary">Yes</button>
+                                                <button id="DeleteCustomerConfirmNo" type="button" class="btn btn-default">No</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END CONTACT CONFIRM DELETE MODAL -->
                             </div>
                             <!-- BEGIN CONTACTS HTML -->
                             <div class="tab-pane fade" id="s2">
@@ -136,26 +156,6 @@
                                             </div>
                                         </div>
                                         <!-- END CONTACT CONFIRM DELETE MODAL -->
-                                        <!-- BEGIN CONTACT MESSAGE MODAL -->
-                                        <div id="contactMessageDialog" class="modal fade">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        <h4 id="contactMessageDialogTitle" class="modal-title">Message</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p><i class="fa fa-fw fa-lg fa-exclamation-triangle redIcon"></i><span id="contactMessageDialogMessage"></span></p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button id="contactMessageDialogOk" type="button" class="btn btn-primary">OK</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- END CONTACT MESSAGE MODAL -->
                                     </div>
                                 </div>
                             </div>
@@ -187,18 +187,16 @@
                             <div class="tab-pane fade" id="s5">
                                 <div class="row">
                                     <div class="col-sm-12 text-align-left">
-
-
                                         <!-- Modal -->
-                                        <div class="modal fade" id="newShippingAddress" tabindex="-1" role="dialog" aria-labelledby="newShippingAddress">
+                                        <div class="modal fade" id="AddEditShippingAddressModal" tabindex="-1" role="dialog" aria-labelledby="AddEditShippingAddressModal">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                        <h4 class="modal-title" id="myModalLabel">Add New Shipping Address</h4>
+                                                        <h4 class="modal-title" id="AddEditShippingAddressModalTitle">Add New Shipping Address</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        @Html.Partial("Partial_Views/NewShippingAddress", new DataAccess.Models.ShippingAddress { CustomerID = Model.CustomerID })
+                                                        @Html.Partial("Partial_Views/AddEditShippingAddress", new DataAccess.Models.ShippingAddress { CustomerID = Model.CustomerID })
                                                     </div>
                                                 </div>
                                             </div>
@@ -233,7 +231,7 @@
                                     </div>
 
                                     <div class="padding-10">
-                                        <table id="Carriers" class="table table-striped table-bordered table-hover"></table>
+                                        <table id="Carriers" class="table table-striped table-bordered table-hover" style="width:100%"></table>
                                     </div>
                                 </div>
 
@@ -248,6 +246,26 @@
 
             </div>
         </div>
+        <!-- BEGIN MESSAGE MODAL -->
+        <div id="MessageDialog" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 id="MessageDialogTitle" class="modal-title">Message</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><i id="MessageDialogIcon"></i><span id="MessageDialogMessage"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="MessageDialogOk" type="button" class="btn btn-primary">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END MESSAGE MODAL -->
     </div>
 
 <!-- END MAIN CONTENT -->
@@ -330,7 +348,7 @@
                 initComplete: function() {
                     $('.new-carrier').parent().html('<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newCarrier"> <i class="fa fa-plus"></i> New Carrier </button>')
                 },
-                "autoWidth": true,
+                "autoWidth": false,
                 "preDrawCallback": function() {
                     // Initialize the responsive datatables helper once.
                     if (!responsiveHelper_Carriers) {
@@ -345,19 +363,18 @@
                 }
             });
 
-            $('#updateCompanyDetailsForm').on('submit', function (e) {
+            $('#EditCustomerForm').on('submit', function (e) {
                 e.preventDefault();
                 var form = $(this);
                 if (form.valid()) {
                     $.ajax({
                         type: "POST",
-                        url: appRoot + "customer/UpdateCompanyDetails",
+                        url: appRoot + "customer/UpdateCustomer",
                         data: form.serialize(),
                     })
                     .done(function (data) {
-                        //append success message
                         if (data.success) {
-                            console.log("Saved");
+                            MessageDialog("Customer information updated!", false);
                         }
                         else {
                             $('#UpdateCompanyError').text(data.responseText);
@@ -371,6 +388,21 @@
                     });
                 }
                 return false;
+            });
+
+            $('#DeleteCustomer').on('click', function () {
+
+                $("#DeleteCustomerConfirmTitle").html("Really delete customer <strong>" + @Model.CustomerID + "</strong>?");
+
+                $("#DeleteCustomerConfirmYes").off('click').click(function () {
+                    DeleteCustomer(@Model.CustomerID);
+                });
+
+                $("#DeleteCustomerConfirmNo").off('click').click(function () {
+                    $("#DeleteCustomerConfirm").modal("hide");
+                });
+
+                $("#DeleteCustomerConfirm").modal("show");
             });
 
             $('#newCustomerCarrierButton').on('click', function() {
@@ -423,6 +455,16 @@
 
             // Clear contact modal fields on hide
             $('#contactModal').on('hidden.bs.modal', function() {
+
+                // Remove any form validation artifacts.
+                $(this).each(function () {
+                    $(this).find(".field-validation-error").empty();
+                    $(this).find(".input-validation-error").removeClass("input-validation-error");
+                    $(this).find(".state-error").removeClass("state-error");
+                    $(this).find(".state-success").removeClass("state-success");
+                    $(this).trigger('reset.unobtrusiveValidation');
+                });
+
                 var modal = $(this);
                 modal.find('#First').val('');
                 modal.find('#Last').val('');
@@ -454,6 +496,16 @@
 
             // Clear contact info modal fields on hide.
             $('#contactInfoModal').on('hidden.bs.modal', function() {
+
+                // Remove any form validation artifacts.
+                $(this).each(function () {
+                    $(this).find(".field-validation-error").empty();
+                    $(this).find(".input-validation-error").removeClass("input-validation-error");
+                    $(this).find(".state-error").removeClass("state-error");
+                    $(this).find(".state-success").removeClass("state-success");
+                    $(this).trigger('reset.unobtrusiveValidation');
+                });
+
                 var modal = $(this);
                 modal.find("#Name").val("");
                 modal.find("#Contact").val("");
@@ -477,7 +529,27 @@
                     ReloadContactCards();
                 });
             });
+
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                var tab = $(e.target).attr("href"); // activated tab
+                if (tab == "#s1") {
+                    EnableDisableDeleteCustomerButton();
+                }
+            });
+
+            EnableDisableDeleteCustomerButton();
         });
+
+        function EnableDisableDeleteCustomerButton() {
+            $.ajax({
+                type: "GET",
+                url: appRoot + "customer/OkToDelete",
+                data: { customerId: @Model.CustomerID }
+            })
+            .success(function (result) {
+                $('#DeleteCustomer').prop("disabled", !result.OkToDelete);
+            });
+        }
 
         // *** END JQUERY DOCUMENT READY SECTION ***
 
@@ -504,6 +576,7 @@
             $("#deleteContactConfirmTitle").html("Really delete <strong>" + name + "</strong>?");
 
             $("#deleteContactConfirmYes").off('click').click(function() {
+
                 DeleteCustomerContact(contactId);
             });
 
@@ -566,7 +639,7 @@
             var validation = ContactEditValidationFailed(field, value);
             if (validation) {
                 value = prev;  // Failed validation. Restore to previous value.
-                ContactMessageDialog(validation);
+                MessageDialog(validation, true);
             }
 
             var display = value == "" ? ContactEditPlaceholder(field)  : value;
@@ -721,15 +794,24 @@
         }
 
         // Show a modal dialog containing a message.
-        function ContactMessageDialog(message) {
+        function MessageDialog(message, alert) {
 
-            $("#contactMessageDialogMessage").html(message);
+            $("#MessageDialogIcon").removeClass();
 
-            $("#contactMessageDialogOk").off('click').click(function () {
-                $("#contactMessageDialog").modal("hide");
+            if (alert) {
+                $("#MessageDialogIcon").addClass("fa fa-fw fa-lg fa-exclamation-triangle redIcon");
+            }
+            else {
+                $("#MessageDialogIcon").addClass("fa fa-fw fa-lg fa-check greenIcon");
+            }
+
+            $("#MessageDialogMessage").html(message);
+
+            $("#MessageDialogOk").off('click').click(function () {
+                $("#MessageDialog").modal("hide");
             });
 
-            $("#contactMessageDialog").modal("show");
+            $("#MessageDialog").modal("show");
         }
 
         // When the check icon is clicked, if the contact info is not already primary contact, remove primary contact from
@@ -749,6 +831,30 @@
         }
 
         // *** END CUSTOMER CONTACTS ***
+
+        function DeleteCustomer(customerId) {
+
+            $.ajax({
+                type: "POST",
+                url: appRoot + "customer/DeleteCustomer",
+                data: { "CustomerID": customerId },
+            })
+            .success(function(result) {
+
+                if (!result.success) {
+                    MessageDialog("Customer delete failed! Error message was:<br><br>" + result.responseText, true);
+                }
+                else {
+                    window.location = "../../customer";
+                }
+
+                $("#DeleteCustomerConfirm").modal("hide");
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                MessageDialog("Customer delete failed! Error message was:<br><br>" + textStatus, true);
+                $("#DeleteCustomerConfirm").modal("hide");
+            });
+        }
 
     </script>
 }

@@ -19,8 +19,12 @@ div.dataTables_wrapper div.dataTables_filter input {
 
 /* BEGIN CUSTOMER CONTACT CARDS */
 
+.comments {
+    height: 200px !important;
+}
+
 div.card {
-    width: 300px;
+    width: 375px;
     transition: 0.3s;
     padding: 2px 16px;
     border-radius: 5px;

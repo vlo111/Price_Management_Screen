@@ -74,7 +74,14 @@
                 {
                     name: 'address1',
                     data: "address1",
-                    title: "Address",
+                    title: "Address 1",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'address2',
+                    data: "address2",
+                    title: "Address 2",
                     sortable: true,
                     searchable: true
                 },
@@ -89,6 +96,13 @@
                     name: 'province',
                     data: "province",
                     title: "Province",
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'country',
+                    data: "country",
+                    title: "Country",
                     sortable: true,
                     searchable: true
                 }
@@ -135,6 +149,16 @@
 
         // Clear contact modal fields on hide
         $('#newCustomerModal').on('hidden.bs.modal', function () {
+
+            // Remove any form validation artifacts.
+            $(this).each(function () {
+                $(this).find(".field-validation-error").empty();
+                $(this).find(".input-validation-error").removeClass("input-validation-error");
+                $(this).find(".state-error").removeClass("state-error");
+                $(this).find(".state-success").removeClass("state-success");
+                $(this).trigger('reset.unobtrusiveValidation');
+            });
+
             var modal = $(this);
             modal.find('#Company').val('');
             modal.find('#PhoneNo').val('');

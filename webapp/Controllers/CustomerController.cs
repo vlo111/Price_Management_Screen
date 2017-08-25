@@ -54,6 +54,20 @@ namespace CenDek.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult> DeleteCustomer(int? customerId)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _customerService.DeleteCustomer(customerId);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Delete customer failed" });
+            }
+        }
+
         public async Task<ActionResult> Detail(int id)
         {
             var customer = await _dbContext.Customers.FindAsync(id);
@@ -103,6 +117,34 @@ namespace CenDek.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult> UpdateShippingAddress(ShippingAddress updatedShippingAddress)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _shippingAddressService.UpdateShippingAddress(updatedShippingAddress);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Update customer contact failed" });
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteShippingAddress(int? shippingAddressId)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _shippingAddressService.DeleteShippingAddress(shippingAddressId);
+                return Json(response);
+            }
+            else
+            {
+                return Json(new { success = false, responseText = "Delete shipping address failed" });
+            }
+        }
+
         // *** END SHIPPING ADDRESS ***
 
         [HttpPost]
@@ -123,17 +165,23 @@ namespace CenDek.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdateCompanyDetails(Customer companyDetails)
+        public async Task<ActionResult> UpdateCustomer(Customer updatedCustomer)
         {
             if (ModelState.IsValid)
             {
-                var response = await _customerService.UpdateCustomer(companyDetails);
-                return Json(response);
+                if (updatedCustomer.DekSmartDiscount >= 0 && updatedCustomer.DekSmartDiscount <= 100)
+                {
+                    var response = await _customerService.UpdateCustomer(updatedCustomer);
+                    return Json(response);
+                }
+                else
+                {
+                    return Json(new { success = false, responseText = "Customer Update Failed! DekSmart Discount must be in the range 0 to 100." });
+                }
             }
             else
             {
-                return Json(new { success = false, responseText = "Customer Save Failed" });
-
+                return Json(new { success = false, responseText = "Customer Update Failed" });
             }
 
         }
@@ -141,26 +189,51 @@ namespace CenDek.Controllers
         public ActionResult GetCustomers(IDataTablesRequest request)
         {
             string search = request.Search.Value;
+
+            int searchInt = 0;
+
+            try
+            {
+                searchInt = Int32.Parse(search);
+            }
+            catch (Exception)
+            {
+                searchInt = 0;
+            }
+
             _dbContext.Configuration.LazyLoadingEnabled = false;
             _dbContext.Configuration.ProxyCreationEnabled = false;
             var data = _dbContext.Customers;
             var filteredData = data.Where(
                                             _item =>
-                                            _item.Address1.Contains(request.Search.Value) ||
-                                            _item.Address2.Contains(request.Search.Value) ||
-                                            _item.City.Contains(request.Search.Value) ||
-                                            _item.Comments.Contains(request.Search.Value) ||
-                                            _item.Company.Contains(request.Search.Value) ||
-                                            _item.Country.Contains(request.Search.Value) ||
-                                            _item.Fax.Contains(request.Search.Value) ||
-                                            _item.PhoneNo.Contains(request.Search.Value) ||
-                                            _item.PostalCode.Contains(request.Search.Value) ||
+                                            _item.CustomerID == searchInt                     ||
+                                            _item.Address1.Contains(request.Search.Value)     ||
+                                            _item.Address2.Contains(request.Search.Value)     ||
+                                            _item.City.Contains(request.Search.Value)         ||
+                                            //_item.Comments.Contains(request.Search.Value)   ||  // Some items are excluded because they aren't in the grid and so the match can be confusing.
+                                            _item.Company.Contains(request.Search.Value)      ||
+                                            _item.Country.Contains(request.Search.Value)      ||
+                                            //_item.Fax.Contains(request.Search.Value)        ||
+                                            //_item.PhoneNo.Contains(request.Search.Value)    ||
+                                            //_item.PostalCode.Contains(request.Search.Value) ||
                                             _item.Province.Contains(request.Search.Value)
                                           );
             var orderColums = request.Columns.Where(x => x.Sort != null);
             var dataPage = filteredData.OrderBy(orderColums).Skip(request.Start).Take(request.Length);
             var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
             return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult OkToDelete(int customerId)
+        {
+            int count = 0;
+            Customer customer = _dbContext.Customers.Where(x => x.CustomerID == customerId).Single();
+            count += _dbContext.CustOrders.Where(x => x.CustomerID == customerId).Count();
+            count += _dbContext.CustomerContacts.Where(x => x.CustomerID == customerId).Count();
+            count += _dbContext.CustomerCarriers.Where(x => x.CustomerID == customerId).Count();
+            count += _dbContext.ShippingAddresses.Where(x => x.CustomerID == customerId).Count();
+            return Json(new { OkToDelete = count == 0 }, JsonRequestBehavior.AllowGet);
         }
 
         // *** BEGIN CUSTOMER CONTACTS ***

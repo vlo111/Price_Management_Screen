@@ -12,6 +12,7 @@ namespace CenDek.Services
     {
         Task<int> AddNewCustomer(Customer newCustomer);
         Task<Object> UpdateCustomer(Customer updatedCustomer);
+        Task<Object> DeleteCustomer(int? customerId);
     }
 
     public class CustomerService : ICustomerService
@@ -38,7 +39,11 @@ namespace CenDek.Services
                 customer.PostalCode = updatedCustomer.PostalCode;
                 customer.Comments = updatedCustomer.Comments;
                 customer.Country = updatedCustomer.Country;
-                //customer.Created = DateTime.UtcNow;
+                customer.DekSmartDiscount = updatedCustomer.DekSmartDiscount;
+                customer.GSTExempt = updatedCustomer.GSTExempt;
+                customer.PSTExempt = updatedCustomer.PSTExempt;
+                customer.ShipCharges = updatedCustomer.ShipCharges;
+                customer.Packaging = updatedCustomer.Packaging;
                 customer.Modified = DateTime.UtcNow;
                 await _dbContext.SaveChangesAsync();
                 return new { success = true, responseText = "Customer Saved" };
@@ -55,6 +60,8 @@ namespace CenDek.Services
             newCustomer.Modified = DateTime.Now;
             newCustomer.GSTExempt = false;
             newCustomer.PSTExempt = false;
+            newCustomer.ShipCharges = "Collect";
+            newCustomer.Packaging = 4;
 
             _dbContext.Customers.Add(newCustomer);
 
@@ -69,6 +76,22 @@ namespace CenDek.Services
                 throw;
             }
             return newCustomer.CustomerID;
+        }
+
+        public async Task<Object> DeleteCustomer(int? customerId)
+        {
+            try
+            {
+                Customer customer = _dbContext.Customers.Where(x => x.CustomerID == customerId).Single();
+                _dbContext.Customers.Remove(customer);
+
+                await _dbContext.SaveChangesAsync();
+                return new { success = true, responseText = "Customer deleted" };
+            }
+            catch (Exception ex)
+            {
+                return new { success = false, responseText = ex.InnerException.InnerException.Message };
+            }
         }
     }
 }

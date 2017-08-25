@@ -1,5 +1,26 @@
 ﻿@model DataAccess.Models.Customer
-<table id="Shipping" class="table table-striped table-bordered table-hover"></table>
+<table id="Shipping" class="table table-striped table-bordered table-hover" style="width:100%"></table>
+<!-- BEGIN CONTACT CONFIRM DELETE MODAL -->
+<div id="deleteShippingAddressConfirm" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 id="deleteShippingAddressConfirmTitle" class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p id="deleteShippingAddressConfirmMessage"><i class="fa fa-fw fa-lg fa-exclamation-triangle redIcon"></i>This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="deleteShippingAddressConfirmYes" type="button" class="btn btn-primary">Yes</button>
+                <button id="deleteShippingAddressConfirmNo" type="button" class="btn btn-default">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END CONTACT CONFIRM DELETE MODAL -->
 <script>
     $(document).ready(function () {
 
@@ -87,6 +108,32 @@
                     title: "Comments",
                     sortable: true,
                     searchable: true
+                },
+                {
+                    name: 'edit',
+                    data: "edit",
+                    title: "Edit",
+                    sortable: false,
+                    searchable: false
+                },
+                {
+                    name: 'delete',
+                    data: "delete",
+                    title: "Delete",
+                    sortable: false,
+                    searchable: false
+                }
+            ],
+            "columnDefs": [
+                {
+                    "targets": -2,
+                    "data": null,
+                    "defaultContent": "<button>Edit</button>"
+                },
+                {
+                    "targets": -1,
+                    "data": null,
+                    "defaultContent": "<button>Delete</button>"
                 }
             ],
             dom: "<'dt-toolbar'<'col-xs-12 col-sm-6 col-md-3 col-lg-2'B><'col-xs-12 col-sm-6 col-md-6 col-lg-8'f><'hidden-sm hidden-xs col-md-3 col-lg-2'l>r>" +
@@ -94,15 +141,15 @@
             "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
             buttons: [
                 {
-                    className: "new-shipping-address",
+                    className: "add-edit-shipping-address",
                     text: ''
                 }
 
             ],
             initComplete: function () {
-                $('.new-shipping-address').parent().html('<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newShippingAddress"> <i class="fa fa-plus"></i> New Shipping Address </button>')
+                $('.add-edit-shipping-address').parent().html('<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#AddEditShippingAddressModal"> <i class="fa fa-plus"></i> New Shipping Address </button>')
             },
-            "autoWidth": true,
+            "autoWidth": false,
             "preDrawCallback": function () {
                 // Initialize the responsive datatables helper once.
                 if (!responsiveHelper_Shipping) {
@@ -117,12 +164,23 @@
             }
         });
 
-        $('#newShippingAddress').on('shown.bs.modal', function () {
-            $.validator.unobtrusive.parse('#newShipAddressForm');
+        $('#AddEditShippingAddressModal').on('shown.bs.modal', function () {
+            $.validator.unobtrusive.parse('#AddEditShippingAddressForm');
+
         });
 
         // Clear contact modal fields on hide
-        $('#newShippingAddress').on('hidden.bs.modal', function () {
+        $('#AddEditShippingAddressModal').on('hidden.bs.modal', function () {
+
+            // Remove any form validation artifacts.
+            $(this).each(function () {
+                $(this).find(".field-validation-error").empty();
+                $(this).find(".input-validation-error").removeClass("input-validation-error");
+                $(this).find(".state-error").removeClass("state-error");
+                $(this).find(".state-success").removeClass("state-success");
+                $(this).trigger('reset.unobtrusiveValidation');
+            });
+
             var modal = $(this);
             modal.find('#Address1').val('');
             modal.find('#Address2').val('');
@@ -131,18 +189,31 @@
             modal.find('#Country').val('');
             modal.find('#PostalCode').val('');
             modal.find('#Comments').val('');
+            modal.find('#AddEditShippingAddressId').val('');
+            modal.find('#AddEditShippingAddressMode').val('add');
+            $("#AddEditShippingAddressModalTitle").html("Add New Shipping Address");
         });
 
-        $('#newShippingAddress').on('submit', '#newShipAddressForm', function (e) {
+        $('#AddEditShippingAddressModal').on('submit', '#AddEditShippingAddressForm', function (e) {
+
             e.preventDefault();
             var form = $(this);
+            var url;
+
+            if ($("#AddEditShippingAddressMode").val() == "add") {
+                url = appRoot + "customer/AddShippingAddress";
+            }
+            else if ($("#AddEditShippingAddressMode").val() == "edit") {
+                url = appRoot + "customer/UpdateShippingAddress";
+            }
+
             $.ajax({
                 type: "POST",
-                url: appRoot + "customer/AddShippingAddress",
+                url: url,
                 data: form.serialize(),
             })
             .done(function () {
-                $('#newShippingAddress').modal('hide');
+                $('#AddEditShippingAddressModal').modal('hide');
                 $('#Shipping').DataTable().ajax.reload();
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
@@ -151,5 +222,56 @@
             });
             return false;
         });
+
+        $('#Shipping tbody').on('click', 'button', function () {
+
+            var data = shippingDT.row($(this).parents('tr')).data();
+
+            if (this.innerHTML == "Edit") {
+                $("#AddEditShippingAddressModalTitle").html("Edit Shipping Address");
+                var modal = $("#AddEditShippingAddressModal").modal();
+                modal.find('#Address1').val(data.address1);
+                modal.find('#Address2').val(data.address2);
+                modal.find('#City').val(data.city);
+                modal.find('#Province').val(data.province);
+                modal.find('#Country').val(data.country);
+                modal.find('#PostalCode').val(data.postalCode);
+                modal.find('#Comments').val(data.comments);
+                modal.find('#ShippingAddressID').val(data.shippingAddressID);
+                modal.find('#AddEditShippingAddressMode').val("edit");
+                $("#AddEditShippingAddressModal").modal("show");
+            }
+            else {
+                ShippingAddressDeleteClick(data.shippingAddressID, data.address1);
+            }
+        });
     });
+
+    function ShippingAddressDeleteClick(shippingAddressId, address1) {
+
+        $("#deleteShippingAddressConfirmTitle").html("Really delete <strong>" + address1 + "</strong>?");
+
+        $("#deleteShippingAddressConfirmYes").off('click').click(function () {
+            DeleteShippingAddress(shippingAddressId);
+        });
+
+        $("#deleteShippingAddressConfirmNo").off('click').click(function () {
+            $("#deleteShippingAddressConfirm").modal("hide");
+        });
+
+        $("#deleteShippingAddressConfirm").modal("show");
+    }
+
+    function DeleteShippingAddress(shippingAddressId) {
+
+        $.ajax({
+            type: "POST",
+            url: appRoot + "customer/DeleteShippingAddress",
+            data: { "ShippingAddressID": shippingAddressId },
+        })
+        .success(function () {
+            $('#Shipping').DataTable().ajax.reload();
+            $("#deleteShippingAddressConfirm").modal("hide");
+        });
+    }
 </script>

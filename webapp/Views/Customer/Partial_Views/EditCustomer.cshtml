@@ -1,9 +1,9 @@
 ﻿@model DataAccess.Models.Customer
 @{
-    ViewBag.Title = "UpdateCompanyDetails";
+    ViewBag.Title = "EditCustomer";
 }
 
-@using (Html.BeginForm("UpdateCompanyDetails", "Customer", FormMethod.Post, new { @class = "form-group", role = "form", id = "updateCompanyDetailsForm" }))
+@using (Html.BeginForm("EditCustomer", "Customer", FormMethod.Post, new { @class = "form-group", role = "form", id = "EditCustomerForm" }))
 {
     <header role="heading">
         <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
@@ -20,10 +20,10 @@
         <!-- end widget edit box -->
         <!-- widget content -->
         <div class="widget-body">
-
             <div id="update-company-details-form" class="smart-form" novalidate="novalidate">
                 <fieldset>
                     @Html.HiddenFor(model => model.CustomerID)
+                    <legend>Customer ID: <strong>@Html.DisplayFor(model => model.CustomerID)</strong></legend>
                     <section>
                         <label for="CompanyName" class="input">
                             @Html.TextBoxFor(model => model.Company, new { @placeholder = Html.DisplayNameFor(n => n.Company) })
@@ -48,7 +48,6 @@
                         </section>
                     </div>
                 </fieldset>
-
                 <fieldset>
                     <legend>Billing Address</legend>
 
@@ -83,30 +82,8 @@
 
                         <section class="col col-2">
                             <label class="select">
-                                <select data-val="true" id="Country" name="Country">
-                                    @if (Model.Country == "Canada")
-                                    {
-                                        <option value="Not Set">Choose Country</option>
-                                        <option value="Canada" selected>Canada</option>
-                                        <option value="US">United States</option>
-                                    }
-                                    else if (Model.Country == "US")
-                                    {
-                                        <option value="Not Set">Choose Country</option>
-                                        <option value="Canada">Canada</option>
-                                        <option value="US" selected>United States</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="Not Set">Choose Country</option>
-                                        <option value="Canada">Canada</option>
-                                        <option value="United States">United States</option>
-                                    }
-                                </select>
-                                <i>
-                                </i>
-                                @*@Html.TextBoxFor(model => model.Country, new { placeholder = Html.DisplayNameFor(n => n.Country) })
-                                    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })*@
+                                @Html.DropDownListFor(model => model.Country, new SelectList(new string[] { "Canada", "United States" }, Model.Country), "Country")
+                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
                             </label>
                         </section>
 
@@ -117,24 +94,64 @@
                             </label>
                         </section>
                     </div>
-
+                </fieldset>
+                <fieldset>
+                    <legend>Comments</legend>
                     <section>
                         <label class="textarea">
-                            @Html.TextAreaFor(model => model.Comments, new { placeholder = Html.DisplayNameFor(n => n.Comments) })
+                            @Html.TextAreaFor(model => model.Comments, new { placeholder = Html.DisplayNameFor(n => n.Comments), @class = "comments" })
                             @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
                         </label>
                     </section>
                 </fieldset>
-
+                <fieldset>
+                    <legend>Other</legend>
+                    <div class="row">
+                        <section class="col col-3">
+                            DekSmart Discount
+                            <label class="input">
+                                <i class="icon-prepend fa fa-percent"></i>
+                                @Html.TextBoxFor(model => model.DekSmartDiscount, new { @placeholder = Html.DisplayNameFor(n => n.DekSmartDiscount), aria_required = "true", @aria_invalid = "false", @class = "valid" })
+                                @Html.ValidationMessageFor(model => model.DekSmartDiscount, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                        <section class="col col-3">
+                            Packaging
+                            <label class="input">
+                                <i class="icon-prepend fa fa-percent"></i>
+                                @Html.TextBoxFor(model => model.Packaging, new { @placeholder = Html.DisplayNameFor(n => n.Packaging), aria_required = "true", @aria_invalid = "false", @class = "valid" })
+                                @Html.ValidationMessageFor(model => model.Packaging, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                        <section class="col col-3">
+                            Ship Charges
+                            <label class="select">
+                                @Html.DropDownListFor(model => model.ShipCharges, new SelectList(new string[] { "Collect", "Prepaid", "None" }, Model.ShipCharges))
+                                @Html.ValidationMessageFor(model => model.ShipCharges, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                    </div>
+                    <div class="row">
+                        <section class="col col-6">
+                            <label class="">
+                                GST Exempt
+                                @Html.CheckBoxFor(model => model.GSTExempt)
+                                @Html.ValidationMessageFor(model => model.GSTExempt, "", new { @class = "text-danger" })
+                            </label>&nbsp;&nbsp;&nbsp;
+                            <label class="">
+                                PST Exempt
+                                @Html.CheckBoxFor(model => model.PSTExempt)
+                                @Html.ValidationMessageFor(model => model.PSTExempt, "", new { @class = "text-danger" })
+                            </label>
+                        </section>
+                    </div>
+                </fieldset>
             </div>
-
         </div>
         <!-- end widget content -->
-
+        <button type="submit" class="btn btn-primary" id="UpdateCustomerSubmit" style="margin-left: 15px;">Save changes</button>
+        <span id="UpdateCompanyError" style="margin-left: 25px;" class="text-danger field-validation-error"></span>
     </div>
     <!-- end widget div -->
-    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-    <button type="submit" class="btn btn-primary" id="newContactSubmit">Save changes</button>    <span id="UpdateCompanyError" style="margin-left: 25px;" class="text-danger field-validation-error" ></span>
-
 }
-
+<button class="btn btn-primary" id="DeleteCustomer" style="margin-left: 15px;" >Delete Customer</button>

@@ -12,6 +12,8 @@ namespace CenDek.Services
     public interface IShippingAddressService
     {
         Task<int> AddShippingAddress(ShippingAddress newShippingAddress);
+        Task<Object> UpdateShippingAddress(ShippingAddress updatedShippingAddress);
+        Task<Object> DeleteShippingAddress(int? shippingAddressId);
     }
 
     public class ShippingAddressService : IShippingAddressService
@@ -44,6 +46,43 @@ namespace CenDek.Services
             }
 
             return newShippingAddress.ShippingAddressID;
+        }
+
+        public async Task<Object> UpdateShippingAddress(ShippingAddress updatedShippingAddress)
+        {
+            try
+            {
+                ShippingAddress shippingAddress = await _dbContext.ShippingAddresses.FindAsync(updatedShippingAddress.ShippingAddressID);
+                shippingAddress.Address1 = updatedShippingAddress.Address1;
+                shippingAddress.Address2 = updatedShippingAddress.Address2;
+                shippingAddress.City = updatedShippingAddress.City;
+                shippingAddress.Comments = updatedShippingAddress.Comments;
+                shippingAddress.Country = updatedShippingAddress.Country;
+                shippingAddress.PostalCode = updatedShippingAddress.PostalCode;
+                shippingAddress.Province = updatedShippingAddress.Province;
+                await _dbContext.SaveChangesAsync();
+                return new { success = true, responseText = "Shipping address updated" };
+            }
+            catch (Exception)
+            {
+                return new { success = false, responseText = "Shipping address update failed" };
+            }
+        }
+
+        public async Task<Object> DeleteShippingAddress(int? shippingAddressId)
+        {
+            try
+            {
+                ShippingAddress ship = _dbContext.ShippingAddresses.Where(x => x.ShippingAddressID == shippingAddressId).Single();
+                _dbContext.ShippingAddresses.Remove(ship);
+
+                await _dbContext.SaveChangesAsync();
+                return new { success = true, responseText = "Shipping address deleted" };
+            }
+            catch (Exception)
+            {
+                return new { success = false, responseText = "Shipping address delete failed" };
+            }
         }
     }
 }

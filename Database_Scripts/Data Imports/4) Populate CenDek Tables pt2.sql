@@ -1,4 +1,5 @@
-
+Alter Table dbo.price
+drop Column PriceID
 
 insert into dbo.ProductLine values ('Deksmart', null);
 go

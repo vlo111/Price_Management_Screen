@@ -14,9 +14,6 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.Company)
                 .IsRequired();
 
-            this.Property(t => t.PhoneNo)
-                .IsRequired();
-
             this.Property(t => t.Address1)
                 .HasMaxLength(150);
             
@@ -53,6 +50,10 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.Comments).HasColumnName("Comments");
             this.Property(t => t.GSTExempt).HasColumnName("GSTExempt");
             this.Property(t => t.PSTExempt).HasColumnName("PSTExempt");
+            this.Property(t => t.DekSmartDiscount).HasColumnName("DekSmartDiscount");
+            this.Property(t => t.ShipCharges).HasColumnName("ShipCharges");
+            this.Property(t => t.Packaging).HasColumnName("Packaging");
+
         }
     }
 }
