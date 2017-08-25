@@ -21,6 +21,7 @@ namespace DataAccess.Models
         public System.DateTime CreatedDate { get; set; }
         public int EmployeeID { get; set; }
         public Nullable<int> ApproverID { get; set; }
+        public Nullable<DateTime> StateUpdatedOn { get; set; }
         public Nullable<decimal> CostTotal { get; set; }
         public Nullable<int> CostCurrencyID { get; set; }
         public Nullable<decimal> SellTotal { get; set; }

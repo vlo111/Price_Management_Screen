@@ -131,6 +131,19 @@ namespace CenDek.Models
 
     public class CompareOrderViewModel
     {
+        public CompareOrderViewModel() {
+            this.PartsDetail = new List<CompareOrderTagModel>();
+            this.Files = new List<AttachmentsModel>();
+        }
+        public int OrderNo { get; set; }
+        public String Employee { get; set; }
+        public List<AttachmentsModel> Files { get; set; }
+
+        public List<CompareOrderTagModel> PartsDetail { get; set; }
+
+    }
+    public class CompareOrderTagModel
+    {        
         public string Tag { get; set; }
         public string Profile { get; set; }
         public string Colour { get; set; }
@@ -145,6 +158,16 @@ namespace CenDek.Models
         public string FileName { get; set; }
         public string UnitSell { get; set; }
         public double Total { get; set; }
+    }
+    public class PricingCADModel
+    {
+        public int Currency { get; set; }
+        public string PriceOrderDate { get; set; }
+        public double PriceTotal { get; set; }
+        public double Dicsount { get; set; }
+        public double SubTotal { get; set; }
+        public double PST { get; set; }
+        public double GST { get; set; }
 
     }
     public class OrderDashboardViewModel
@@ -157,7 +180,7 @@ namespace CenDek.Models
     {
         public OrderReviewViewModel()
         {
-            OrderParts = new List<CompareOrderViewModel>();
+            OrderParts = new CompareOrderViewModel();
             Customer = new Customer();
             Order = new CustOrder();
             ContactDropdown = new List<CustomerContactDropdown>();
@@ -165,8 +188,10 @@ namespace CenDek.Models
             EmployeeDropdown = new List<EmployeeDropdown>();
             Currencies = new List<Currency>();
             Carriers = new List<CustomerCarrier>();
+            this.PriceCad = new PricingCADModel();
         }
-        public List<CompareOrderViewModel> OrderParts { get; set; }
+        public PricingCADModel PriceCad { get; set; }
+        public CompareOrderViewModel OrderParts { get; set; }
         public Customer Customer { get; set; }
         public CustOrder Order { get; set; }
         public List<CustomerContactDropdown> ContactDropdown { get; set; }
@@ -180,8 +205,10 @@ namespace CenDek.Models
         public int EmployeeId { get; set; }
         public int CurrencyId { get; set; }
         public int CustOrderId { get; set; }
-    }
 
+        public string ApprovarName { get; set; }
+        public string StateUpdatedOn { get; set; }
+    }
     public class CustomerContactDropdown
     {
         public int ContactId { get; set; }
