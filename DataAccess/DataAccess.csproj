@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="Models\AltPartID.cs" />
     <Compile Include="Models\CustomPart.cs" />
+    <Compile Include="Models\FileTmp.cs" />
+    <Compile Include="Models\Mapping\FileTmpMap.cs" />
     <Compile Include="Models\Mapping\View_CarrierMap.cs" />
     <Compile Include="Models\View_Carrier.cs" />
     <Compile Include="Models\Carrier.cs" />

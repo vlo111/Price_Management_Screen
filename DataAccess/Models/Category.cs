@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Models
 {
@@ -11,8 +12,9 @@ namespace DataAccess.Models
         }
 
         public int CategoryID { get; set; }
+        [Required(ErrorMessage = "Required field Name")]
         public string Name { get; set; }
-        public int CategoryParentID { get; set; }
+        public string CategoryParentID { get; set; }
         public virtual ICollection<Part> Parts { get; set; }
     }
 }

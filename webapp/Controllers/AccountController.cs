@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 #endregion
 
@@ -23,6 +24,31 @@ namespace CenDek.Controllers
         public AccountController()
         {
         }
+
+        public void CreateTestUsers()
+        {
+
+            var db = new ApplicationDbContext();
+            var userStore = new UserStore<ApplicationUser>(db);
+            var userManager = new ApplicationUserManager(userStore);
+            var username = "ryan@dissell.net";
+
+            var user = db.Users.FirstOrDefault(u => u.UserName == username);
+            if (user == null)
+            {
+                user = new ApplicationUser()
+                {
+                    UserName = username,
+                    Email = "ryan@dissell.net",
+                    EmailConfirmed = true,
+                    LockoutEnabled = false
+                };
+
+                var password = "Password123";
+                var result = userManager.Create(user, password);
+            }
+        }
+
 
         //public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         //{

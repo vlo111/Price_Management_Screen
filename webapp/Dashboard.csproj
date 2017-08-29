@@ -197,10 +197,10 @@
       <DependentUpon>CenDek.mdf</DependentUpon>
     </Content>
     <Content Include="Content\ajax\dashboard.html" />
-    <Content Include="Content\css\bootstrap.min.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\css\datatables.min.css" />
+    <Content Include="Content\bootstrap\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap\bootstrap.css" />
+    <Content Include="Content\bootstrap\bootstrap.min.css" />
     <Content Include="Content\css\font-awesome.min.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -224,6 +224,10 @@
       <DependentUpon>CenDek.css</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\dropzone\basic.css" />
+    <Content Include="Content\dropzone\basic.min.css" />
+    <Content Include="Content\dropzone\dropzone.css" />
+    <Content Include="Content\dropzone\dropzone.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\ajax-loader.gif" />
@@ -327,11 +331,15 @@
     <Content Include="Content\img\splash\touch-icon-ipad.png" />
     <Content Include="Content\img\splash\touch-icon-iphone-retina.png" />
     <Content Include="Content\img\vt-menu.png" />
+    <Content Include="Content\smartadmin-production.min.css" />
+    <Content Include="Content\StyleValidator.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Fonts\fontawesome-webfont.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="Images\dropzone\spritemap%402x.png" />
+    <Content Include="Images\dropzone\spritemap.png" />
     <Content Include="packages.config" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
@@ -361,6 +369,12 @@
     <Content Include="Scripts\dropzone\dropzone.js" />
     <Content Include="Scripts\dropzone\dropzone.min.css" />
     <Content Include="Scripts\dropzone\dropzone.min.js" />
+    <Content Include="Scripts\FormDropzone.js" />
+    <Content Include="Scripts\Home.js" />
+    <Content Include="Content\bootstrap\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap\bootstrap.css.map" />
+    <Content Include="Content\bootstrap\bootstrap.min.css.map" />
     <Content Include="Scripts\libs\datatables.min.js" />
     <Content Include="Scripts\libs\jquery-2.1.1.min.js" />
     <Content Include="Scripts\libs\jquery-ui-1.10.3.min.js" />
@@ -404,14 +418,19 @@
     <Content Include="Scripts\plugins\datatables\swf\copy_csv_xls.swf" />
     <Content Include="Scripts\plugins\datatables\swf\copy_csv_xls_pdf.swf" />
     <Content Include="Scripts\plugins\fastclick\fastclick.min.js" />
+    <Content Include="Scripts\plugins\jqgrid\grid.locale-en.min.js" />
+    <Content Include="Scripts\plugins\jqgrid\jquery.jqGrid.min.js" />
     <Content Include="Scripts\plugins\jquery-form\jquery-form.min.js" />
     <Content Include="Scripts\plugins\jquery-touch\jquery.ui.touch-punch.min.js" />
+    <Content Include="Scripts\plugins\jquery-unobtrusive-ajax\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\plugins\jquery-unobtrusive-ajax\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\plugins\jquery-validate\jquery.validate.min.js" />
     <Content Include="Scripts\plugins\jquery-validate\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\plugins\masked-input\jquery.maskedinput.min.js" />
     <Content Include="Scripts\plugins\msie-fix\jquery.mb.browser.min.js" />
     <Content Include="Scripts\plugins\select2\readme.txt" />
     <Content Include="Scripts\plugins\select2\select2.min.js" />
+    <Content Include="Scripts\smartwidgets\jarvis.widget.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -463,7 +482,16 @@
     <Content Include="Fonts\FontAwesome.otf" />
     <Compile Include="App_Helpers\Extensions.cs" />
     <Compile Include="App_Start\DIConfig.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\FilesController.cs" />
+    <Compile Include="Controllers\ImagesController.cs" />
+    <Compile Include="Controllers\MeasUnitController.cs" />
+    <Compile Include="Controllers\PartsController.cs" />
+    <Compile Include="Controllers\PricesController.cs" />
+    <Compile Include="Controllers\ProductLineController.cs" />
+    <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Models\BreadCrumbs.cs" />
     <Compile Include="Models\OrderViewModels.cs" />
     <None Include="Properties\PublishProfiles\CenDekFolderProfile.pubxml" />
@@ -492,6 +520,19 @@
     <Content Include="Views\Order\OrderReview.cshtml" />
     <Content Include="Views\Order\ShippingTagDetails.cshtml" />
     <Content Include="Views\Order\OrderReviewApproved.cshtml" />
+    <Content Include="Views\Category\Create.cshtml" />
+    <Content Include="Views\Currency\Create.cshtml" />
+    <Content Include="Views\Files\DeleteFil.cshtml" />
+    <Content Include="Views\Files\SaveFilledFile.cshtml" />
+    <Content Include="Views\Files\_SaveUploadedFile.cshtml" />
+    <Content Include="Views\Files\_SelectedFiles.cshtml" />
+    <Content Include="Views\Images\_SaveUploadedFile.cshtml" />
+    <Content Include="Views\MeasUnit\Create.cshtml" />
+    <Content Include="Views\ProductLine\Create.cshtml" />
+    <Content Include="Views\Prices\Index.cshtml" />
+    <Content Include="Views\Prices\_CreatePrice.cshtml" />
+    <Content Include="Views\Parts\Index.cshtml" />
+    <Content Include="Views\Status\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -544,6 +585,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Images\WallFiles\filepath\" />
+    <Folder Include="Images\WallImages\imagepath\" />
     <Folder Include="Models\Customer\" />
     <Folder Include="Models\Order\" />
   </ItemGroup>

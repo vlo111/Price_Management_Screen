@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Models
 {
@@ -18,25 +19,31 @@ namespace DataAccess.Models
         }
 
         public int PartID { get; set; }
-        public Nullable<int> AltPartID { get; set; }
+        public int? AltPartID { get; set; }
+        [Required(ErrorMessage = "Required field Name")]
         public string Name { get; set; }
         public string Description { get; set; }
-        public int? CategoryID { get; set; }
-        public Nullable<int> ImageID { get; set; }
-        public Nullable<int> PartStatusID { get; set; }
+        [Required(ErrorMessage = "Required field Product Line")]
+        public int ProductLineID { get; set; }
+        [Required(ErrorMessage = "Required field Category")]
+        public int CategoryID { get; set; }
+        public int? ImageID { get; set; }
+        public int? PartStatusID { get; set; }
         public bool CustomFlag { get; set; }
         public string Comments { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime ModifiedDate { get; set; }
         public int EmployeeID { get; set; }
         public Nullable<int> WeightMeasurementID { get; set; }
+        [Required(ErrorMessage = "Required field Weight")]
         public double Weight { get; set; }
         public Nullable<double> Height { get; set; }
         public Nullable<double> Width { get; set; }
         public Nullable<double> Length { get; set; }
         public int PriceID { get; set; }
+        [Required(ErrorMessage = "Required field Meas Type")]
         public int MeasUnitID { get; set; }
-        public Nullable<int> PartInventoryID { get; set; }
+        public int? PartInventoryID { get; set; }
         public virtual ICollection<AltPartID> AltPartIDs { get; set; }
         public virtual Category Category { get; set; }
         public virtual Employee Employee { get; set; }
@@ -46,6 +53,7 @@ namespace DataAccess.Models
         public virtual PartStatu PartStatu { get; set; }
         public virtual WeightMeasurement WeightMeasurement { get; set; }
         public virtual ICollection<PartDependency> PartDependencies { get; set; }
+        public virtual ProductLine ProductLine { get; set; }
         public virtual ICollection<PartInventory> PartInventories { get; set; }
         public virtual ICollection<Price> Prices { get; set; }
         public virtual ICollection<File> Files { get; set; }

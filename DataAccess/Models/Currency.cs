@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Models
 {
@@ -14,7 +15,10 @@ namespace DataAccess.Models
         }
 
         public int CurrencyID { get; set; }
+        [Required(ErrorMessage = "Required field Code")]
+        [MaxLength(3)]
         public string Code { get; set; }
+        [Required(ErrorMessage = "Required field Name")]
         public string Name { get; set; }
         public virtual ICollection<CustOrder> CustOrders { get; set; }
         public virtual ICollection<CustOrder> CustOrders1 { get; set; }

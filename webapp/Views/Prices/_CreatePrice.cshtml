@@ -1,0 +1,66 @@
+﻿@model DataAccess.Models.Price
+
+<fieldset>
+    <div class="form-group">
+        <label class="col-md-2 control-label labPad">Sell</label>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.SellValue, new { htmlAttributes = new {@id="sell", @oninput = "PriceUpdateSell()", @class = "form-control", @Value = "", @data_val_number = "The field must be a number." } })
+            @Html.ValidationMessageFor(model => model.SellValue, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-2">
+            @Html.DropDownListFor(model => model.SellCurrencyID, (SelectList)ViewBag.SellCurrencyID, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SellCurrencyID, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-offset-9 control-label">
+            <a style="" class="btn icon-btn btn-success" data-modal='' href="/Currency/Create" id="btnCreate">
+                <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
+                Add
+            </a>
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label labPad">Cost</label>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.CostValue, new { htmlAttributes = new { @id="cost", @oninput = "PriceUpdateCost()", @class = "form-control", @Value = "", @data_val_number = "The field must be a number." } })
+            @Html.ValidationMessageFor(model => model.CostValue, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-2">
+            @Html.DropDownListFor(model => model.CostCurrencyID, (SelectList)ViewBag.CostCurrencyID, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CostCurrencyID, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-offset-9  control-label">
+            <a style="" class="btn icon-btn btn-success" data-modal='' href="/Currency/Create" id="btnCreate">
+                <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
+                Add
+            </a>
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group row">
+        @Html.Label("Start", htmlAttributes: new { @class = "control-label col-md-2" })
+        <section class="col col-6">
+            <label class="input">
+                <i class="icon-append fa fa-calendar"></i>
+                @Html.EditorFor(model => model.ValidStart, new { htmlAttributes = new { @Value = "", @name = "startdate", @id = "startdate", @oninput = "validateStartDate()", @placeholder = "Expected start date" } })
+                @Html.ValidationMessageFor(model => model.ValidStart, "", new { @class = "text-danger" })
+            </label>
+        </section>
+    </div>
+</fieldset>
+<fieldset>
+
+    <div class="form-group row">
+        @Html.Label("End", htmlAttributes: new { @class = "control-label col-md-2" })
+        <section class="col col-6">
+            <label class="input">
+                <i class="icon-append fa fa-calendar"></i>
+                @Html.EditorFor(model => model.ValidEnd, new { htmlAttributes = new { @Value = "", @name = "finishdate", @id = "finishdate", @oninput = "validateEndDate()", @placeholder = "Expected finish date" } })
+                @Html.ValidationMessageFor(model => model.ValidEnd, "", new { @class = "text-danger" })
+            </label>
+        </section>
+    </div>
+</fieldset>

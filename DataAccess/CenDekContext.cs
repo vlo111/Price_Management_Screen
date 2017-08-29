@@ -31,6 +31,7 @@ namespace DataAccess
         public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<File> Files { get; set; }
+        public DbSet<FileTmp> FilesTmp { get; set; }
         public DbSet<GroupUrgency> GroupUrgencies { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<MeasUnit> MeasUnits { get; set; }
@@ -63,6 +64,7 @@ namespace DataAccess
             modelBuilder.Configurations.Add(new DocumentTypeMap());
             modelBuilder.Configurations.Add(new EmployeeMap());
             modelBuilder.Configurations.Add(new FileMap());
+            modelBuilder.Configurations.Add(new FileTmpMap());
             modelBuilder.Configurations.Add(new GroupUrgencyMap());
             modelBuilder.Configurations.Add(new ImageMap());
             modelBuilder.Configurations.Add(new MeasUnitMap());

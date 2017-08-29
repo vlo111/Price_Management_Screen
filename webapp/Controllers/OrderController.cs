@@ -168,7 +168,7 @@ namespace CenDek.Controllers
             // Initialise list and add first "All" item
             List<SelectListItem> options = new List<SelectListItem>();
             // Get the top level parents
-            var parents = categories.Where(x => x.CategoryParentID == categoryParentId);
+            var parents = categories.Where(x => x.CategoryParentID == Convert.ToString(categoryParentId));
             foreach (var parent in parents)
             {
                 // Add SelectListItem for the parent
@@ -178,7 +178,7 @@ namespace CenDek.Controllers
                     Text = parent.Name
                 });
                 // Get the child items associated with the parent
-                var children = categories.Where(x => x.CategoryParentID == parent.CategoryID);
+                var children = categories.Where(x => x.CategoryParentID == Convert.ToString(parent.CategoryID));
                 // Add SelectListItem for each child
                 foreach (var child in children)
                 {
@@ -187,7 +187,7 @@ namespace CenDek.Controllers
                         Value = child.CategoryID.ToString(),
                         Text = string.Format("\xA0\xA0{0}", child.Name)
                     });
-                    var subchildren = categories.Where(x => x.CategoryParentID == child.CategoryID);
+                    var subchildren = categories.Where(x => x.CategoryParentID == Convert.ToString(child.CategoryID));
                     foreach (var subchild in subchildren)
                     {
                         options.Add(new SelectListItem()
@@ -213,7 +213,7 @@ namespace CenDek.Controllers
 
             if (entityId > 0)
             {
-                parents = categories.Where(x => x.CategoryParentID == entityId);
+                parents = categories.Where(x => x.CategoryParentID == Convert.ToString(entityId));
             }
             else if (categoryParentId.Equals("All") || categoryParentId.Equals("Recommended"))
             {
@@ -233,7 +233,7 @@ namespace CenDek.Controllers
                     Text = parent.Name
                 });
                 // Get the child items associated with the parent
-                var children = categories.Where(x => x.CategoryParentID == parent.CategoryID);
+                var children = categories.Where(x => x.CategoryParentID == Convert.ToString(parent.CategoryID));
                 // Add SelectListItem for each child
                 foreach (var child in children)
                 {
@@ -242,7 +242,7 @@ namespace CenDek.Controllers
                         Value = child.CategoryID.ToString(),
                         Text = string.Format("\xA0\xA0{0}", child.Name)
                     });
-                    var subchildren = categories.Where(x => x.CategoryParentID == child.CategoryID);
+                    var subchildren = categories.Where(x => x.CategoryParentID == Convert.ToString(child.CategoryID));
                     foreach (var subchild in subchildren)
                     {
                         options.Add(new SelectListItem()
@@ -1089,7 +1089,7 @@ namespace CenDek.Controllers
                 int parentCatId = (catObj != null) ? catObj.CategoryID : -1;
                 if (parentCatId > 0)
                 {
-                    var partsCategories = _dbContext.Categories.Where(n => n.CategoryParentID == parentCatId);
+                    var partsCategories = _dbContext.Categories.Where(n => n.CategoryParentID == Convert.ToString(parentCatId));
 
                     PartsListFilter = (from part in data
                                        join cat in partsCategories

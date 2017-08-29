@@ -1,23 +1,32 @@
-﻿<!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+﻿    <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script> if (!window.jQuery) { document.write('<script src="/scripts/libs/jquery-2.1.1.min.js"><\/script>'); } </script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script> if (!window.jQuery.ui) { document.write('<script src="/scripts/libs/jquery-ui-1.10.3.min.js"><\/script>'); } </script>
 
-<!-- IMPORTANT: SmartAdmin Core -->
-@Scripts.Render("~/scripts/smartadmin")
+<!-- DropZones : plugin -->
+@Scripts.Render("~/bundles/dropzone")
 
 <!-- Forms : plugin -->
 @Scripts.Render("~/scripts/forms")
+<!-- jQGrid : plugin -->
+@Scripts.Render("~/bundles/jq-grid")
+
+<!-- Modal: popap -->
+@Scripts.Render("~/bundles/customJs")
+
+<!-- IMPORTANT: SmartAdmin Core -->
+@Scripts.Render("~/scripts/smartadmin")
+
+<!-- Dropzone: Settings -->
+@Scripts.Render("~/Scripts/FormDropzone.js")
 
 <!-- DataTables : plugin -->
 @Scripts.Render("~/scripts/datatables")
 
-<!-- DropZones : plugin -->
-@Scripts.Render("~/scripts/dropzonescripts")
-
  <!-- "Application Scripts" -->
 @Scripts.Render("~/Scripts/appJs")
+
 <!-- DO NOT REMOVE : GLOBAL FUNCTIONS! -->
 <script>
     $(document).ready(function () {
