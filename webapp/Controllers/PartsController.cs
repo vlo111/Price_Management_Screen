@@ -23,8 +23,6 @@ namespace CenDek.Controllers
         // GET: Parts
         public ActionResult Index()
         {
-            ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
-            ViewBag.CategoryPID = db.Categories.Where(s => s.CategoryParentID == null).OrderBy(a => a.Name);
             ViewBag.ProductLineID = new SelectList(db.ProductLines, "ProductLineID", "Name");
             ViewBag.MeasUnitID = new SelectList(db.MeasUnits, "MeasUnitID", "ShortDescription");
             ViewBag.PartStatusID = new SelectList(db.PartStatus, "PartStatusID", "Status");
@@ -75,6 +73,7 @@ namespace CenDek.Controllers
                             part.ImageID = Image.ImageID;
                         }
                     }
+                    part.PartID = new Random().Next();
                     part.PriceID = price.PriceID;
                     part.CreatedDate = date;
                     part.EmployeeID = 1;
@@ -93,12 +92,10 @@ namespace CenDek.Controllers
                     price.ValidStart = DateTime.ParseExact(startdate, "dd.MM.yyyy",
                                        System.Globalization.CultureInfo.InvariantCulture);
                     price.ValidEnd = DateTime.ParseExact(finishdate, "dd.MM.yyyy",
-                                       System.Globalization.CultureInfo.InvariantCulture); ;
+                                       System.Globalization.CultureInfo.InvariantCulture);
                     db.Prices.Add(price);
                     await db.SaveChangesAsync();
 
-                    ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
-                    ViewBag.CategoryPID = db.Categories.Where(s => s.CategoryParentID == null).OrderBy(a => a.Name);
                     ViewBag.ProductLineID = new SelectList(db.ProductLines, "ProductLineID", "Name");
                     ViewBag.MeasUnitID = new SelectList(db.MeasUnits, "MeasUnitID", "ShortDescription");
                     ViewBag.PartStatusID = new SelectList(db.PartStatus, "PartStatusID", "Status");
@@ -141,7 +138,8 @@ namespace CenDek.Controllers
         // GET: CategoryCreate
         public ActionResult CategoryCreate()
         {
-            ViewBag.CategoryParentID = new SelectList(db.Categories.Where(c => c.CategoryParentID == null).OrderBy(a => a.Name), "CategoryID", "Name");
+
+            ViewBag.CategoryParentID = new SelectList(GetCategoriesParents(), "CategoryID", "Name");
             return View();
         }
         // POST: Parts/CategoryCreate
@@ -155,8 +153,18 @@ namespace CenDek.Controllers
                 {
                     if (category != null)
                     {
-                        db.Categories.Add(category);
-                        await db.SaveChangesAsync();
+                        try
+                        {
+                            category.CategoryID = new Random().Next();
+                            db.Categories.Add(category);
+                            await db.SaveChangesAsync();
+
+                        }
+                        catch (Exception e)
+                        {
+
+                            return Json(new { warning = e.Message });
+                        }
                     }
                     else
                     {
@@ -173,6 +181,7 @@ namespace CenDek.Controllers
                 ModelState.AddModelError("", e.Message);
                 return View(category);
             }
+
             return RedirectToAction("Index", "Parts");
         }
         // GET: CurrencyCreate
@@ -299,6 +308,7 @@ namespace CenDek.Controllers
                 {
                     if (partStatu != null)
                     {
+                        partStatu.PartStatusID = new Random().Next();
                         db.PartStatus.Add(partStatu);
                         await db.SaveChangesAsync();
                     }
@@ -602,6 +612,19 @@ namespace CenDek.Controllers
         public ActionResult Refresh()
         {
             return PartialView("Partial_Views/_FilesSelected", listSelectedFiles);
+        }
+        private List<Category> GetCategoriesParents()
+        {
+            var parents = db.Categories.Where(c => c.CategoryParentID == 0).OrderBy(a => a.Name);
+            List<Category> child = new List<Category>();
+            foreach (var parent in parents)
+            {
+                foreach (var item in db.Categories.Where(x => x.CategoryParentID == parent.CategoryID))
+                {
+                    child.Add(item);
+                }
+            }
+            return child;
         }
 
         protected override void Dispose(bool disposing)

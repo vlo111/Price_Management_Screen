@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccess.Models
 {
@@ -10,7 +11,7 @@ namespace DataAccess.Models
         {
             this.Parts = new List<Part>();
         }
-
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int MeasUnitID { get; set; }
         [Required(ErrorMessage = "Required field Short")]
         public string ShortDescription { get; set; }

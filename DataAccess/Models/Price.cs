@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccess.Models
 {
     public partial class Price
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int PriceID { get; set; }
         public int PartID { get; set; }
         [Required(ErrorMessage = "Required field Start Date")]

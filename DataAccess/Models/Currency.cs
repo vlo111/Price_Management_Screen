@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccess.Models
 {
@@ -13,7 +14,7 @@ namespace DataAccess.Models
             this.Prices = new List<Price>();
             this.Prices1 = new List<Price>();
         }
-
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int CurrencyID { get; set; }
         [Required(ErrorMessage = "Required field Code")]
         [MaxLength(3)]

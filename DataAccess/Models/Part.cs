@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccess.Models
 {
@@ -17,7 +18,7 @@ namespace DataAccess.Models
             this.Category = new Category();
             this.MeasUnit = new MeasUnit();
         }
-
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int PartID { get; set; }
         public int? AltPartID { get; set; }
         [Required(ErrorMessage = "Required field Name")]

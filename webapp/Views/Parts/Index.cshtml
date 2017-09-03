@@ -77,15 +77,21 @@
                                         <label class="col-md-2 control-label labPad">Category</label>
                                         <div class="col-md-5">
                                             <select id="CategoryName" required name="CategoryName" style="width:100%" class="select2">
-                                                @foreach (var item in ViewBag.CategoryPID)
-                                                {
-                                                    int catId = item.CategoryID;
-                                                    <optgroup label=@item.Name>
-                                                        @foreach (var childItem in context.Categories.Where(i => i.CategoryParentID == catId).OrderBy(n => n.Name))
+                                                @{var parents = context.Categories.Where(x => x.CategoryParentID == 0);
+                                                    foreach (var parent in parents)
+                                                    {
+                                                        var children = context.Categories.Where(x => x.CategoryParentID == parent.CategoryID);
+                                                        foreach (var child in children)
                                                         {
-                                                            <option value=@childItem.Name>@childItem.Name</option>
+                                                            var subchildren = context.Categories.Where(x => x.CategoryParentID == child.CategoryID);
+                                                            <optgroup label=@child.Name>
+                                                                @foreach (var subchild in subchildren)
+                                                                {
+                                                                    <option value=@subchild.Name>@subchild.Name</option>
+                                                                }
+                                                            </optgroup>
                                                         }
-                                                    </optgroup>
+                                                    }
                                                 }
                                             </select>
                                             @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
@@ -198,27 +204,27 @@
 
                                 @Html.Partial("../Parts/Partial_Views/_PriceHome")
 
-                                <fieldset>
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label labPad">Alt Part Id</label>
-                                        <div class="col-md-5">
-                                            @Html.EditorFor(model => model.AltPartID, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.AltPartID, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-md-2 control-label labPad">Alt Part Id</label>
+                                                            <div class="col-md-5">
+                                                                @Html.EditorFor(model => model.AltPartID, new { htmlAttributes = new { @class = "form-control" } })
+                                                                @Html.ValidationMessageFor(model => model.AltPartID, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
 
 
 
-                                <footer>
-                                    <button type="submit" id="SubPart" class="btn btn-primary">
-                                        Submit
-                                    </button>
-                                    <button type="button" class="btn btn-default" onclick="window.history.back();">
-                                        Back
-                                    </button>
-                                </footer>
-                            }
+                                                    <footer>
+                                                        <button type="submit" id="SubPart" class="btn btn-primary">
+                                                            Submit
+                                                        </button>
+                                                        <button type="button" class="btn btn-default" onclick="window.history.back();">
+                                                            Back
+                                                        </button>
+                                                    </footer>
+                                                    }
                         </div>
                         <!-- end widget content -->
                     </div>
@@ -329,7 +335,7 @@
 </div>
 
 @section pagespecific {
-<script type="text/javascript">
+    <script type="text/javascript">
 
         // DO NOT REMOVE : GLOBAL FUNCTIONS!
 
@@ -384,8 +390,8 @@
 
     //})
 
-</script>
-<script type="text/javascript">
+    </script>
+    <script type="text/javascript">
         function validateStartDate() {
             var dateInput = document.getElementById("startdate");
             var date = dateInput.value;
@@ -425,6 +431,6 @@
             var dateInput = document.getElementById("LinkUpdCostText").textContent = document.getElementById("cost").value;
 
         }
-</script>
+    </script>
 
 }
