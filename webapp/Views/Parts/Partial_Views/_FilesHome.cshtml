@@ -1,7 +1,7 @@
-﻿@model List<DataAccess.Models.FileTmp>
+﻿@model List<CenDek.Models.FileTmp>
 @if (Model != null)
 {
-    if (Model.Count > 0)
+    using (Ajax.BeginForm("DeleteFilesFromDropzoneOrFilesView", "Parts", null, new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "divListFile" }))
     {
         <table class="table table-hover">
             <thead class="thead-inverse">
@@ -19,8 +19,7 @@
             <tbody>
 
                 @foreach (var item in Model)
-                {
-                    @Html.Hidden("FileID", (int)item.ID)
+                    {
                     <tr>
 
                         <td>
@@ -30,12 +29,13 @@
                         <td><h3><span class="label label-default">@item.Type</span></h3></td>
 
                         <td style="text-align:right">
-                            <a href="@Url.Action("SaveFilledFile", "Files", new { @id = item.ID }) " data-modal='' class="btn btn-success"> <span class='glyphicon glyphicon-ok'>   </span></a>
+                            <a href="@Url.Action("SaveFile", "Parts", new { @id = item.ID }) " data-modal='' class="btn btn-success"> <span class='glyphicon glyphicon-ok'>   </span></a>
                         </td>
                         <td>
-                            @using (Ajax.BeginForm("DeleteFil", "Files", null, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "divListFile", }))
-                            {@Html.Hidden("FileID", (int)item.ID)                            <button class="btn btn-danger" value="Delete"><span class='glyphicon glyphicon-trash'></span></button> }
-                            @*<a class="btn btn-danger" data-modal='' title='Delete' value="@item.ID" href="@Url.Action("DeleteFil","Files",new { id = @item.ID})"><span class='glyphicon glyphicon-trash'></span></a>*@
+                            <button name="id" id="id" class="btn btn-danger" value="@item.ID">
+                                <span class='glyphicon glyphicon-trash'></span>
+                            </button>
+                            @*<a class="btn btn-danger" data-modal='' title='Delete' value="@item.ID" href="@Url.Action("DeleteFilesFromDropzoneOrFilesView", "Parts", new { id = @item.ID})"><span class='glyphicon glyphicon-trash'></span></a>*@
                         </td>
 
                     </tr>
@@ -44,13 +44,13 @@
             </tbody>
         </table>
     }
-    else
-    {
+}
+else
+{
 
-        <div style="text-align:center" class="panel panel-success">
-            <span class="field-validation-error">Please Select File</span>
-        </div>
-    }
+    <div style="text-align:center" class="panel panel-success">
+        <span class="field-validation-error">Please Select File</span>
+    </div>
 }
 
 <!-- modal placeholder-->

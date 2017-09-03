@@ -33,7 +33,7 @@
                     <div>
                         <!-- widget content -->
                         <div class="widget-body no-padding">
-                            @using (Html.BeginForm("Create", "Parts", FormMethod.Post, new { @class = "smart-form" }))
+                            @using (Html.BeginForm("Index", "Parts", FormMethod.Post, new { @class = "smart-form" }))
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -64,7 +64,7 @@
                                         </div>
                                         <div class="col-md-1"></div>
                                         <div class="col-md-2 control-label">
-                                            <a class="btn icon-btn btn-success" data-modal='' href="ProductLine/Create" id="btnCreate">
+                                            <a class="btn icon-btn btn-success" data-modal='' href="Parts/ProductLineCreate" id="btnCreate">
                                                 <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
                                                 Add
                                             </a>
@@ -79,7 +79,7 @@
                                             <select id="CategoryName" required name="CategoryName" style="width:100%" class="select2">
                                                 @foreach (var item in ViewBag.CategoryPID)
                                                 {
-                                                    string catId = Convert.ToString(item.CategoryID);
+                                                    int catId = item.CategoryID;
                                                     <optgroup label=@item.Name>
                                                         @foreach (var childItem in context.Categories.Where(i => i.CategoryParentID == catId).OrderBy(n => n.Name))
                                                         {
@@ -94,7 +94,7 @@
                                         </div>
                                         <div class="col-md-1"></div>
                                         <div class="col-md-2 control-label">
-                                            <a class="btn icon-btn btn-success" data-modal='' href="/Category/Create" id="btnCreate">
+                                            <a class="btn icon-btn btn-success" data-modal='' href="Parts/CategoryCreate" id="btnCreate">
                                                 <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
                                                 Add
                                             </a>
@@ -131,7 +131,7 @@
                                         </div>
                                         <div class="col-md-1"></div>
                                         <div class="col-md-2 control-label">
-                                            <a class="btn icon-btn btn-success" data-modal='' href="/Status/Create" id="btnCreate">
+                                            <a class="btn icon-btn btn-success" data-modal='' href="Parts/StatusCreate" id="btnCreate">
                                                 <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
                                                 Add
                                             </a>
@@ -188,7 +188,7 @@
                                         </div>
                                         <div class="col-md-1"></div>
                                         <div class="col-md-2 control-label">
-                                            <a style="" class="btn icon-btn btn-success" data-modal='' href="/MeasUnit/Create" id="btnCreate">
+                                            <a style="" class="btn icon-btn btn-success" data-modal='' href="Parts/MeasUnitCreate" id="btnCreate">
                                                 <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
                                                 Add
                                             </a>
@@ -196,7 +196,7 @@
                                     </div>
                                 </fieldset>
 
-                                @Html.Partial("../Prices/Index")
+                                @Html.Partial("../Parts/Partial_Views/_PriceHome")
 
                                 <fieldset>
                                     <div class="form-group">
@@ -260,7 +260,7 @@
                                 <fieldset>
                                     <div class="form-group">
                                         <div class="widget-body">
-                                            @using (Ajax.BeginForm("SaveUploadedFile", "Images", null, new AjaxOptions
+                                            @using (Ajax.BeginForm("SelectedImageView", "Parts", null, new AjaxOptions
                                             {
                                                 HttpMethod = "GET",
                                                 InsertionMode = InsertionMode.Replace,
@@ -268,7 +268,7 @@
                                             }, new { @class = "dropzone", @id = "ImageDropzone", @data_modal = "" }
 ))
                                             {
-                                                <input type="submit" value="Show" class="btn btn-primary col-md-12">
+                                                <input type="submit" value="Upload" class="btn btn-primary col-md-12">
                                             }
                                         </div>
                                     </div>
@@ -289,7 +289,7 @@
                                 <fieldset>
                                     <div class="form-group">
                                         <div class="widget-body">
-                                            @using (Ajax.BeginForm("SaveUploadedFile", "Files", null, new AjaxOptions
+                                            @using (Ajax.BeginForm("SelectedFilesView", "Parts", null, new AjaxOptions
                                             {
                                                 HttpMethod = "GET",
                                                 InsertionMode = InsertionMode.Replace,

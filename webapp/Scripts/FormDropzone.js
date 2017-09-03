@@ -17,7 +17,7 @@ $("#ImageDropzone").dropzone({
         var name = file.name.substring(0, file.name.length - 4);
         $.ajax({
             type: 'POST',
-            url: 'Images/delete',
+            url: 'Parts/DeleteImageFromImageViewOrDropzone',
             data: "name=" + name,
             dataType: 'html'
         });
@@ -39,7 +39,7 @@ $("#FileDropzone").dropzone({
 
         $.ajax({
             type: 'POST',
-            url: 'Files/delete',
+            url: 'Parts/DeleteFilesFromDropzoneOrFilesView',
             data: "name=" + name,
             dataType: 'html'
         });

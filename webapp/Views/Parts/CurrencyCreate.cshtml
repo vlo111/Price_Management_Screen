@@ -22,7 +22,7 @@
             <div class="form-group">
                 @Html.Label("Code", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-4">
-                    @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @data_val_maxlength= "The Code field must have maximum length of '3'." } })
+                    @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @data_val_maxlength = "The Code field must have maximum length of '3'." } })
                     @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
                 </div>
             </div>

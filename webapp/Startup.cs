@@ -14,7 +14,7 @@ namespace CenDek
     {
         public void Configuration(IAppBuilder app)
         {
-            new AccountController().CreateTestUsers();
+            //new AccountController().CreateTestUsers();
             ConfigureAuth(app);
             ConfigureSimpleInjector(app);
 

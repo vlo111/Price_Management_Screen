@@ -4,7 +4,7 @@
     @{
         if (Model != null)
         {
-            using (Ajax.BeginForm("DeleteImg", "Images", null, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "divList", }))
+            using (Ajax.BeginForm("DeleteImageFromImageViewOrDropzone", "Parts", null, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "divList", }))
             {@Html.Hidden("ImageID", (int)Model.ImageID)
 
                 <div class="dropzone dz-clickable dz-started">
@@ -14,10 +14,10 @@
                             @{string path = "/Images/WallImages/imagepath/" + Model.Name + '.' + Model.Ext;}
                             <img data-dz-thumbnail src="@path" alt="..." class="img-thumbnail" />
                         </div>
-                           
-                            <button class="fa btn icon-btn btn-danger" style="width:100px;text-align:left;font-size:12px">
-                                <i class="glyphicon btn-glyphicon glyphicon-remove-circle img-circle text-danger"></i>Delete
-                            </button>
+
+                        <button class="fa btn icon-btn btn-danger" style="width:100px;text-align:left;font-size:12px">
+                            <i class="glyphicon btn-glyphicon glyphicon-remove-circle img-circle text-danger"></i>Delete
+                        </button>
                     </div>
                 </div>
 
