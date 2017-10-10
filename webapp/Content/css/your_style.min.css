@@ -45,3 +45,169 @@
 .dropzone .dz-preview .textContr .dz-details {
     text-align: start !important;
 }
+
+
+input[type=search] {
+    -webkit-appearance: textfield;
+    -webkit-box-sizing: content-box;
+    font-family: inherit;
+    font-size: 100%;
+}
+
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button {
+    display: none;
+}
+
+
+input[type=search] {
+    background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
+    border: solid 1px #ccc;
+    padding: 9px 10px 9px 32px;
+    width: 55px;
+    -webkit-border-radius: 10em;
+    -moz-border-radius: 10em;
+    border-radius: 10em;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    transition: all .5s;
+}
+
+    input[type=search]:focus {
+        width: 450px;
+        background-color: #fff;
+        border-color: #66CC75;
+        -webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
+        -moz-box-shadow: 0 0 5px rgba(109,207,246,.5);
+        box-shadow: 0 0 5px rgba(109,207,246,.5);
+    }
+
+
+input:-moz-placeholder {
+    color: #999;
+}
+
+input::-webkit-input-placeholder {
+    color: #999;
+}
+
+
+
+
+.ui-autocomplete {
+    /* for IE6 which not support max-height it can be width: 350px; */
+    max-height: 300px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    /* add padding to account for vertical scrollbar */
+    padding-right: 20px;
+}
+    /*.ui-autocomplete.ui-menu { opacity: 0.9; }*/
+    .ui-autocomplete.ui-menu .ui-menu-item {
+        font-size: 1.15em;
+    }
+
+    .ui-autocomplete.ui-menu a.ui-state-hover {
+        border-color: tomato
+    }
+
+.ui-resizable-handle {
+    z-index: inherit !important;
+}
+
+.ui-menu .ui-menu-item a.ui-corner-all:hover, .ui-menu .ui-menu-item a.ui-corner-all:focus, .ui-menu .ui-menu-item a.ui-corner-all:active {
+    background: #49ff00 !important;
+    color: #000;
+    border-radius: 0;
+}
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+    background: #ff8a00;
+    border: none;
+    color: #000;
+    border-radius: 0;
+    font-weight: normal;
+}
+
+/* Custom dropdown */
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+    .custom-dropdown select {
+        background-color: dimgray;
+        color: #fff;
+        font-size: inherit;
+        padding: .5em;
+        padding-right: 2.5em;
+        border: 0;
+        margin: 0;
+        border-radius: 3px;
+        text-indent: 0.01px;
+        text-overflow: '';
+        -webkit-appearance: button; /* hide default arrow in chrome OSX */
+    }
+
+    .custom-dropdown::before,
+    .custom-dropdown::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .custom-dropdown::after { /*  Custom dropdown arrow */
+        content: "\25BC";
+        height: 1em;
+        font-size: .625em;
+        line-height: 1;
+        right: 1.2em;
+        top: 50%;
+        margin-top: -.5em;
+    }
+
+    .custom-dropdown::before { /*  Custom dropdown arrow cover */
+        width: 2em;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        border-radius: 0 3px 3px 0;
+    }
+
+    .custom-dropdown select[disabled] {
+        color: rgba(0,0,0,.3);
+    }
+
+        .custom-dropdown select[disabled]::after {
+            color: rgba(0,0,0,.1);
+        }
+
+    .custom-dropdown::before {
+        background-color: rgba(0,0,0,.15);
+    }
+
+    .custom-dropdown::after {
+        color: rgba(0,0,0,.4);
+    }
+
+.fontawesomedollar-select {
+    font-family: 'FontAwesome', 'Helvetica';
+    color: #7fe094 !important;
+}
+
+.fontawesomecustomer-select {
+    font-family: 'FontAwesome', 'Helvetica';
+    color: #FFEB3B !important;
+}
+
+.fontawesome-select {
+    font-family: 'FontAwesome', 'Helvetica';
+    color: #ffffff !important;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}

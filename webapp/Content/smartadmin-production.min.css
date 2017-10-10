@@ -4489,27 +4489,27 @@
 .ui-icon {
     width: 16px;
     height: 16px;
-    background-image: url(../img/jqueryui/ui-icons_222222_256x240.png)
+    background-image: url(../Content/img/jqueryui/ui-icons_222222_256x240.png)
 }
 
 .ui-widget-content .ui-icon, .ui-widget-header .ui-icon {
-    background-image: url(../img/jqueryui/ui-icons_222222_256x240.png)
+    background-image: url(../Content/img/jqueryui/ui-icons_222222_256x240.png)
 }
 
 .ui-state-default .ui-icon {
-    background-image: url(../img/jqueryui/ui-icons_888888_256x240.png)
+    background-image: url(../Content/img/jqueryui/ui-icons_888888_256x240.png)
 }
 
 .ui-state-active .ui-icon, .ui-state-focus .ui-icon, .ui-state-hover .ui-icon {
-    background-image: url(../img/jqueryui/ui-icons_454545_256x240.png)
+    background-image: url(../Content/img/jqueryui/ui-icons_454545_256x240.png)
 }
 
 .ui-state-highlight .ui-icon {
-    background-image: url(../img/jqueryui/ui-icons_2e83ff_256x240.png)
+    background-image: url(../Content/img/jqueryui/ui-icons_2e83ff_256x240.png)
 }
 
 .ui-state-error .ui-icon, .ui-state-error-text .ui-icon {
-    background-image: url(../img/jqueryui/ui-icons_f6cf3b_256x240.png)
+    background-image: url(../Content/img/jqueryui/ui-icons_f6cf3b_256x240.png)
 }
 
 .ui-icon-carat-1-n {
@@ -9971,7 +9971,7 @@ textarea.clone {
 }
 
 #extr-page .hero {
-    background-image: url(../img/gradient/login.png);
+    background-image: url(../Content/img/gradient/login.png);
     background-repeat: no-repeat;
     background-position: 0 137px;
     height: 360px;
@@ -11266,7 +11266,7 @@ html {
     margin: 0;
     padding: 0;
     min-height: 100%;
-    background: url(../img/mybg.png) #fff;
+    background: url(../Content/img/mybg.png) #fff;
     position: relative
 }
 
@@ -11274,7 +11274,7 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100%;
-    background: url(../img/mybg.png) #fff;
+    background: url(../Content/img/mybg.png) #fff;
     direction: ltr
 }
 
@@ -12492,7 +12492,7 @@ input[type=text]:focus + .input-group-addon {
 }
 
 input[type=color].ui-autocomplete-loading, input[type=date].ui-autocomplete-loading, input[type=datetime-local].ui-autocomplete-loading, input[type=datetime].ui-autocomplete-loading, input[type=email].ui-autocomplete-loading, input[type=month].ui-autocomplete-loading, input[type=number].ui-autocomplete-loading, input[type=password].ui-autocomplete-loading, input[type=search].ui-autocomplete-loading, input[type=tel].ui-autocomplete-loading, input[type=text].ui-autocomplete-loading, input[type=time].ui-autocomplete-loading, input[type=url].ui-autocomplete-loading, input[type=week].ui-autocomplete-loading {
-    background-image: url(../img/select2-spinner.gif) !important;
+    background-image: url(../Content/img/select2-spinner.gif) !important;
     background-repeat: no-repeat;
     background-position: 99% 50%;
     padding-right: 27px
@@ -15031,7 +15031,7 @@ img.away {
     box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
     font-weight: 700;
     text-shadow: 0 -1px 0 rgba(0,0,0,.25);
-    background-image: url(../img/pattern/overlay-pattern.png)
+    background-image: url(../Content/img/pattern/overlay-pattern.png)
 }
 
 .progress-striped .progress-bar {
@@ -16423,19 +16423,19 @@ label input[type=checkbox][disabled].checkbox + span, label input[type=checkbox]
 }
 
 .colorblind-friendly .alert-danger, .colorblind-friendly .btn-danger {
-    background-image: url(../img/colorblind-friendly/pt1.png);
+    background-image: url(../Content/img/colorblind-friendly/pt1.png);
     border-color: #272727;
     background-color: #303030
 }
 
 .colorblind-friendly .alert-success, .colorblind-friendly .btn-success {
-    background-image: url(../img/colorblind-friendly/pt2.png);
+    background-image: url(../Content/img/colorblind-friendly/pt2.png);
     border-color: #FF00EB;
     background-color: #1E5E00
 }
 
 .colorblind-friendly .alert-warning, .colorblind-friendly .btn-warning {
-    background-image: url(../img/colorblind-friendly/pt3.png);
+    background-image: url(../Content/img/colorblind-friendly/pt3.png);
     border-color: #5F4415;
     background-color: #A07A00
 }

@@ -11,7 +11,6 @@ namespace DataAccess.Models
         {
             this.Parts = new List<Part>();
         }
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int MeasUnitID { get; set; }
         [Required(ErrorMessage = "Required field Short")]
         public string ShortDescription { get; set; }

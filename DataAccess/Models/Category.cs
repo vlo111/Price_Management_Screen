@@ -11,7 +11,7 @@ namespace DataAccess.Models
         {
             this.Parts = new List<Part>();
         }
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int CategoryID { get; set; }
         [Required(ErrorMessage = "Required field Name")]
         public string Name { get; set; }

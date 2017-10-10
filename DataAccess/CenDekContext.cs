@@ -17,11 +17,11 @@ namespace DataAccess
         {
         }
 
-        public DbSet<AltPartID> AltPartIDs { get; set; }
         public DbSet<Carrier> Carriers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Colour> Colours { get; set; }
         public DbSet<ContactInfo> ContactInfoes { get; set; }
+        public DbSet<AltPart> AltPart { get; set; }
         public DbSet<ContactInfoType> ContactInfoTypes { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -49,7 +49,7 @@ namespace DataAccess
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new AltPartIDMap());
+            modelBuilder.Configurations.Add(new AltPartMap());
             modelBuilder.Configurations.Add(new CarrierMap());
             modelBuilder.Configurations.Add(new CategoryMap());
             modelBuilder.Configurations.Add(new ColourMap());

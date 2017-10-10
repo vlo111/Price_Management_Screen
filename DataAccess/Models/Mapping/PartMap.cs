@@ -13,11 +13,10 @@ namespace DataAccess.Models.Mapping
             // Properties
             this.Property(t => t.Name)
                 .IsRequired();
-
-            // Table & Column Mappings
             this.ToTable("Part");
             this.Property(t => t.PartID).HasColumnName("PartID");
             this.Property(t => t.AltPartID).HasColumnName("AltPartID");
+            this.Property(t => t.CustomerID).HasColumnName("CustomerID");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Description).HasColumnName("Description");
             this.Property(t => t.CategoryID).HasColumnName("CategoryID");
@@ -25,6 +24,7 @@ namespace DataAccess.Models.Mapping
             this.Property(t => t.PartStatusID).HasColumnName("PartStatusID");
             this.Property(t => t.CustomFlag).HasColumnName("CustomFlag");
             this.Property(t => t.Comments).HasColumnName("Comments");
+            this.Property(t => t.PartPrimary).HasColumnName("PartPrimary");
             this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
             this.Property(t => t.ModifiedDate).HasColumnName("ModifiedDate");
             this.Property(t => t.EmployeeID).HasColumnName("EmployeeID");

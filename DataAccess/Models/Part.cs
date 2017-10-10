@@ -9,7 +9,7 @@ namespace DataAccess.Models
     {
         public Part()
         {
-            this.AltPartIDs = new List<AltPartID>();
+            this.AltPart = new List<AltPart>();
             this.OrderParts = new List<OrderPart>();
             this.PartDependencies = new List<PartDependency>();
             this.PartInventories = new List<PartInventory>();
@@ -26,12 +26,13 @@ namespace DataAccess.Models
         public string Description { get; set; }
         [Required(ErrorMessage = "Required field Product Line")]
         public int ProductLineID { get; set; }
-        [Required(ErrorMessage = "Required field Category")]
-        public int CategoryID { get; set; }
+        public int? CategoryID { get; set; }
+        public int? CustomerID { get; set; }
         public int? ImageID { get; set; }
         public int? PartStatusID { get; set; }
         public bool CustomFlag { get; set; }
         public string Comments { get; set; }
+        public string PartPrimary { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime ModifiedDate { get; set; }
         public int EmployeeID { get; set; }
@@ -45,11 +46,12 @@ namespace DataAccess.Models
         [Required(ErrorMessage = "Required field Meas Type")]
         public int MeasUnitID { get; set; }
         public int? PartInventoryID { get; set; }
-        public virtual ICollection<AltPartID> AltPartIDs { get; set; }
+        public virtual ICollection<AltPart> AltPart { get; set; }
         public virtual Category Category { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual Image Image { get; set; }
         public virtual MeasUnit MeasUnit { get; set; }
+        public virtual Customer Customer { get; set; }
         public virtual ICollection<OrderPart> OrderParts { get; set; }
         public virtual PartStatu PartStatu { get; set; }
         public virtual WeightMeasurement WeightMeasurement { get; set; }

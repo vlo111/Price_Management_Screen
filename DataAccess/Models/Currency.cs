@@ -14,7 +14,7 @@ namespace DataAccess.Models
             this.Prices = new List<Price>();
             this.Prices1 = new List<Price>();
         }
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int CurrencyID { get; set; }
         [Required(ErrorMessage = "Required field Code")]
         [MaxLength(3)]

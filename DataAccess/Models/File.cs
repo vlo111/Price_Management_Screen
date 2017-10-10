@@ -13,7 +13,6 @@ namespace DataAccess.Models
             this.Parts = new List<Part>();
             this.Tags = new List<Tag>();
         }
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int FileID { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }

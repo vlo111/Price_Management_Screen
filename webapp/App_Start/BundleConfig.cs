@@ -23,6 +23,18 @@ namespace CenDek
                 .IncludeDirectory("~/Content/css", "*-awesome.min.css").Include(
                 "~/Content/bootstrap/bootstrap.css"));
 
+            bundles.Add(new StyleBundle("~/content/alertify").Include(
+                "~/Content/alertify/alertify.css",
+                "~/Content/alertify/themes/default.css"));
+
+            bundles.Add(new StyleBundle("~/content/bootstrap-datepicker").Include(
+                "~/Content/bootstrap-datepicker/css/default.css",
+                "~/Content/bootstrap-datepicker/css/datepicker.css",
+                "~/Content/bootstrap-datepicker/css/datepicker3.css"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/bootstrap-datepicker").Include(
+                "~/Content/bootstrap-datepicker/js/bootstrap-datepicker.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/dropzone").Include(
                 "~/scripts/dropzone/dropzone.js").Include(
                 "~/scripts/dropzone-amd-module.js"));
@@ -69,8 +81,8 @@ namespace CenDek
              ));
 
             bundles.Add(new ScriptBundle("~/bundles/jq-grid").Include(
-    "~/scripts/plugin/jqgrid/jquery.jqGrid.min.js",
-    "~/scripts/plugin/jqgrid/grid.locale-en.min.js"));
+                "~/Scripts/plugins/jqgrid/grid.locale-en.min.js",
+                "~/Scripts/plugins/jqgrid/jquery.jqGrid.min.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/forms").Include(
                 "~/Scripts/plugin/jquery-form/jquery-form.min.js"

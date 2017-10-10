@@ -11,7 +11,6 @@ namespace DataAccess.Models
         {
             this.Parts = new List<Part>();
         }
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int PartStatusID { get; set; }
         [Required(ErrorMessage = "Required field Status")]
         public string Status { get; set; }

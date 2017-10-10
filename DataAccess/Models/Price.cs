@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,6 +11,8 @@ namespace DataAccess.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int PriceID { get; set; }
         public int PartID { get; set; }
+        [DefaultValue("false")]
+        public bool EmailCustomer { get; set; }
         [Required(ErrorMessage = "Required field Start Date")]
         public System.DateTime ValidStart { get; set; }
         [Required(ErrorMessage = "Required field End Date")]

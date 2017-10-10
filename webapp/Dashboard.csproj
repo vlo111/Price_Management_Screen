@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CenDek</RootNamespace>
     <AssemblyName>CenDek</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -146,6 +146,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -197,6 +201,14 @@
       <DependentUpon>CenDek.mdf</DependentUpon>
     </Content>
     <Content Include="Content\ajax\dashboard.html" />
+    <Content Include="Content\alertify\alertify.css" />
+    <Content Include="Content\alertify\alertify.min.css" />
+    <Content Include="Content\alertify\themes\default.css" />
+    <Content Include="Content\alertify\themes\default.min.css" />
+    <Content Include="Content\bootstrap-datepicker\css\datepicker.css" />
+    <Content Include="Content\bootstrap-datepicker\css\datepicker3.css" />
+    <Content Include="Content\bootstrap-datepicker\css\default.css" />
+    <Content Include="Content\bootstrap-datepicker\js\bootstrap-datepicker.js" />
     <Content Include="Content\bootstrap\bootstrap-theme.css" />
     <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />
@@ -295,7 +307,6 @@
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\mappin-default.png" />
     <Content Include="Content\img\minus.png" />
-    <Content Include="Content\img\mybg.png" />
     <Content Include="Content\img\pattern\divider.jpg" />
     <Content Include="Content\img\pattern\graphy-xs.png" />
     <Content Include="Content\img\pattern\graphy.png" />
@@ -351,6 +362,8 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Scripts\alertify\alertify.js" />
+    <Content Include="Scripts\alertify\alertify.min.js" />
     <Content Include="Scripts\app.config.js" />
     <Content Include="Scripts\app.config.seed.min.js">
       <DependentUpon>app.config.js</DependentUpon>
@@ -377,6 +390,15 @@
     <Content Include="Content\bootstrap\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap\bootstrap.css.map" />
     <Content Include="Content\bootstrap\bootstrap.min.css.map" />
+    <Content Include="Scripts\input\examples.advanced.form.js" />
+    <Content Include="Scripts\input\jquery-maskedinput\jquery.maskedinput.js" />
+    <Content Include="Scripts\input\jquery-maskedinput\jquery.maskedinput.min.js" />
+    <Content Include="Scripts\input\modernizr\modernizr.js" />
+    <Content Include="Scripts\input\nanoscroller\nanoscroller.css" />
+    <Content Include="Scripts\input\nanoscroller\nanoscroller.js" />
+    <Content Include="Scripts\input\theme.init.js" />
+    <Content Include="Scripts\input\theme.js" />
+    <Content Include="Scripts\JQGrid.js" />
     <Content Include="Scripts\libs\datatables.min.js" />
     <Content Include="Scripts\libs\jquery-2.1.1.min.js" />
     <Content Include="Scripts\libs\jquery-ui-1.10.3.min.js" />
@@ -486,6 +508,7 @@
     <Compile Include="App_Start\DIConfig.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\PartsController.cs" />
+    <Compile Include="Helpers\CacheManager.cs" />
     <Compile Include="Models\BreadCrumbs.cs" />
     <Compile Include="Models\Parts\FileTmp.cs" />
     <Compile Include="Models\OrderViewModels.cs" />
@@ -527,6 +550,9 @@
     <Content Include="Views\Parts\Partial_Views\_ImageView.cshtml" />
     <Content Include="Views\Parts\Partial_Views\_FilesHome.cshtml" />
     <Content Include="Views\Parts\Partial_Views\_FilesSaved.cshtml" />
+    <Content Include="Views\Parts\PriceManagement\_PriceManagement.cshtml" />
+    <Content Include="Views\Parts\PriceManagement\_Edit.cshtml" />
+    <Content Include="Views\Parts\PriceManagement\_Delete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -564,6 +590,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModel.cs" />
+    <Compile Include="Models\Parts\ListPTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CustomerCarrierService.cs" />
     <Compile Include="Services\CustomerContactService.cs" />
@@ -583,6 +610,10 @@
     <Folder Include="Images\WallImages\imagepath\" />
     <Folder Include="Models\Customer\" />
     <Folder Include="Models\Order\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
