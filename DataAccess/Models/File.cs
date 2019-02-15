@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccess.Models
 {
@@ -12,7 +13,6 @@ namespace DataAccess.Models
             this.Parts = new List<Part>();
             this.Tags = new List<Tag>();
         }
-
         public int FileID { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }

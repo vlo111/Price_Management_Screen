@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Models
 {
@@ -11,6 +12,7 @@ namespace DataAccess.Models
         }
 
         public int ProductLineID { get; set; }
+        [Required(ErrorMessage = "Required field Name")]
         public string Name { get; set; }
         public string Description { get; set; }
         public virtual ICollection<OrderPart> OrderParts { get; set; }

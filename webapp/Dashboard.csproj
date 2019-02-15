@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CenDek</RootNamespace>
     <AssemblyName>CenDek</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -146,6 +146,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -197,10 +201,18 @@
       <DependentUpon>CenDek.mdf</DependentUpon>
     </Content>
     <Content Include="Content\ajax\dashboard.html" />
-    <Content Include="Content\css\bootstrap.min.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\css\datatables.min.css" />
+    <Content Include="Content\alertify\alertify.css" />
+    <Content Include="Content\alertify\alertify.min.css" />
+    <Content Include="Content\alertify\themes\default.css" />
+    <Content Include="Content\alertify\themes\default.min.css" />
+    <Content Include="Content\bootstrap-datepicker\css\datepicker.css" />
+    <Content Include="Content\bootstrap-datepicker\css\datepicker3.css" />
+    <Content Include="Content\bootstrap-datepicker\css\default.css" />
+    <Content Include="Content\bootstrap-datepicker\js\bootstrap-datepicker.js" />
+    <Content Include="Content\bootstrap\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap\bootstrap.css" />
+    <Content Include="Content\bootstrap\bootstrap.min.css" />
     <Content Include="Content\css\font-awesome.min.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -224,6 +236,10 @@
       <DependentUpon>CenDek.css</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\dropzone\basic.css" />
+    <Content Include="Content\dropzone\basic.min.css" />
+    <Content Include="Content\dropzone\dropzone.css" />
+    <Content Include="Content\dropzone\dropzone.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\ajax-loader.gif" />
@@ -291,7 +307,6 @@
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\mappin-default.png" />
     <Content Include="Content\img\minus.png" />
-    <Content Include="Content\img\mybg.png" />
     <Content Include="Content\img\pattern\divider.jpg" />
     <Content Include="Content\img\pattern\graphy-xs.png" />
     <Content Include="Content\img\pattern\graphy.png" />
@@ -327,11 +342,17 @@
     <Content Include="Content\img\splash\touch-icon-ipad.png" />
     <Content Include="Content\img\splash\touch-icon-iphone-retina.png" />
     <Content Include="Content\img\vt-menu.png" />
+    <Content Include="Content\smartadmin-production.min.css" />
+    <Content Include="Content\StyleValidator.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Fonts\fontawesome-webfont.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="Images\dropzone\spritemap%402x.png" />
+    <Content Include="Images\dropzone\spritemap.png" />
+    <Content Include="Images\pdf.png" />
+    <Content Include="Images\txt.png" />
     <Content Include="packages.config" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
@@ -341,6 +362,8 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Scripts\alertify\alertify.js" />
+    <Content Include="Scripts\alertify\alertify.min.js" />
     <Content Include="Scripts\app.config.js" />
     <Content Include="Scripts\app.config.seed.min.js">
       <DependentUpon>app.config.js</DependentUpon>
@@ -361,6 +384,21 @@
     <Content Include="Scripts\dropzone\dropzone.js" />
     <Content Include="Scripts\dropzone\dropzone.min.css" />
     <Content Include="Scripts\dropzone\dropzone.min.js" />
+    <Content Include="Scripts\FormDropzone.js" />
+    <Content Include="Scripts\Home.js" />
+    <Content Include="Content\bootstrap\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap\bootstrap.css.map" />
+    <Content Include="Content\bootstrap\bootstrap.min.css.map" />
+    <Content Include="Scripts\input\examples.advanced.form.js" />
+    <Content Include="Scripts\input\jquery-maskedinput\jquery.maskedinput.js" />
+    <Content Include="Scripts\input\jquery-maskedinput\jquery.maskedinput.min.js" />
+    <Content Include="Scripts\input\modernizr\modernizr.js" />
+    <Content Include="Scripts\input\nanoscroller\nanoscroller.css" />
+    <Content Include="Scripts\input\nanoscroller\nanoscroller.js" />
+    <Content Include="Scripts\input\theme.init.js" />
+    <Content Include="Scripts\input\theme.js" />
+    <Content Include="Scripts\JQGrid.js" />
     <Content Include="Scripts\libs\datatables.min.js" />
     <Content Include="Scripts\libs\jquery-2.1.1.min.js" />
     <Content Include="Scripts\libs\jquery-ui-1.10.3.min.js" />
@@ -404,14 +442,19 @@
     <Content Include="Scripts\plugins\datatables\swf\copy_csv_xls.swf" />
     <Content Include="Scripts\plugins\datatables\swf\copy_csv_xls_pdf.swf" />
     <Content Include="Scripts\plugins\fastclick\fastclick.min.js" />
+    <Content Include="Scripts\plugins\jqgrid\grid.locale-en.min.js" />
+    <Content Include="Scripts\plugins\jqgrid\jquery.jqGrid.min.js" />
     <Content Include="Scripts\plugins\jquery-form\jquery-form.min.js" />
     <Content Include="Scripts\plugins\jquery-touch\jquery.ui.touch-punch.min.js" />
+    <Content Include="Scripts\plugins\jquery-unobtrusive-ajax\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\plugins\jquery-unobtrusive-ajax\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\plugins\jquery-validate\jquery.validate.min.js" />
     <Content Include="Scripts\plugins\jquery-validate\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\plugins\masked-input\jquery.maskedinput.min.js" />
     <Content Include="Scripts\plugins\msie-fix\jquery.mb.browser.min.js" />
     <Content Include="Scripts\plugins\select2\readme.txt" />
     <Content Include="Scripts\plugins\select2\select2.min.js" />
+    <Content Include="Scripts\smartwidgets\jarvis.widget.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -464,7 +507,10 @@
     <Compile Include="App_Helpers\Extensions.cs" />
     <Compile Include="App_Start\DIConfig.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\PartsController.cs" />
+    <Compile Include="Helpers\CacheManager.cs" />
     <Compile Include="Models\BreadCrumbs.cs" />
+    <Compile Include="Models\Parts\FileTmp.cs" />
     <Compile Include="Models\OrderViewModels.cs" />
     <None Include="Properties\PublishProfiles\CenDekFolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\LaunchPad.pubxml" />
@@ -492,6 +538,21 @@
     <Content Include="Views\Order\OrderReview.cshtml" />
     <Content Include="Views\Order\ShippingTagDetails.cshtml" />
     <Content Include="Views\Order\OrderReviewApproved.cshtml" />
+    <Content Include="Views\Parts\Partial_Views\_FilesSelected.cshtml" />
+    <Content Include="Views\Parts\Partial_Views\_PriceHome.cshtml" />
+    <Content Include="Views\Parts\Partial_Views\_PriceCreate.cshtml" />
+    <Content Include="Views\Parts\Index.cshtml" />
+    <Content Include="Views\Parts\CategoryCreate.cshtml" />
+    <Content Include="Views\Parts\CurrencyCreate.cshtml" />
+    <Content Include="Views\Parts\MeasUnitCreate.cshtml" />
+    <Content Include="Views\Parts\ProductLineCreate.cshtml" />
+    <Content Include="Views\Parts\StatusCreate.cshtml" />
+    <Content Include="Views\Parts\Partial_Views\_ImageView.cshtml" />
+    <Content Include="Views\Parts\Partial_Views\_FilesHome.cshtml" />
+    <Content Include="Views\Parts\Partial_Views\_FilesSaved.cshtml" />
+    <Content Include="Views\Parts\PriceManagement\_PriceManagement.cshtml" />
+    <Content Include="Views\Parts\PriceManagement\_Edit.cshtml" />
+    <Content Include="Views\Parts\PriceManagement\_Delete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -529,6 +590,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModel.cs" />
+    <Compile Include="Models\Parts\ListPTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CustomerCarrierService.cs" />
     <Compile Include="Services\CustomerContactService.cs" />
@@ -544,8 +606,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Images\WallFiles\filepath\" />
+    <Folder Include="Images\WallImages\imagepath\" />
     <Folder Include="Models\Customer\" />
     <Folder Include="Models\Order\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -14,6 +14,8 @@ namespace DataAccess.Models
             this.CustOrders = new List<CustOrder>();
             this.ShippingAddresses = new List<ShippingAddress>();
             this.CustOrders = new List<CustOrder>();
+            this.Parts = new HashSet<Part>();
+
         }
 
         public int CustomerID { get; set; }
@@ -63,5 +65,6 @@ namespace DataAccess.Models
         public virtual ICollection<CustomerContact> CustomerContacts { get; set; }
         public virtual ICollection<CustOrder> CustOrders { get; set; }
         public virtual ICollection<ShippingAddress> ShippingAddresses { get; set; }
+        public virtual ICollection<Part> Parts { get; set; }
     }
 }

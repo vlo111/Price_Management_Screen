@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccess.Models
 {
@@ -7,7 +9,7 @@ namespace DataAccess.Models
     {
         public Part()
         {
-            this.AltPartIDs = new List<AltPartID>();
+            this.AltPart = new List<AltPart>();
             this.OrderParts = new List<OrderPart>();
             this.PartDependencies = new List<PartDependency>();
             this.PartInventories = new List<PartInventory>();
@@ -16,36 +18,45 @@ namespace DataAccess.Models
             this.Category = new Category();
             this.MeasUnit = new MeasUnit();
         }
-
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int PartID { get; set; }
-        public Nullable<int> AltPartID { get; set; }
+        public int? AltPartID { get; set; }
+        [Required(ErrorMessage = "Required field Name")]
         public string Name { get; set; }
         public string Description { get; set; }
+        [Required(ErrorMessage = "Required field Product Line")]
+        public int ProductLineID { get; set; }
         public int? CategoryID { get; set; }
-        public Nullable<int> ImageID { get; set; }
-        public Nullable<int> PartStatusID { get; set; }
+        public int? CustomerID { get; set; }
+        public int? ImageID { get; set; }
+        public int? PartStatusID { get; set; }
         public bool CustomFlag { get; set; }
         public string Comments { get; set; }
+        public string PartPrimary { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime ModifiedDate { get; set; }
         public int EmployeeID { get; set; }
         public Nullable<int> WeightMeasurementID { get; set; }
+        [Required(ErrorMessage = "Required field Weight")]
         public double Weight { get; set; }
         public Nullable<double> Height { get; set; }
         public Nullable<double> Width { get; set; }
         public Nullable<double> Length { get; set; }
         public int PriceID { get; set; }
+        [Required(ErrorMessage = "Required field Meas Type")]
         public int MeasUnitID { get; set; }
-        public Nullable<int> PartInventoryID { get; set; }
-        public virtual ICollection<AltPartID> AltPartIDs { get; set; }
+        public int? PartInventoryID { get; set; }
+        public virtual ICollection<AltPart> AltPart { get; set; }
         public virtual Category Category { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual Image Image { get; set; }
         public virtual MeasUnit MeasUnit { get; set; }
+        public virtual Customer Customer { get; set; }
         public virtual ICollection<OrderPart> OrderParts { get; set; }
         public virtual PartStatu PartStatu { get; set; }
         public virtual WeightMeasurement WeightMeasurement { get; set; }
         public virtual ICollection<PartDependency> PartDependencies { get; set; }
+        public virtual ProductLine ProductLine { get; set; }
         public virtual ICollection<PartInventory> PartInventories { get; set; }
         public virtual ICollection<Price> Prices { get; set; }
         public virtual ICollection<File> Files { get; set; }

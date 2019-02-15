@@ -16,8 +16,9 @@ namespace DataAccess.Models.Mapping
 
             // Table & Column Mappings
             this.ToTable("Price");
-            this.Property(t => t.PriceID).HasColumnName("PriceID");
+            //this.Property(t => t.PriceID).HasColumnName("PriceID");
             this.Property(t => t.PartID).HasColumnName("PartID");
+            this.Property(t => t.EmailCustomer).HasColumnName("EmailCustomer");
             this.Property(t => t.ValidStart).HasColumnName("ValidStart");
             this.Property(t => t.ValidEnd).HasColumnName("ValidEnd");
             this.Property(t => t.DateCreated).HasColumnName("DateCreated");
